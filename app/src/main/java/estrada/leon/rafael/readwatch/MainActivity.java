@@ -1,5 +1,6 @@
 package estrada.leon.rafael.readwatch;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,10 +27,19 @@ public class MainActivity extends AppCompatActivity {
         lblCuenta = findViewById(R.id.lblCuenta);
         lblRegistrar = findViewById(R.id.lblRegistrar);
 
+        lblRegistrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent registrar = new Intent(MainActivity.this, registrar_usuario_estudiantes.class);
+                startActivity(registrar);
+
+            }
+        });
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent entrar = new Intent(MainActivity.this, Elige_una_materia_usuario_estudiante.class);
+                startActivity(entrar);
             }
         });
     }
