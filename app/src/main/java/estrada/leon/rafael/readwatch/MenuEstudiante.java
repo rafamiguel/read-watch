@@ -21,7 +21,7 @@ import android.widget.Toast;
 import java.util.Objects;
 
 public class MenuEstudiante extends AppCompatActivity
-        implements  iComunicacionFragments, NavigationView.OnNavigationItemSelectedListener,ElegirMateria.OnFragmentInteractionListener,SeleccionarSemestre.OnFragmentInteractionListener{
+        implements  iComunicacionFragments, NavigationView.OnNavigationItemSelectedListener,ElegirMateria.OnFragmentInteractionListener,SeleccionarSemestre.OnFragmentInteractionListener,ElegirTema.OnFragmentInteractionListener{
     Fragment fragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

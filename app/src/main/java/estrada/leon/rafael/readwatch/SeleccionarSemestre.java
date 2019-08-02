@@ -50,7 +50,11 @@ TextView lbl1,lbl2,lbl3,lbl4,lbl5,lbl6;
                     + " must implement OnFragmentInteractionListener");
         }
     }
-
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
