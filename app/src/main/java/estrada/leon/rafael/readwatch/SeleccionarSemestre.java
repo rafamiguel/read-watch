@@ -7,22 +7,22 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
-public class Elige_materia extends Fragment implements View.OnClickListener {
-    Button btnMenu, btnIngles, btnMatematicas, btnEspanol;
-    TextView txtTitulo, txtBarrainferior, txtBarrasuperior;
 
+public class SeleccionarSemestre extends Fragment implements View.OnClickListener{
+    TextView lbl1,lbl2,lbl3,lbl4,lbl5,lbl6;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        btnIngles=getView().findViewById(R.id.btnIngles);
-        btnMatematicas=getView().findViewById(R.id.btnMatematicas);
-        btnEspanol=getView().findViewById(R.id.btnEspanol);
-        return inflater.inflate(R.layout.elige_materia, container, false);
+        lbl1=getView().findViewById(R.id.lbl1);
+        lbl2=getView().findViewById(R.id.lbl2);
+        lbl3=getView().findViewById(R.id.lbl3);
+        lbl4=getView().findViewById(R.id.lbl4);
+        lbl5=getView().findViewById(R.id.lbl5);
+        lbl6=getView().findViewById(R.id.lbl6);
 
+        return inflater.inflate(R.layout.fragment_seleccionar_semestre, container, false);
     }
 
     @Override

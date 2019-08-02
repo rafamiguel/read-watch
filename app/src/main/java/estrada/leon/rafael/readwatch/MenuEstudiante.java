@@ -15,13 +15,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
-public class Menu_lateral extends AppCompatActivity
+public class MenuEstudiante extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_barra_lateral);
+        setContentView(R.layout.activity_menu_estudiante);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -31,9 +31,6 @@ public class Menu_lateral extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.contenedor, new Elige_materia()).commit();
     }
 
     @Override
@@ -49,7 +46,7 @@ public class Menu_lateral extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.elige_materia, menu);
+        getMenuInflater().inflate(R.menu.menu_estudiante, menu);
         return true;
     }
 
@@ -73,9 +70,10 @@ public class Menu_lateral extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager=getSupportFragmentManager();
+
         if (id == R.id.nav_home) {
-            fragmentManager.beginTransaction().replace(R.id.contenedor, new Elige_materia()).commit();
+        fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new ElegirMateria()).commit();
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {

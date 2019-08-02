@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent entrar = new Intent(MainActivity.this, Menu_lateral.class);
+                Intent entrar = new Intent(MainActivity.this, MenuEstudiante.class);
                 startActivity(entrar);
             }
         });
