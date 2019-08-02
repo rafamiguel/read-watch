@@ -1,8 +1,10 @@
 package estrada.leon.rafael.readwatch;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
@@ -14,10 +16,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.Toast;
+
+import java.util.Objects;
 
 public class MenuEstudiante extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
+        implements  iComunicacionFragments, NavigationView.OnNavigationItemSelectedListener,ElegirMateria.OnFragmentInteractionListener,SeleccionarSemestre.OnFragmentInteractionListener{
+    Fragment fragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +36,9 @@ public class MenuEstudiante extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        fragment =new ElegirMateria();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
     }
 
     @Override
@@ -70,10 +78,10 @@ public class MenuEstudiante extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        FragmentManager fragmentManager=getSupportFragmentManager();
 
         if (id == R.id.nav_home) {
-        fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new ElegirMateria()).commit();
+            FragmentManager fragmentManager=getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new SeleccionarSemestre()).commit();
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -89,5 +97,22 @@ public class MenuEstudiante extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void seleccionarSemestre() {
+        fragment =new SeleccionarSemestre();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+    }
+
+    @Override
+    public void seleccionarTema() {
+        fragment =new ElegirTema();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

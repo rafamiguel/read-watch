@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class ElegirTema extends Fragment implements View.OnClickListener {
+public class ElegirTema extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -16,8 +16,4 @@ public class ElegirTema extends Fragment implements View.OnClickListener {
         return inflater.inflate(R.layout.fragment_elegir_tema, container, false);
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
 }
