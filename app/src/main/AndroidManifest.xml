@@ -5,11 +5,19 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Read and Watch"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Elige_una_materia_usuario_estudiante"></activity>
+        <activity android:name=".Recuadro_subir_documento"></activity>
+        <activity android:name=".Reportar" />
+        <activity android:name=".Elige_un_tema" />
+        <activity
+            android:name=".Menu_lateral"
+            android:label="@string/title_activity_elige_materia"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Seleccione_el_semestre" />
+        <activity android:name=".Elige_una_materia_usuario_estudiante" />
         <activity android:name=".registrar_usuario_estudiantes" />
         <activity android:name=".MainActivity">
             <intent-filter>

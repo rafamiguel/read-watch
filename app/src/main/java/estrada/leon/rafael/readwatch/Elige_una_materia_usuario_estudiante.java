@@ -1,5 +1,7 @@
 package estrada.leon.rafael.readwatch;
 
+import android.content.Intent;
+import android.sax.StartElementListener;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -34,6 +36,8 @@ public class Elige_una_materia_usuario_estudiante extends AppCompatActivity {
         btnIngles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent semestre = new Intent(Elige_una_materia_usuario_estudiante.this, Seleccione_el_semestre.class);
+                startActivity(semestre);
 
             }
         });
@@ -41,14 +45,16 @@ public class Elige_una_materia_usuario_estudiante extends AppCompatActivity {
         btnMatematicas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent semestre = new Intent(Elige_una_materia_usuario_estudiante.this, Seleccione_el_semestre.class);
+                startActivity(semestre);
             }
         });
 
         btnEspanol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent semestre = new Intent(Elige_una_materia_usuario_estudiante.this, Seleccione_el_semestre.class);
+                startActivity(semestre);
             }
         });
 

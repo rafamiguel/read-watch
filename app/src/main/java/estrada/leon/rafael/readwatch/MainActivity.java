@@ -38,8 +38,16 @@ public class MainActivity extends AppCompatActivity {
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent entrar = new Intent(MainActivity.this, Elige_una_materia_usuario_estudiante.class);
+                Intent entrar = new Intent(MainActivity.this, Menu_lateral.class);
                 startActivity(entrar);
+            }
+        });
+
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent registrar = new Intent(MainActivity.this, Recuadro_subir_documento.class);
+                startActivity(registrar);
             }
         });
     }
