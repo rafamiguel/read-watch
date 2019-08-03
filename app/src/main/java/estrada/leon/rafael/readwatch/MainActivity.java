@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent registrar = new Intent(MainActivity.this, BotonAgregarVideo.class);
+                Intent registrar = new Intent(MainActivity.this, BotonIngresarPropuesta.class);
                 startActivity(registrar);
             }
         });

@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BotonAgregarVideo"></activity>
+        <activity android:name=".BotonIngresarPropuesta"></activity>
+        <activity android:name=".VentanaEmergenteDeSeleccionDeVistaDePropuestasUsuarioEstudiante" />
+        <activity android:name=".BotonPreguntaTemaLibre" />
+        <activity android:name=".BotonAgregarVideo" />
         <activity
             android:name=".MenuEstudiante"
             android:label="@string/title_activity_menu_estudiante"
