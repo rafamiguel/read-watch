@@ -9,10 +9,9 @@
     <!-- TODO: Update blank fragment layout -->
 
     <android.support.v7.widget.RecyclerView
-        android:layout_width="335dp"
-        android:layout_height="238dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="137dp"
+        android:id="@+id/temas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

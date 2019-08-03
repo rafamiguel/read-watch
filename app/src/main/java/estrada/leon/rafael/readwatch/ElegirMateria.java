@@ -21,7 +21,7 @@ import android.widget.Toast;
  * Use the {@link ElegirMateria#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ElegirMateria extends Fragment {
+public class ElegirMateria extends Fragment implements View.OnClickListener {
     Button btnIngles,btnEspanol,btnMatematicas;
     iComunicacionFragments interfaceFragments;
     View vista;
@@ -76,12 +76,9 @@ public class ElegirMateria extends Fragment {
         btnIngles=vista.findViewById(R.id.btnIngles);
         btnEspanol=vista.findViewById(R.id.btnEspanol);
         btnMatematicas=vista.findViewById(R.id.btnMatematicas);
-        btnIngles.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                interfaceFragments.seleccionarSemestre();
-            }
-        });
+        btnIngles.setOnClickListener(this);
+        btnEspanol.setOnClickListener(this);
+        btnMatematicas.setOnClickListener(this);
         return vista;
     }
 
@@ -111,6 +108,11 @@ public class ElegirMateria extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(final View v){
+        interfaceFragments.seleccionarSemestre();
     }
 
     /**
