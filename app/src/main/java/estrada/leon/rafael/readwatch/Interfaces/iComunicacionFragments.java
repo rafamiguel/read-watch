@@ -1,4 +1,4 @@
-package estrada.leon.rafael.readwatch;
+package estrada.leon.rafael.readwatch.Interfaces;
 
 public interface iComunicacionFragments {
 public void seleccionarSemestre();

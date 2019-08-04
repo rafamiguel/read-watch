@@ -1,4 +1,4 @@
-package estrada.leon.rafael.readwatch;
+package estrada.leon.rafael.readwatch.Estudiante.Adapter;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import estrada.leon.rafael.readwatch.R;
 
 public class AdaptadorTemas extends RecyclerView.Adapter<AdaptadorTemas.ViewHolderDatos> {
     ArrayList<String> listDatos;

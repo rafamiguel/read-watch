@@ -1,16 +1,17 @@
-package estrada.leon.rafael.readwatch;
+package estrada.leon.rafael.readwatch.Estudiante.Fragment;
 
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+
+import estrada.leon.rafael.readwatch.Interfaces.iComunicacionFragments;
+import estrada.leon.rafael.readwatch.R;
 
 
 /**

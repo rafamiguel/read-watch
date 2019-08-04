@@ -1,4 +1,4 @@
-package estrada.leon.rafael.readwatch;
+package estrada.leon.rafael.readwatch.General.Activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import estrada.leon.rafael.readwatch.BotonIngresarPropuesta;
+import estrada.leon.rafael.readwatch.Estudiante.Menu.MenuEstudiante;
+import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.Estudiante.Activity.registrar_restudiante;
 
 public class MainActivity extends AppCompatActivity {
     ImageView logo;
@@ -30,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         lblRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent registrar = new Intent(MainActivity.this, registrar_usuario_estudiantes.class);
+                Intent registrar = new Intent(MainActivity.this, registrar_restudiante.class);
                 startActivity(registrar);
 
             }

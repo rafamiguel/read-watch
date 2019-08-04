@@ -1,4 +1,4 @@
-package estrada.leon.rafael.readwatch;
+package estrada.leon.rafael.readwatch.Estudiante.Fragment;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import estrada.leon.rafael.readwatch.Interfaces.iComunicacionFragments;
+import estrada.leon.rafael.readwatch.R;
 
 public class SeleccionarSemestre extends Fragment implements View.OnClickListener{
 TextView lbl1,lbl2,lbl3,lbl4,lbl5,lbl6;

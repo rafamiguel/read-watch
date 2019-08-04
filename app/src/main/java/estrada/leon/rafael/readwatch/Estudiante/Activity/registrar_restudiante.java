@@ -1,4 +1,4 @@
-package estrada.leon.rafael.readwatch;
+package estrada.leon.rafael.readwatch.Estudiante.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,7 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class registrar_usuario_estudiantes extends AppCompatActivity {
+import estrada.leon.rafael.readwatch.R;
+
+public class registrar_restudiante extends AppCompatActivity {
     TextView txtTitulo;
     EditText txtNombre, txtApellido, txtCorreo, txtContrasena, txtTelefono, txtDescripcion;
     Button btnFoto, btnEntrar;
@@ -15,7 +17,7 @@ public class registrar_usuario_estudiantes extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registrar_usuario_estudiantes);
+        setContentView(R.layout.activity_registrar_estudiante);
         txtTitulo = findViewById(R.id.txtTitulo);
         txtNombre = findViewById(R.id.txtNombre);
         txtApellido = findViewById(R.id.txtApellido);

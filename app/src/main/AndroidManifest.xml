@@ -14,13 +14,13 @@
         <activity android:name=".BotonPreguntaTemaLibre" />
         <activity android:name=".BotonAgregarVideo" />
         <activity
-            android:name=".MenuEstudiante"
+            android:name=".Estudiante.Menu.MenuEstudiante"
             android:label="@string/title_activity_menu_estudiante"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Recuadro_subir_documento" />
         <activity android:name=".Reportar" />
-        <activity android:name=".registrar_usuario_estudiantes" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Estudiante.Activity.registrar_restudiante" />
+        <activity android:name=".General.Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
