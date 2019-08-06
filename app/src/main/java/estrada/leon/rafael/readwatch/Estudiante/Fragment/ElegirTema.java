@@ -11,17 +11,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import estrada.leon.rafael.readwatch.Estudiante.Adapter.AdaptadorTemas;
+import estrada.leon.rafael.readwatch.Estudiante.Adapter.TemasAdapter;
+import estrada.leon.rafael.readwatch.Estudiante.POJO.Subtemas;
+import estrada.leon.rafael.readwatch.Estudiante.POJO.Temas;
+import estrada.leon.rafael.readwatch.Interfaces.Item;
 import estrada.leon.rafael.readwatch.Interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
 
 
 public class ElegirTema extends Fragment {
         RecyclerView temas;
-        ArrayList<String> listDatos;
+        List<Item> temasList=new ArrayList<>();
+        TemasAdapter temasAdapter;
         iComunicacionFragments interfaceFragments;
         View vista;
         Activity actividad;
@@ -75,17 +81,15 @@ public class ElegirTema extends Fragment {
             vista=inflater.inflate(R.layout.fragment_elegir_tema, container, false);
             temas=vista.findViewById(R.id.temas);
             temas.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-            listDatos=new ArrayList<String>();
             for (int j=1;j<6;j++){
-                listDatos.add("Tema #"+j+ " ");
+                temasList.add(new Temas("Tema"+j));
                 for(int i=1;i<6;i++){
-                    listDatos.add("-Subtema #"+i+" ");
+                    temasList.add(new Subtemas("SubTema"+i));
                 }
             }
-            AdaptadorTemas adapter=new AdaptadorTemas(listDatos);
-            temas.setAdapter(adapter);
-
-             return vista;
+            temasAdapter= new TemasAdapter(getContext(),temasList);
+            temas.setAdapter(temasAdapter);
+            return vista;
         }
 
         // TODO: Rename method, update argument and hook method into UI event
@@ -129,5 +133,13 @@ public class ElegirTema extends Fragment {
         public interface OnFragmentInteractionListener {
             // TODO: Update argument type and name
             void onFragmentInteraction(Uri uri);
+        }
+        public void cargarDatos(){
+            for (int j=1;j<6;j++){
+                temasList.add(new Temas("Tema"+j));
+                for(int i=1;i<6;i++){
+                    temasList.add(new Temas("SubTema"+i));
+                }
+            }
         }
     }

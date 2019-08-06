@@ -6,23 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
+    <TextView
+        android:id="@+id/nombreTema"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#0053B8"
+        android:text="nombreTema"
         android:textAlignment="center"
-        tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="-44dp">
+        android:textSize="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tema"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#0053B8"
-            android:text="TextView"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

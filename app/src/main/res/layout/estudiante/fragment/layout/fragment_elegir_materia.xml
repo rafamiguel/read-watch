@@ -1,82 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Estudiante.Fragment.ElegirMateria">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/txtBarrasuperior"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:background="#090909"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        android:layout_height="wrap_content">
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/layout"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
 
-    <TextView
-        android:id="@+id/txtBarrainferior"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:background="#090909"
-        android:text="Nuevas materias"
-        android:textAlignment="center"
-        android:textColor="#F1F1F3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnEspanol"
-        app:layout_constraintVertical_bias="0.184" />
-
-    <Button
-        android:id="@+id/btnEspanol"
-        android:layout_width="252dp"
-        android:layout_height="123dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/espa"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnMatematicas"
-        app:layout_constraintVertical_bias="0.0" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerMaterias"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtBarrasuperior" />
 
 
-    <Button
-        android:id="@+id/btnMatematicas"
-        android:layout_width="252dp"
-        android:layout_height="123dp"
-        android:layout_marginTop="180dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/mate"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/btnIngles"
-        android:layout_width="252dp"
-        android:layout_height="123dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/english"
-        app:layout_constraintBottom_toTopOf="@+id/btnMatematicas"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtBarrasuperior" />
+        <TextView
+            android:id="@+id/txtBarrasuperior"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="#090909"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
 
-</android.support.constraint.ConstraintLayout>
+            <Button
+                android:id="@+id/btnIngles"
+                android:layout_width="252dp"
+                android:layout_height="123dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/ingles"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerMaterias" />
+
+            <Button
+                android:id="@+id/btnMatematicas"
+                android:layout_width="252dp"
+                android:layout_height="123dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/matematicas"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnIngles" />
+
+            <Button
+                android:id="@+id/btnEspanol"
+                android:layout_width="252dp"
+                android:layout_height="123dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/espaniol"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnMatematicas" />
+
+
+            <TextView
+                android:id="@+id/txtBarrainferior"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="#090909"
+                android:text="Nuevas materias"
+                android:textAlignment="center"
+                android:textColor="#F1F1F3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnEspanol"
+                app:layout_constraintVertical_bias="0.184" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerMateriasPropuestas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtBarrainferior" />
+
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+
+
+</RelativeLayout>
