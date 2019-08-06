@@ -82,7 +82,6 @@ public class TemasAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     * para ver que tipo de elemento está en nuestra lista.*/
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int posicion) {
-        int a=0;
     switch(getItemViewType(posicion)){
         case TEMA:{
             Temas tema = (Temas) temasList.get(posicion);

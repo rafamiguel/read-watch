@@ -39,37 +39,6 @@
             app:layout_constraintVertical_bias="0.0" />
 
 
-            <Button
-                android:id="@+id/btnIngles"
-                android:layout_width="252dp"
-                android:layout_height="123dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/ingles"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recyclerMaterias" />
-
-            <Button
-                android:id="@+id/btnMatematicas"
-                android:layout_width="252dp"
-                android:layout_height="123dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/matematicas"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnIngles" />
-
-            <Button
-                android:id="@+id/btnEspanol"
-                android:layout_width="252dp"
-                android:layout_height="123dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/espaniol"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnMatematicas" />
-
-
             <TextView
                 android:id="@+id/txtBarrainferior"
                 android:layout_width="match_parent"
@@ -79,12 +48,9 @@
                 android:text="Nuevas materias"
                 android:textAlignment="center"
                 android:textColor="#F1F1F3"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recyclerMaterias"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnEspanol"
-                app:layout_constraintVertical_bias="0.184" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerMateriasPropuestas"

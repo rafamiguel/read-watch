@@ -5,28 +5,29 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import estrada.leon.rafael.readwatch.Estudiante.Adapter.MateriasAdapter;
+import estrada.leon.rafael.readwatch.Estudiante.POJO.Materias;
 import estrada.leon.rafael.readwatch.Interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ElegirMateria.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ElegirMateria#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class ElegirMateria extends Fragment implements View.OnClickListener {
-    Button btnIngles,btnEspanol,btnMatematicas;
+public class ElegirMateria extends Fragment implements MateriasAdapter.OnMateriaListener {
     iComunicacionFragments interfaceFragments;
     View vista;
     Activity actividad;
+    List<Materias> listMaterias,listMateriasPropuestas;
+    RecyclerView recyclerMaterias,recyclerMateriasPropuestas;
+    MateriasAdapter materiasAdapter;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -39,18 +40,9 @@ public class ElegirMateria extends Fragment implements View.OnClickListener {
     private OnFragmentInteractionListener mListener;
 
     public ElegirMateria() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ElegirMateria.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ElegirMateria newInstance(String param1, String param2) {
         ElegirMateria fragment = new ElegirMateria();
         Bundle args = new Bundle();
@@ -74,12 +66,21 @@ public class ElegirMateria extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         vista=inflater.inflate(R.layout.fragment_elegir_materia, container, false);
-        btnIngles=vista.findViewById(R.id.btnIngles);
-        btnEspanol=vista.findViewById(R.id.btnEspanol);
-        btnMatematicas=vista.findViewById(R.id.btnMatematicas);
-        btnIngles.setOnClickListener(this);
-        btnEspanol.setOnClickListener(this);
-        btnMatematicas.setOnClickListener(this);
+        recyclerMaterias=vista.findViewById(R.id.recyclerMaterias);
+        recyclerMateriasPropuestas=vista.findViewById(R.id.recyclerMateriasPropuestas);
+        recyclerMaterias.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        recyclerMateriasPropuestas.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        listMaterias=new ArrayList<>();
+        listMaterias.add(new Materias("@drawable/espaniol"));
+        listMaterias.add(new Materias("@drawable/matematicas"));
+        listMaterias.add(new Materias("@drawable/ingles"));
+        materiasAdapter= new MateriasAdapter(getContext(), listMaterias,this);
+        recyclerMaterias.setAdapter(materiasAdapter);
+
+        listMateriasPropuestas=new ArrayList<>();
+        listMateriasPropuestas.add(new Materias("@drawable/programacion"));
+        materiasAdapter= new MateriasAdapter(getContext(), listMateriasPropuestas,this);
+        recyclerMateriasPropuestas.setAdapter(materiasAdapter);
         return vista;
     }
 
@@ -111,23 +112,21 @@ public class ElegirMateria extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
+
     @Override
-    public void onClick(final View v){
-        interfaceFragments.seleccionarSemestre();
+    public void onMateriaClick(int position, List<Materias> lista) {
+        if(lista.equals(listMaterias)){
+            Toast.makeText(actividad, "Tocaste el elemento: "+listMaterias.get(position).getRutaImagen(), Toast.LENGTH_SHORT).show();
+            interfaceFragments.seleccionarSemestre();
+        }else if(lista.equals(listMateriasPropuestas)){
+            Toast.makeText(actividad, "Tocaste el elemento: "+listMateriasPropuestas.get(position).getRutaImagen(), Toast.LENGTH_SHORT).show();
+            interfaceFragments.seleccionarSemestre();
+        }
+
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
