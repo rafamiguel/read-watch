@@ -9,12 +9,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import estrada.leon.rafael.readwatch.BotonIngresarPropuesta;
-import estrada.leon.rafael.readwatch.Estudiante.Fragment.ElegirVideo;
 import estrada.leon.rafael.readwatch.Estudiante.Menu.MenuEstudiante;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.Estudiante.Activity.registrar_restudiante;
-import estrada.leon.rafael.readwatch.Videos;
 
 public class MainActivity extends AppCompatActivity {
     ImageView logo;
@@ -53,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent registrar = new Intent(MainActivity.this, ElegirVideo.class);
-                startActivity(registrar);
             }
         });
     }

@@ -8,66 +8,50 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import java.util.List;
 
-import estrada.leon.rafael.readwatch.AdapterVideo;
 import estrada.leon.rafael.readwatch.Estudiante.POJO.POJOVideos;
 import estrada.leon.rafael.readwatch.R;
 
-public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.ViewHolder>{
+public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     Context context;
-    List<POJOVideos> POJOVideosList;
+    List<POJOVideos> pojoVideosList;
 
-    public VideosAdapter(Context context, List<POJOVideos> POJOVideosList){
+    public VideosAdapter(Context context, List<POJOVideos> pojoVideosList){
         this.context = context;
-        this.POJOVideosList = POJOVideosList;
+        this.pojoVideosList = pojoVideosList;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.itemvideo, viewGroup, false);
-        VideosAdapter.ViewHolder viewHolder = new VideosAdapter.ViewHolder(itemView);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        RecyclerView.ViewHolder viewHolder;
+        View view;
+        view= LayoutInflater.from(context).inflate(R.layout.videos, viewGroup, false);
+        viewHolder = new VideosViewHolder(view);
+        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        view.setLayoutParams(lp);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.btnAdvertencia.setText(POJOVideosList.get(i).getIconoAdvertencia());
-        viewHolder.btnOpcion.setText(POJOVideosList.get(i).getOpciones());
-        viewHolder.btnFavorito.setText(POJOVideosList.get(i).getEstrellita());
-        viewHolder.btnEditar.setText(POJOVideosList.get(i).getEditar());
-        viewHolder.txtComentario.setText(POJOVideosList.get(i).getComentario());
-        viewHolder.txtReportar.setText(POJOVideosList.get(i).getReportar());
-        viewHolder.txtDescripcion.setText(POJOVideosList.get(i).getDescripcion());
-        viewHolder.txtPerfil.setText(POJOVideosList.get(i).getPerfil());
-        viewHolder.btnMiniatura.setText(POJOVideosList.get(i).getMiniatura());
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+
     }
 
     @Override
     public int getItemCount() {
-        return POJOVideosList.size();
+        return pojoVideosList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class VideosViewHolder extends RecyclerView.ViewHolder{
         TextView txtPerfil, txtDescripcion, txtReportar;
         EditText txtComentario;
         Button btnEditar, btnFavorito, btnOpcion, btnAdvertencia, btnMiniatura;
 
-        public ViewHolder (View itemVideo){
-            super(itemVideo);
-            btnMiniatura = itemVideo.findViewById(R.id.btnMiniatura);
-            txtPerfil = itemVideo.findViewById(R.id.txtPerfil);
-            txtDescripcion = itemVideo.findViewById(R.id.txtDescripcion);
-            txtReportar = itemVideo.findViewById(R.id.txtReportar);
-            txtComentario = itemVideo.findViewById(R.id.txtComentario);
-            btnEditar = itemVideo.findViewById(R.id.btnEditar);
-            btnFavorito = itemVideo.findViewById(R.id.btnFavorito);
-            btnOpcion = itemVideo.findViewById(R.id.btnOpcion);
-            btnAdvertencia = itemVideo.findViewById(R.id.btnAdvertencia);
-
+        public VideosViewHolder(@NonNull View itemView) {
+            super(itemView);
 
         }
     }

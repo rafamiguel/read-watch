@@ -21,31 +21,43 @@ public class TemasAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     /* Item tiene que ser una interfaz implementada en todos los objetos que se quieren
     * usar en el RecyclerView.*/
     List<Item> temasList;
-
+    OnTemasListener onTemasListener;
     /*Estas constantes solo son para identificar el valor que nos devuelve la función getViewType*/
     private final int TEMA = 1;
     private final int SUBTEMA = 2;
-    public TemasAdapter(Context context, List<Item> temasList){
+    public TemasAdapter(Context context, List<Item> temasList,OnTemasListener onTemasListener){
         this.context=context;
         this.temasList=temasList;
+        this.onTemasListener=onTemasListener;
     }
 
     /*Por cada tipo de vista en el RecyclerView se necesita una clase con la estructura que se puede ver
     * en las siguientes clases*/
     public class TemasViewHolder extends RecyclerView.ViewHolder {
         TextView nombre;
-
         public TemasViewHolder(@NonNull View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.nombreTema);
         }
 
+
     }
-    public class SubtemasViewHolder extends RecyclerView.ViewHolder{
+    public class SubtemasViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
         TextView nombre;
-        public SubtemasViewHolder(@NonNull View itemView) {
+        OnTemasListener onTemasListener;
+        public SubtemasViewHolder(@NonNull View itemView, OnTemasListener onTemasListener) {
             super(itemView);
+            this.onTemasListener=onTemasListener;
             nombre= itemView.findViewById(R.id.nombreSubtema);
+            nombre.setOnClickListener(this);
+        }
+        @Override
+        public void onClick(View v) {
+            switch(v.getId()){
+                case R.id.nombreSubtema:{
+                    onTemasListener.onTemaClick(getAdapterPosition(),temasList);
+                }
+            }
         }
 
     }
@@ -65,12 +77,12 @@ public class TemasAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             }
             case SUBTEMA:{
                 view=LayoutInflater.from(context).inflate(R.layout.subtemas,viewGroup,false);
-                viewHolder=new SubtemasViewHolder(view);
+                viewHolder=new SubtemasViewHolder(view,onTemasListener);
                 break;
             }
             default:
                 view=LayoutInflater.from(context).inflate(R.layout.subtemas,viewGroup,false);
-                viewHolder=new SubtemasViewHolder(view);
+                viewHolder=new SubtemasViewHolder(view,onTemasListener);
                 return viewHolder;
         }
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -110,5 +122,8 @@ public class TemasAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public int getItemViewType(int posicion){
         return temasList.get(posicion).getViewType();
+    }
+    public interface OnTemasListener{
+        void onTemaClick(int position,List<Item> lista);
     }
 }

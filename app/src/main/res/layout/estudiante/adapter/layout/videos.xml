@@ -1,40 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/txtPerfil"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
-        android:layout_marginBottom="8dp"
         android:text="Perfil"
         android:textColor="#131212"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.085"
         app:layout_constraintStart_toEndOf="@+id/btnMiniatura"
-        app:layout_constraintTop_toTopOf="@+id/btnMiniatura"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/btnMiniatura" />
 
     <TextView
         android:id="@+id/txtDescripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="36dp"
         android:text="Descripción"
         android:textColor="#0A0A0A"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/txtPerfil"
-        app:layout_constraintHorizontal_bias="0.012"
-        app:layout_constraintStart_toStartOf="@+id/txtPerfil"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.076" />
+        app:layout_constraintStart_toEndOf="@+id/btnMiniatura"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnEditar"
@@ -42,9 +32,6 @@
         android:layout_height="33dp"
         android:background="@drawable/editar"
         android:backgroundTintMode="src_over"
-        app:layout_constraintBottom_toBottomOf="@+id/txtReportar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.265"
         app:layout_constraintStart_toEndOf="@+id/txtReportar"
         app:layout_constraintTop_toTopOf="@+id/txtReportar" />
 
@@ -55,11 +42,8 @@
         android:background="@drawable/star2"
         android:backgroundTintMode="src_over"
         app:layout_constraintBottom_toBottomOf="@+id/btnAdvertencia"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.188"
         app:layout_constraintStart_toEndOf="@+id/btnAdvertencia"
-        app:layout_constraintTop_toTopOf="@+id/btnAdvertencia"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/btnAdvertencia" />
 
     <Button
         android:id="@+id/btnOpcion"
@@ -68,8 +52,6 @@
         android:background="@drawable/opcio"
         android:backgroundTintMode="src_over"
         app:layout_constraintBottom_toBottomOf="@+id/btnFavorito"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toEndOf="@+id/btnFavorito"
         app:layout_constraintTop_toTopOf="@+id/btnFavorito"
         app:layout_constraintVertical_bias="0.0" />
@@ -78,59 +60,40 @@
         android:id="@+id/btnAdvertencia"
         android:layout_width="21dp"
         android:layout_height="21dp"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/warning"
         android:backgroundTintMode="src_over"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.464"
         app:layout_constraintStart_toEndOf="@+id/txtPerfil"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/txtComentario"
         android:layout_width="150dp"
         android:layout_height="37dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="Comentario"
         android:inputType="textPersonName"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.065"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnMiniatura"
-        app:layout_constraintVertical_bias="0.014" />
+        app:layout_constraintTop_toBottomOf="@+id/btnMiniatura" />
 
     <TextView
         android:id="@+id/txtReportar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:text="Reportar"
         android:textColor="#1976D2"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/txtComentario"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.138"
         app:layout_constraintStart_toEndOf="@+id/txtComentario"
-        app:layout_constraintTop_toBottomOf="@+id/btnMiniatura" />
+        app:layout_constraintTop_toTopOf="@+id/txtComentario" />
 
     <Button
         android:id="@+id/btnMiniatura"
         android:layout_width="154dp"
         android:layout_height="97dp"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/miniatura"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.067"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.026" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -21,7 +21,7 @@ import estrada.leon.rafael.readwatch.Interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
 
 
-public class ElegirTema extends Fragment {
+public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener {
         RecyclerView temas;
         List<Item> temasList=new ArrayList<>();
         TemasAdapter temasAdapter;
@@ -71,7 +71,7 @@ public class ElegirTema extends Fragment {
                     temasList.add(new Subtemas("SubTema"+i));
                 }
             }
-            temasAdapter= new TemasAdapter(getContext(),temasList);
+            temasAdapter= new TemasAdapter(getContext(),temasList,this);
             temas.setAdapter(temasAdapter);
             return vista;
         }
@@ -103,7 +103,12 @@ public class ElegirTema extends Fragment {
             mListener = null;
         }
 
-        public interface OnFragmentInteractionListener {
+    @Override
+    public void onTemaClick(int position, List<Item> lista) {
+        interfaceFragments.seleccionarVideo();
+    }
+
+    public interface OnFragmentInteractionListener {
             void onFragmentInteraction(Uri uri);
         }
         public void cargarDatos(){

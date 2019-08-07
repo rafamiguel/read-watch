@@ -1,5 +1,6 @@
 package estrada.leon.rafael.readwatch.Estudiante.Fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,46 +14,27 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import estrada.leon.rafael.readwatch.AdapterVideo;
+import estrada.leon.rafael.readwatch.Estudiante.Adapter.VideosAdapter;
 import estrada.leon.rafael.readwatch.Estudiante.POJO.POJOVideos;
+import estrada.leon.rafael.readwatch.Interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ElegirVideo.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ElegirVideo#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ElegirVideo extends Fragment {
+    View vista;
     RecyclerView recyclerVideo;
     List<POJOVideos> POJOVideosList = new ArrayList<>();
-    AdapterVideo adapterVideo;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    VideosAdapter videosAdapter;
+    Activity actividad;
+    iComunicacionFragments interfaceFragments;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
     public ElegirVideo() {
-        // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ElegirVideo.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ElegirVideo newInstance(String param1, String param2) {
         ElegirVideo fragment = new ElegirVideo();
         Bundle args = new Bundle();
@@ -74,18 +56,16 @@ public class ElegirVideo extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View itemView = LayoutInflater.from(container.getContext()).inflate(R.layout.fragment_elegir_video, container, false);
-        recyclerVideo = itemView.findViewById(R.id.recyclerVideo);
+        vista = inflater.inflate(R.layout.fragment_elegir_video,container,false);
+        recyclerVideo = vista.findViewById(R.id.recyclerVideo);
         recyclerVideo.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        POJOVideosList = new ArrayList<>();
         POJOVideosList.add(new POJOVideos("","Rafita", "Video POJO", "", "", "", "Muy buen video", "", ""));
         POJOVideosList.add(new POJOVideos("","MIKE", "Video POJO", "", "", "", "Muy buen video", "", ""));
         POJOVideosList.add(new POJOVideos("","Pintor", "Video POJO", "", "", "", "Muy buen video", "", ""));
         POJOVideosList.add(new POJOVideos("","Gabriel", "Video POJO", "", "", "", "Muy buen video", "", ""));
-        adapterVideo = new AdapterVideo(getContext(), POJOVideosList);
-        recyclerVideo.setAdapter(adapterVideo);
-        return itemView;
+        videosAdapter = new VideosAdapter(getContext(), POJOVideosList);
+        recyclerVideo.setAdapter(videosAdapter);
+        return vista;
 
     }
 
@@ -100,6 +80,10 @@ public class ElegirVideo extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof Activity) {
+            actividad= (Activity) context;
+            interfaceFragments=(iComunicacionFragments)actividad;
+        }
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -114,16 +98,6 @@ public class ElegirVideo extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
