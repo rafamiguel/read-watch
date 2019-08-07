@@ -4,10 +4,17 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import estrada.leon.rafael.readwatch.AdapterVideo;
+import estrada.leon.rafael.readwatch.Estudiante.POJO.POJOVideos;
 import estrada.leon.rafael.readwatch.R;
 
 /**
@@ -19,6 +26,9 @@ import estrada.leon.rafael.readwatch.R;
  * create an instance of this fragment.
  */
 public class ElegirVideo extends Fragment {
+    RecyclerView recyclerVideo;
+    List<POJOVideos> POJOVideosList = new ArrayList<>();
+    AdapterVideo adapterVideo;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -65,8 +75,20 @@ public class ElegirVideo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_elegir_video, container, false);
+        View itemView = LayoutInflater.from(container.getContext()).inflate(R.layout.fragment_elegir_video, container, false);
+        recyclerVideo = itemView.findViewById(R.id.recyclerVideo);
+        recyclerVideo.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        POJOVideosList = new ArrayList<>();
+        POJOVideosList.add(new POJOVideos("","Rafita", "Video POJO", "", "", "", "Muy buen video", "", ""));
+        POJOVideosList.add(new POJOVideos("","MIKE", "Video POJO", "", "", "", "Muy buen video", "", ""));
+        POJOVideosList.add(new POJOVideos("","Pintor", "Video POJO", "", "", "", "Muy buen video", "", ""));
+        POJOVideosList.add(new POJOVideos("","Gabriel", "Video POJO", "", "", "", "Muy buen video", "", ""));
+        adapterVideo = new AdapterVideo(getContext(), POJOVideosList);
+        recyclerVideo.setAdapter(adapterVideo);
+        return itemView;
+
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

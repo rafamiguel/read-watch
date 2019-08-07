@@ -1,4 +1,5 @@
-package estrada.leon.rafael.readwatch.Estudiante.Adapter;
+package estrada.leon.rafael.readwatch;
+
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -11,16 +12,14 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import estrada.leon.rafael.readwatch.AdapterVideo;
 import estrada.leon.rafael.readwatch.Estudiante.POJO.POJOVideos;
-import estrada.leon.rafael.readwatch.R;
 
-public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.ViewHolder>{
+public class AdapterVideo extends RecyclerView.Adapter<AdapterVideo.ViewHolder> {
 
     Context context;
     List<POJOVideos> POJOVideosList;
 
-    public VideosAdapter(Context context, List<POJOVideos> POJOVideosList){
+    public AdapterVideo(Context context, List<POJOVideos> POJOVideosList){
         this.context = context;
         this.POJOVideosList = POJOVideosList;
     }
@@ -29,7 +28,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.itemvideo, viewGroup, false);
-        VideosAdapter.ViewHolder viewHolder = new VideosAdapter.ViewHolder(itemView);
+        ViewHolder viewHolder = new ViewHolder(itemView);
         return viewHolder;
     }
 
@@ -51,12 +50,12 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.ViewHolder
         return POJOVideosList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtPerfil, txtDescripcion, txtReportar;
         EditText txtComentario;
         Button btnEditar, btnFavorito, btnOpcion, btnAdvertencia, btnMiniatura;
 
-        public ViewHolder (View itemVideo){
+        public ViewHolder(View itemVideo){
             super(itemVideo);
             btnMiniatura = itemVideo.findViewById(R.id.btnMiniatura);
             txtPerfil = itemVideo.findViewById(R.id.txtPerfil);
@@ -68,8 +67,6 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.ViewHolder
             btnOpcion = itemVideo.findViewById(R.id.btnOpcion);
             btnAdvertencia = itemVideo.findViewById(R.id.btnAdvertencia);
 
-
         }
     }
-
 }
