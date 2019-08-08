@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import estrada.leon.rafael.readwatch.Estudiante.POJO.Videos;
 import estrada.leon.rafael.readwatch.Interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
 
-public class ElegirVideo extends Fragment {
+public class ElegirVideo extends Fragment implements VideosAdapter.OnVideoListener {
     iComunicacionFragments interfaceFragments;
     View vista;
     Activity actividad;
@@ -64,7 +65,7 @@ public class ElegirVideo extends Fragment {
         recyclerVideos.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         list=new ArrayList<>();
         list.add(new Videos("video1"));
-        videosAdapter=new VideosAdapter(getContext(),list);
+        videosAdapter=new VideosAdapter(getContext(),list, this);
         recyclerVideos.setAdapter(videosAdapter);
         return vista;
     }
@@ -95,6 +96,13 @@ public class ElegirVideo extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onVideoClick(int position, List<Videos> list) {
+        if(list.equals(list)) {
+            Toast.makeText(actividad, "Tocaste el elemento: " + list.get(position).getDescripcion(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public interface OnFragmentInteractionListener {
