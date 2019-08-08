@@ -1,8 +1,8 @@
 package estrada.leon.rafael.readwatch.Estudiante.POJO;
 
 public class Documentos {
-    String perfil;
-    String descripcion;
+    private String perfil;
+    private String descripcion;
 
     public Documentos(String perfil, String descripcion){
         this.perfil=perfil;

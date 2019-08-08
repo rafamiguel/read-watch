@@ -1,5 +1,6 @@
 package estrada.leon.rafael.readwatch.Estudiante.Fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -19,20 +21,15 @@ import estrada.leon.rafael.readwatch.Estudiante.POJO.Documentos;
 import estrada.leon.rafael.readwatch.Interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ElegirDocumento.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ElegirDocumento#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDocumentosListener {
+
+public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDocumentosListener, View.OnClickListener {
     RecyclerView recyclerDocumentos;
+    Activity actividad;
     iComunicacionFragments interfaceFragments;
     View vista;
     List<Documentos> documentosList = new ArrayList<>(); ;
     DocumentosAdapter adapter;
+    Button btnVideo,btnDocumento;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -48,15 +45,6 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ElegirDocumento.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ElegirDocumento newInstance(String param1, String param2) {
         ElegirDocumento fragment = new ElegirDocumento();
         Bundle args = new Bundle();
@@ -78,13 +66,21 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         vista=inflater.inflate(R.layout.fragment_elegir_documento, container, false);
+
         recyclerDocumentos=vista.findViewById(R.id.recyclerDocumentos);
+        btnVideo=vista.findViewById(R.id.btnVideo);
+        btnDocumento=vista.findViewById(R.id.btnDocumento);
+
+        btnVideo.setOnClickListener(this);
+        btnDocumento.setOnClickListener(this);
+
         recyclerDocumentos.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+
         documentosList=new ArrayList<>();
         documentosList.add(new Documentos("Ricardo", "Polinomio"));
         documentosList.add(new Documentos("Jose", "Lectura"));
+
         adapter=new DocumentosAdapter(getContext(),documentosList,this);
         recyclerDocumentos.setAdapter(adapter);
         return vista;
@@ -92,7 +88,6 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
 
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -102,6 +97,10 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof Activity) {
+            actividad= (Activity) context;
+            interfaceFragments=(iComunicacionFragments)actividad;
+        }
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -121,16 +120,19 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         interfaceFragments.onClickDocumentosHolder(toast);
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.btnVideo:
+                interfaceFragments.vistaVideosDoc(true);
+                break;
+            case R.id.btnDocumento:
+                interfaceFragments.vistaVideosDoc(false);
+                break;
+
+        }
+    }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
