@@ -68,7 +68,7 @@
         android:layout_height="15dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/warning"
+        android:background="@drawable/warverde"
         android:backgroundTintMode="src_over"
         app:layout_constraintStart_toEndOf="@+id/lblPerfil"
         app:layout_constraintTop_toTopOf="parent" />
@@ -101,11 +101,11 @@
 
     <Button
         android:id="@+id/btnDocumento"
-        android:layout_width="138dp"
-        android:layout_height="82dp"
+        android:layout_width="100dp"
+        android:layout_height="98dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
-        android:background="@drawable/miniatura"
+        android:background="@drawable/doc"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

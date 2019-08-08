@@ -40,6 +40,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         @Override
         public void onClick(View v) {
+
             onVideoListener.onVideoClick(getAdapterPosition(),list);
         }
     }
