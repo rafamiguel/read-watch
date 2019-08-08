@@ -127,7 +127,7 @@ public class  MenuEstudiante extends AppCompatActivity
 
     @Override
     public void vistaVideosDoc(boolean i) {
-        if(true){
+        if(i){
             fragment =new ElegirVideo();
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
         }else{
