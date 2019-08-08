@@ -76,8 +76,8 @@ public class ElegirDocumento extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        vista=inflater.inflate(R.layout.fragment_elegir_video, container, false);
-        recyclerDocumentos=vista.findViewById(R.id.recyclerVideos);
+        vista=inflater.inflate(R.layout.fragment_elegir_documento, container, false);
+        recyclerDocumentos=vista.findViewById(R.id.recyclerDocumentos);
         recyclerDocumentos.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         documentosList=new ArrayList<>();
         documentosList.add(new Documentos("Ricardo", "Polinomio"));
