@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.Toast;
 
 import estrada.leon.rafael.readwatch.Estudiante.Fragment.ElegirMateria;
 import estrada.leon.rafael.readwatch.Estudiante.Fragment.ElegirTema;
@@ -117,6 +118,23 @@ public class  MenuEstudiante extends AppCompatActivity
     public void seleccionarVideo() {
         fragment =new ElegirVideo();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+    }
+
+    @Override
+    public void onClickVideosHolder(Toast toast) {
+        toast.show();
+    }
+
+    @Override
+    public void vistaVideosDoc(boolean i) {
+        if(true){
+            fragment =new ElegirVideo();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+        }else{
+            //fragment =new ElegirDocumento();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+        }
+
     }
 
     @Override

@@ -6,11 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".Estudiante.Fragment.ElegirVideo">
 
+    <Button
+        android:id="@+id/btnVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="video"
+        app:layout_constraintEnd_toStartOf="@id/btnDocumento"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.RecyclerView
+    <Button
+        android:id="@+id/btnDocumento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="documento"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnVideo"
+        app:layout_constraintTop_toTopOf="parent" />
+        <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerVideos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/btnVideo" />
 </android.support.constraint.ConstraintLayout>
