@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/txtPerfil"
+        android:id="@+id/lblPerfil"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
         android:text="Perfil"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="@+id/btnMiniatura" />
 
     <TextView
-        android:id="@+id/txtDescripcion"
+        android:id="@+id/lblDescripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
@@ -32,8 +32,8 @@
         android:layout_height="33dp"
         android:background="@drawable/editar"
         android:backgroundTintMode="src_over"
-        app:layout_constraintStart_toEndOf="@+id/txtReportar"
-        app:layout_constraintTop_toTopOf="@+id/txtReportar" />
+        app:layout_constraintStart_toEndOf="@+id/lblReportar"
+        app:layout_constraintTop_toTopOf="@+id/lblReportar" />
 
     <Button
         android:id="@+id/btnFavorito"
@@ -62,7 +62,7 @@
         android:layout_height="21dp"
         android:background="@drawable/warning"
         android:backgroundTintMode="src_over"
-        app:layout_constraintStart_toEndOf="@+id/txtPerfil"
+        app:layout_constraintStart_toEndOf="@+id/lblPerfil"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
@@ -78,7 +78,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btnMiniatura" />
 
     <TextView
-        android:id="@+id/txtReportar"
+        android:id="@+id/lblReportar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Reportar"

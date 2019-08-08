@@ -24,7 +24,7 @@ public class registrar_restudiante extends AppCompatActivity {
         txtCorreo = findViewById(R.id.txtCorreo);
         txtContrasena = findViewById(R.id.txtContrasena);
         txtTelefono = findViewById(R.id.txtTelefono);
-        txtDescripcion = findViewById(R.id.txtDescripcion);
+        txtDescripcion = findViewById(R.id.lblDescripcion);
         btnFoto = findViewById(R.id.btnFoto);
         btnEntrar = findViewById(R.id.btnEntrar);
 

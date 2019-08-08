@@ -107,14 +107,14 @@ tools:context=".registrar_usuario_estudiantes">
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="Nùmero telefònico"
-        app:layout_constraintBottom_toTopOf="@+id/txtDescripcion"
+        app:layout_constraintBottom_toTopOf="@+id/lblDescripcion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtRyw"
         app:layout_constraintVertical_bias="0.975" />
 
     <EditText
-        android:id="@+id/txtDescripcion"
+        android:id="@+id/lblDescripcion"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginBottom="8dp"

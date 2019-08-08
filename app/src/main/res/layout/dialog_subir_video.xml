@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/txtDescripcion"
+        android:id="@+id/lblDescripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -64,7 +64,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtDescripcion"
+        app:layout_constraintTop_toBottomOf="@+id/lblDescripcion"
         app:layout_constraintVertical_bias="0.042" />
 
 </android.support.constraint.ConstraintLayout>

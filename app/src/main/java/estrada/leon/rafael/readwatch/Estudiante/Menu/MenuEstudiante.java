@@ -23,7 +23,7 @@ import estrada.leon.rafael.readwatch.Estudiante.Fragment.SeleccionarSemestre;
 
 public class MenuEstudiante extends AppCompatActivity
         implements iComunicacionFragments, NavigationView.OnNavigationItemSelectedListener, ElegirMateria.OnFragmentInteractionListener,
-        SeleccionarSemestre.OnFragmentInteractionListener, ElegirTema.OnFragmentInteractionListener,ElegirVideo.OnFragmentInteractionListener{
+        SeleccionarSemestre.OnFragmentInteractionListener, ElegirTema.OnFragmentInteractionListener, ElegirVideo.OnFragmentInteractionListener{
     Fragment fragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
