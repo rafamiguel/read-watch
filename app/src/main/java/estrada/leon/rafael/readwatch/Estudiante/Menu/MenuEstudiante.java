@@ -122,6 +122,11 @@ public class  MenuEstudiante extends AppCompatActivity
     }
 
     @Override
+    public void onClickDocumentosHolder(Toast toast) {
+        toast.show();
+    }
+
+    @Override
     public void onClickVideosHolder(Toast toast) {
         toast.show();
     }

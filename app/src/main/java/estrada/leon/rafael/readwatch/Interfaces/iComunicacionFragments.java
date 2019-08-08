@@ -8,4 +8,5 @@ public interface iComunicacionFragments {
     public void seleccionarVideo();
     public void onClickVideosHolder(Toast toast);
     public void vistaVideosDoc(boolean i);
+    public void onClickDocumentosHolder(Toast toast);
 }

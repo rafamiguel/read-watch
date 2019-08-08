@@ -9,12 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.Estudiante.Adapter.DocumentosAdapter;
 import estrada.leon.rafael.readwatch.Estudiante.POJO.Documentos;
+import estrada.leon.rafael.readwatch.Interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
 
 /**
@@ -25,8 +27,9 @@ import estrada.leon.rafael.readwatch.R;
  * Use the {@link ElegirDocumento#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ElegirDocumento extends Fragment {
+public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDocumentosListener {
     RecyclerView recyclerDocumentos;
+    iComunicacionFragments interfaceFragments;
     View vista;
     List<Documentos> documentosList = new ArrayList<>(); ;
     DocumentosAdapter adapter;
@@ -82,7 +85,7 @@ public class ElegirDocumento extends Fragment {
         documentosList=new ArrayList<>();
         documentosList.add(new Documentos("Ricardo", "Polinomio"));
         documentosList.add(new Documentos("Jose", "Lectura"));
-        adapter=new DocumentosAdapter(getContext(),documentosList);
+        adapter=new DocumentosAdapter(getContext(),documentosList,this);
         recyclerDocumentos.setAdapter(adapter);
         return vista;
 
@@ -111,6 +114,11 @@ public class ElegirDocumento extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDocumentosClick(int position, List<Documentos> documentosList, Toast toast) {
+        interfaceFragments.onClickDocumentosHolder(toast);
     }
 
     /**
