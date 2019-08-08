@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,13 +21,14 @@ import estrada.leon.rafael.readwatch.Estudiante.POJO.Videos;
 import estrada.leon.rafael.readwatch.Interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
 
-public class ElegirVideo extends Fragment implements VideosAdapter.OnVideoListener {
+public class ElegirVideo extends Fragment implements View.OnClickListener, VideosAdapter.OnVideoListener {
     iComunicacionFragments interfaceFragments;
     View vista;
     Activity actividad;
     List<Videos> list;
     RecyclerView recyclerVideos;
     VideosAdapter videosAdapter;
+    Button btnVideo,btnDocumento;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -62,6 +64,11 @@ public class ElegirVideo extends Fragment implements VideosAdapter.OnVideoListen
                              Bundle savedInstanceState) {
         vista=inflater.inflate(R.layout.fragment_elegir_video, container, false);
         recyclerVideos=vista.findViewById(R.id.recyclerVideos);
+        btnVideo=vista.findViewById(R.id.btnVideo);
+        btnDocumento=vista.findViewById(R.id.btnDocumento);
+        btnVideo.setOnClickListener(this);
+        btnDocumento.setOnClickListener(this);
+
         recyclerVideos.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         list=new ArrayList<>();
         list.add(new Videos("video1"));
@@ -99,10 +106,20 @@ public class ElegirVideo extends Fragment implements VideosAdapter.OnVideoListen
     }
 
     @Override
-    public void onVideoClick(int position, List<Videos> list) {
+    public void onVideoClick(int position, List<Videos> list, Toast toast) {
+        interfaceFragments.onClickVideosHolder(toast);
+    }
 
-            Toast.makeText(actividad, "Tocaste el elemento: " + list.get(position).getDescripcion(), Toast.LENGTH_SHORT).show();
-
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnVideo:
+                interfaceFragments.vistaVideosDoc(true);
+                break;
+            case R.id.btnDocumento:
+                interfaceFragments.vistaVideosDoc(false);
+                break;
+        }
     }
 
     public interface OnFragmentInteractionListener {

@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.Toast;
 
 import estrada.leon.rafael.readwatch.Estudiante.Fragment.ElegirDocumento;
 import estrada.leon.rafael.readwatch.Estudiante.Fragment.ElegirMateria;
@@ -24,7 +25,7 @@ import estrada.leon.rafael.readwatch.Estudiante.Fragment.SeleccionarSemestre;
 
 public class  MenuEstudiante extends AppCompatActivity
         implements iComunicacionFragments, NavigationView.OnNavigationItemSelectedListener, ElegirMateria.OnFragmentInteractionListener,
-        SeleccionarSemestre.OnFragmentInteractionListener, ElegirTema.OnFragmentInteractionListener, ElegirVideo.OnFragmentInteractionListener, ElegirDocumento.OnFragmentInteractionListener{
+        SeleccionarSemestre.OnFragmentInteractionListener, ElegirTema.OnFragmentInteractionListener, ElegirVideo.OnFragmentInteractionListener, ElegirDocumento.OnFragmentInteractionListener {
     Fragment fragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +119,23 @@ public class  MenuEstudiante extends AppCompatActivity
     public void seleccionarVideo() {
         fragment =new ElegirVideo();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+    }
+
+    @Override
+    public void onClickVideosHolder(Toast toast) {
+        toast.show();
+    }
+
+    @Override
+    public void vistaVideosDoc(boolean i) {
+        if(i){
+            fragment =new ElegirVideo();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+        }else{
+            fragment =new ElegirDocumento();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+        }
+
     }
 
     @Override
