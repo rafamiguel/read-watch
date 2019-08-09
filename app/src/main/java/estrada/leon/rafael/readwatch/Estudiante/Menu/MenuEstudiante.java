@@ -19,6 +19,7 @@ import estrada.leon.rafael.readwatch.Estudiante.Fragment.ElegirDocumento;
 import estrada.leon.rafael.readwatch.Estudiante.Fragment.ElegirMateria;
 import estrada.leon.rafael.readwatch.Estudiante.Fragment.ElegirTema;
 import estrada.leon.rafael.readwatch.Estudiante.Fragment.ElegirVideo;
+import estrada.leon.rafael.readwatch.Estudiante.Fragment.PreguntasTemaLibre;
 import estrada.leon.rafael.readwatch.Interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.Estudiante.Fragment.SeleccionarSemestre;
