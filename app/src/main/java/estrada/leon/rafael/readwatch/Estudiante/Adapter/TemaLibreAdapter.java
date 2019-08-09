@@ -30,6 +30,8 @@ public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.View
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.temaslibres, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(itemView);
+        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        itemView.setLayoutParams(lp);
         return viewHolder;
     }
 
@@ -55,7 +57,6 @@ public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.View
             lblReportar = item.findViewById(R.id.lblReportar);
             txtComentario = item.findViewById(R.id.txtComentario);
             btnAdvertencia = item.findViewById(R.id.btnAdvertencia);
-            btnAgregarPregunta = item.findViewById(R.id.btnAgregarPregunta);
             btnEditar= item.findViewById(R.id.btnEditar);
             btnSubirDocumento = item.findViewById(R.id.btnSubirDocumento);
             btnInsertarLink = item.findViewById(R.id.btnInsertarLink);

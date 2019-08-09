@@ -1,20 +1,24 @@
 package estrada.leon.rafael.readwatch.Estudiante.Fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.Estudiante.Adapter.TemaLibreAdapter;
 import estrada.leon.rafael.readwatch.Estudiante.POJO.TemaLibre;
+import estrada.leon.rafael.readwatch.Interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
 
 /**
@@ -26,6 +30,9 @@ import estrada.leon.rafael.readwatch.R;
  * create an instance of this fragment.
  */
 public class PreguntasTemaLibre extends Fragment {
+    iComunicacionFragments interfaceFragments;
+    FloatingActionButton fabNuevaPregunta;
+    Activity actividad;
     RecyclerView recyclerTemas;
     View vista;
     TemaLibreAdapter adapter;
@@ -77,12 +84,21 @@ public class PreguntasTemaLibre extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         vista=inflater.inflate(R.layout.fragment_preguntas_tema_libre, container, false);
+        fabNuevaPregunta = vista.findViewById(R.id.fabNuevaPregunta2);
+      fabNuevaPregunta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast toast = Toast.makeText(getContext(), "Nueva Pregunta", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
         recyclerTemas =  vista.findViewById(R.id.recyclerTemas);
         recyclerTemas.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         temaLibreList = new ArrayList<>();
         temaLibreList.add(new TemaLibre("Me urge!!!", "Gallina o huevo"));
         temaLibreList.add(new TemaLibre("Es tarea", "Bueno o malo??"));
         adapter = new TemaLibreAdapter(getContext(),temaLibreList);
+        recyclerTemas.setAdapter(adapter);
         return vista;
     }
 
