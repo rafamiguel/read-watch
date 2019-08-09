@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import java.util.List;
 
@@ -23,12 +24,11 @@ public class MateriasAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.onMateriaListener = onMateriaListener;
     }
     public class MateriasViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        Button btnMateria;
+        ImageView btnMateria;
         OnMateriaListener onMateriaListener;
         public MateriasViewHolder(@NonNull View itemView, OnMateriaListener onMateriaListener) {
             super(itemView);
             btnMateria=itemView.findViewById(R.id.btnMateria);
-            itemView.setOnClickListener(this);
             this.onMateriaListener=onMateriaListener;
             btnMateria.setOnClickListener(this);
         }
@@ -40,8 +40,8 @@ public class MateriasAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     onMateriaListener.onMateriaClick(getAdapterPosition(),list);
                 }
             }
-
         }
+
     }
     @NonNull
     @Override
@@ -61,7 +61,7 @@ public class MateriasAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         MateriasViewHolder materiasViewHolder= (MateriasViewHolder)viewHolder;
         String uri = materia.getRutaImagen();
         int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
-        materiasViewHolder.btnMateria.setBackgroundResource(imageResource);
+        materiasViewHolder.btnMateria.setImageResource(imageResource);
     }
 
     @Override

@@ -69,15 +69,18 @@ public class ElegirMateria extends Fragment implements MateriasAdapter.OnMateria
         recyclerMaterias.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         recyclerMateriasPropuestas.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         listMaterias=new ArrayList<>();
+        listMateriasPropuestas = new ArrayList<>();
+
         listMaterias.add(new Materias("@drawable/espaniol"));
         listMaterias.add(new Materias("@drawable/matematicas"));
         listMaterias.add(new Materias("@drawable/ingles"));
-        materiasAdapter= new MateriasAdapter(getContext(), listMaterias,this);
-        recyclerMaterias.setAdapter(materiasAdapter);
 
-        listMateriasPropuestas=new ArrayList<>();
         listMateriasPropuestas.add(new Materias("@drawable/programacion"));
-        materiasAdapter= new MateriasAdapter(getContext(), listMateriasPropuestas,this);
+
+        materiasAdapter = new MateriasAdapter(getContext(), listMaterias, this);
+
+        recyclerMaterias.setAdapter(materiasAdapter);
+        materiasAdapter = new MateriasAdapter(getContext(), listMateriasPropuestas, this);
         recyclerMateriasPropuestas.setAdapter(materiasAdapter);
         return vista;
     }

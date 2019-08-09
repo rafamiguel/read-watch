@@ -91,7 +91,8 @@ public class  MenuEstudiante extends AppCompatActivity
             FragmentManager fragmentManager=getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new Historial()).commit();
         } else if (id == R.id.nav_gallery) {
-
+            FragmentManager fragmentManager=getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new PreguntasTemaLibre()).commit();
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_tools) {
