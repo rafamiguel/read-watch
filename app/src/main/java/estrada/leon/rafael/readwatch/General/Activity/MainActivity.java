@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import estrada.leon.rafael.readwatch.BtnOlvidoContrasena;
 import estrada.leon.rafael.readwatch.Estudiante.Menu.MenuEstudiante;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.Estudiante.Activity.registrar_restudiante;
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent entrar = new Intent(MainActivity.this, BtnOlvidoContrasena.class);
+                startActivity(entrar);
             }
         });
     }
