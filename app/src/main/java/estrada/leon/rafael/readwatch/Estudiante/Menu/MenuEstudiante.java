@@ -19,6 +19,7 @@ import estrada.leon.rafael.readwatch.Estudiante.Fragment.ElegirDocumento;
 import estrada.leon.rafael.readwatch.Estudiante.Fragment.ElegirMateria;
 import estrada.leon.rafael.readwatch.Estudiante.Fragment.ElegirTema;
 import estrada.leon.rafael.readwatch.Estudiante.Fragment.ElegirVideo;
+import estrada.leon.rafael.readwatch.Estudiante.Fragment.Historial;
 import estrada.leon.rafael.readwatch.Interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.Estudiante.Fragment.SeleccionarSemestre;
@@ -27,7 +28,7 @@ public class  MenuEstudiante extends AppCompatActivity
         implements iComunicacionFragments, NavigationView.OnNavigationItemSelectedListener,
         ElegirMateria.OnFragmentInteractionListener, SeleccionarSemestre.OnFragmentInteractionListener,
         ElegirTema.OnFragmentInteractionListener, ElegirVideo.OnFragmentInteractionListener,
-        ElegirDocumento.OnFragmentInteractionListener {
+        ElegirDocumento.OnFragmentInteractionListener, Historial.OnFragmentInteractionListener {
     Fragment fragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,7 @@ public class  MenuEstudiante extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             FragmentManager fragmentManager=getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new SeleccionarSemestre()).commit();
+            fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new Historial()).commit();
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
