@@ -29,7 +29,7 @@ import estrada.leon.rafael.readwatch.R;
  * Use the {@link PreguntasTemaLibre#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PreguntasTemaLibre extends Fragment {
+public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnTemaListener {
     iComunicacionFragments interfaceFragments;
     FloatingActionButton fabNuevaPregunta;
     Activity actividad;
@@ -97,7 +97,7 @@ public class PreguntasTemaLibre extends Fragment {
         temaLibreList = new ArrayList<>();
         temaLibreList.add(new TemaLibre("Me urge!!!", "Gallina o huevo"));
         temaLibreList.add(new TemaLibre("Es tarea", "Bueno o malo??"));
-        adapter = new TemaLibreAdapter(getContext(),temaLibreList);
+        adapter = new TemaLibreAdapter(getContext(),temaLibreList, this);
         recyclerTemas.setAdapter(adapter);
         return vista;
     }
@@ -112,6 +112,10 @@ public class PreguntasTemaLibre extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof Activity) {
+            actividad= (Activity) context;
+            interfaceFragments=(iComunicacionFragments)actividad;
+        }
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -124,6 +128,11 @@ public class PreguntasTemaLibre extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onTemaClick(int position, List<TemaLibre> temaLibreList, Toast toast) {
+        interfaceFragments.onClickTemasLibresHolder(toast);
     }
 
     /**

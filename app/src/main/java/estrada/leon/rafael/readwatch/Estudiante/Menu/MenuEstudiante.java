@@ -131,6 +131,11 @@ public class  MenuEstudiante extends AppCompatActivity
     }
 
     @Override
+    public void onClickTemasLibresHolder(Toast toast) {
+        toast.show();
+    }
+
+    @Override
     public void onClickVideosHolder(Toast toast) {
         toast.show();
     }
@@ -138,7 +143,7 @@ public class  MenuEstudiante extends AppCompatActivity
     @Override
     public void vistaVideosDoc(boolean i) {
         if(i){
-            fragment =new PreguntasTemaLibre();
+            fragment =new ElegirVideo();
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
         }else{
             fragment =new ElegirDocumento();
