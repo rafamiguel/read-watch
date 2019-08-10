@@ -18,7 +18,7 @@ android {
     }
     sourceSets {
         main {
-            res.srcDirs = ['src/main/res', 'src/main/res/layout/sinsesion', 'src/main/res/layout/general/activity', 'src/main/res/layout/general/fragment', 'src/main/res/layout/general/adapter', 'src/main/res/layout/administrador/activity', 'src/main/res/layout/administrador/adapter', 'src/main/res/layout/administrador/fragment', 'src/main/res/layout/estudiante/activity', 'src/main/res/estudiante/adapter', 'src/main/res/layout/estudiante/adapter', 'src/main/res/layout/estudiante/fragment', 'src/main/res/layout/estudiante/menu', 'src/main/res/layout/estudiante/notificaciones', 'src/main/res/layout/administrador/menu', 'src/main/res/layout/administrador/notificaciones', 'src/main/res/layout/administrador/notificacion', 'src/main/res/layout/estudiante/notificacion']
+            res.srcDirs = ['src/main/res', 'src/main/res/layout/sinsesion', 'src/main/res/layout/general/activity', 'src/main/res/layout/general/fragment', 'src/main/res/layout/general/adapter', 'src/main/res/layout/administrador/activity', 'src/main/res/layout/administrador/adapter', 'src/main/res/layout/administrador/fragment', 'src/main/res/layout/estudiante/activity', 'src/main/res/estudiante/adapter', 'src/main/res/layout/estudiante/adapter', 'src/main/res/layout/estudiante/fragment', 'src/main/res/layout/estudiante/menu', 'src/main/res/layout/estudiante/notificaciones', 'src/main/res/layout/administrador/menu', 'src/main/res/layout/administrador/notificaciones', 'src/main/res/layout/administrador/notificacion', 'src/main/res/layout/estudiante/notificacion', 'src/main/res/layout/general/dialog']
         }
     }
 }
