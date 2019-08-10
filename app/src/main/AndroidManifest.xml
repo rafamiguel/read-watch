@@ -15,7 +15,6 @@
             android:label="@string/title_activity_menu_administrador"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".BtnOlvidoContrasena" />
         <activity android:name=".BotonIngresarPropuesta" />
         <activity android:name=".VentanaEmergenteDeSeleccionDeVistaDePropuestasUsuarioEstudiante" />
         <activity android:name=".BotonPreguntaTemaLibre" />
