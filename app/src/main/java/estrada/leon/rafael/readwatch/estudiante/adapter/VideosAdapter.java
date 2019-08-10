@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,11 +31,12 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public class VideosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView lblDescripcion,lblPerfil,lblReportar;
         OnVideoListener onVideoListener;
-        Button btnMiniatura,btnAdvertencia,btnFavorito,btnOpcion,btnEditar;
+        Button btnAdvertencia,btnFavorito,btnOpcion,btnEditar;
+        ImageView btnMiniatura;
         EditText txtComentario;
         private VideosViewHolder(@NonNull View itemView, OnVideoListener onVideoListener) {
             super(itemView);
-            lblDescripcion=itemView.findViewById(R.id.txtDescripcion);
+            lblDescripcion=itemView.findViewById(R.id.lblDescripcion);
             lblPerfil=itemView.findViewById(R.id.lblPerfil);
             lblReportar=itemView.findViewById(R.id.lblReportar);
             btnMiniatura=itemView.findViewById(R.id.btnMiniatura);
@@ -57,7 +59,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         @Override
         public void onClick(View v) {
             switch(v.getId()){
-                case R.id.txtDescripcion:
+                case R.id.lblDescripcion:
                     onVideoListener.onVideoClick(getAdapterPosition(),list,
                             Toast.makeText(context, "Esta es la descripcion", Toast.LENGTH_SHORT));
                     break;
@@ -115,6 +117,11 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         Videos video = list.get(i);
         VideosViewHolder videosViewHolder = (VideosViewHolder) viewHolder;
         videosViewHolder.lblDescripcion.setText(video.getDescripcion());
+        videosViewHolder.lblPerfil.setText(video.getPerfil());
+
+        String uri = video.getRutaImagen();
+        int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
+        videosViewHolder.btnMiniatura.setImageResource(imageResource);
     }
 
     @Override

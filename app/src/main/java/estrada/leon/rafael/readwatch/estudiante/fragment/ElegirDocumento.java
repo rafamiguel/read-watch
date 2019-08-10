@@ -34,8 +34,9 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     }
     public void cargarDatos(){
         documentosList=new ArrayList<>();
-        documentosList.add(new Documentos("Ricardo", "Polinomio"));
-        documentosList.add(new Documentos("Jose", "Lectura"));
+        for(int i=0;i<10;i++){
+            documentosList.add(new Documentos("perfil"+i,"video"+i,"@drawable/doc"));
+        }
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {

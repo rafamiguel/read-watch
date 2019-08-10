@@ -77,6 +77,14 @@ public class HistorialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 vidDocViewHolder.img.setBackgroundResource(list.get(position).getId());
                 vidDocViewHolder.lblCastigo.setText(list.get(position).getCastigo());
                 vidDocViewHolder.lblMotivo.setText(list.get(position).getMotivo());
+                if(list.get(position).getTipo().equals("video")){
+                    vidDocViewHolder.lblLinkNombre.setText("https://www.youtube.com/watch?v="+list.get(position).getId());
+                }else {
+                    String cadena=".pdf";
+                    String cadena2=Integer.toString(list.get(position).getId());
+                    cadena2=cadena2.concat(cadena);
+                    vidDocViewHolder.lblLinkNombre.setText(cadena2);
+                }
     }
     }
 

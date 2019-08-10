@@ -34,11 +34,13 @@ public class ElegirMateria extends Fragment implements MateriasAdapter.OnMateria
         listMaterias=new ArrayList<>();
         listMateriasPropuestas = new ArrayList<>();
 
-        listMaterias.add(new Materias("@drawable/espaniol"));
-        listMaterias.add(new Materias("@drawable/matematicas"));
-        listMaterias.add(new Materias("@drawable/ingles"));
+        for (int i=0;i<20;i++) {
+            listMaterias.add(new Materias("@drawable/espaniol"));
+            listMaterias.add(new Materias("@drawable/matematicas"));
+            listMaterias.add(new Materias("@drawable/ingles"));
 
-        listMateriasPropuestas.add(new Materias("@drawable/programacion"));
+            listMateriasPropuestas.add(new Materias("@drawable/programacion"));
+        }
     }
 
     @Override

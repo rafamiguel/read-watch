@@ -58,7 +58,7 @@ public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.View
             super(item);
             this.onTemaListener = onTemaListener;
             lblPregunta = item.findViewById(R.id.lblPregunta);
-            lblDescripcion = item.findViewById(R.id.txtDescripcion);
+            lblDescripcion = item.findViewById(R.id.lblDescripcion);
             lblReportar = item.findViewById(R.id.lblReportar);
             txtComentario = item.findViewById(R.id.txtComentario);
             btnAdvertencia = item.findViewById(R.id.btnAdvertencia);
@@ -84,7 +84,7 @@ public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.View
                     onTemaListener.onTemaClick(getAdapterPosition(),temaLibreList,
                             Toast.makeText(context, "Esta es la pregunta", Toast.LENGTH_SHORT));
                     break;
-                case R.id.txtDescripcion:
+                case R.id.lblDescripcion:
                     onTemaListener.onTemaClick(getAdapterPosition(),temaLibreList,
                             Toast.makeText(context, "Esta es la descripcion", Toast.LENGTH_SHORT));
                     break;

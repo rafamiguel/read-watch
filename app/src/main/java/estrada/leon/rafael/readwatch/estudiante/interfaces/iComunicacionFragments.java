@@ -10,4 +10,6 @@ public interface iComunicacionFragments {
     public void vistaVideosDoc(boolean i);
     public void onClickDocumentosHolder(Toast toast);
     public void onClickTemasLibresHolder(Toast toast);
+    public void onClickVidFavHolder(Toast toast);
+    public void onClickDocFavHolder(Toast toast);
 }

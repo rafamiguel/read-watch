@@ -19,6 +19,7 @@ import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirDocumento;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirMateria;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirTema;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirVideo;
+import estrada.leon.rafael.readwatch.estudiante.fragment.Favoritos;
 import estrada.leon.rafael.readwatch.estudiante.fragment.Historial;
 import estrada.leon.rafael.readwatch.estudiante.fragment.PreguntasTemaLibre;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
@@ -29,7 +30,8 @@ public class  MenuEstudiante extends AppCompatActivity
         implements iComunicacionFragments, NavigationView.OnNavigationItemSelectedListener,
         ElegirMateria.OnFragmentInteractionListener, SeleccionarSemestre.OnFragmentInteractionListener,
         ElegirTema.OnFragmentInteractionListener, ElegirVideo.OnFragmentInteractionListener,
-        ElegirDocumento.OnFragmentInteractionListener, Historial.OnFragmentInteractionListener, PreguntasTemaLibre.OnFragmentInteractionListener{
+        ElegirDocumento.OnFragmentInteractionListener, Historial.OnFragmentInteractionListener,
+        PreguntasTemaLibre.OnFragmentInteractionListener, Favoritos.OnFragmentInteractionListener{
     Fragment fragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +96,8 @@ public class  MenuEstudiante extends AppCompatActivity
             FragmentManager fragmentManager=getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new PreguntasTemaLibre()).commit();
         } else if (id == R.id.nav_slideshow) {
-
+            FragmentManager fragmentManager=getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new Favoritos()).commit();
         } else if (id == R.id.nav_tools) {
 
         } else if (id == R.id.nav_share) {
@@ -133,6 +136,16 @@ public class  MenuEstudiante extends AppCompatActivity
 
     @Override
     public void onClickTemasLibresHolder(Toast toast) {
+        toast.show();
+    }
+
+    @Override
+    public void onClickVidFavHolder(Toast toast) {
+        toast.show();
+    }
+
+    @Override
+    public void onClickDocFavHolder(Toast toast) {
         toast.show();
     }
 

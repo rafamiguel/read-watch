@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/videosLayout"
     android:layout_width="match_parent"
@@ -10,6 +11,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/btnMiniatura"
+            android:layout_width="138dp"
+            android:layout_height="82dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/miniatura"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/lblPerfil"
             android:layout_width="wrap_content"
@@ -18,11 +29,11 @@
             android:text="@string/perfil"
             android:textColor="#131212"
             android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/btnMiniatura"
-            app:layout_constraintTop_toTopOf="@+id/btnMiniatura" />
+            app:layout_constraintStart_toEndOf="@id/btnMiniatura"
+            app:layout_constraintTop_toTopOf="@id/btnMiniatura" />
 
         <TextView
-            android:id="@+id/txtDescripcion"
+            android:id="@+id/lblDescripcion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -30,8 +41,8 @@
             android:text="@string/descripcion"
             android:textColor="#0A0A0A"
             android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/btnMiniatura"
-            app:layout_constraintTop_toBottomOf="@+id/lblPerfil" />
+            app:layout_constraintStart_toEndOf="@id/btnMiniatura"
+            app:layout_constraintTop_toBottomOf="@id/lblPerfil" />
 
         <Button
             android:id="@+id/btnEditar"
@@ -40,8 +51,8 @@
             android:layout_marginStart="16dp"
             android:background="@drawable/editar"
             android:backgroundTintMode="src_over"
-            app:layout_constraintStart_toEndOf="@+id/lblReportar"
-            app:layout_constraintTop_toTopOf="@+id/lblReportar" />
+            app:layout_constraintStart_toEndOf="@id/lblReportar"
+            app:layout_constraintTop_toTopOf="@id/lblReportar" />
 
         <Button
             android:id="@+id/btnFavorito"
@@ -50,9 +61,9 @@
             android:layout_marginStart="10dp"
             android:background="@drawable/star2"
             android:backgroundTintMode="src_over"
-            app:layout_constraintBottom_toBottomOf="@+id/btnAdvertencia"
-            app:layout_constraintStart_toEndOf="@+id/btnAdvertencia"
-            app:layout_constraintTop_toTopOf="@+id/btnAdvertencia"
+            app:layout_constraintBottom_toBottomOf="@id/btnAdvertencia"
+            app:layout_constraintStart_toEndOf="@id/btnAdvertencia"
+            app:layout_constraintTop_toTopOf="@id/btnAdvertencia"
             app:layout_constraintVertical_bias="0.0" />
 
         <Button
@@ -62,9 +73,9 @@
             android:layout_marginStart="10dp"
             android:background="@drawable/opcio"
             android:backgroundTintMode="src_over"
-            app:layout_constraintBottom_toBottomOf="@+id/btnFavorito"
-            app:layout_constraintStart_toEndOf="@+id/btnFavorito"
-            app:layout_constraintTop_toTopOf="@+id/btnFavorito"
+            app:layout_constraintBottom_toBottomOf="@id/btnFavorito"
+            app:layout_constraintStart_toEndOf="@id/btnFavorito"
+            app:layout_constraintTop_toTopOf="@id/btnFavorito"
             app:layout_constraintVertical_bias="0.0" />
 
         <Button
@@ -74,8 +85,8 @@
             android:layout_marginStart="30dp"
             android:background="@drawable/warning"
             android:backgroundTintMode="src_over"
-            app:layout_constraintStart_toEndOf="@+id/lblPerfil"
-            app:layout_constraintTop_toTopOf="@+id/btnMiniatura" />
+            app:layout_constraintStart_toEndOf="@id/lblPerfil"
+            app:layout_constraintTop_toTopOf="@id/btnMiniatura" />
 
         <EditText
             android:id="@+id/txtComentario"
@@ -87,8 +98,8 @@
             android:hint="@string/comentario"
             android:inputType="textPersonName"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/btnMiniatura"
-            app:layout_constraintTop_toBottomOf="@+id/btnMiniatura" />
+            app:layout_constraintStart_toStartOf="@id/btnMiniatura"
+            app:layout_constraintTop_toBottomOf="@id/btnMiniatura" />
 
         <TextView
             android:id="@+id/lblReportar"
@@ -98,19 +109,11 @@
             android:text="@string/reportar"
             android:textColor="#1976D2"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/txtComentario"
-            app:layout_constraintStart_toEndOf="@+id/txtComentario"
-            app:layout_constraintTop_toTopOf="@+id/txtComentario"
+            app:layout_constraintBottom_toBottomOf="@id/txtComentario"
+            app:layout_constraintStart_toEndOf="@id/txtComentario"
+            app:layout_constraintTop_toTopOf="@id/txtComentario"
             app:layout_constraintVertical_bias="0.533" />
 
-        <Button
-            android:id="@+id/btnMiniatura"
-            android:layout_width="138dp"
-            android:layout_height="82dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/miniatura"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
 

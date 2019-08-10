@@ -34,7 +34,10 @@ public class ElegirVideo extends Fragment implements View.OnClickListener, Video
     }
     public void cargarDatos(){
         list=new ArrayList<>();
-        list.add(new Videos("video1"));
+        for (int i=0;i<20;i++){
+            list.add(new Videos("perfil"+1,"video"+1,"@drawable/miniatura"));
+        }
+
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
