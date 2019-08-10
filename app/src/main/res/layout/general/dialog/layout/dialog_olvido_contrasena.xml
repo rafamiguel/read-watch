@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BtnOlvidoContrasena">
+    tools:context=".general.activity.MainActivity">
 
     <EditText
         android:id="@+id/txtCorreo"
@@ -13,7 +13,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Correo Electrónico"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

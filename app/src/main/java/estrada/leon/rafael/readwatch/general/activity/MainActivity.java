@@ -9,8 +9,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogContrasenaOlvidada;
 import estrada.leon.rafael.readwatch.administrador.menu.MenuAdministrador;
-import estrada.leon.rafael.readwatch.BtnOlvidoContrasena;
 import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.activity.registrar_restudiante;
@@ -56,12 +56,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        lblCuenta.setOnClickListener(new View.OnClickListener() {
+        lblContra.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                entrar = new Intent(MainActivity.this, BtnOlvidoContrasena.class);
-                startActivity(entrar);
+            public void onClick(View v) {
+                DialogContrasenaOlvidada dialogContrasenaOlvidada = new DialogContrasenaOlvidada();
+                dialogContrasenaOlvidada.show(getSupportFragmentManager(), "Example");
             }
         });
     }

@@ -80,11 +80,10 @@
         android:id="@+id/lblContra"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:text="@string/olvidaste_constrasena"
         android:textColor="#0D68CE"
         android:textSize="18sp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnEntrar" />

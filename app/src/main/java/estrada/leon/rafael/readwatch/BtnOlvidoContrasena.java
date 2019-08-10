@@ -1,11 +1,11 @@
 package estrada.leon.rafael.readwatch;
 
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogContrasenaOlvidada;
 
 public class BtnOlvidoContrasena extends AppCompatActivity {
     Button btnContrasena;
@@ -24,7 +24,7 @@ public class BtnOlvidoContrasena extends AppCompatActivity {
     }
 
     public void openDialog() {
-        DialogCorreoOlvidado dialogCorreoOlvidado = new DialogCorreoOlvidado();
-        dialogCorreoOlvidado.show(getSupportFragmentManager(), "Example");
+        DialogContrasenaOlvidada dialogContrasenaOlvidada = new DialogContrasenaOlvidada();
+        dialogContrasenaOlvidada.show(getSupportFragmentManager(), "Example");
     }
 }
