@@ -18,7 +18,6 @@ public class BtnOlvidoContrasena extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openDialog();
-
             }
         });
     }
