@@ -18,9 +18,9 @@ import estrada.leon.rafael.readwatch.R;
 
 public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.ViewHolder>{
 
-    Context context;
-    List<TemaLibre> temaLibreList;
-    OnTemaListener onTemaListener;
+    private Context context;
+    private List<TemaLibre> temaLibreList;
+    private OnTemaListener onTemaListener;
 
     public TemaLibreAdapter(Context context, List<TemaLibre> temaLibreList, OnTemaListener onTemaListener){
         this.context = context;
@@ -54,7 +54,7 @@ public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.View
         EditText txtComentario;
         Button btnAgregarPregunta, btnAdvertencia, btnEditar, btnSubirDocumento, btnInsertarLink;
         OnTemaListener onTemaListener;
-        public ViewHolder(View item, OnTemaListener onTemaListener){
+        private ViewHolder(View item, OnTemaListener onTemaListener){
             super(item);
             this.onTemaListener = onTemaListener;
             lblPregunta = item.findViewById(R.id.lblPregunta);

@@ -18,9 +18,9 @@ import estrada.leon.rafael.readwatch.R;
 
 public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.ViewHolder>{
 
-    Context context;
-    List<Documentos> documentosList;
-    OnDocumentosListener MonDocumentosListener;
+    private Context context;
+    private List<Documentos> documentosList;
+    private OnDocumentosListener MonDocumentosListener;
 
     public DocumentosAdapter(Context context, List<Documentos> documentosList, OnDocumentosListener MonDocumentosListener){
         this.context=context;
@@ -52,11 +52,11 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView lblDescripcion,lblPerfil,lblReportar;
-        Button btnDocumento,btnAdvertencia,btnFavorito,btnOpcion,btnEditar;
-        EditText txtComentario;
-        OnDocumentosListener onDocumentosListener;
-        public ViewHolder (View itemView, OnDocumentosListener onDocumentosListener){
+        private TextView lblDescripcion,lblPerfil,lblReportar;
+        private Button btnDocumento,btnAdvertencia,btnFavorito,btnOpcion,btnEditar;
+        private EditText txtComentario;
+        private OnDocumentosListener onDocumentosListener;
+        private ViewHolder (View itemView, OnDocumentosListener onDocumentosListener){
             super(itemView);
             lblDescripcion = itemView.findViewById(R.id.txtDescripcion);
             lblPerfil = itemView.findViewById(R.id.lblPerfil);

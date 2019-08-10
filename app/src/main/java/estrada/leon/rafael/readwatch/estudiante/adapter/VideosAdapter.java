@@ -17,9 +17,9 @@ import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
 import estrada.leon.rafael.readwatch.R;
 
 public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    Context context;
-    List<Videos> list;
-    OnVideoListener mOnVideoListener;
+    private Context context;
+    private List<Videos> list;
+    private OnVideoListener mOnVideoListener;
 
     public VideosAdapter(Context context, List<Videos> list, OnVideoListener onVideoListener) {
         this.context=context;
@@ -32,7 +32,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         OnVideoListener onVideoListener;
         Button btnMiniatura,btnAdvertencia,btnFavorito,btnOpcion,btnEditar;
         EditText txtComentario;
-        public VideosViewHolder(@NonNull View itemView, OnVideoListener onVideoListener) {
+        private VideosViewHolder(@NonNull View itemView, OnVideoListener onVideoListener) {
             super(itemView);
             lblDescripcion=itemView.findViewById(R.id.txtDescripcion);
             lblPerfil=itemView.findViewById(R.id.lblPerfil);

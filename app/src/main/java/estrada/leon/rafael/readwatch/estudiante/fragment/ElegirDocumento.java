@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,49 +24,32 @@ import estrada.leon.rafael.readwatch.R;
 
 
 public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDocumentosListener, View.OnClickListener {
-    RecyclerView recyclerDocumentos;
-    Activity actividad;
-    iComunicacionFragments interfaceFragments;
-    View vista;
-    List<Documentos> documentosList = new ArrayList<>(); ;
-    DocumentosAdapter adapter;
-    Button btnVideo,btnDocumento;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private iComunicacionFragments interfaceFragments;
+    private List<Documentos> documentosList;
 
     private OnFragmentInteractionListener mListener;
 
     public ElegirDocumento() {
-        // Required empty public constructor
     }
-
-    public static ElegirDocumento newInstance(String param1, String param2) {
-        ElegirDocumento fragment = new ElegirDocumento();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public void cargarDatos(){
+        documentosList=new ArrayList<>();
+        documentosList.add(new Documentos("Ricardo", "Polinomio"));
+        documentosList.add(new Documentos("Jose", "Lectura"));
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        RecyclerView recyclerDocumentos;
+        Button btnVideo,btnDocumento;
+        DocumentosAdapter adapter;
+        View vista;
+
         vista=inflater.inflate(R.layout.fragment_elegir_documento, container, false);
 
         recyclerDocumentos=vista.findViewById(R.id.recyclerDocumentos);
@@ -77,10 +61,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
 
         recyclerDocumentos.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
 
-        documentosList=new ArrayList<>();
-        documentosList.add(new Documentos("Ricardo", "Polinomio"));
-        documentosList.add(new Documentos("Jose", "Lectura"));
-
+        cargarDatos();
         adapter=new DocumentosAdapter(getContext(),documentosList,this);
         recyclerDocumentos.setAdapter(adapter);
         return vista;
@@ -88,14 +69,9 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
 
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
+        Activity actividad;
         super.onAttach(context);
         if (context instanceof Activity) {
             actividad= (Activity) context;
@@ -134,7 +110,6 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

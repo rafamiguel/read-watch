@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="Reportar"
+            android:text="@string/reportar"
             android:textColor="#1976D2"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/btnEditar"
@@ -50,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
-            android:text="Esta es una pregunta..."
+            android:text="@string/estaesunapregunta"
             android:textColor="#0F0F0F"
             android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/btnAdvertencia"
@@ -63,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:text="Descripción"
+            android:text="@string/descripcion"
             android:textColor="#0F0F0F"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/btnAdvertencia"
@@ -75,8 +76,9 @@
             android:layout_width="236dp"
             android:layout_height="39dp"
             android:layout_marginTop="16dp"
+            android:importantForAutofill="no"
             android:ems="10"
-            android:hint="Comentarios"
+            android:hint="@string/comentario"
             android:inputType="textPersonName"
             app:layout_constraintStart_toStartOf="@+id/txtDescripcion"
             app:layout_constraintTop_toBottomOf="@+id/txtDescripcion" />
@@ -87,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:backgroundTint="#6D1694"
-            android:text="subir documento"
+            android:text="@string/subirdocumento"
             android:textColor="#F6F2F8"
             app:layout_constraintStart_toEndOf="@+id/btnInsertarLink"
             app:layout_constraintTop_toTopOf="@+id/btnInsertarLink" />
@@ -98,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:backgroundTint="#6D1694"
-            android:text="insertar link"
+            android:text="@string/insertarlink"
             android:textColor="#F6F2F8"
             app:layout_constraintStart_toStartOf="@+id/txtComentario"
             app:layout_constraintTop_toBottomOf="@+id/txtComentario" />

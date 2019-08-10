@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import estrada.leon.rafael.readwatch.R;
 
-public class registrar_restudiante extends AppCompatActivity {
+public class Registrar_restudiante extends AppCompatActivity {
     TextView txtTitulo;
     EditText txtNombre, txtApellido, txtCorreo, txtContrasena, txtTelefono, txtDescripcion;
     Button btnFoto, btnEntrar;

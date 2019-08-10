@@ -65,7 +65,10 @@ public class HistorialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             if(list.get(position).getTipo().equals("video")){
                 vidDocViewHolder.lblLinkNombre.setText("https://www.youtube.com/watch?v="+list.get(position).getId());
             }else {
-                vidDocViewHolder.lblLinkNombre.setText(list.get(position).getId()+".pdf");
+                String cadena=".pdf";
+                String cadena2=Integer.toString(list.get(position).getId());
+                cadena2=cadena2.concat(cadena);
+                vidDocViewHolder.lblLinkNombre.setText(cadena2);
             }
 
             break;
@@ -87,7 +90,7 @@ public class HistorialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public class ComentarioViewHolder extends RecyclerView.ViewHolder{
         TextView lblComentario,lblMotivo,lblCastigo;
-        public ComentarioViewHolder(@NonNull View itemView) {
+        private ComentarioViewHolder(@NonNull View itemView) {
             super(itemView);
             lblComentario=itemView.findViewById(R.id.lblComentario);
             lblMotivo=itemView.findViewById(R.id.lblMotivo);
@@ -97,7 +100,7 @@ public class HistorialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public class VidDocViewHolder extends RecyclerView.ViewHolder{
         ImageView img;
         TextView lblLinkNombre,lblMotivo,lblCastigo;
-        public VidDocViewHolder(@NonNull View itemView) {
+        private VidDocViewHolder(@NonNull View itemView) {
             super(itemView);
             img=itemView.findViewById(R.id.img);
             lblLinkNombre=itemView.findViewById(R.id.lblLinkNombre);

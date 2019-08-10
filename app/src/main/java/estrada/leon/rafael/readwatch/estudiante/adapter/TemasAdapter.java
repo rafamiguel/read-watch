@@ -16,25 +16,23 @@ import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
 import estrada.leon.rafael.readwatch.R;
 
 public class TemasAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    Context context;
-    /* Item tiene que ser una interfaz implementada en todos los objetos que se quieren
-    * usar en el RecyclerView.*/
-    List<Item> temasList;
-    OnTemasListener onTemasListener;
-    /*Estas constantes solo son para identificar el valor que nos devuelve la función getViewType*/
+
+    private Context context;
+    private List<Item> temasList;
+    private OnTemasListener onTemasListener;
     private final int TEMA = 1;
     private final int SUBTEMA = 2;
+
     public TemasAdapter(Context context, List<Item> temasList,OnTemasListener onTemasListener){
         this.context=context;
         this.temasList=temasList;
         this.onTemasListener=onTemasListener;
     }
-
     /*Por cada tipo de vista en el RecyclerView se necesita una clase con la estructura que se puede ver
     * en las siguientes clases*/
     public class TemasViewHolder extends RecyclerView.ViewHolder {
         TextView nombre;
-        public TemasViewHolder(@NonNull View itemView) {
+        private TemasViewHolder(@NonNull View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.nombreTema);
         }
@@ -44,7 +42,7 @@ public class TemasAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public class SubtemasViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
         TextView nombre;
         OnTemasListener onTemasListener;
-        public SubtemasViewHolder(@NonNull View itemView, OnTemasListener onTemasListener) {
+        private SubtemasViewHolder(@NonNull View itemView, OnTemasListener onTemasListener) {
             super(itemView);
             this.onTemasListener=onTemasListener;
             nombre= itemView.findViewById(R.id.nombreSubtema);
@@ -52,11 +50,9 @@ public class TemasAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
         @Override
         public void onClick(View v) {
-            switch(v.getId()){
-                case R.id.nombreSubtema:{
+            if(v.getId()==R.id.nombreSubtema){
                     onTemasListener.onTemaClick(getAdapterPosition(),temasList);
                 }
-            }
         }
 
     }

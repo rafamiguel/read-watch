@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,52 +22,15 @@ import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragment
 import estrada.leon.rafael.readwatch.R;
 
 public class ElegirMateria extends Fragment implements MateriasAdapter.OnMateriaListener {
-    iComunicacionFragments interfaceFragments;
-    View vista;
-    Activity actividad;
-    List<Materias> listMaterias,listMateriasPropuestas;
-    RecyclerView recyclerMaterias,recyclerMateriasPropuestas;
-    MateriasAdapter materiasAdapter;
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
+    private iComunicacionFragments interfaceFragments;
+    private Activity actividad;
+    private List<Materias> listMaterias,listMateriasPropuestas;
 
     private OnFragmentInteractionListener mListener;
 
     public ElegirMateria() {
-
     }
-
-    public static ElegirMateria newInstance(String param1, String param2) {
-        ElegirMateria fragment = new ElegirMateria();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        vista=inflater.inflate(R.layout.fragment_elegir_materia, container, false);
-        recyclerMaterias=vista.findViewById(R.id.recyclerMaterias);
-        recyclerMateriasPropuestas=vista.findViewById(R.id.recyclerMateriasPropuestas);
-        recyclerMaterias.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        recyclerMateriasPropuestas.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+    public void cargarDatos(){
         listMaterias=new ArrayList<>();
         listMateriasPropuestas = new ArrayList<>();
 
@@ -75,20 +39,31 @@ public class ElegirMateria extends Fragment implements MateriasAdapter.OnMateria
         listMaterias.add(new Materias("@drawable/ingles"));
 
         listMateriasPropuestas.add(new Materias("@drawable/programacion"));
+    }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        RecyclerView recyclerMaterias,recyclerMateriasPropuestas;
+        MateriasAdapter materiasAdapter;
+        View vista;
+        vista=inflater.inflate(R.layout.fragment_elegir_materia, container, false);
+        recyclerMaterias=vista.findViewById(R.id.recyclerMaterias);
+        recyclerMateriasPropuestas=vista.findViewById(R.id.recyclerMateriasPropuestas);
+        recyclerMaterias.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        recyclerMateriasPropuestas.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+
+        cargarDatos();
         materiasAdapter = new MateriasAdapter(getContext(), listMaterias, this);
-
         recyclerMaterias.setAdapter(materiasAdapter);
         materiasAdapter = new MateriasAdapter(getContext(), listMateriasPropuestas, this);
         recyclerMateriasPropuestas.setAdapter(materiasAdapter);
         return vista;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -97,9 +72,6 @@ public class ElegirMateria extends Fragment implements MateriasAdapter.OnMateria
         if (context instanceof Activity) {
             actividad= (Activity) context;
             interfaceFragments=(iComunicacionFragments)actividad;
-        }
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -112,7 +84,6 @@ public class ElegirMateria extends Fragment implements MateriasAdapter.OnMateria
         mListener = null;
     }
 
-
     @Override
     public void onMateriaClick(int position, List<Materias> lista) {
         if(lista.equals(listMaterias)){
@@ -124,7 +95,6 @@ public class ElegirMateria extends Fragment implements MateriasAdapter.OnMateria
         }
 
     }
-
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);

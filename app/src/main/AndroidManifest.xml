@@ -31,7 +31,7 @@
         </activity>
         <activity android:name=".Recuadro_subir_documento" />
         <activity android:name=".Reportar" />
-        <activity android:name=".estudiante.activity.registrar_restudiante" />
+        <activity android:name=".estudiante.activity.Registrar_restudiante" />
         <activity android:name=".general.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
