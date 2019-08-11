@@ -35,4 +35,40 @@
     <string name="olvidaste_constrasena">¿Olvidaste tu contraseña?</string>
     <string name="sin_cuenta">¿No tienes una cuenta?</string>
     <string name="registrate">REGÍSTRATE</string>
+    <string name="temas_elegidos_comunidad">Temas elegidos por la comunidad</string>
+    <string name="imagen_materia">Imagen de la materia.</string>
+    <string name="semestre">Semestre</string>
+    <string name="nombretema">nombreTema</string>
+    <string name="nombresubtema">nombreSubtema</string>
+    <string name="reportar">Reportar</string>
+    <string name="comentario">Comentario</string>
+    <string name="perfil">Perfil</string>
+    <string name="video">Video</string>
+    <string name="documento">Documento</string>
+    <string name="penalizaciones">Penalizaciones:</string>
+    <string name="docborradodes">Aqui se mostraran las miniaturas de los videos borrados</string>
+    <string name="urlejemplo">documento.pdf/\nhttps://www.youtube.com/watch?v=FxIo57WURRE"</string>
+    <string name="motivoejemplo">Motivo:\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</string>
+    <string name="castigoejemplo">Castigo:\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="comentarioejemplo">Comentario:\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+             Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
+    <string name="estaesunapregunta">Esta es una pregunta...</string>
+    <string name="subirdocumento">Subir documento</string>
+    <string name="insertarlink">insertar link</string>
+    <string name="pdf">.pdf</string>
+    <string name="youtubelink">https://www.youtube.com/watch?v=</string>
+    <string name="titulo">Título</string>
+    <string name="menu">MENÚ</string>
+    <string name="videos_archivos">Videos y archivos</string>
+    <string name="temaslibres">Temas libres</string>
+    <string name="favoritos">Favoritos</string>
+    <string name="editar_perfil">Editar perfil</string>
+    <string name="subir_video">Subir un video</string>
+    <string name="subir_archivo">Subir un archivo</string>
+    <string name="historial">Historial</string>
+    <string name="salir_cuenta">Salir de la cuenta</string>
+    <string name="temaInexistente">¿No encuentras el tema o la materia que buscas?,\n¡Vota o propón uno!</string>
+
 </resources>
+
+
