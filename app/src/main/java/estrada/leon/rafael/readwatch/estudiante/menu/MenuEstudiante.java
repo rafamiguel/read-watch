@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.Toast;
 
+import estrada.leon.rafael.readwatch.Administrador.Fragment.BuscarUsuario;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirDocumento;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirMateria;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirTema;
@@ -27,9 +28,10 @@ import estrada.leon.rafael.readwatch.estudiante.fragment.SeleccionarSemestre;
 
 public class  MenuEstudiante extends AppCompatActivity
         implements iComunicacionFragments, NavigationView.OnNavigationItemSelectedListener,
-        ElegirMateria.OnFragmentInteractionListener, SeleccionarSemestre.OnFragmentInteractionListener,
+        ElegirMateria
+                .OnFragmentInteractionListener, SeleccionarSemestre.OnFragmentInteractionListener,
         ElegirTema.OnFragmentInteractionListener, ElegirVideo.OnFragmentInteractionListener,
-        ElegirDocumento.OnFragmentInteractionListener, Historial.OnFragmentInteractionListener, PreguntasTemaLibre.OnFragmentInteractionListener{
+        ElegirDocumento.OnFragmentInteractionListener, Historial.OnFragmentInteractionListener, PreguntasTemaLibre.OnFragmentInteractionListener, BuscarUsuario.OnFragmentInteractionListener {
     Fragment fragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
