@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirDocumento;
@@ -33,6 +34,7 @@ public class  MenuEstudiante extends AppCompatActivity
         ElegirDocumento.OnFragmentInteractionListener, Historial.OnFragmentInteractionListener,
         PreguntasTemaLibre.OnFragmentInteractionListener, Favoritos.OnFragmentInteractionListener{
     Fragment fragment;
+    TextView titulo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +49,9 @@ public class  MenuEstudiante extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        titulo=findViewById(R.id.toolbar_title);
+        titulo.setText("Elige una materia");
         fragment =new ElegirMateria();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
     }
@@ -89,20 +94,29 @@ public class  MenuEstudiante extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
+        if (id == R.id.nav_videosArchivos) {
             FragmentManager fragmentManager=getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new Historial()).commit();
-        } else if (id == R.id.nav_gallery) {
+            fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new ElegirVideo()).commit();
+            titulo.setText("Videos");
+        } else if (id == R.id.nav_temasLibres) {
             FragmentManager fragmentManager=getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new PreguntasTemaLibre()).commit();
-        } else if (id == R.id.nav_slideshow) {
+            titulo.setText("Temas libres");
+        } else if (id == R.id.nav_favoritos) {
             FragmentManager fragmentManager=getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new Favoritos()).commit();
-        } else if (id == R.id.nav_tools) {
+            titulo.setText("Favoritos");
+        } else if (id == R.id.nav_editarPerfil) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_subirVideo) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_subirArchivo) {
+
+        }else if(id==R.id.nav_historial) {
+            FragmentManager fragmentManager=getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new Historial()).commit();
+            titulo.setText("Historial");
+        }else if(id==R.id.nav_salir){
 
         }
 
@@ -115,18 +129,21 @@ public class  MenuEstudiante extends AppCompatActivity
     public void seleccionarSemestre() {
         fragment =new SeleccionarSemestre();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+        titulo.setText("Seleccione el semestre");
     }
 
     @Override
     public void seleccionarTema() {
         fragment =new ElegirTema();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+        titulo.setText("Elige un tema");
     }
 
     @Override
     public void seleccionarVideo() {
         fragment =new ElegirVideo();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+        titulo.setText("Videos");
     }
 
     @Override
@@ -159,9 +176,11 @@ public class  MenuEstudiante extends AppCompatActivity
         if(i){
             fragment =new ElegirVideo();
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+            titulo.setText("Videos");
         }else{
             fragment =new ElegirDocumento();
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+            titulo.setText("Documentos");
         }
 
     }

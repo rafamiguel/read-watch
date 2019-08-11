@@ -57,5 +57,16 @@
     <string name="insertarlink">insertar link</string>
     <string name="pdf">.pdf</string>
     <string name="youtubelink">https://www.youtube.com/watch?v=</string>
+    <string name="titulo">Título</string>
+    <string name="menu">MENÚ</string>
+    <string name="videos_archivos">Videos y archivos</string>
+    <string name="temaslibres">Temas libres</string>
+    <string name="favoritos">Favoritos</string>
+    <string name="editar_perfil">Editar perfil</string>
+    <string name="subir_video">Subir un video</string>
+    <string name="subir_archivo">Subir un archivo</string>
+    <string name="historial">Historial</string>
+    <string name="salir_cuenta">Salir de la cuenta</string>
 </resources>
+
 
