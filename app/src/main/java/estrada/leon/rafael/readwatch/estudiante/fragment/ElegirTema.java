@@ -12,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 import estrada.leon.rafael.readwatch.estudiante.adapter.TemasAdapter;
@@ -49,10 +51,18 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
         public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             TemasAdapter temasAdapter;
+            TextView lblTemaInexistente;
             RecyclerView temas;
             View vista;
             vista=inflater.inflate(R.layout.fragment_elegir_tema, container, false);
             temas=vista.findViewById(R.id.temas);
+            lblTemaInexistente=vista.findViewById(R.id.lblTemaInexistente);
+            lblTemaInexistente.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    interfaceFragments.onClickProponerTema();
+                }
+            });
             temas.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
 
             cargarDatos();

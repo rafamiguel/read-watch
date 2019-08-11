@@ -26,6 +26,7 @@ import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirVideo;
 import estrada.leon.rafael.readwatch.estudiante.fragment.Favoritos;
 import estrada.leon.rafael.readwatch.estudiante.fragment.Historial;
 import estrada.leon.rafael.readwatch.estudiante.fragment.PreguntasTemaLibre;
+import estrada.leon.rafael.readwatch.estudiante.fragment.TemasPropuestos;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.fragment.SeleccionarSemestre;
@@ -35,7 +36,8 @@ public class  MenuEstudiante extends AppCompatActivity
         ElegirMateria.OnFragmentInteractionListener, SeleccionarSemestre.OnFragmentInteractionListener,
         ElegirTema.OnFragmentInteractionListener, ElegirVideo.OnFragmentInteractionListener,
         ElegirDocumento.OnFragmentInteractionListener, Historial.OnFragmentInteractionListener,
-        PreguntasTemaLibre.OnFragmentInteractionListener, Favoritos.OnFragmentInteractionListener{
+        PreguntasTemaLibre.OnFragmentInteractionListener, Favoritos.OnFragmentInteractionListener,
+        TemasPropuestos.OnFragmentInteractionListener{
     Fragment fragment;
     TextView titulo;
     @Override
@@ -175,6 +177,13 @@ public class  MenuEstudiante extends AppCompatActivity
     public void onClickNuevaPregunta() {
         DialogHacerPregunta nuevo = new DialogHacerPregunta();
         nuevo.show(getSupportFragmentManager(), "ejemplo");
+    }
+
+    @Override
+    public void onClickProponerTema() {
+        fragment =new TemasPropuestos();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+        titulo.setText("Temas propuestos");
     }
 
     @Override

@@ -67,6 +67,7 @@
     <string name="subir_archivo">Subir un archivo</string>
     <string name="historial">Historial</string>
     <string name="salir_cuenta">Salir de la cuenta</string>
+    <string name="temaInexistente">¿No encuentras el tema o la materia que buscas?,\n¡Vota o propón uno!</string>
 </resources>
 
 

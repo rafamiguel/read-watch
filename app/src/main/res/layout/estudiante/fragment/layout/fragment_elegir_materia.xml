@@ -58,10 +58,24 @@
             android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lblTemasPropuestos" />
+
+        <TextView
+            android:id="@+id/lblTemaInexistente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/temaInexistente"
+            android:textAlignment="center"
+            android:textColor="#3F51B5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recyclerMateriasPropuestas" />
+
     </android.support.constraint.ConstraintLayout>
 
 
 </ScrollView>
-
 
 </android.support.constraint.ConstraintLayout>
