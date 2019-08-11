@@ -58,11 +58,10 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
         // Inflate the layout for this fragment
         vista=inflater.inflate(R.layout.fragment_preguntas_tema_libre, container, false);
         fabNuevaPregunta = vista.findViewById(R.id.fabNuevaPregunta2);
-      fabNuevaPregunta.setOnClickListener(new View.OnClickListener() {
+        fabNuevaPregunta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast toast = Toast.makeText(getContext(), "Nueva Pregunta", Toast.LENGTH_SHORT);
-                toast.show();
+              interfaceFragments.onClickNuevaPregunta();
             }
         });
         recyclerTemas =  vista.findViewById(R.id.recyclerTemas);

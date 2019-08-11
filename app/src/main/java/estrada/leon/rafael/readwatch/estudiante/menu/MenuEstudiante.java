@@ -16,6 +16,9 @@ import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogHacerPregunta;
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogSubirVideo;
+import estrada.leon.rafael.readwatch.estudiante.dialog.Dialog_Recuadro_Subir_documento;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirDocumento;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirMateria;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirTema;
@@ -109,15 +112,17 @@ public class  MenuEstudiante extends AppCompatActivity
         } else if (id == R.id.nav_editarPerfil) {
 
         } else if (id == R.id.nav_subirVideo) {
-
+            DialogSubirVideo nuevo = new DialogSubirVideo();
+            nuevo.show(getSupportFragmentManager(), "ejemplo");
         } else if (id == R.id.nav_subirArchivo) {
-
+            Dialog_Recuadro_Subir_documento nuevo = new Dialog_Recuadro_Subir_documento();
+            nuevo.show(getSupportFragmentManager(), "ejemplo");
         }else if(id==R.id.nav_historial) {
             FragmentManager fragmentManager=getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new Historial()).commit();
             titulo.setText("Historial");
         }else if(id==R.id.nav_salir){
-
+            finish();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -164,6 +169,12 @@ public class  MenuEstudiante extends AppCompatActivity
     @Override
     public void onClickDocFavHolder(Toast toast) {
         toast.show();
+    }
+
+    @Override
+    public void onClickNuevaPregunta() {
+        DialogHacerPregunta nuevo = new DialogHacerPregunta();
+        nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
 
     @Override
