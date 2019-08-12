@@ -1,4 +1,4 @@
-package estrada.leon.rafael.readwatch.Administrador.Fragment;
+package estrada.leon.rafael.readwatch.administrador.fragment;
 
 import android.content.Context;
 import android.net.Uri;
@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import estrada.leon.rafael.readwatch.Administrador.Adapter.BuscarUsuarioAdapter;
-import estrada.leon.rafael.readwatch.Administrador.POJO.BuscarUsuarioAd;
+import estrada.leon.rafael.readwatch.administrador.adapter.BuscarUsuarioAdapter;
+import estrada.leon.rafael.readwatch.administrador.pojo.BuscarUsuarioAd;
 import estrada.leon.rafael.readwatch.R;
 
 /**

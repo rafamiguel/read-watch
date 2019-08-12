@@ -1,4 +1,4 @@
-package estrada.leon.rafael.readwatch.Administrador.POJO;
+package estrada.leon.rafael.readwatch.administrador.pojo;
 
 public class BuscarUsuarioAd {
     String perfil;

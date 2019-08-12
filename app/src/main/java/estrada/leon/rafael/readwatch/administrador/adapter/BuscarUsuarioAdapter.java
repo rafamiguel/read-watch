@@ -1,4 +1,4 @@
-package estrada.leon.rafael.readwatch.Administrador.Adapter;
+package estrada.leon.rafael.readwatch.administrador.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import estrada.leon.rafael.readwatch.Administrador.POJO.BuscarUsuarioAd;
+import estrada.leon.rafael.readwatch.administrador.pojo.BuscarUsuarioAd;
 import estrada.leon.rafael.readwatch.R;
 
 public class BuscarUsuarioAdapter extends RecyclerView.Adapter<BuscarUsuarioAdapter.ViewHolder>{
