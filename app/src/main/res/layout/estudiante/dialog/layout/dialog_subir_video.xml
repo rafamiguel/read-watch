@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/lblDescripcion"
+        android:id="@+id/txtDescripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -20,7 +20,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.449"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtLink"
+        app:layout_constraintTop_toBottomOf="@id/txtLink"
         app:layout_constraintVertical_bias="0.024" />
 
     <EditText
@@ -48,9 +48,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/spinner11"
-        app:layout_constraintStart_toStartOf="@+id/spinner11"
-        app:layout_constraintTop_toBottomOf="@+id/spinner11"
+        app:layout_constraintEnd_toEndOf="@id/spinner11"
+        app:layout_constraintStart_toStartOf="@id/spinner11"
+        app:layout_constraintTop_toBottomOf="@id/spinner11"
         app:layout_constraintVertical_bias="0.051" />
 
     <Spinner
@@ -64,7 +64,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblDescripcion"
+        app:layout_constraintTop_toBottomOf="@id/txtDescripcion"
         app:layout_constraintVertical_bias="0.042" />
 
 </android.support.constraint.ConstraintLayout>

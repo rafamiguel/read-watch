@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/txtPregunta"
         android:layout_width="216dp"
         android:layout_height="45dp"
         android:layout_marginTop="8dp"
@@ -33,9 +33,9 @@
         android:gravity="top"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/editText3"
+        app:layout_constraintEnd_toEndOf="@id/txtPregunta"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editText3"
-        app:layout_constraintTop_toBottomOf="@+id/editText3"
+        app:layout_constraintStart_toStartOf="@id/txtPregunta"
+        app:layout_constraintTop_toBottomOf="@id/txtPregunta"
         app:layout_constraintVertical_bias="0.0" />
 </android.support.constraint.ConstraintLayout>
