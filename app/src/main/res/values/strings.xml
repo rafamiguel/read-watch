@@ -69,6 +69,13 @@
     <string name="salir_cuenta">Salir de la cuenta</string>
     <string name="temaInexistente">¿No encuentras el tema o la materia que buscas?,\n¡Vota o propón uno!</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="administrador">ADMINISTRADOR</string>
+    <string name="buscar_usuario">Buscar usuario</string>
+    <string name="usuarios_inactivos">Usuarios inactivos</string>
+    <string name="agregar_admin">Añadir administradores</string>
+    <string name="ver_temas">Ver temas</string>
+    <string name="cambiar_contra">Cambiar contraseña</string>
+
 </resources>
 
 

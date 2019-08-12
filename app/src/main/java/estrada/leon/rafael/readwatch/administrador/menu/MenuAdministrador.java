@@ -77,19 +77,19 @@ public class MenuAdministrador extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
+        if (id == R.id.nav_buscar_usuario) {
             // Handle the camera action
 
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_usuarios_inactivos) {
             FragmentManager fragmentManager=getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.layoutPrincipalAdm,new BuscarUsuario()).commit();
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_agregar_admin) {
 
-        } else if (id == R.id.nav_tools) {
+        } else if (id == R.id.nav_ver_temas) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_cambiar_contra) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_salir) {
 
         }
 
