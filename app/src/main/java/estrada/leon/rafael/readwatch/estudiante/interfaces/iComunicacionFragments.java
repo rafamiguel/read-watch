@@ -14,5 +14,6 @@ public interface iComunicacionFragments {
     public void onClickDocFavHolder(Toast toast);
     public void onClickNuevaPregunta();
     public void onClickProponerTema();
-
+    public void onClickVidPerfil();
+    public void onClickDocPerfil();
 }

@@ -8,20 +8,20 @@
 
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/txtTitulo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:hint="Titulo"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/editText2"
-        app:layout_constraintStart_toStartOf="@+id/editText2"
+        app:layout_constraintEnd_toEndOf="@id/txtDescripcion"
+        app:layout_constraintStart_toStartOf="@id/txtDescripcion"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/txtDescripcion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -32,11 +32,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@id/txtTitulo"
         app:layout_constraintVertical_bias="0.003" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/lblElegirDocumento"
         android:layout_width="wrap_content"
         android:layout_height="39dp"
         android:layout_marginTop="124dp"

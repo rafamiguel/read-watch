@@ -25,6 +25,7 @@ import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirTema;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirVideo;
 import estrada.leon.rafael.readwatch.estudiante.fragment.Favoritos;
 import estrada.leon.rafael.readwatch.estudiante.fragment.Historial;
+import estrada.leon.rafael.readwatch.estudiante.fragment.Perfil;
 import estrada.leon.rafael.readwatch.estudiante.fragment.PreguntasTemaLibre;
 import estrada.leon.rafael.readwatch.estudiante.fragment.TemasPropuestos;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
@@ -37,7 +38,7 @@ public class  MenuEstudiante extends AppCompatActivity
         ElegirTema.OnFragmentInteractionListener, ElegirVideo.OnFragmentInteractionListener,
         ElegirDocumento.OnFragmentInteractionListener, Historial.OnFragmentInteractionListener,
         PreguntasTemaLibre.OnFragmentInteractionListener, Favoritos.OnFragmentInteractionListener,
-        TemasPropuestos.OnFragmentInteractionListener {
+        TemasPropuestos.OnFragmentInteractionListener, Perfil.OnFragmentInteractionListener {
     Fragment fragment;
     TextView titulo;
     @Override
@@ -112,7 +113,9 @@ public class  MenuEstudiante extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new Favoritos()).commit();
             titulo.setText("Favoritos");
         } else if (id == R.id.nav_editarPerfil) {
-
+            fragment =new Perfil();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+            titulo.setText("");
         } else if (id == R.id.nav_subirVideo) {
             DialogSubirVideo nuevo = new DialogSubirVideo();
             nuevo.show(getSupportFragmentManager(), "ejemplo");
@@ -184,6 +187,15 @@ public class  MenuEstudiante extends AppCompatActivity
         fragment =new TemasPropuestos();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
         titulo.setText("Temas propuestos");
+    }
+
+    @Override
+    public void onClickVidPerfil() {
+    }
+
+    @Override
+    public void onClickDocPerfil() {
+
     }
 
     @Override
