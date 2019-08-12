@@ -10,23 +10,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ModificarEliminar"></activity>
         <activity
             android:name=".administrador.menu.MenuAdministrador"
-            android:label="@string/title_activity_menu_administrador"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:label="@string/title_activity_menu_administrador"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".BotonIngresarPropuesta" />
         <activity android:name=".VentanaEmergenteDeSeleccionDeVistaDePropuestasUsuarioEstudiante" />
         <activity android:name=".BotonPreguntaTemaLibre" />
         <activity android:name=".BotonAgregarVideo" />
         <activity
             android:name=".estudiante.menu.MenuEstudiante"
-            android:label="@string/title_activity_menu_estudiante"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_menu_estudiante"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".Recuadro_subir_documento" />

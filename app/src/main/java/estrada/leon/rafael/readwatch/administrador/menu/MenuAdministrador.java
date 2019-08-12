@@ -21,7 +21,7 @@ import estrada.leon.rafael.readwatch.administrador.fragment.BuscarUsuario;
 import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
 
 public class MenuAdministrador extends AppCompatActivity
-        implements iComunicacionFragmentsAdm, NavigationView.OnNavigationItemSelectedListener, BuscarUsuario.OnFragmentInteractionListener {
+        implements iComunicacionFragmentsAdm,  NavigationView.OnNavigationItemSelectedListener, BuscarUsuario.OnFragmentInteractionListener {
     Fragment fragment;
     TextView titulo;
     @Override

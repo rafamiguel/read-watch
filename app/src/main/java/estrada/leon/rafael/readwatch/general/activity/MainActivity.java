@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import estrada.leon.rafael.readwatch.ModificarEliminar;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogContrasenaOlvidada;
 import estrada.leon.rafael.readwatch.administrador.menu.MenuAdministrador;
 import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
@@ -61,6 +62,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 DialogContrasenaOlvidada dialogContrasenaOlvidada = new DialogContrasenaOlvidada();
                 dialogContrasenaOlvidada.show(getSupportFragmentManager(), "Example");
+            }
+        });
+
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                entrar = new Intent(MainActivity.this, ModificarEliminar.class);
+                startActivity(entrar);
             }
         });
     }
