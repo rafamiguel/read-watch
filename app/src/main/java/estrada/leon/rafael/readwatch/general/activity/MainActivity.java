@@ -9,7 +9,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import estrada.leon.rafael.readwatch.BtnOpciones;
 import estrada.leon.rafael.readwatch.ModificarEliminar;
+import estrada.leon.rafael.readwatch.NotificacionPublicacionEliminada;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogContrasenaOlvidada;
 import estrada.leon.rafael.readwatch.administrador.menu.MenuAdministrador;
 import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                entrar = new Intent(MainActivity.this, ModificarEliminar.class);
+                entrar = new Intent(MainActivity.this, NotificacionPublicacionEliminada.class);
                 startActivity(entrar);
             }
         });

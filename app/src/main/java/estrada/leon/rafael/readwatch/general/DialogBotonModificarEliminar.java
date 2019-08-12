@@ -21,7 +21,7 @@ public class DialogBotonModificarEliminar extends AppCompatDialogFragment {
                 .setTitle("OPCIONES");
 
         lblEliminar = view.findViewById(R.id.lblEliminar);
-        lblModificar = view.findViewById(R.id.lblModificar);
+        lblModificar = view.findViewById(R.id.lblAnadir);
         return builder.create();
     }
 }

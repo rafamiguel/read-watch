@@ -9,12 +9,27 @@
         android:id="@+id/lblAnadir"
         android:layout_width="181dp"
         android:layout_height="34dp"
+        android:layout_marginTop="84dp"
+        android:background="#FFF7F7"
+        android:drawableRight="@android:drawable/ic_input_add"
+        android:drawableTint="#050505"
+        android:text="Añadir"
+        android:textColor="#0A0A0A"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lblModificar"
+        android:layout_width="181dp"
+        android:layout_height="34dp"
         android:layout_marginTop="45dp"
         android:background="#FFF7F7"
         android:drawableRight="@android:drawable/ic_menu_edit"
         android:drawableTint="#0622D5"
         android:text="Modificar"
-        android:textColor="#0B0B0C"
+        android:textColor="#0F0F0F"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,13 +43,20 @@
         android:background="#FFF7F7"
 
         android:drawableRight="@android:drawable/ic_menu_delete"
-        android:drawableTint="#FF0303"
-        android:drawableTintMode="src_in"
+        android:drawableTint="#F80909"
         android:text="Eliminar"
-        android:textColor="#090808"
+        android:textColor="#0A0A0A"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="115dp"
+        tools:layout_editor_absoluteY="149dp" />
+
 </android.support.constraint.ConstraintLayout>
