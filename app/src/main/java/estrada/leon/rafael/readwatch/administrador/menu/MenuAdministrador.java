@@ -1,7 +1,9 @@
 package estrada.leon.rafael.readwatch.administrador.menu;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
@@ -11,12 +13,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.administrador.fragment.BuscarUsuario;
+import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
 
 public class MenuAdministrador extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements iComunicacionFragmentsAdm, NavigationView.OnNavigationItemSelectedListener, BuscarUsuario.OnFragmentInteractionListener {
     Fragment fragment;
+    TextView titulo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +79,10 @@ public class MenuAdministrador extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
 
+        } else if (id == R.id.nav_gallery) {
+            FragmentManager fragmentManager=getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.layoutPrincipalAdm,new BuscarUsuario()).commit();
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_tools) {
@@ -88,4 +97,14 @@ public class MenuAdministrador extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    public void onClickBuscarUsuario(Toast toast) {
+        toast.show();
+    }
+
 }

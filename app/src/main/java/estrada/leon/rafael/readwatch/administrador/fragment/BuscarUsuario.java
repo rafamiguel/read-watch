@@ -1,5 +1,6 @@
 package estrada.leon.rafael.readwatch.administrador.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,13 +10,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.administrador.adapter.BuscarUsuarioAdapter;
+import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
 import estrada.leon.rafael.readwatch.administrador.pojo.BuscarUsuarioAd;
 import estrada.leon.rafael.readwatch.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,8 +29,10 @@ import estrada.leon.rafael.readwatch.R;
  * Use the {@link BuscarUsuario#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BuscarUsuario extends Fragment {
+public class BuscarUsuario extends Fragment implements BuscarUsuarioAdapter.OnBuscarListener {
     RecyclerView recyclerBuscar;
+    Activity actividad;
+    private iComunicacionFragmentsAdm interfaceFragments;
     View vista;
     List<BuscarUsuarioAd> list;
     // TODO: Rename parameter arguments, choose names that match
@@ -81,7 +87,7 @@ public class BuscarUsuario extends Fragment {
         recyclerBuscar.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         list=new ArrayList<>();
         list.add(new BuscarUsuarioAd("J Balvin", ""));
-        BuscarUsuarioAdapter h = new BuscarUsuarioAdapter(getContext(),list);
+        BuscarUsuarioAdapter h = new BuscarUsuarioAdapter(getContext(),list, this);
         recyclerBuscar.setAdapter(h);
         return vista;
     }
@@ -96,6 +102,10 @@ public class BuscarUsuario extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof Activity) {
+            actividad= (Activity) context;
+            interfaceFragments=(iComunicacionFragmentsAdm) actividad;
+        }
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -108,6 +118,11 @@ public class BuscarUsuario extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void OnBuscarClick(int posicion, List<BuscarUsuarioAd> list, Toast toast) {
+        interfaceFragments.onClickBuscarUsuario(toast);
     }
 
     /**

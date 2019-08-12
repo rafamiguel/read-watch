@@ -37,7 +37,7 @@ public class  MenuEstudiante extends AppCompatActivity
         ElegirTema.OnFragmentInteractionListener, ElegirVideo.OnFragmentInteractionListener,
         ElegirDocumento.OnFragmentInteractionListener, Historial.OnFragmentInteractionListener,
         PreguntasTemaLibre.OnFragmentInteractionListener, Favoritos.OnFragmentInteractionListener,
-        TemasPropuestos.OnFragmentInteractionListener{
+        TemasPropuestos.OnFragmentInteractionListener {
     Fragment fragment;
     TextView titulo;
     @Override

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -20,17 +21,18 @@ public class BuscarUsuarioAdapter extends RecyclerView.Adapter<BuscarUsuarioAdap
 
     Context context;
     List<BuscarUsuarioAd> list;
-
-    public BuscarUsuarioAdapter(Context context, List<BuscarUsuarioAd>list){
+    OnBuscarListener onBuscarListener;
+    public BuscarUsuarioAdapter(Context context, List<BuscarUsuarioAd>list, OnBuscarListener onBuscarListener){
         this.context = context;
         this.list = list;
+        this.onBuscarListener = onBuscarListener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View item = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.buscarusuario,viewGroup, false);
-        ViewHolder viewHolder = new ViewHolder(item);
+        ViewHolder viewHolder = new ViewHolder(item, onBuscarListener);
         return viewHolder;
     }
 
@@ -46,15 +48,44 @@ public class BuscarUsuarioAdapter extends RecyclerView.Adapter<BuscarUsuarioAdap
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView btnEliminar;
-        Button btnPerfil;
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        Button btnPerfil,btnEliminar;
         TextView lblPerfil;
-        public ViewHolder (View item){
+        OnBuscarListener onBuscarListener;
+        public ViewHolder (View item, OnBuscarListener onBuscarListener){
             super(item);
+            this.onBuscarListener = onBuscarListener;
             btnPerfil = item.findViewById(R.id.btnPerfil);
             btnEliminar = item.findViewById(R.id.btnEliminar);
             lblPerfil = item.findViewById(R.id.lblPerfil);
+
+            btnPerfil.setOnClickListener(this);
+            btnEliminar.setOnClickListener(this);
+            lblPerfil.setOnClickListener(this);
+
+            item.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            switch(view.getId()) {
+                case R.id.btnPerfil:
+                    onBuscarListener.OnBuscarClick(getAdapterPosition(), list,
+                            Toast.makeText(context, "Esta es la foto del perfil", Toast.LENGTH_SHORT));
+                    break;
+                case R.id.btnEliminar:
+                    onBuscarListener.OnBuscarClick(getAdapterPosition(), list,
+                            Toast.makeText(context, "Botón para eliminar usuario", Toast.LENGTH_SHORT));
+                    break;
+                case R.id.lblPerfil:
+                    onBuscarListener.OnBuscarClick(getAdapterPosition(), list,
+                            Toast.makeText(context, "Nombre del perfil", Toast.LENGTH_SHORT));
+                    break;
+            }
+        }
+    }
+
+    public interface OnBuscarListener{
+        void OnBuscarClick (int posicion, List<BuscarUsuarioAd> list, Toast toast);
     }
 }
