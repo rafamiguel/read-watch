@@ -14,9 +14,10 @@ import estrada.leon.rafael.readwatch.estudiante.pojo.Materias;
 import estrada.leon.rafael.readwatch.R;
 
 public class MateriasAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    Context context;
-    List<Materias> list;
-    OnMateriaListener onMateriaListener;
+    private Context context;
+    private List<Materias> list;
+    private OnMateriaListener onMateriaListener;
+
     public MateriasAdapter(Context context, List<Materias> list, OnMateriaListener onMateriaListener) {
         this.context=context;
         this.list=list;
@@ -25,7 +26,7 @@ public class MateriasAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public class MateriasViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView btnMateria;
         OnMateriaListener onMateriaListener;
-        public MateriasViewHolder(@NonNull View itemView, OnMateriaListener onMateriaListener) {
+        private MateriasViewHolder(@NonNull View itemView, OnMateriaListener onMateriaListener) {
             super(itemView);
             btnMateria=itemView.findViewById(R.id.btnMateria);
             this.onMateriaListener=onMateriaListener;
@@ -34,10 +35,8 @@ public class MateriasAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         @Override
         public void onClick(View v) {
-            switch(v.getId()){
-                case R.id.btnMateria:{
-                    onMateriaListener.onMateriaClick(getAdapterPosition(),list);
-                }
+            if(v.getId()==R.id.btnMateria){
+                onMateriaListener.onMateriaClick(getAdapterPosition(),list);
             }
         }
 

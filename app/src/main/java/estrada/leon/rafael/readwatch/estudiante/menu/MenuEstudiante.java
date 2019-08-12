@@ -13,26 +13,33 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import estrada.leon.rafael.readwatch.Administrador.Fragment.BuscarUsuario;
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogHacerPregunta;
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogSubirVideo;
+import estrada.leon.rafael.readwatch.estudiante.dialog.Dialog_Recuadro_Subir_documento;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirDocumento;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirMateria;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirTema;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirVideo;
+import estrada.leon.rafael.readwatch.estudiante.fragment.Favoritos;
 import estrada.leon.rafael.readwatch.estudiante.fragment.Historial;
 import estrada.leon.rafael.readwatch.estudiante.fragment.PreguntasTemaLibre;
+import estrada.leon.rafael.readwatch.estudiante.fragment.TemasPropuestos;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.fragment.SeleccionarSemestre;
 
 public class  MenuEstudiante extends AppCompatActivity
         implements iComunicacionFragments, NavigationView.OnNavigationItemSelectedListener,
-        ElegirMateria
-                .OnFragmentInteractionListener, SeleccionarSemestre.OnFragmentInteractionListener,
+        ElegirMateria.OnFragmentInteractionListener, SeleccionarSemestre.OnFragmentInteractionListener,
         ElegirTema.OnFragmentInteractionListener, ElegirVideo.OnFragmentInteractionListener,
-        ElegirDocumento.OnFragmentInteractionListener, Historial.OnFragmentInteractionListener, PreguntasTemaLibre.OnFragmentInteractionListener, BuscarUsuario.OnFragmentInteractionListener {
+        ElegirDocumento.OnFragmentInteractionListener, Historial.OnFragmentInteractionListener,
+        PreguntasTemaLibre.OnFragmentInteractionListener, Favoritos.OnFragmentInteractionListener,
+        TemasPropuestos.OnFragmentInteractionListener{
     Fragment fragment;
+    TextView titulo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +54,9 @@ public class  MenuEstudiante extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        titulo=findViewById(R.id.toolbar_title);
+        titulo.setText("Elige una materia");
         fragment =new ElegirMateria();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
     }
@@ -89,20 +99,32 @@ public class  MenuEstudiante extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
+        if (id == R.id.nav_videosArchivos) {
             FragmentManager fragmentManager=getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new Historial()).commit();
-        } else if (id == R.id.nav_gallery) {
+            fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new ElegirVideo()).commit();
+            titulo.setText("Videos");
+        } else if (id == R.id.nav_temasLibres) {
             FragmentManager fragmentManager=getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new PreguntasTemaLibre()).commit();
-        } else if (id == R.id.nav_slideshow) {
+            titulo.setText("Temas libres");
+        } else if (id == R.id.nav_favoritos) {
+            FragmentManager fragmentManager=getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new Favoritos()).commit();
+            titulo.setText("Favoritos");
+        } else if (id == R.id.nav_editarPerfil) {
 
-        } else if (id == R.id.nav_tools) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_subirVideo) {
+            DialogSubirVideo nuevo = new DialogSubirVideo();
+            nuevo.show(getSupportFragmentManager(), "ejemplo");
+        } else if (id == R.id.nav_subirArchivo) {
+            Dialog_Recuadro_Subir_documento nuevo = new Dialog_Recuadro_Subir_documento();
+            nuevo.show(getSupportFragmentManager(), "ejemplo");
+        }else if(id==R.id.nav_historial) {
+            FragmentManager fragmentManager=getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new Historial()).commit();
+            titulo.setText("Historial");
+        }else if(id==R.id.nav_salir){
+            finish();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -114,18 +136,21 @@ public class  MenuEstudiante extends AppCompatActivity
     public void seleccionarSemestre() {
         fragment =new SeleccionarSemestre();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+        titulo.setText("Seleccione el semestre");
     }
 
     @Override
     public void seleccionarTema() {
         fragment =new ElegirTema();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+        titulo.setText("Elige un tema");
     }
 
     @Override
     public void seleccionarVideo() {
         fragment =new ElegirVideo();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+        titulo.setText("Videos");
     }
 
     @Override
@@ -139,6 +164,29 @@ public class  MenuEstudiante extends AppCompatActivity
     }
 
     @Override
+    public void onClickVidFavHolder(Toast toast) {
+        toast.show();
+    }
+
+    @Override
+    public void onClickDocFavHolder(Toast toast) {
+        toast.show();
+    }
+
+    @Override
+    public void onClickNuevaPregunta() {
+        DialogHacerPregunta nuevo = new DialogHacerPregunta();
+        nuevo.show(getSupportFragmentManager(), "ejemplo");
+    }
+
+    @Override
+    public void onClickProponerTema() {
+        fragment =new TemasPropuestos();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+        titulo.setText("Temas propuestos");
+    }
+
+    @Override
     public void onClickVideosHolder(Toast toast) {
         toast.show();
     }
@@ -148,9 +196,11 @@ public class  MenuEstudiante extends AppCompatActivity
         if(i){
             fragment =new ElegirVideo();
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+            titulo.setText("Videos");
         }else{
             fragment =new ElegirDocumento();
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+            titulo.setText("Documentos");
         }
 
     }

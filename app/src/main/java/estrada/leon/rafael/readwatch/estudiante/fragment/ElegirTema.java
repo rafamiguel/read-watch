@@ -5,12 +5,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 import estrada.leon.rafael.readwatch.estudiante.adapter.TemasAdapter;
@@ -22,68 +25,55 @@ import estrada.leon.rafael.readwatch.R;
 
 
 public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener {
-        RecyclerView temas;
-        List<Item> temasList=new ArrayList<>();
-        TemasAdapter temasAdapter;
-        iComunicacionFragments interfaceFragments;
-        View vista;
-        Activity actividad;
-
-        private static final String ARG_PARAM1 = "param1";
-        private static final String ARG_PARAM2 = "param2";
-
-        private String mParam1;
-        private String mParam2;
+        private List<Item> temasList=new ArrayList<>();
+        private iComunicacionFragments interfaceFragments;
 
         private OnFragmentInteractionListener mListener;
 
         public ElegirTema() {
         }
 
-        public static ElegirMateria newInstance(String param1, String param2) {
-            ElegirMateria fragment = new ElegirMateria();
-            Bundle args = new Bundle();
-            args.putString(ARG_PARAM1, param1);
-            args.putString(ARG_PARAM2, param2);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
-            if (getArguments() != null) {
-                mParam1 = getArguments().getString(ARG_PARAM1);
-                mParam2 = getArguments().getString(ARG_PARAM2);
-            }
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            vista=inflater.inflate(R.layout.fragment_elegir_tema, container, false);
-            temas=vista.findViewById(R.id.temas);
-            temas.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        public void cargarDatos(){
             for (int j=1;j<6;j++){
                 temasList.add(new Temas("Tema"+j));
                 for(int i=1;i<6;i++){
                     temasList.add(new Subtemas("SubTema"+i));
                 }
             }
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+        }
+
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            TemasAdapter temasAdapter;
+            TextView lblTemaInexistente;
+            RecyclerView temas;
+            View vista;
+            vista=inflater.inflate(R.layout.fragment_elegir_tema, container, false);
+            temas=vista.findViewById(R.id.temas);
+            lblTemaInexistente=vista.findViewById(R.id.lblTemaInexistente);
+            lblTemaInexistente.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    interfaceFragments.onClickProponerTema();
+                }
+            });
+            temas.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+
+            cargarDatos();
             temasAdapter= new TemasAdapter(getContext(),temasList,this);
             temas.setAdapter(temasAdapter);
             return vista;
         }
 
-        public void onButtonPressed(Uri uri) {
-            if (mListener != null) {
-                mListener.onFragmentInteraction(uri);
-            }
-        }
-
         @Override
         public void onAttach(Context context) {
+            Activity actividad;
             super.onAttach(context);
             if (context instanceof Activity) {
                 actividad= (Activity) context;
@@ -110,13 +100,5 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
 
     public interface OnFragmentInteractionListener {
             void onFragmentInteraction(Uri uri);
-        }
-        public void cargarDatos(){
-            for (int j=1;j<6;j++){
-                temasList.add(new Temas("Tema"+j));
-                for(int i=1;i<6;i++){
-                    temasList.add(new Temas("SubTema"+i));
-                }
-            }
         }
     }

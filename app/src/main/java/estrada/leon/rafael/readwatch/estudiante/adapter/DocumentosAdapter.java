@@ -1,6 +1,7 @@
 package estrada.leon.rafael.readwatch.estudiante.adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,9 +20,9 @@ import estrada.leon.rafael.readwatch.R;
 
 public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.ViewHolder>{
 
-    Context context;
-    List<Documentos> documentosList;
-    OnDocumentosListener MonDocumentosListener;
+    private Context context;
+    private List<Documentos> documentosList;
+    private OnDocumentosListener MonDocumentosListener;
 
     public DocumentosAdapter(Context context, List<Documentos> documentosList, OnDocumentosListener MonDocumentosListener){
         this.context=context;
@@ -43,6 +45,9 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
     viewHolder.lblPerfil.setText(documentosList.get(i).getPerfil());
     viewHolder.lblDescripcion.setText(documentosList.get(i).getDescripcion());
+    String uri = documentosList.get(i).getRutaImagen();
+    int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
+    viewHolder.btnDocumento.setImageResource(imageResource);
     }
 
     @Override
@@ -52,13 +57,14 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView lblDescripcion,lblPerfil,lblReportar;
-        Button btnDocumento,btnAdvertencia,btnFavorito,btnOpcion,btnEditar;
-        EditText txtComentario;
-        OnDocumentosListener onDocumentosListener;
-        public ViewHolder (View itemView, OnDocumentosListener onDocumentosListener){
+        private TextView lblDescripcion,lblPerfil,lblReportar;
+        private Button btnAdvertencia,btnFavorito,btnOpcion,btnEditar;
+        private EditText txtComentario;
+        private ImageView btnDocumento;
+        private OnDocumentosListener onDocumentosListener;
+        private ViewHolder (View itemView, OnDocumentosListener onDocumentosListener){
             super(itemView);
-            lblDescripcion = itemView.findViewById(R.id.txtDescripcion);
+            lblDescripcion = itemView.findViewById(R.id.lblDescripcion);
             lblPerfil = itemView.findViewById(R.id.lblPerfil);
             lblReportar = itemView.findViewById(R.id.lblReportar);
             btnDocumento = itemView.findViewById(R.id.btnDocumento);
@@ -82,7 +88,7 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
         @Override
         public void onClick(View view) {
             switch(view.getId()){
-                case R.id.txtDescripcion:
+                case R.id.lblDescripcion:
                     onDocumentosListener.onDocumentosClick(getAdapterPosition(),documentosList,
                             Toast.makeText(context, "Esta es la descripcion", Toast.LENGTH_SHORT));
                     break;

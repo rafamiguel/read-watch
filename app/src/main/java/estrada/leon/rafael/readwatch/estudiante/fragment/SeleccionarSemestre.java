@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,45 +15,23 @@ import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragment
 import estrada.leon.rafael.readwatch.R;
 
 public class SeleccionarSemestre extends Fragment implements View.OnClickListener{
-TextView lbl1,lbl2,lbl3,lbl4,lbl5,lbl6;
-    iComunicacionFragments interfaceFragments;
-    View vista;
-    Activity actividad;
+    private iComunicacionFragments interfaceFragments;
+
     private OnFragmentInteractionListener mListener;
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
 
     public SeleccionarSemestre(){}
-
-    public static SeleccionarSemestre newInstance(String param1, String param2) {
-        SeleccionarSemestre fragment = new SeleccionarSemestre();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        TextView lbl1,lbl2,lbl3,lbl4,lbl5,lbl6;
+
+        View vista;
         vista= inflater.inflate(R.layout.fragment_seleccionar_semestre, container, false);
         lbl1=vista.findViewById(R.id.lbl1);
         lbl2=vista.findViewById(R.id.lbl2);
@@ -71,6 +50,7 @@ TextView lbl1,lbl2,lbl3,lbl4,lbl5,lbl6;
 
     @Override
     public void onAttach(Context context) {
+        Activity actividad;
         super.onAttach(context);
         if (context instanceof Activity) {
             actividad= (Activity) context;
@@ -81,12 +61,6 @@ TextView lbl1,lbl2,lbl3,lbl4,lbl5,lbl6;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
         }
     }
 
@@ -102,7 +76,6 @@ TextView lbl1,lbl2,lbl3,lbl4,lbl5,lbl6;
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

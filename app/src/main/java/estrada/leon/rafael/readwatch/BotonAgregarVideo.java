@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogSubirVideo;
+
 public class BotonAgregarVideo extends AppCompatActivity {
     Button btnSubirVideo;
     @Override

@@ -3,6 +3,7 @@ package estrada.leon.rafael.readwatch.estudiante.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,17 +19,7 @@ import estrada.leon.rafael.readwatch.R;
 
 
 public class Historial extends Fragment {
-    View vista;
-    List<estrada.leon.rafael.readwatch.estudiante.pojo.Historial> list;
-    RecyclerView recyclerHistorial;
-    HistorialAdapter historialAdapter;
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-
-    private String mParam1;
-    private String mParam2;
+    private List<estrada.leon.rafael.readwatch.estudiante.pojo.Historial> list;
 
     private OnFragmentInteractionListener mListener;
 
@@ -45,27 +36,17 @@ public class Historial extends Fragment {
     public Historial() {
     }
 
-    public static Historial newInstance(String param1, String param2) {
-        Historial fragment = new Historial();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        HistorialAdapter historialAdapter;
+        RecyclerView recyclerHistorial;
+        View vista;
         vista = inflater.inflate(R.layout.fragment_historial, container, false);
         recyclerHistorial=vista.findViewById(R.id.recyclerHistorial);
         recyclerHistorial.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
@@ -75,13 +56,6 @@ public class Historial extends Fragment {
         recyclerHistorial.setAdapter(historialAdapter);
 
         return vista;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -102,7 +76,6 @@ public class Historial extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

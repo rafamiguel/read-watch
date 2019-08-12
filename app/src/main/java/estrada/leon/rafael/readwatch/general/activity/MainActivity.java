@@ -13,7 +13,7 @@ import estrada.leon.rafael.readwatch.estudiante.dialog.DialogContrasenaOlvidada;
 import estrada.leon.rafael.readwatch.administrador.menu.MenuAdministrador;
 import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
 import estrada.leon.rafael.readwatch.R;
-import estrada.leon.rafael.readwatch.estudiante.activity.registrar_restudiante;
+import estrada.leon.rafael.readwatch.estudiante.activity.Registrar_restudiante;
 
 public class MainActivity extends AppCompatActivity {
     ImageView logo;
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         lblRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                entrar = new Intent(MainActivity.this, registrar_restudiante.class);
+                entrar = new Intent(MainActivity.this, Registrar_restudiante.class);
                 startActivity(entrar);
 
             }
