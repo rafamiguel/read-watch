@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".estudiante.activity.registrar_restudiante">
+    android:focusableInTouchMode="true"
+    tools:context=".estudiante.activity.Registrar_restudiante">
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -107,7 +108,7 @@
             app:layout_constraintTop_toBottomOf="@id/txtContrasena" />
 
         <EditText
-            android:id="@+id/txtDescripcion"
+            android:id="@+id/lblDescripcion"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_marginTop="8dp"
@@ -127,7 +128,7 @@
             android:background="@drawable/camara"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtDescripcion"/>
+            app:layout_constraintTop_toBottomOf="@id/lblDescripcion"/>
 
         <Button
             android:id="@+id/btnEntrar"

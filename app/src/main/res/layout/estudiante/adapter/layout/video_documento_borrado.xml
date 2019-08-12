@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutVidDocBorrado"
     android:layout_width="match_parent"
@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="20dp"
+        android:baselineAligned="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:weightSum="2">
@@ -22,13 +23,14 @@
 
     <ImageView
         android:id="@+id/img"
+        android:contentDescription="@string/docborradodes"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         app:srcCompat="@drawable/doc" />
 </LinearLayout>
 
     <LinearLayout
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -37,17 +39,17 @@
             android:id="@+id/lblLinkNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="documento.pdf/\nhttps://www.youtube.com/watch?v=FxIo57WURRE"/>
+            android:text="@string/urlejemplo"/>
         <TextView
             android:id="@+id/lblMotivo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Motivo:\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." />/>
+            android:text="@string/motivoejemplo" />
         <TextView
             android:id="@+id/lblCastigo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Castigo:\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."/>
+            android:text="@string/castigoejemplo"/>
     </LinearLayout>
     </LinearLayout>
 

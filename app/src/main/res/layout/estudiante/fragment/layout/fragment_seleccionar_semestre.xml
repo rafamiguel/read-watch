@@ -6,119 +6,103 @@
     android:layout_height="match_parent"
     tools:context=".estudiante.fragment.SeleccionarSemestre">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/lbl1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/diseno_semestre"
-        android:drawableLeft="@mipmap/ic_numerouno"
-        android:text="Semestre"
-        android:textAlignment="inherit"
-        android:textColor="#020202"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.074" />
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/lbl2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/diseno_semestre"
-        android:drawableLeft="@mipmap/ic_numerodos"
-        android:text="Semestre"
-        android:textAlignment="inherit"
-        android:textColor="#020202"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.199" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/lbl3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/diseno_semestre"
-        android:drawableLeft="@mipmap/ic_numerotres"
-        android:text="Semestre"
-        android:textAlignment="inherit"
-        android:textColor="#020202"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.322" />
+        <TextView
+            android:id="@+id/lbl1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/diseno_semestre"
+            android:drawableStart="@drawable/ic_numerouno"
+            android:gravity="center_vertical"
+            android:text="@string/semestre"
+            android:textColor="#020202"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/lbl4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/diseno_semestre"
-        android:drawableLeft="@mipmap/ic_numerocuatro"
-        android:text="Semestre"
-        android:textAlignment="inherit"
-        android:textColor="#020202"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.446" />
+        <TextView
+            android:id="@+id/lbl2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/diseno_semestre"
+            android:drawableStart="@drawable/ic_numerodos"
+            android:gravity="center_vertical"
+            android:text="@string/semestre"
+            android:textColor="#020202"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lbl1" />
 
-    <TextView
-        android:id="@+id/lbl5"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/diseno_semestre"
-        android:drawableLeft="@mipmap/ic_numerocinco"
-        android:text="Semestre"
-        android:textAlignment="inherit"
-        android:textColor="#020202"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.583" />
+        <TextView
+            android:id="@+id/lbl3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/diseno_semestre"
+            android:drawableStart="@drawable/ic_numerotres"
+            android:gravity="center_vertical"
+            android:text="@string/semestre"
+            android:textColor="#020202"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lbl2" />
 
-    <TextView
-        android:id="@+id/lbl6"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/diseno_semestre"
-        android:drawableLeft="@mipmap/ic_numeroseis"
-        android:text="Semestre"
-        android:textAlignment="inherit"
-        android:textColor="#020202"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.707" />
+        <TextView
+            android:id="@+id/lbl4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/diseno_semestre"
+            android:drawableStart="@drawable/ic_numerocuatro"
+            android:gravity="center_vertical"
+            android:text="@string/semestre"
+            android:textColor="#020202"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lbl3" />
+
+        <TextView
+            android:id="@+id/lbl5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/diseno_semestre"
+            android:drawableStart="@drawable/ic_numerocinco"
+            android:gravity="center_vertical"
+            android:text="@string/semestre"
+            android:textColor="#020202"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lbl4" />
+
+        <TextView
+            android:id="@+id/lbl6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/diseno_semestre"
+            android:drawableStart="@drawable/ic_numeroseis"
+            android:gravity="center_vertical"
+            android:text="@string/semestre"
+            android:textColor="#020202"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lbl5" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>
 
 </android.support.constraint.ConstraintLayout>

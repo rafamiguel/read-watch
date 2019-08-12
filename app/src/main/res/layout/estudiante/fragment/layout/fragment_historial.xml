@@ -10,7 +10,7 @@
         android:id="@+id/lblPenalizaciones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Penalizaciones:"
+        android:text="@string/penalizaciones"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,4 +22,5 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lblPenalizaciones" />
+
 </android.support.constraint.ConstraintLayout>

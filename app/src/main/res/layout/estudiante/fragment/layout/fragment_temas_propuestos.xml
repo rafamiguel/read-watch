@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".administrador.menu.MenuAdministrador"
-    tools:showIn="@layout/app_bar_menu_administrador">
-    <TextView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".estudiante.fragment.TemasPropuestos">
+
+    <ListView
+        android:id="@+id/lvTemasPropuestos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="ADMINISTRADOR"
-        android:textSize="40sp"
+        android:layout_marginTop="10dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 </android.support.constraint.ConstraintLayout>
