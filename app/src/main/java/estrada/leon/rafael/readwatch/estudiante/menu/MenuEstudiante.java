@@ -25,6 +25,7 @@ import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirTema;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirVideo;
 import estrada.leon.rafael.readwatch.estudiante.fragment.Favoritos;
 import estrada.leon.rafael.readwatch.estudiante.fragment.Historial;
+import estrada.leon.rafael.readwatch.estudiante.fragment.MateriasPropuestas;
 import estrada.leon.rafael.readwatch.estudiante.fragment.Perfil;
 import estrada.leon.rafael.readwatch.estudiante.fragment.PreguntasTemaLibre;
 import estrada.leon.rafael.readwatch.estudiante.fragment.TemasPropuestos;
@@ -39,7 +40,8 @@ public class  MenuEstudiante extends AppCompatActivity
         ElegirTema.OnFragmentInteractionListener, ElegirVideo.OnFragmentInteractionListener,
         ElegirDocumento.OnFragmentInteractionListener, Historial.OnFragmentInteractionListener,
         PreguntasTemaLibre.OnFragmentInteractionListener, Favoritos.OnFragmentInteractionListener,
-        TemasPropuestos.OnFragmentInteractionListener, Perfil.OnFragmentInteractionListener,lista_materias.OnFragmentInteractionListener {
+        TemasPropuestos.OnFragmentInteractionListener, Perfil.OnFragmentInteractionListener,
+        lista_materias.OnFragmentInteractionListener,MateriasPropuestas.OnFragmentInteractionListener {
     Fragment fragment;
     TextView titulo;
     @Override
@@ -185,7 +187,7 @@ public class  MenuEstudiante extends AppCompatActivity
 
     @Override
     public void onClickProponerTema() {
-        fragment =new lista_materias();
+        fragment =new MateriasPropuestas();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
         titulo.setText("Temas propuestos");
     }
