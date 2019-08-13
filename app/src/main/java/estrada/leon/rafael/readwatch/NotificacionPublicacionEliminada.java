@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,10 +32,10 @@ public class NotificacionPublicacionEliminada extends AppCompatActivity {
 
                             }
                         });
-                AlertDialog titulo = builder.create();
-                titulo.setTitle("Publicación eliminada");
-                titulo.show();
 
+                builder.setTitle(Html.fromHtml("<font color='#EE1D1D'>Publicacion eliminada</font>"));
+                builder.create().show();
+                
             }
         });
     }
