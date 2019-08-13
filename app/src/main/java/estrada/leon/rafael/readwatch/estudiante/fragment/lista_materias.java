@@ -42,7 +42,7 @@ public class lista_materias extends Fragment {
                 new Materias("@drawable/biologia","Biología"),
                 new Materias("@drawable/fisica","Física"),
                 new Materias("@drawable/literatura","Literatura"),
-                new Materias("@drawable/astronomia","Astronomía"),
+                new Materias("@drawable/astronomia","Astronomía")
         };
     }
 
