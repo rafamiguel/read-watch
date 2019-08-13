@@ -18,10 +18,12 @@ import android.widget.Toast;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.administrador.fragment.BuscarUsuario;
+import estrada.leon.rafael.readwatch.administrador.fragment.ElegirVideoAdm;
 import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
 
 public class MenuAdministrador extends AppCompatActivity
-        implements iComunicacionFragmentsAdm,  NavigationView.OnNavigationItemSelectedListener, BuscarUsuario.OnFragmentInteractionListener {
+        implements iComunicacionFragmentsAdm,  NavigationView.OnNavigationItemSelectedListener,
+        BuscarUsuario.OnFragmentInteractionListener,ElegirVideoAdm.OnFragmentInteractionListener {
     Fragment fragment;
     TextView titulo;
     @Override
@@ -37,6 +39,10 @@ public class MenuAdministrador extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        titulo=findViewById(R.id.toolbar_title_adm);
+
     }
 
     @Override
@@ -78,7 +84,7 @@ public class MenuAdministrador extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_buscar_usuario) {
-            // Handle the camera action
+
 
         } else if (id == R.id.nav_usuarios_inactivos) {
             FragmentManager fragmentManager=getSupportFragmentManager();
@@ -86,7 +92,9 @@ public class MenuAdministrador extends AppCompatActivity
         } else if (id == R.id.nav_agregar_admin) {
 
         } else if (id == R.id.nav_ver_temas) {
-
+            fragment =new ElegirVideoAdm();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
+            titulo.setText("VideosAdm");
         } else if (id == R.id.nav_cambiar_contra) {
 
         } else if (id == R.id.nav_salir) {
@@ -105,6 +113,24 @@ public class MenuAdministrador extends AppCompatActivity
 
     public void onClickBuscarUsuario(Toast toast) {
         toast.show();
+    }
+
+    @Override
+    public void onClickVideosAdmHolder(Toast toast) {
+        toast.show();
+    }
+
+    @Override
+    public void vistaVideosDoc(boolean i) {
+        if(i){
+            fragment =new ElegirVideoAdm();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+            titulo.setText("VideosAdm");
+        }else{
+            //fragment =new ElegirDocumento();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+            titulo.setText("Documentos");
+        }
     }
 
 }
