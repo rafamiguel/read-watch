@@ -75,7 +75,8 @@
     <string name="agregar_admin">Añadir administradores</string>
     <string name="ver_temas">Ver temas</string>
     <string name="cambiar_contra">Cambiar contraseña</string>
-
+    <string name="lista_materias">Elija la materia de la que\nseleccionará el tema</string>
+    <string name="materia">Materia</string>
 </resources>
 
 

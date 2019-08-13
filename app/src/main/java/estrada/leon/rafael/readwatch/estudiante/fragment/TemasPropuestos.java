@@ -37,7 +37,7 @@ public class TemasPropuestos extends Fragment {
                 new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(8,2,"Literatura"),
                 new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(7,8,"Astronomía"),
                 new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(9,3,"Robótica"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(10,5,"Arte"),
+                new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(10,5,"Arte")
         };
     }
     public static TemasPropuestos newInstance(String param1, String param2) {
