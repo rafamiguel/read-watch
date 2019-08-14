@@ -19,9 +19,9 @@ public class RegistrarEstudiante extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_estudiante);
         txtTitulo = findViewById(R.id.lblTitulo);
-        txtNombre = findViewById(R.id.txtNombre);
+        txtNombre = findViewById(R.id.txtContrasena);
         txtApellido = findViewById(R.id.txtApellido);
-        txtCorreo = findViewById(R.id.txtCorreo);
+        txtCorreo = findViewById(R.id.txtContrasena);
         txtContrasena = findViewById(R.id.txtContrasena);
         txtTelefono = findViewById(R.id.txtTelefono);
         txtDescripcion = findViewById(R.id.lblDescripcion);

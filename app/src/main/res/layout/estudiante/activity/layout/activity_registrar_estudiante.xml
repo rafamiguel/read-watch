@@ -44,7 +44,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-            android:id="@+id/txtNombre"
+            android:id="@+id/txtContrasena"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -67,10 +67,10 @@
             android:importantForAutofill="no"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtNombre"/>
+            app:layout_constraintTop_toBottomOf="@id/txtContrasena"/>
 
         <EditText
-            android:id="@+id/txtCorreo"
+            android:id="@+id/txtContrasena"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -93,7 +93,7 @@
             android:importantForAutofill="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtCorreo" />
+            app:layout_constraintTop_toBottomOf="@id/txtContrasena" />
 
         <EditText
             android:id="@+id/txtTelefono"

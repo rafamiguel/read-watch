@@ -19,11 +19,12 @@ import android.widget.Toast;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.administrador.fragment.BuscarUsuario;
 import estrada.leon.rafael.readwatch.administrador.fragment.ElegirVideoAdm;
+import estrada.leon.rafael.readwatch.administrador.fragment.RegistrarAdmin;
 import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
 
 public class MenuAdministrador extends AppCompatActivity
         implements iComunicacionFragmentsAdm,  NavigationView.OnNavigationItemSelectedListener,
-        BuscarUsuario.OnFragmentInteractionListener,ElegirVideoAdm.OnFragmentInteractionListener {
+        BuscarUsuario.OnFragmentInteractionListener,ElegirVideoAdm.OnFragmentInteractionListener, RegistrarAdmin.OnFragmentInteractionListener {
     Fragment fragment;
     TextView titulo;
     @Override
@@ -90,7 +91,9 @@ public class MenuAdministrador extends AppCompatActivity
             FragmentManager fragmentManager=getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.layoutPrincipalAdm,new BuscarUsuario()).commit();
         } else if (id == R.id.nav_agregar_admin) {
-
+            fragment =new RegistrarAdmin();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
+            titulo.setText("R&W");
         } else if (id == R.id.nav_ver_temas) {
             fragment =new ElegirVideoAdm();
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();

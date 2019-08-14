@@ -20,7 +20,7 @@ public class DialogContrasenaOlvidada extends AppCompatDialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_olvido_contrasena, null);
-        txtCorreo=view.findViewById(R.id.txtCorreo);
+        txtCorreo=view.findViewById(R.id.txtContrasena);
         builder.setView(view)
                 .setMessage("Ingresa tu correo electrónico y presiona enviar")
                 .setTitle("Reestablecer contraseña")
