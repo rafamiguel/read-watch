@@ -86,11 +86,11 @@ public class MenuAdministrador extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_buscar_usuario) {
-
-
+            fragment =new BuscarUsuario();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
+            titulo.setText("Buscar usuario");
         } else if (id == R.id.nav_usuarios_inactivos) {
-            FragmentManager fragmentManager=getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.layoutPrincipalAdm,new BuscarUsuario()).commit();
+
         } else if (id == R.id.nav_agregar_admin) {
             fragment =new RegistrarAdmin();
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
