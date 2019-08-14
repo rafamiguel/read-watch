@@ -18,13 +18,14 @@ import android.widget.Toast;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.administrador.fragment.BuscarUsuario;
+import estrada.leon.rafael.readwatch.administrador.fragment.CambiarContrasena;
 import estrada.leon.rafael.readwatch.administrador.fragment.ElegirVideoAdm;
 import estrada.leon.rafael.readwatch.administrador.fragment.RegistrarAdmin;
 import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
 
 public class MenuAdministrador extends AppCompatActivity
         implements iComunicacionFragmentsAdm,  NavigationView.OnNavigationItemSelectedListener,
-        BuscarUsuario.OnFragmentInteractionListener,ElegirVideoAdm.OnFragmentInteractionListener, RegistrarAdmin.OnFragmentInteractionListener {
+        BuscarUsuario.OnFragmentInteractionListener,ElegirVideoAdm.OnFragmentInteractionListener, RegistrarAdmin.OnFragmentInteractionListener, CambiarContrasena.OnFragmentInteractionListener {
     Fragment fragment;
     TextView titulo;
     @Override
@@ -99,7 +100,9 @@ public class MenuAdministrador extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
             titulo.setText("VideosAdm");
         } else if (id == R.id.nav_cambiar_contra) {
-
+            fragment =new CambiarContrasena();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
+            titulo.setText("Cambiar contraseña");
         } else if (id == R.id.nav_salir) {
 
         }
