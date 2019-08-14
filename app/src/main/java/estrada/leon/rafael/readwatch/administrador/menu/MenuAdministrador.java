@@ -21,11 +21,12 @@ import estrada.leon.rafael.readwatch.administrador.fragment.BuscarUsuario;
 import estrada.leon.rafael.readwatch.administrador.fragment.CambiarContrasena;
 import estrada.leon.rafael.readwatch.administrador.fragment.ElegirVideoAdm;
 import estrada.leon.rafael.readwatch.administrador.fragment.RegistrarAdmin;
+import estrada.leon.rafael.readwatch.administrador.fragment.UsuariosInactivos;
 import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
 
 public class MenuAdministrador extends AppCompatActivity
         implements iComunicacionFragmentsAdm,  NavigationView.OnNavigationItemSelectedListener,
-        BuscarUsuario.OnFragmentInteractionListener,ElegirVideoAdm.OnFragmentInteractionListener, RegistrarAdmin.OnFragmentInteractionListener, CambiarContrasena.OnFragmentInteractionListener {
+        BuscarUsuario.OnFragmentInteractionListener,ElegirVideoAdm.OnFragmentInteractionListener, RegistrarAdmin.OnFragmentInteractionListener, CambiarContrasena.OnFragmentInteractionListener, UsuariosInactivos.OnFragmentInteractionListener {
     Fragment fragment;
     TextView titulo;
     @Override
@@ -90,7 +91,9 @@ public class MenuAdministrador extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
             titulo.setText("Buscar usuario");
         } else if (id == R.id.nav_usuarios_inactivos) {
-
+            fragment =new UsuariosInactivos();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
+            titulo.setText("Usuarios inactivos");
         } else if (id == R.id.nav_agregar_admin) {
             fragment =new RegistrarAdmin();
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
@@ -137,6 +140,11 @@ public class MenuAdministrador extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
             titulo.setText("Documentos");
         }
+    }
+
+    @Override
+    public void onClickInactivo(Toast toast) {
+        toast.show();
     }
 
 }
