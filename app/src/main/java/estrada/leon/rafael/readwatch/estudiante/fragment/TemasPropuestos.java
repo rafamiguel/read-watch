@@ -8,12 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.adapter.TemasPropuestosAdapter;
 
 public class TemasPropuestos extends Fragment {
-    estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos[] temasPropuestos;
+    List<estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos> datos;;
     ListView lvTemasPropuestos;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -26,19 +30,18 @@ public class TemasPropuestos extends Fragment {
     public TemasPropuestos() {
     }
     public void cargarDatos(){
-        temasPropuestos=new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos[]{
-                new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(0,1,"Química"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(1,10,"Electrónica"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(2,2,"Bases de datos"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(3,6,"Geografía"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(4,7,"Historia"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(5,2,"Biología"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(6,4,"Física"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(8,2,"Literatura"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(7,8,"Astronomía"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(9,3,"Robótica"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(10,5,"Arte")
-        };
+        datos=new ArrayList<>();
+        datos.add(new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(0,1,"Quimica"));
+        datos.add(new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(1,10,"Electrónica"));
+        datos.add(new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(2,2,"Bases de datos"));
+        datos.add(new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(3,6,"Geografía"));
+        datos.add(new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(4,7,"Historia"));
+        datos.add(new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(5,2,"Biología"));
+        datos.add(new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(6,4,"Física"));
+        datos.add(new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(7,2,"Literatura"));
+        datos.add(new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(8,8,"Astronomía"));
+        datos.add(new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(9,3,"Robótica"));
+        datos.add(new estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos(10,5,"Arte"));
     }
     public static TemasPropuestos newInstance(String param1, String param2) {
         TemasPropuestos fragment = new TemasPropuestos();
@@ -66,10 +69,10 @@ public class TemasPropuestos extends Fragment {
         view= inflater.inflate(R.layout.fragment_temas_propuestos, container, false);
         lvTemasPropuestos=view.findViewById(R.id.lvTemasPropuestos);
         cargarDatos();
-        for(int i=0;i<temasPropuestos.length;i++){
-            votos+=temasPropuestos[i].getVotos();
+        for(int i=0;i<datos.size();i++){
+            votos+=datos.get(i).getVotos();
         }
-        TemasPropuestosAdapter temasPropuestosAdapter=new TemasPropuestosAdapter(getContext(),R.layout.tema_propuesto,temasPropuestos,votos);
+        TemasPropuestosAdapter temasPropuestosAdapter=new TemasPropuestosAdapter(getContext(),R.layout.tema_propuesto,datos,votos);
         lvTemasPropuestos.setAdapter(temasPropuestosAdapter);
         return view;
     }

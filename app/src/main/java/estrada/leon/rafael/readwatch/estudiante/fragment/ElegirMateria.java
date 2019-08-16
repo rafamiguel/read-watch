@@ -61,7 +61,7 @@ public class ElegirMateria extends Fragment implements MateriasAdapter.OnMateria
         lblTemaInexistente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                interfaceFragments.onClickProponerTema();
+                interfaceFragments.onClickProponerMateria();
             }
         });
         recyclerMaterias=vista.findViewById(R.id.recyclerMaterias);

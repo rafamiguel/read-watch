@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import java.util.List;
+
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos;
 
@@ -17,9 +19,9 @@ public class TemasPropuestosAdapter extends ArrayAdapter<TemasPropuestos> {
     Context context;
     int layoutResourceId,votos;
     float porcentaje;
-    TemasPropuestos[] datos;
+    List<TemasPropuestos> datos;
 
-    public TemasPropuestosAdapter(@NonNull Context context, int resource, TemasPropuestos[] objects,int votos) {
+    public TemasPropuestosAdapter(@NonNull Context context, int resource, List<TemasPropuestos> objects,int votos) {
         super(context, resource, objects);
             this.context=context;
             this.layoutResourceId=resource;
@@ -44,7 +46,7 @@ public class TemasPropuestosAdapter extends ArrayAdapter<TemasPropuestos> {
             temasPropuestosHolder=(TemasPropuestosHolder) row.getTag();
         }
 
-        TemasPropuestos temasPropuestos=datos[position];
+        TemasPropuestos temasPropuestos=datos.get(position);
         temasPropuestosHolder.lblTemaPropuesto.setText(temasPropuestos.getNombre());
         porcentaje=temasPropuestos.getVotos()*100/(float)votos;
         temasPropuestosHolder.lblPorcentajeVotos.setText(Float.toString(porcentaje)+"% de los votos");

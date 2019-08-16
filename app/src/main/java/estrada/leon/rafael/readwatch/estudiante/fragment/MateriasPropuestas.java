@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.adapter.MateriasPropuestasAdapter;
@@ -52,7 +53,7 @@ public class MateriasPropuestas extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+        Bundle savedInstanceState) {
         View view;
         int votos=0;
         view= inflater.inflate(R.layout.fragment_materias_propuestas, container, false);

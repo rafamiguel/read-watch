@@ -187,9 +187,18 @@ public class  MenuEstudiante extends AppCompatActivity
 
     @Override
     public void onClickProponerTema() {
-        fragment =new MateriasPropuestas();
+        fragment =new TemasPropuestos();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
         titulo.setText("Temas propuestos");
+        Toast.makeText(this,"Vote por una propuesta",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onClickProponerMateria() {
+        fragment =new MateriasPropuestas();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+        titulo.setText("Materias propuestas");
+        Toast.makeText(this,"Vote por una propuesta",Toast.LENGTH_LONG).show();
     }
 
     @Override

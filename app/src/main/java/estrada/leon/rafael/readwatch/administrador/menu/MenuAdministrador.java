@@ -19,6 +19,7 @@ import android.widget.Toast;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.administrador.fragment.BuscarUsuario;
 import estrada.leon.rafael.readwatch.administrador.fragment.CambiarContrasena;
+import estrada.leon.rafael.readwatch.administrador.fragment.ElegirDocumentoAdm;
 import estrada.leon.rafael.readwatch.administrador.fragment.ElegirVideoAdm;
 import estrada.leon.rafael.readwatch.administrador.fragment.RegistrarAdmin;
 import estrada.leon.rafael.readwatch.administrador.fragment.UsuariosInactivos;
@@ -26,7 +27,9 @@ import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragm
 
 public class MenuAdministrador extends AppCompatActivity
         implements iComunicacionFragmentsAdm,  NavigationView.OnNavigationItemSelectedListener,
-        BuscarUsuario.OnFragmentInteractionListener,ElegirVideoAdm.OnFragmentInteractionListener, RegistrarAdmin.OnFragmentInteractionListener, CambiarContrasena.OnFragmentInteractionListener, UsuariosInactivos.OnFragmentInteractionListener {
+        BuscarUsuario.OnFragmentInteractionListener,ElegirVideoAdm.OnFragmentInteractionListener,
+        RegistrarAdmin.OnFragmentInteractionListener, CambiarContrasena.OnFragmentInteractionListener,
+        UsuariosInactivos.OnFragmentInteractionListener, ElegirDocumentoAdm.OnFragmentInteractionListener {
     Fragment fragment;
     TextView titulo;
     @Override
@@ -133,17 +136,22 @@ public class MenuAdministrador extends AppCompatActivity
     public void vistaVideosDoc(boolean i) {
         if(i){
             fragment =new ElegirVideoAdm();
-            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
             titulo.setText("VideosAdm");
         }else{
-            //fragment =new ElegirDocumento();
-            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
-            titulo.setText("Documentos");
+            fragment =new ElegirDocumentoAdm();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
+            titulo.setText("DocumentosAdm");
         }
     }
 
     @Override
     public void onClickInactivo(Toast toast) {
+        toast.show();
+    }
+
+    @Override
+    public void onClickDocumentosHolder(Toast toast) {
         toast.show();
     }
 
