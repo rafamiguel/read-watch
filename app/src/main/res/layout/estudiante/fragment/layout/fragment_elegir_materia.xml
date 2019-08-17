@@ -28,8 +28,8 @@
         <TextView
             android:id="@+id/lblBarra1"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#090909"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/recyclerMaterias" />
 
@@ -43,13 +43,6 @@
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lblBarra1" />
-        <TextView
-            android:id="@+id/lblBarra2"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#090909"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblTemasPropuestos" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerMateriasPropuestas"

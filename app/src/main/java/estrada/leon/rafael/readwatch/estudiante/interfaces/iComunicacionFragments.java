@@ -17,4 +17,5 @@ public interface iComunicacionFragments {
     public void onClickProponerMateria();
     public void onClickVidPerfil();
     public void onClickDocPerfil();
+    public void onClickReportar();
 }

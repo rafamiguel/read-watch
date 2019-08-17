@@ -6,30 +6,81 @@
     android:layout_height="match_parent"
     tools:context=".estudiante.fragment.ElegirDocumento">
 
-    <Button
-        android:id="@+id/btnVideo"
+    <LinearLayout
+        android:id="@+id/layoutBotones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/video"
-        app:layout_constraintEnd_toStartOf="@id/btnDocumento"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnDocumento"
+        <Button
+            android:id="@+id/btnVideo"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#BBDEFB"
+            android:text="@string/video"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnDocumento"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#2194F3"
+            android:text="@string/documento"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/lbl1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/documento"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnVideo"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="Ordenado\nPor"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutBotones" />
+
+    <LinearLayout
+        android:id="@+id/layoutSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lbl1"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:entries="@array/modos_ordenamiento" />
+
+        <Button
+            android:id="@+id/btnSubirDocumento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#599191"
+            android:text="Subir Documento"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:layout_weight="0"/>
+
+    </LinearLayout>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerDocumentos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnVideo">
+        app:layout_constraintTop_toBottomOf="@id/layoutSpinner">
 
     </android.support.v7.widget.RecyclerView>
 

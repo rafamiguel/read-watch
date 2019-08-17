@@ -55,9 +55,9 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView lblDescripcion,lblPerfil,lblReportar;
-        private Button btnAdvertencia,btnFavorito,btnOpcion,btnEditar;
+        private Button btnAdvertencia,btnFavorito,btnOpcion;
         private EditText txtComentario;
-        private ImageView btnDocumento;
+        private ImageView btnDocumento,btnEditar;
         private OnDocumentosAdmListener onDocumentosAdmListener;
         private ViewHolder (View itemView, OnDocumentosAdmListener onDocumentosAdmListener){
             super(itemView);

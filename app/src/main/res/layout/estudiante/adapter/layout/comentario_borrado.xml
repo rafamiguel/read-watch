@@ -38,13 +38,32 @@
                     android:id="@+id/lblMotivo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/motivoejemplo" />
+                    android:text="@string/motivoejemplo"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/separador1"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"/>
 
                 <TextView
                     android:id="@+id/lblCastigo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/castigoejemplo" />
+                    android:text="@string/castigoejemplo"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/separador2"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"/>
+
             </LinearLayout>
         </LinearLayout>
 

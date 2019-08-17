@@ -211,6 +211,11 @@ public class  MenuEstudiante extends AppCompatActivity
     }
 
     @Override
+    public void onClickReportar() {
+
+    }
+
+    @Override
     public void onClickVideosHolder(Toast toast) {
         toast.show();
     }

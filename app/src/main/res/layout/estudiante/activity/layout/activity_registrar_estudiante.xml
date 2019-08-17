@@ -31,20 +31,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/lblRandW"
-            android:layout_width="131dp"
-            android:layout_height="63dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:textColor="#0F0F0F"
-            android:textSize="30sp"
-            app:layout_constraintTop_toBottomOf="@id/lblTitulo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-            android:id="@+id/txtContrasena"
+            android:id="@+id/txtNombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -54,7 +43,7 @@
             android:importantForAutofill="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblRandW"/>
+            app:layout_constraintTop_toBottomOf="@id/lblTitulo"/>
 
         <EditText
             android:id="@+id/txtApellido"
@@ -67,10 +56,10 @@
             android:importantForAutofill="no"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtContrasena"/>
+            app:layout_constraintTop_toBottomOf="@id/txtNombre"/>
 
         <EditText
-            android:id="@+id/txtContrasena"
+            android:id="@+id/txtCorreo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -93,7 +82,7 @@
             android:importantForAutofill="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtContrasena" />
+            app:layout_constraintTop_toBottomOf="@id/txtCorreo" />
 
         <EditText
             android:id="@+id/txtTelefono"
@@ -119,13 +108,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtTelefono"/>
 
-        <Button
+        <ImageView
             android:id="@+id/btnFoto"
             android:layout_width="64dp"
             android:layout_height="58dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/camara"
+            android:src="@drawable/ic_menu_camera"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lblDescripcion"/>

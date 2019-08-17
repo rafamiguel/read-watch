@@ -53,8 +53,8 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
     public class VideosAdmViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView lblDescripcion, lblPerfil, lblReportar;
         OnVideoAdmListener onVideoAdmListener;
-        Button btnAdvertencia, btnFavorito, btnOpcion, btnEditar;
-        ImageView btnMiniatura;
+        Button btnAdvertencia, btnFavorito, btnOpcion;
+        ImageView btnMiniatura,btnEditar;
         EditText txtComentario;
 
         private VideosAdmViewHolder(@NonNull View itemView, OnVideoAdmListener onVideoAdmListener) {

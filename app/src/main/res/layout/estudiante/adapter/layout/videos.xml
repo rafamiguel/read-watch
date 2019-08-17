@@ -44,15 +44,15 @@
             app:layout_constraintStart_toEndOf="@id/btnMiniatura"
             app:layout_constraintTop_toBottomOf="@id/lblPerfil" />
 
-        <Button
+        <ImageView
             android:id="@+id/btnEditar"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="16dp"
-            android:background="@drawable/editar"
+            android:src="@drawable/edit"
             android:backgroundTintMode="src_over"
             app:layout_constraintStart_toEndOf="@id/lblReportar"
-            app:layout_constraintTop_toTopOf="@id/lblReportar" />
+            app:layout_constraintTop_toTopOf="@id/txtComentario" />
 
         <Button
             android:id="@+id/btnFavorito"

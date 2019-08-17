@@ -90,6 +90,11 @@ public class ElegirVideo extends Fragment implements View.OnClickListener, Video
     }
 
     @Override
+    public void reportarClick() {
+
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnVideo:

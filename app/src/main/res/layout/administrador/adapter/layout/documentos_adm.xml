@@ -44,12 +44,12 @@
             app:layout_constraintStart_toEndOf="@+id/btnDocumento"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <ImageView
             android:id="@+id/btnEditar"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="16dp"
-            android:background="@drawable/editar"
+            android:src="@drawable/edit"
             android:backgroundTintMode="src_over"
             app:layout_constraintStart_toEndOf="@+id/lblReportar"
             app:layout_constraintTop_toTopOf="@+id/lblReportar" />
@@ -63,8 +63,7 @@
             android:backgroundTintMode="src_over"
             app:layout_constraintBottom_toBottomOf="@+id/btnAdvertencia"
             app:layout_constraintStart_toEndOf="@+id/btnAdvertencia"
-            app:layout_constraintTop_toTopOf="@+id/btnAdvertencia"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="@+id/btnAdvertencia" />
 
         <Button
             android:id="@+id/btnOpcion"
@@ -75,8 +74,7 @@
             android:backgroundTintMode="src_over"
             app:layout_constraintBottom_toBottomOf="@+id/btnFavorito"
             app:layout_constraintStart_toEndOf="@+id/btnFavorito"
-            app:layout_constraintTop_toTopOf="@+id/btnFavorito"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="@+id/btnFavorito" />
 
         <Button
             android:id="@+id/btnAdvertencia"
@@ -112,8 +110,7 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/txtComentario"
             app:layout_constraintStart_toEndOf="@+id/txtComentario"
-            app:layout_constraintTop_toTopOf="@+id/txtComentario"
-            app:layout_constraintVertical_bias="0.533" />
+            app:layout_constraintTop_toTopOf="@+id/txtComentario" />
 
     </android.support.constraint.ConstraintLayout>
 

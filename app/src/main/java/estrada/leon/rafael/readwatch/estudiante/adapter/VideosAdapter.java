@@ -31,8 +31,8 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public class VideosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView lblDescripcion,lblPerfil,lblReportar;
         OnVideoListener onVideoListener;
-        Button btnAdvertencia,btnFavorito,btnOpcion,btnEditar;
-        ImageView btnMiniatura;
+        Button btnAdvertencia,btnFavorito,btnOpcion;
+        ImageView btnMiniatura,btnEditar;
         EditText txtComentario;
         private VideosViewHolder(@NonNull View itemView, OnVideoListener onVideoListener) {
             super(itemView);
@@ -131,6 +131,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public interface OnVideoListener{
         void onVideoClick(int position,List<Videos> list, Toast toast);
+        void reportarClick();
     }
 
 }
