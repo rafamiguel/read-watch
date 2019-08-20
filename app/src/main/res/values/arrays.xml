@@ -5,4 +5,10 @@
         <item>Del más reciente al más antiguo</item>
         <item>Del más antiguo al más reciente</item>
     </string-array>
+    <string-array name="seleccionar_materia">
+        <item>Seleccionar materia</item>
+    </string-array>
+    <string-array name="seleccionar_tema">
+        <item>Seleccionar tema</item>
+    </string-array>
 </resources>

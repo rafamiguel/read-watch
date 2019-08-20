@@ -68,16 +68,14 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             Toast.makeText(context, "Este es el perfil", Toast.LENGTH_SHORT));
                     break;
                 case R.id.lblReportar:
-                    onVideoListener.onVideoClick(getAdapterPosition(),list,
-                            Toast.makeText(context, "Esta es la etiqueta para reportar comentarios.", Toast.LENGTH_SHORT));
+                    onVideoListener.reportarClick();
                     break;
                 case R.id.btnMiniatura:
                     onVideoListener.onVideoClick(getAdapterPosition(),list,
                             Toast.makeText(context, "Esta es la miniatura", Toast.LENGTH_SHORT));
                     break;
                 case R.id.btnAdvertencia:
-                    onVideoListener.onVideoClick(getAdapterPosition(),list,
-                            Toast.makeText(context, "Este es el boton de reportar", Toast.LENGTH_SHORT));
+                    onVideoListener.reportarClick();
                     break;
                 case R.id.btnFavorito:
                     onVideoListener.onVideoClick(getAdapterPosition(),list,

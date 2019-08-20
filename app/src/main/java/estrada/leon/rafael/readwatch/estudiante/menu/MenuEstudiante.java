@@ -1,11 +1,16 @@
 package estrada.leon.rafael.readwatch.estudiante.menu;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -44,6 +49,8 @@ public class  MenuEstudiante extends AppCompatActivity
         lista_materias.OnFragmentInteractionListener,MateriasPropuestas.OnFragmentInteractionListener {
     Fragment fragment;
     TextView titulo;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +70,11 @@ public class  MenuEstudiante extends AppCompatActivity
         titulo.setText("Elige una materia");
         fragment =new ElegirMateria();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+
+
+
+
+
     }
 
     @Override
@@ -212,7 +224,50 @@ public class  MenuEstudiante extends AppCompatActivity
 
     @Override
     public void onClickReportar() {
+        CharSequence iCharSequence [] = {"Contenido sexual u obseno", "Es spam", "No es apropiado al tema o materia", "No se puede visualizar"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        TextView title = new TextView(this);
+        title.setText("Reportar");
+        title.setGravity(Gravity.CENTER);
+        title.setTextSize(24 );
+        title.setTextColor(Color.BLACK);
+        builder.setCustomTitle(title);
 
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(MenuEstudiante.this, "Reporte realizado", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.setMultiChoiceItems(iCharSequence, new boolean[iCharSequence.length], new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+    }
+
+    @Override
+    public void onClickSubirDoc() {
+        Dialog_Recuadro_Subir_documento nuevo = new Dialog_Recuadro_Subir_documento();
+        nuevo.show(getSupportFragmentManager() , "ejemplo");
+    }
+
+    @Override
+    public void onClickSubirVid() {
+        DialogSubirVideo nuevo = new DialogSubirVideo();
+        nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
 
     @Override

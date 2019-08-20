@@ -51,5 +51,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+    <Spinner
+        android:id="@+id/spinner_tema"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:layout_marginTop="20dp"
+        android:entries="@array/seleccionar_tema"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinner_materia" />
+
+    <Spinner
+        android:id="@+id/spinner_materia"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:layout_marginTop="20dp"
+        android:entries="@array/seleccionar_materia"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblElegirDocumento" />
 
 </android.support.constraint.ConstraintLayout>

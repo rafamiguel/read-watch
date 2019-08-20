@@ -47,15 +47,17 @@ public class ElegirVideo extends Fragment implements View.OnClickListener, Video
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Button btnVideo,btnDocumento;
+        Button btnVideo,btnDocumento,btnSubirVideo;
         VideosAdapter videosAdapter;
         RecyclerView recyclerVideos;
         vista=inflater.inflate(R.layout.fragment_elegir_video, container, false);
         recyclerVideos=vista.findViewById(R.id.recyclerVideos);
         btnVideo=vista.findViewById(R.id.btnVideo);
         btnDocumento=vista.findViewById(R.id.btnDocumento);
+        btnSubirVideo=vista.findViewById(R.id.btnSubirVideo);
         btnVideo.setOnClickListener(this);
         btnDocumento.setOnClickListener(this);
+        btnSubirVideo.setOnClickListener(this);
         recyclerVideos.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         cargarDatos();
         videosAdapter=new VideosAdapter(getContext(),list, this);
@@ -91,7 +93,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener, Video
 
     @Override
     public void reportarClick() {
-
+        interfaceFragments.onClickReportar();
     }
 
     @Override
@@ -102,6 +104,9 @@ public class ElegirVideo extends Fragment implements View.OnClickListener, Video
                 break;
             case R.id.btnDocumento:
                 interfaceFragments.vistaVideosDoc(false);
+                break;
+            case R.id.btnSubirVideo:
+                interfaceFragments.onClickSubirVid();
                 break;
         }
     }

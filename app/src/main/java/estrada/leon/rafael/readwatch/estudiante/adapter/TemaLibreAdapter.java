@@ -89,20 +89,20 @@ public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.View
                             Toast.makeText(context, "Esta es la descripcion", Toast.LENGTH_SHORT));
                     break;
                 case R.id.lblReportar:
-                    onTemaListener.onTemaClick(getAdapterPosition(),temaLibreList,
-                            Toast.makeText(context, "Esta es la etiqueta para reportar comentarios.", Toast.LENGTH_SHORT));
+                    onTemaListener.onClickReportar();
                     break;
                 case R.id.btnSubirDocumento:
-                    onTemaListener.onTemaClick(getAdapterPosition(),temaLibreList,
-                            Toast.makeText(context, "Boton para subir documento", Toast.LENGTH_SHORT));
+                    onTemaListener.onClickSubirDoc();
                     break;
                 case R.id.btnAdvertencia:
-                    onTemaListener.onTemaClick(getAdapterPosition(),temaLibreList,
-                            Toast.makeText(context, "Este es el boton de reportar", Toast.LENGTH_SHORT));
+                    onTemaListener.onClickReportar();
                     break;
                 case R.id.btnEditar:
                     onTemaListener.onTemaClick(getAdapterPosition(),temaLibreList,
                             Toast.makeText(context, "Este es el botón para editar", Toast.LENGTH_SHORT));
+                    break;
+                case R.id.btnInsertarLink:
+                    onTemaListener.onClickSubirVid();
                     break;
                 default:
                     onTemaListener.onTemaClick(getAdapterPosition(),temaLibreList,
@@ -113,5 +113,8 @@ public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.View
     }
     public interface OnTemaListener{
         void onTemaClick(int position, List<TemaLibre> temaLibreList, Toast toast);
+        void onClickReportar();
+        void onClickSubirVid();
+        void onClickSubirDoc();
     }
 }

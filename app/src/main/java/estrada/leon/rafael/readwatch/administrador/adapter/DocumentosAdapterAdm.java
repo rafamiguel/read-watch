@@ -55,9 +55,8 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView lblDescripcion,lblPerfil,lblReportar;
-        private Button btnAdvertencia,btnFavorito,btnOpcion;
         private EditText txtComentario;
-        private ImageView btnDocumento,btnEditar;
+        private ImageView btnDocumento;
         private OnDocumentosAdmListener onDocumentosAdmListener;
         private ViewHolder (View itemView, OnDocumentosAdmListener onDocumentosAdmListener){
             super(itemView);
@@ -65,20 +64,12 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
             lblPerfil = itemView.findViewById(R.id.lblPerfil);
             lblReportar = itemView.findViewById(R.id.lblReportar);
             btnDocumento = itemView.findViewById(R.id.btnDocumento);
-            btnAdvertencia = itemView.findViewById(R.id.btnAdvertencia);
-            btnFavorito = itemView.findViewById(R.id.btnFavorito);
-            btnOpcion = itemView.findViewById(R.id.btnOpcion);
-            btnEditar = itemView.findViewById(R.id.btnEditar);
             txtComentario = itemView.findViewById(R.id.txtComentario);
 
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
             lblReportar.setOnClickListener(this);
             btnDocumento.setOnClickListener(this);
-            btnAdvertencia.setOnClickListener(this);
-            btnFavorito.setOnClickListener(this);
-            btnOpcion.setOnClickListener(this);
-            btnEditar.setOnClickListener(this);
             this.onDocumentosAdmListener = onDocumentosAdmListener;
         }
 
@@ -93,29 +84,9 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
                     onDocumentosAdmListener.onDocumentosClick(getAdapterPosition(),list,
                             Toast.makeText(context, "Este es el perfil", Toast.LENGTH_SHORT));
                     break;
-                case R.id.lblReportar:
-                    onDocumentosAdmListener.onDocumentosClick(getAdapterPosition(),list,
-                            Toast.makeText(context, "Esta es la etiqueta para reportar comentarios.", Toast.LENGTH_SHORT));
-                    break;
                 case R.id.btnDocumento:
                     onDocumentosAdmListener.onDocumentosClick(getAdapterPosition(),list,
                             Toast.makeText(context, "Esta es la miniatura", Toast.LENGTH_SHORT));
-                    break;
-                case R.id.btnAdvertencia:
-                    onDocumentosAdmListener.onDocumentosClick(getAdapterPosition(),list,
-                            Toast.makeText(context, "Este es el boton de reportar", Toast.LENGTH_SHORT));
-                    break;
-                case R.id.btnFavorito:
-                    onDocumentosAdmListener.onDocumentosClick(getAdapterPosition(),list,
-                            Toast.makeText(context, "Este es el botón de favoritos", Toast.LENGTH_SHORT));
-                    break;
-                case R.id.btnOpcion:
-                    onDocumentosAdmListener.onDocumentosClick(getAdapterPosition(),list,
-                            Toast.makeText(context, "Este es el botón de opciones (editar y eliminar).", Toast.LENGTH_SHORT));
-                    break;
-                case R.id.btnEditar:
-                    onDocumentosAdmListener.onDocumentosClick(getAdapterPosition(),list,
-                            Toast.makeText(context, "Este es el botón de editar comentario", Toast.LENGTH_SHORT));
                     break;
                 default:
                     onDocumentosAdmListener.onDocumentosClick(getAdapterPosition(),list,

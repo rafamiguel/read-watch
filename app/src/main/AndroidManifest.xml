@@ -23,7 +23,6 @@
         <activity android:name=".BotonIngresarPropuesta" />
         <activity android:name=".VentanaEmergenteDeSeleccionDeVistaDePropuestasUsuarioEstudiante" />
         <activity android:name=".BotonPreguntaTemaLibre" />
-        <activity android:name=".BotonAgregarVideo" />
         <activity
             android:name=".estudiante.menu.MenuEstudiante"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -35,8 +34,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Recuadro_subir_documento" />
-        <activity android:name=".Reportar" />
         <activity android:name=".estudiante.activity.RegistrarEstudiante" />
         <activity android:name=".general.activity.MainActivity">
             <intent-filter>

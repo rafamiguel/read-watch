@@ -18,4 +18,6 @@ public interface iComunicacionFragments {
     public void onClickVidPerfil();
     public void onClickDocPerfil();
     public void onClickReportar();
+    public void onClickSubirDoc();
+    public void onClickSubirVid();
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import estrada.leon.rafael.readwatch.R;
@@ -12,8 +13,8 @@ import estrada.leon.rafael.readwatch.R;
 public class RegistrarEstudiante extends AppCompatActivity {
     TextView lblTitulo;
     EditText txtNombre, txtApellido, txtCorreo, txtContrasena, txtTelefono, txtDescripcion;
-    Button btnFoto, btnEntrar;
-
+    Button btnEntrar;
+    ImageView btnFoto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

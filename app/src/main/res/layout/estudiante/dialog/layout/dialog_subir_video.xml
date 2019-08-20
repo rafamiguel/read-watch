@@ -9,62 +9,48 @@
         android:id="@+id/txtDescripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="Descripcion"
         android:inputType="textPersonName"
         android:textAlignment="inherit"
         android:textColor="#0A0A0A"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.449"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtLink"
-        app:layout_constraintVertical_bias="0.024" />
+        app:layout_constraintTop_toBottomOf="@id/txtLink" />
 
     <EditText
         android:id="@+id/txtLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="Colocar link del video"
         android:inputType="textPersonName"
         android:textAlignment="gravity"
         android:textColor="#0A0A0A"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.449"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.055" />
-
-    <Spinner
-        android:id="@+id/spinner9"
-        android:layout_width="200dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/spinner11"
-        app:layout_constraintStart_toStartOf="@id/spinner11"
-        app:layout_constraintTop_toBottomOf="@id/spinner11"
-        app:layout_constraintVertical_bias="0.051" />
-
-    <Spinner
-        android:id="@+id/spinner11"
-        android:layout_width="200dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="107dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="104dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtDescripcion"
-        app:layout_constraintVertical_bias="0.042" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinner_tema"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:layout_marginTop="20dp"
+        android:entries="@array/seleccionar_tema"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinner_materia" />
+
+    <Spinner
+        android:id="@+id/spinner_materia"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:layout_marginTop="20dp"
+        android:entries="@array/seleccionar_materia"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtDescripcion" />
 
 </android.support.constraint.ConstraintLayout>

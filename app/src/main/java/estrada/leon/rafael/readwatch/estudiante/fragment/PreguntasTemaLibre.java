@@ -98,6 +98,21 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
         interfaceFragments.onClickTemasLibresHolder(toast);
     }
 
+    @Override
+    public void onClickReportar() {
+        interfaceFragments.onClickReportar();
+    }
+
+    @Override
+    public void onClickSubirVid() {
+        interfaceFragments.onClickSubirVid();
+    }
+
+    @Override
+    public void onClickSubirDoc() {
+        interfaceFragments.onClickSubirDoc();
+    }
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }

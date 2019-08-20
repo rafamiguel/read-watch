@@ -47,7 +47,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RecyclerView recyclerDocumentos;
-        Button btnVideo,btnDocumento;
+        Button btnVideo,btnDocumento,btnSubirDocumento;
         DocumentosAdapter adapter;
         View vista;
 
@@ -56,9 +56,11 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         recyclerDocumentos=vista.findViewById(R.id.recyclerDocumentos);
         btnVideo=vista.findViewById(R.id.btnVideo);
         btnDocumento=vista.findViewById(R.id.btnDocumento);
+        btnSubirDocumento=vista.findViewById(R.id.btnSubirDocumento);
 
         btnVideo.setOnClickListener(this);
         btnDocumento.setOnClickListener(this);
+        btnSubirDocumento.setOnClickListener(this);
 
         recyclerDocumentos.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
 
@@ -98,6 +100,12 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     }
 
     @Override
+    public void reportarClick() {
+        interfaceFragments.onClickReportar();
+    }
+
+
+    @Override
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.btnVideo:
@@ -105,6 +113,9 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
                 break;
             case R.id.btnDocumento:
                 interfaceFragments.vistaVideosDoc(false);
+                break;
+            case R.id.btnSubirDocumento:
+                interfaceFragments.onClickSubirDoc();
                 break;
 
         }

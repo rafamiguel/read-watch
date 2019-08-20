@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,7 +32,7 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         RecyclerView.ViewHolder viewHolder;
         View view;
-        view= LayoutInflater.from(context).inflate(R.layout.videos,viewGroup,false);
+        view= LayoutInflater.from(context).inflate(R.layout.videos_adm,viewGroup,false);
         viewHolder=new VideosAdmViewHolder(view, onVideoAdmListener);
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(lp);
@@ -53,8 +52,7 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
     public class VideosAdmViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView lblDescripcion, lblPerfil, lblReportar;
         OnVideoAdmListener onVideoAdmListener;
-        Button btnAdvertencia, btnFavorito, btnOpcion;
-        ImageView btnMiniatura,btnEditar;
+        ImageView btnMiniatura;
         EditText txtComentario;
 
         private VideosAdmViewHolder(@NonNull View itemView, OnVideoAdmListener onVideoAdmListener) {
@@ -63,19 +61,11 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
             lblPerfil = itemView.findViewById(R.id.lblPerfil);
             lblReportar = itemView.findViewById(R.id.lblReportar);
             btnMiniatura = itemView.findViewById(R.id.btnMiniatura);
-            btnAdvertencia = itemView.findViewById(R.id.btnAdvertencia);
-            btnFavorito = itemView.findViewById(R.id.btnFavorito);
-            btnOpcion = itemView.findViewById(R.id.btnOpcion);
-            btnEditar = itemView.findViewById(R.id.btnEditar);
             txtComentario = itemView.findViewById(R.id.txtComentario);
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
             lblReportar.setOnClickListener(this);
             btnMiniatura.setOnClickListener(this);
-            btnAdvertencia.setOnClickListener(this);
-            btnFavorito.setOnClickListener(this);
-            btnOpcion.setOnClickListener(this);
-            btnEditar.setOnClickListener(this);
             this.onVideoAdmListener = onVideoAdmListener;
         }
 
@@ -90,31 +80,11 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
                     onVideoAdmListener.onVideoClick(getAdapterPosition(), list,
                             Toast.makeText(context, "Este es el perfil", Toast.LENGTH_SHORT));
                     break;
-                case R.id.lblReportar:
-                    onVideoAdmListener.onVideoClick(getAdapterPosition(), list,
-                            Toast.makeText(context, "Esta es la etiqueta para reportar comentarios.", Toast.LENGTH_SHORT));
-                    break;
                 case R.id.btnMiniatura:
                     onVideoAdmListener.onVideoClick(getAdapterPosition(), list,
                             Toast.makeText(context, "Esta es la miniatura", Toast.LENGTH_SHORT));
                     break;
-                case R.id.btnAdvertencia:
-                    onVideoAdmListener.onVideoClick(getAdapterPosition(), list,
-                            Toast.makeText(context, "Este es el boton de reportar", Toast.LENGTH_SHORT));
-                    break;
-                case R.id.btnFavorito:
-                    onVideoAdmListener.onVideoClick(getAdapterPosition(), list,
-                            Toast.makeText(context, "Este es el botón de favoritos", Toast.LENGTH_SHORT));
-                    break;
-                case R.id.btnOpcion:
-                    onVideoAdmListener.onVideoClick(getAdapterPosition(), list,
-                            Toast.makeText(context, "Este es el botón de opciones (editar y eliminar).", Toast.LENGTH_SHORT));
-                    break;
-                case R.id.btnEditar:
-                    onVideoAdmListener.onVideoClick(getAdapterPosition(), list,
-                            Toast.makeText(context, "Este es el botón de editar comentario", Toast.LENGTH_SHORT));
-                    break;
-                default:
+                 default:
                     onVideoAdmListener.onVideoClick(getAdapterPosition(), list,
                             Toast.makeText(context, "Este es el Video" + list.get(getAdapterPosition()), Toast.LENGTH_SHORT));
             }
