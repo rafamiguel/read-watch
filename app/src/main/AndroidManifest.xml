@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="estrada.leon.rafael.readwatch">
 
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
@@ -13,6 +14,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Notificaciones"></activity>
         <activity android:name=".NotificacionPropuestaAceptada" />
+        <activity android:name=".CorreoElectronico.MainCorreo"/>
         <activity android:name=".NotificacionPublicacionEliminada" />
         <activity android:name=".BtnOpciones" />
         <activity android:name=".ModificarEliminar" />

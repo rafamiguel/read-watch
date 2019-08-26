@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import estrada.leon.rafael.readwatch.BtnOpciones;
+import estrada.leon.rafael.readwatch.CorreoElectronico.MainCorreo;
 import estrada.leon.rafael.readwatch.ModificarEliminar;
 import estrada.leon.rafael.readwatch.NotificacionPropuestaAceptada;
 import estrada.leon.rafael.readwatch.NotificacionPublicacionEliminada;
@@ -64,8 +65,10 @@ public class MainActivity extends AppCompatActivity {
         lblContra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogContrasenaOlvidada dialogContrasenaOlvidada = new DialogContrasenaOlvidada();
-                dialogContrasenaOlvidada.show(getSupportFragmentManager(), "Example");
+               /* DialogContrasenaOlvidada dialogContrasenaOlvidada = new DialogContrasenaOlvidada();
+                dialogContrasenaOlvidada.show(getSupportFragmentManager(), "Example"); */
+                entrar = new Intent(MainActivity.this, MainCorreo.class);
+                startActivity(entrar);
             }
         });
 
