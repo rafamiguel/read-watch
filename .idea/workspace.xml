@@ -70,14 +70,7 @@
     <last-search-timestamp>1564948967367</last-search-timestamp>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3eb4c5f5-8817-4f8f-a4ad-d044906e09cc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/adapter/DocumentosAdapterAdm.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/adapter/DocumentosAdapterAdm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/adapter/VideosAdapterAdm.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/adapter/VideosAdapterAdm.java" afterDir="false" />
-    </list>
-    <list id="d95495a1-75ba-45f2-a237-131064cf2427" name="Hice la vista de votar por un tema" comment="Hice la vista de votar por un tema&#10;&#10;(cherry picked from commit 69aa9509c111ed59cf7ecaf50dd9081abf6f79e6)">
-      <changelist_data name="skillerhero" email="skillerhero@users.noreply.github.com" date="1565551749000" />
-    </list>
-    <list id="ca2d6d95-4554-4e9c-9e64-481710105768" name="Revert &quot;BuscarUsuario&quot;" comment="Revert &quot;BuscarUsuario&quot;&#10;&#10;This reverts commit 02cae057" />
+    <list default="true" id="8565d305-1f84-456a-933c-3985d168541d" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,6 +80,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="SJVBB17924158830" />
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
@@ -109,8 +103,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/DialogIngresarPropuesta.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="34" selection-start-line="34" selection-end-line="34" />
+            <state relative-caret-position="238">
+              <caret line="20" column="29" lean-forward="true" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -409,6 +403,8 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="SJVBB17924158830" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2019-08-27T04:49:40.031Z" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="TODO_SCOPE" value="All Places" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
@@ -534,20 +530,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1563745465141</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Proyecto añadido a GitHub">
-      <created>1563745968863</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1563745968863</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Proyecto añadido a GitHub">
-      <created>1563747106559</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1563747106559</updated>
     </task>
     <task id="LOCAL-00004" summary="Cambie muchos activities a fragments">
       <created>1564733758987</created>
@@ -878,7 +860,21 @@
       <option name="project" value="LOCAL" />
       <updated>1566310016888</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="F">
+      <created>1566881236517</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1566881236517</updated>
+    </task>
+    <task id="LOCAL-00052" summary="F">
+      <created>1566881517548</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1566881517549</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TodoView">
@@ -892,7 +888,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" sideWeight="0.5022523" side_tool="true" weight="0.32980332" />
       <window_info id="Structure" order="1" sideWeight="0.50541514" side_tool="true" weight="0.31316188" />
@@ -974,7 +969,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Puse el Dialog de olvidar contraseña en su lugar" />
     <MESSAGE value="Eliminé una actividad y un xml que ya no se necesitan" />
     <MESSAGE value="Quite cosas de codigo que no se necesitaban" />
     <MESSAGE value="Hice la vista de favoritos y cambie algunas imagenes" />
@@ -999,7 +993,8 @@
     <MESSAGE value="Elegir video admin" />
     <MESSAGE value="Vista documento admin" />
     <MESSAGE value="Se ajustó el diseño de algunas vistas" />
-    <option name="LAST_COMMIT_MESSAGE" value="Se ajustó el diseño de algunas vistas" />
+    <MESSAGE value="F" />
+    <option name="LAST_COMMIT_MESSAGE" value="F" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/video_documento_borrado.xml">
