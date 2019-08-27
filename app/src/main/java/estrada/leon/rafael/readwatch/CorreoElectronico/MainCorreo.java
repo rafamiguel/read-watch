@@ -7,13 +7,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.Random;
+
 import estrada.leon.rafael.readwatch.R;
 
 public class MainCorreo extends AppCompatActivity implements View.OnClickListener{
     private EditText editTextEmail;
     private EditText editTextSubject;
     private EditText editTextMessage;
-
+    private final String caracteres = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890!#$%&/()=?¡¿'|°";
+    private String nuevaContraseña="";
+    private Random rand;
     //Send button
     private Button buttonSend;
 
@@ -37,9 +41,14 @@ public class MainCorreo extends AppCompatActivity implements View.OnClickListene
         String email = editTextEmail.getText().toString().trim();
         String subject = editTextSubject.getText().toString().trim();
         String message = editTextMessage.getText().toString().trim();
+        nuevaContraseña="";
+        rand = new Random();
+        for(int i=0;i<15;i++){
+        nuevaContraseña+=caracteres.charAt(rand.nextInt(79));
+        }
 
         //Creating SendMail object
-        SendMail sm = new SendMail(this, email, subject, message);
+        SendMail sm = new SendMail(this, email, "Reestablecimiento de contraseña", "Nueva contraseña:\n"+nuevaContraseña);
 
         //Executing sendmail to send email
         sm.execute();
