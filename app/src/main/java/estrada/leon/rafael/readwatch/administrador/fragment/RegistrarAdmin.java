@@ -19,6 +19,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import estrada.leon.rafael.readwatch.R;
@@ -108,7 +110,7 @@ public class RegistrarAdmin extends Fragment implements Response.Listener<JSONOb
         progreso.setMessage("Cargando...");
         progreso.show();
 
-        String url = "http://192.168.1.67/randwBDRemota/registroAdmin.php?txtCorreo="+txtCorreo.getText().toString()+
+        String url = "http://192.168.1.65/randwBDRemota/registroAdmin.php?txtCorreo="+txtCorreo.getText().toString()+
                 "&txtContrasena="+txtContrasena.getText().toString()+
                 "&txtNombre="+txtNombre.getText().toString()+
                 "&txtApellidos="+txtApellidos.getText().toString()+ "";
@@ -144,18 +146,32 @@ public class RegistrarAdmin extends Fragment implements Response.Listener<JSONOb
     @Override
     public void onErrorResponse(VolleyError error) {
         progreso.hide();
-        Toast.makeText(getContext(), "No se pudo registrar"+error.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "No se pudo registrar"+error.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onResponse(JSONObject response) {
-        Toast.makeText(getContext(), "Se ha registrado exitosamente", Toast.LENGTH_SHORT).show();
-        progreso.hide();
-        txtApellidos.setText("");
-        txtNombre.setText("");
-        txtContrasena.setText("");
-        txtCorreo.setText("");
 
+        JSONArray json = response.optJSONArray("usuario");
+        JSONObject jsonObject=null;
+        try {
+            jsonObject=json.getJSONObject(0);
+            String existencia=jsonObject.optString("existencia");
+            Toast.makeText(getContext(),existencia,Toast.LENGTH_LONG);
+            if(existencia.equals("si")){
+                Toast.makeText(getContext(), "Este correo electrónico ya está registrado.", Toast.LENGTH_SHORT).show();
+                progreso.hide();
+            }else{
+                Toast.makeText(getContext(), "Se ha registrado exitosamente", Toast.LENGTH_SHORT).show();
+                progreso.hide();
+                txtApellidos.setText("");
+                txtNombre.setText("");
+                txtContrasena.setText("");
+                txtCorreo.setText("");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -14,9 +14,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import estrada.leon.rafael.readwatch.R;
@@ -64,7 +67,7 @@ public class RegistrarEstudiante extends AppCompatActivity implements Response.L
         progreso = new ProgressDialog(this);
         progreso.setMessage("Cargando...");
         progreso.show();
-        String url = "http://192.168.1.67/randwBDRemota/registroUsuario.php?txtCorreo="+txtCorreo.getText().toString()+
+        String url = "http://192.168.1.65/randwBDRemota/registroUsuario.php?txtCorreo="+txtCorreo.getText().toString()+
                 "&txtContrasena="+txtContrasena.getText().toString()+
                 "&txtNombre="+txtNombre.getText().toString()+
                 "&txtApellido="+txtApellido.getText().toString()+
@@ -84,13 +87,24 @@ public class RegistrarEstudiante extends AppCompatActivity implements Response.L
 
     @Override
     public void onResponse(JSONObject response) {
-        Toast.makeText(getApplicationContext(), "Se ha registrado exitosamente", Toast.LENGTH_SHORT).show();
-        progreso.hide();
-        txtDescripcion.setText("");
-        txtTelefono.setText("");
-        txtApellido.setText("");
-        txtNombre.setText("");
-        txtContrasena.setText("");
-        txtCorreo.setText("");
+        JSONArray json = response.optJSONArray("usuario");
+        JSONObject jsonObject=null;
+        try {
+            jsonObject=json.getJSONObject(0);
+            if((jsonObject.optString("existencia")).equals("si")){
+                Toast.makeText(getApplicationContext(), "Este correo electrónico ya está registrado.", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(getApplicationContext(), "Se ha registrado exitosamente", Toast.LENGTH_SHORT).show();
+                progreso.hide();
+                txtDescripcion.setText("");
+                txtTelefono.setText("");
+                txtApellido.setText("");
+                txtNombre.setText("");
+                txtContrasena.setText("");
+                txtCorreo.setText("");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
