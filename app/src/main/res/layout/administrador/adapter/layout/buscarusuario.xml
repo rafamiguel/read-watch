@@ -23,7 +23,7 @@
         android:layout_marginTop="50dp"
         android:text="Perfil"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/btnPerfil"
+        app:layout_constraintStart_toEndOf="@id/btnPerfil"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -33,6 +33,6 @@
         android:layout_marginStart="56dp"
         android:layout_marginTop="50dp"
         android:background="@drawable/bote"
-        app:layout_constraintStart_toEndOf="@+id/lblPerfil"
+        app:layout_constraintStart_toEndOf="@id/lblPerfil"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

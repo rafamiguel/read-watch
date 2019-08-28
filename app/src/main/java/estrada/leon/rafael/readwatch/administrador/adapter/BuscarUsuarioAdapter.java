@@ -31,7 +31,7 @@ public class BuscarUsuarioAdapter extends RecyclerView.Adapter<BuscarUsuarioAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View item = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.buscarusuario,viewGroup, false);
+        View item = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.buscarusuario ,viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(item, onBuscarListener);
         return viewHolder;
     }

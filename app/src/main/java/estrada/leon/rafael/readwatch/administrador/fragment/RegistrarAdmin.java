@@ -1,5 +1,6 @@
 package estrada.leon.rafael.readwatch.administrador.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,7 +8,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import estrada.leon.rafael.readwatch.R;
 
@@ -19,7 +31,13 @@ import estrada.leon.rafael.readwatch.R;
  * Use the {@link RegistrarAdmin#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RegistrarAdmin extends Fragment {
+public class RegistrarAdmin extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
+    ProgressDialog progreso;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
+    View vista;
+    EditText txtNombre, txtApellidos, txtCorreo, txtContrasena;
+    Button btnRegistrar;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -66,8 +84,7 @@ public class RegistrarAdmin extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View vista;
-        EditText txtNombre, txtApellidos, txtCorreo, txtContrasena;
+
 
         vista=inflater.inflate(R.layout.fragment_registrar_admin, container, false);
 
@@ -75,7 +92,29 @@ public class RegistrarAdmin extends Fragment {
         txtApellidos = vista.findViewById(R.id.txtApellidos);
         txtCorreo = vista.findViewById(R.id.txtCorreo);
         txtContrasena = vista.findViewById(R.id.txtContrasena);
+        btnRegistrar = vista.findViewById(R.id.btnRegistrar);
+        btnRegistrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cargarWebService();
+            }
+        });
+        request = Volley.newRequestQueue(getContext());
         return vista;
+    }
+
+    private void cargarWebService() {
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Cargando...");
+        progreso.show();
+
+        String url = "http://192.168.1.67/randwBDRemota/registroAdmin.php?txtCorreo="+txtCorreo.getText().toString()+
+                "&txtContrasena="+txtContrasena.getText().toString()+
+                "&txtNombre="+txtNombre.getText().toString()+
+                "&txtApellidos="+txtApellidos.getText().toString()+ "";
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -100,6 +139,23 @@ public class RegistrarAdmin extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        progreso.hide();
+        Toast.makeText(getContext(), "No se pudo registrar"+error.toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        Toast.makeText(getContext(), "Se ha registrado exitosamente", Toast.LENGTH_SHORT).show();
+        progreso.hide();
+        txtApellidos.setText("");
+        txtNombre.setText("");
+        txtContrasena.setText("");
+        txtCorreo.setText("");
+
     }
 
     /**
