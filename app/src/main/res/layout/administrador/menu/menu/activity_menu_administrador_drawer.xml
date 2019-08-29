@@ -24,6 +24,10 @@
             android:id="@+id/nav_cambiar_contra"
             android:icon="@drawable/edit"
             android:title="@string/cambiar_contra" />
+        <item
+            android:id="@+id/nav_modificar_datos"
+            android:icon="@drawable/edit"
+            android:title="Cambiar datos" />
 
         <item
             android:id="@+id/nav_salir"

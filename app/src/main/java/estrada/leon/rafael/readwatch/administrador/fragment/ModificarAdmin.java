@@ -1,5 +1,7 @@
 package estrada.leon.rafael.readwatch.administrador.fragment;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,13 +11,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
+import estrada.leon.rafael.readwatch.entidades.Admin;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,8 +39,13 @@ import estrada.leon.rafael.readwatch.R;
 public class ModificarAdmin extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private iComunicacionFragmentsAdm comunicacionFragmentsAdm;
     EditText txtNombre, txtApellidos, txtCorreo, txtContrasena, txtEscribeCorreo;
-    Button btnRegistrar, btnModificar;
+    Button btnBuscar, btnModificar;
+    ProgressDialog progreso;
+    Activity actividad;
+    RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -74,7 +90,34 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_modificar_admin, container, false);
+        View vista = inflater.inflate(R.layout.fragment_modificar_admin, container, false);
+        txtNombre = vista.findViewById(R.id.txtNombre);
+        txtApellidos = vista.findViewById(R.id.txtApellidos);
+        txtCorreo = vista.findViewById(R.id.txtCorreo);
+        txtContrasena= vista.findViewById(R.id.txtContrasena);
+        txtEscribeCorreo = vista.findViewById(R.id.txtEscribeCorreo);
+        btnModificar = vista.findViewById(R.id.btnModificar);
+        btnBuscar = vista.findViewById(R.id.btnBuscar);
+        request= Volley.newRequestQueue(getContext());
+
+        btnBuscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cargarWebService();
+            }
+        });
+        return vista;
+
+    }
+
+    private void cargarWebService() {
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        String url = "http://192.168.1.67/randwBDRemota/buscarAdmin.php?txtCorreo="+txtEscribeCorreo.getText().toString();
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -87,6 +130,10 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof Activity) {
+            actividad= (Activity) context;
+            comunicacionFragmentsAdm =(iComunicacionFragmentsAdm) actividad;
+        }
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -103,12 +150,32 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
 
     @Override
     public void onErrorResponse(VolleyError error) {
-
+        progreso.hide();
+        Toast.makeText(getContext(), "No se encontro el usuario "+error.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onResponse(JSONObject response) {
+        progreso.hide();
+        //Toast.makeText(getContext(), "Mensaje: "+response, Toast.LENGTH_SHORT).show();
+        Admin admin = new Admin();
+        JSONArray json = response.optJSONArray("usuario");
+        JSONObject jsonObject=null;
 
+        try {
+            jsonObject=json.getJSONObject(0);
+            admin.setNombre(jsonObject.optString("nombre"));
+            admin.setApellidos(jsonObject.optString("apellidos"));
+            admin.setCorreo(jsonObject.optString("correo"));
+            admin.setContrasena(jsonObject.optString("contrasena"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        txtNombre.setText(admin.getNombre());
+        txtApellidos.setText(admin.getApellidos());
+        txtContrasena.setText(admin.getContrasena());
+        txtCorreo.setText(admin.getCorreo());
     }
 
     /**

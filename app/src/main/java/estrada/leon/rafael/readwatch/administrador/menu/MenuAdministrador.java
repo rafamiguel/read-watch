@@ -21,6 +21,7 @@ import estrada.leon.rafael.readwatch.administrador.fragment.BuscarUsuario;
 import estrada.leon.rafael.readwatch.administrador.fragment.CambiarContrasena;
 import estrada.leon.rafael.readwatch.administrador.fragment.ElegirDocumentoAdm;
 import estrada.leon.rafael.readwatch.administrador.fragment.ElegirVideoAdm;
+import estrada.leon.rafael.readwatch.administrador.fragment.ModificarAdmin;
 import estrada.leon.rafael.readwatch.administrador.fragment.RegistrarAdmin;
 import estrada.leon.rafael.readwatch.administrador.fragment.UsuariosInactivos;
 import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
@@ -29,7 +30,7 @@ public class MenuAdministrador extends AppCompatActivity
         implements iComunicacionFragmentsAdm,  NavigationView.OnNavigationItemSelectedListener,
         BuscarUsuario.OnFragmentInteractionListener,ElegirVideoAdm.OnFragmentInteractionListener,
         RegistrarAdmin.OnFragmentInteractionListener, CambiarContrasena.OnFragmentInteractionListener,
-        UsuariosInactivos.OnFragmentInteractionListener, ElegirDocumentoAdm.OnFragmentInteractionListener {
+        UsuariosInactivos.OnFragmentInteractionListener, ElegirDocumentoAdm.OnFragmentInteractionListener, ModificarAdmin.OnFragmentInteractionListener {
     Fragment fragment;
     TextView titulo;
     @Override
@@ -106,9 +107,14 @@ public class MenuAdministrador extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
             titulo.setText("VideosAdm");
         } else if (id == R.id.nav_cambiar_contra) {
-            fragment =new CambiarContrasena();
-            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
+            fragment = new CambiarContrasena();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).commit();
             titulo.setText("Cambiar contraseña");
+        }else if(id == R.id.nav_modificar_datos){
+            fragment = new ModificarAdmin();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).commit();
+            titulo.setText("Cambiar datos");
+
         } else if (id == R.id.nav_salir) {
 
         }
