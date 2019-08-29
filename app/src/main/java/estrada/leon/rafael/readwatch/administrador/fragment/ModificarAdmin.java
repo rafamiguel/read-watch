@@ -7,6 +7,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import org.json.JSONObject;
 
 import estrada.leon.rafael.readwatch.R;
 
@@ -18,9 +25,11 @@ import estrada.leon.rafael.readwatch.R;
  * Use the {@link ModificarAdmin#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ModificarAdmin extends Fragment {
+public class ModificarAdmin extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    EditText txtNombre, txtApellidos, txtCorreo, txtContrasena, txtEscribeCorreo;
+    Button btnRegistrar, btnModificar;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -90,6 +99,16 @@ public class ModificarAdmin extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+
     }
 
     /**
