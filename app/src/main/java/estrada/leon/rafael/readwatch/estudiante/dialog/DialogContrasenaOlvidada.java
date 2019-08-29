@@ -10,9 +10,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Random;
+
+import estrada.leon.rafael.readwatch.CorreoElectronico.SendMail;
 import estrada.leon.rafael.readwatch.R;
 
 public class DialogContrasenaOlvidada extends AppCompatDialogFragment {
+    private final String caracteres = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890!#$%&/()=?¡¿'|°";
+    private String nuevaContraseña="", correo="";
+    private Random rand;
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final EditText txtCorreo;
@@ -31,6 +37,18 @@ public class DialogContrasenaOlvidada extends AppCompatDialogFragment {
                         Toast.makeText(getContext(), "Si el correo '"+txtCorreo.getText()+
                                 "' está registrado se enviará la nueva contraseña. Espere unos minutos.",
                                 Toast.LENGTH_LONG).show();
+                        correo=txtCorreo.getText().toString();
+                        nuevaContraseña="";
+                        rand = new Random();
+                        for(int iterador=0;iterador<15;iterador++){
+                            nuevaContraseña+=caracteres.charAt(rand.nextInt(79));
+                        }
+
+                        //Creating SendMail object
+                        SendMail sm = new SendMail(getContext(), correo, "Reestablecimiento de contraseña", "Nueva contraseña:\n"+nuevaContraseña);
+
+                        //Executing sendmail to send email
+                        sm.execute();
                     }
                 })
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
