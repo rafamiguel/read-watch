@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         progreso = new ProgressDialog(this);
         progreso.setMessage("Cargando...");
         progreso.show();
-        String url = "http://192.168.1.65/randwBDRemota/inicioSesion.php?" +
+        String url = "https://readandwatch.herokuapp.com/php/inicioSesion.php?" +
                 "txtCorreo="+txtUsuario.getText().toString()+
                 "&txtContrasena="+txtContra.getText().toString()+ "";
         url=url.replace(" ", "%20");

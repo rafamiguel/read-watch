@@ -66,7 +66,8 @@ public class RegistrarEstudiante extends AppCompatActivity implements Response.L
         progreso = new ProgressDialog(this);
         progreso.setMessage("Cargando...");
         progreso.show();
-        String url = "http://192.168.1.65/randwBDRemota/registroUsuario.php?txtCorreo="+txtCorreo.getText().toString()+
+        String url = "https://readandwatch.herokuapp.com/php/registroUsuario.php?" +
+                "txtCorreo="+txtCorreo.getText().toString()+
                 "&txtContrasena="+txtContrasena.getText().toString()+
                 "&txtNombre="+txtNombre.getText().toString()+
                 "&txtApellido="+txtApellido.getText().toString()+
