@@ -40,7 +40,7 @@ public class ModificarEstudiante extends Fragment implements Response.Listener<J
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private iComunicacionFragments comunicacionFragments;
-    EditText txtNombre, txtApellidos, txtCorreo, txtContrasena, txtEscribeCorreo, txtTelefono, txtDescripcion;
+    EditText txtNombre, txtApellidos, txtContrasena, txtEscribeCorreo, txtTelefono, txtDescripcion;
     Button btnBuscar, btnModificar;
     ProgressDialog progreso;
     Activity actividad;
@@ -48,6 +48,8 @@ public class ModificarEstudiante extends Fragment implements Response.Listener<J
     JsonObjectRequest jsonObjectRequest;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private final boolean BUSCAR=false;
+    private final boolean MODIFICAR=true;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -93,7 +95,6 @@ public class ModificarEstudiante extends Fragment implements Response.Listener<J
         View vista = inflater.inflate(R.layout.fragment_modificar_estudiante, container, false);
         txtNombre = vista.findViewById(R.id.txtNombre);
         txtApellidos = vista.findViewById(R.id.txtApellidos);
-        txtCorreo = vista.findViewById(R.id.txtCorreo);
         txtContrasena= vista.findViewById(R.id.txtContrasena);
         txtEscribeCorreo = vista.findViewById(R.id.txtEscribeCorreo);
         txtDescripcion = vista.findViewById(R.id.txtDescripcion);
@@ -105,18 +106,37 @@ public class ModificarEstudiante extends Fragment implements Response.Listener<J
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cargarWebService();
+                cargarWebService(BUSCAR);
+            }
+        });
+        btnModificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cargarWebService(MODIFICAR);
+                Toast.makeText(getContext(),"Datos actualizados con éxito",Toast.LENGTH_SHORT).show();
             }
         });
         return vista;
     }
 
-    private void cargarWebService() {
+    private void cargarWebService(boolean php) {
+        String url;
         progreso = new ProgressDialog(getContext());
         progreso.setMessage("Cargando...");
         progreso.show();
-        String url = "https://readandwatch.herokuapp.com/php/buscarUsuario.php?txtCorreo="+txtEscribeCorreo.getText().toString();
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        if(php==MODIFICAR){
+            url = "https://readandwatch.herokuapp.com/php/updateEstudiante.php?" +
+                    "correo="+txtEscribeCorreo.getText().toString()+"&nombre="+
+                    txtNombre.getText().toString()+"&apellidos="+txtApellidos.getText().toString()+
+                    "&contrasena="+txtContrasena.getText().toString()+"&telefono="+
+                    txtTelefono.getText().toString()+"&descripcion="+txtDescripcion.getText().toString();
+            url=url.replace(" ", "%20");
+            jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        }else{
+            url = "https://readandwatch.herokuapp.com/php/buscarEstudiante.php?txtCorreo="+txtEscribeCorreo.getText().toString();
+            url=url.replace(" ", "%20");
+            jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        }
         request.add(jsonObjectRequest);
     }
 
@@ -165,7 +185,6 @@ public class ModificarEstudiante extends Fragment implements Response.Listener<J
             jsonObject=json.getJSONObject(0);
             estudiante.setNombre(jsonObject.optString("nombre"));
             estudiante.setApellidos(jsonObject.optString("apellidos"));
-            estudiante.setCorreo(jsonObject.optString("correo"));
             estudiante.setContrasena(jsonObject.optString("contrasena"));
             estudiante.setDescripcion(jsonObject.optString("descripcion"));
             estudiante.setTelefono(jsonObject.optString("telefono"));
@@ -176,9 +195,9 @@ public class ModificarEstudiante extends Fragment implements Response.Listener<J
         txtNombre.setText(estudiante.getNombre());
         txtApellidos.setText(estudiante.getApellidos());
         txtContrasena.setText(estudiante.getContrasena());
-        txtCorreo.setText(estudiante.getCorreo());
         txtDescripcion.setText(estudiante.getDescripcion());
         txtTelefono.setText(estudiante.getTelefono());
+        progreso.hide();
     }
 
     /**

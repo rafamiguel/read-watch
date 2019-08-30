@@ -45,15 +45,18 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private iComunicacionFragmentsAdm comunicacionFragmentsAdm;
-    EditText txtNombre, txtApellidos, txtCorreo, txtContrasena, txtEscribeCorreo;
+    EditText txtNombre, txtApellidos, txtContrasena, txtEscribeCorreo;
     Button btnBuscar, btnModificar;
     ProgressDialog progreso;
     Activity actividad;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
     StringRequest stringRequest;
+    Admin admin;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private final boolean BUSCAR=false;
+    private final boolean MODIFICAR=false;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -99,41 +102,46 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
         View vista = inflater.inflate(R.layout.fragment_modificar_admin, container, false);
         txtNombre = vista.findViewById(R.id.txtNombre);
         txtApellidos = vista.findViewById(R.id.txtApellidos);
-        txtCorreo = vista.findViewById(R.id.txtCorreo);
         txtContrasena= vista.findViewById(R.id.txtContrasena);
         txtEscribeCorreo = vista.findViewById(R.id.txtEscribeCorreo);
         btnModificar = vista.findViewById(R.id.btnModificar);
         btnBuscar = vista.findViewById(R.id.btnBuscar);
+        admin = new Admin();
         request= Volley.newRequestQueue(getContext());
-
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cargarWebService();
+                cargarWebService(BUSCAR);
             }
         });
         btnModificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                webServiceActualizar();
+                cargarWebService(MODIFICAR);
+                Toast.makeText(getContext(),"Datos actualizados con éxito",Toast.LENGTH_SHORT).show();
             }
         });
         return vista;
 
     }
 
-    private void webServiceActualizar() {
-        Toast.makeText(getContext(), "Gracias Rafa", Toast.LENGTH_SHORT).show();
-    }
-
-    private void cargarWebService() {
+    private void cargarWebService(boolean php) {
+        String url;
         progreso = new ProgressDialog(getContext());
         progreso.setMessage("Cargando...");
         progreso.show();
-        String url = "https://readandwatch.herokuapp.com/php/buscarAdmin.php?txtCorreo="+txtEscribeCorreo.getText().toString();
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        if(php==MODIFICAR){
+            url = "https://readandwatch.herokuapp.com/php/updateAdmin.php?" +
+                    "correo="+txtEscribeCorreo.getText().toString()+"&nombre="+
+                    txtNombre.getText().toString()+"&apellidos="+txtApellidos.getText().toString()+"&contrasena="+txtContrasena.getText().toString()+"";
+            url=url.replace(" ", "%20");
+                    jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        }else{
+            url = "https://readandwatch.herokuapp.com/php/buscarAdmin.php?txtCorreo="+txtEscribeCorreo.getText().toString();
+            url=url.replace(" ", "%20");
+            jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        }
         request.add(jsonObjectRequest);
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -166,15 +174,13 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        progreso.hide();
+        //progreso.hide();
         Toast.makeText(getContext(), "No se encontro el usuario "+error.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onResponse(JSONObject response) {
-        progreso.hide();
         //Toast.makeText(getContext(), "Mensaje: "+response, Toast.LENGTH_SHORT).show();
-        Admin admin = new Admin();
         JSONArray json = response.optJSONArray("usuario");
         JSONObject jsonObject=null;
 
@@ -182,7 +188,6 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
             jsonObject=json.getJSONObject(0);
             admin.setNombre(jsonObject.optString("nombre"));
             admin.setApellidos(jsonObject.optString("apellidos"));
-            admin.setCorreo(jsonObject.optString("correo"));
             admin.setContrasena(jsonObject.optString("contrasena"));
 
         } catch (JSONException e) {
@@ -191,7 +196,7 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
         txtNombre.setText(admin.getNombre());
         txtApellidos.setText(admin.getApellidos());
         txtContrasena.setText(admin.getContrasena());
-        txtCorreo.setText(admin.getCorreo());
+        progreso.hide();
     }
 
     /**
