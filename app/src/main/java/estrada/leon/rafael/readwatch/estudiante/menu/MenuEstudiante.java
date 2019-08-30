@@ -31,6 +31,7 @@ import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirVideo;
 import estrada.leon.rafael.readwatch.estudiante.fragment.Favoritos;
 import estrada.leon.rafael.readwatch.estudiante.fragment.Historial;
 import estrada.leon.rafael.readwatch.estudiante.fragment.MateriasPropuestas;
+import estrada.leon.rafael.readwatch.estudiante.fragment.ModificarEstudiante;
 import estrada.leon.rafael.readwatch.estudiante.fragment.Perfil;
 import estrada.leon.rafael.readwatch.estudiante.fragment.PreguntasTemaLibre;
 import estrada.leon.rafael.readwatch.estudiante.fragment.TemasPropuestos;
@@ -46,7 +47,7 @@ public class  MenuEstudiante extends AppCompatActivity
         ElegirDocumento.OnFragmentInteractionListener, Historial.OnFragmentInteractionListener,
         PreguntasTemaLibre.OnFragmentInteractionListener, Favoritos.OnFragmentInteractionListener,
         TemasPropuestos.OnFragmentInteractionListener, Perfil.OnFragmentInteractionListener,
-        lista_materias.OnFragmentInteractionListener,MateriasPropuestas.OnFragmentInteractionListener {
+        lista_materias.OnFragmentInteractionListener,MateriasPropuestas.OnFragmentInteractionListener, ModificarEstudiante.OnFragmentInteractionListener {
     Fragment fragment;
     TextView titulo;
 
@@ -127,11 +128,15 @@ public class  MenuEstudiante extends AppCompatActivity
             FragmentManager fragmentManager=getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new Favoritos()).commit();
             titulo.setText("Favoritos");
-        } else if (id == R.id.nav_editarPerfil) {
+        } else if (id == R.id.nav_Perfil) {
             fragment =new Perfil();
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
             titulo.setText("");
-        } else if (id == R.id.nav_subirVideo) {
+        } else if (id == R.id.nav_editarPerfil) {
+            fragment =new ModificarEstudiante();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+            titulo.setText("Editar Perfil");
+        }else if (id == R.id.nav_subirVideo) {
             DialogSubirVideo nuevo = new DialogSubirVideo();
             nuevo.show(getSupportFragmentManager(), "ejemplo");
         } else if (id == R.id.nav_subirArchivo) {

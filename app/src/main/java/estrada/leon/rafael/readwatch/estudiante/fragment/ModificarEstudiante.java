@@ -1,4 +1,4 @@
-package estrada.leon.rafael.readwatch.administrador.fragment;
+package estrada.leon.rafael.readwatch.estudiante.fragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -6,7 +6,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,39 +18,34 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import estrada.leon.rafael.readwatch.R;
-import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
-import estrada.leon.rafael.readwatch.entidades.Admin;
+import estrada.leon.rafael.readwatch.entidades.Estudiante;
+import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ModificarAdmin.OnFragmentInteractionListener} interface
+ * {@link ModificarEstudiante.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ModificarAdmin#newInstance} factory method to
+ * Use the {@link ModificarEstudiante#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ModificarAdmin extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
+public class ModificarEstudiante extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private iComunicacionFragmentsAdm comunicacionFragmentsAdm;
-    EditText txtNombre, txtApellidos, txtCorreo, txtContrasena, txtEscribeCorreo;
+    private iComunicacionFragments comunicacionFragments;
+    EditText txtNombre, txtApellidos, txtCorreo, txtContrasena, txtEscribeCorreo, txtTelefono, txtDescripcion;
     Button btnBuscar, btnModificar;
     ProgressDialog progreso;
     Activity actividad;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
-    StringRequest stringRequest;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -61,7 +55,7 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
 
     private OnFragmentInteractionListener mListener;
 
-    public ModificarAdmin() {
+    public ModificarEstudiante() {
         // Required empty public constructor
     }
 
@@ -71,11 +65,11 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ModificarAdmin.
+     * @return A new instance of fragment ModificarEstudiante.
      */
     // TODO: Rename and change types and number of parameters
-    public static ModificarAdmin newInstance(String param1, String param2) {
-        ModificarAdmin fragment = new ModificarAdmin();
+    public static ModificarEstudiante newInstance(String param1, String param2) {
+        ModificarEstudiante fragment = new ModificarEstudiante();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -96,12 +90,14 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View vista = inflater.inflate(R.layout.fragment_modificar_admin, container, false);
+        View vista = inflater.inflate(R.layout.fragment_modificar_estudiante, container, false);
         txtNombre = vista.findViewById(R.id.txtNombre);
         txtApellidos = vista.findViewById(R.id.txtApellidos);
         txtCorreo = vista.findViewById(R.id.txtCorreo);
         txtContrasena= vista.findViewById(R.id.txtContrasena);
         txtEscribeCorreo = vista.findViewById(R.id.txtEscribeCorreo);
+        txtDescripcion = vista.findViewById(R.id.txtDescripcion);
+        txtTelefono = vista.findViewById(R.id.txtTelefono);
         btnModificar = vista.findViewById(R.id.btnModificar);
         btnBuscar = vista.findViewById(R.id.btnBuscar);
         request= Volley.newRequestQueue(getContext());
@@ -112,28 +108,16 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
                 cargarWebService();
             }
         });
-        btnModificar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                webServiceActualizar();
-            }
-        });
         return vista;
-
-    }
-
-    private void webServiceActualizar() {
-        Toast.makeText(getContext(), "Gracias Rafa", Toast.LENGTH_SHORT).show();
     }
 
     private void cargarWebService() {
         progreso = new ProgressDialog(getContext());
         progreso.setMessage("Cargando...");
         progreso.show();
-        String url = "https://readandwatch.herokuapp.com/php/buscarAdmin.php?txtCorreo="+txtEscribeCorreo.getText().toString();
+        String url = "https://readandwatch.herokuapp.com/php/buscarUsuario.php?txtCorreo="+txtEscribeCorreo.getText().toString();
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request.add(jsonObjectRequest);
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -148,7 +132,7 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
         super.onAttach(context);
         if (context instanceof Activity) {
             actividad= (Activity) context;
-            comunicacionFragmentsAdm =(iComunicacionFragmentsAdm) actividad;
+            comunicacionFragments =(iComunicacionFragments) actividad;
         }
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -174,24 +158,27 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
     public void onResponse(JSONObject response) {
         progreso.hide();
         //Toast.makeText(getContext(), "Mensaje: "+response, Toast.LENGTH_SHORT).show();
-        Admin admin = new Admin();
+        Estudiante estudiante = new Estudiante();
         JSONArray json = response.optJSONArray("usuario");
         JSONObject jsonObject=null;
-
         try {
             jsonObject=json.getJSONObject(0);
-            admin.setNombre(jsonObject.optString("nombre"));
-            admin.setApellidos(jsonObject.optString("apellidos"));
-            admin.setCorreo(jsonObject.optString("correo"));
-            admin.setContrasena(jsonObject.optString("contrasena"));
+            estudiante.setNombre(jsonObject.optString("nombre"));
+            estudiante.setApellidos(jsonObject.optString("apellidos"));
+            estudiante.setCorreo(jsonObject.optString("correo"));
+            estudiante.setContrasena(jsonObject.optString("contrasena"));
+            estudiante.setDescripcion(jsonObject.optString("descripcion"));
+            estudiante.setTelefono(jsonObject.optString("telefono"));
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        txtNombre.setText(admin.getNombre());
-        txtApellidos.setText(admin.getApellidos());
-        txtContrasena.setText(admin.getContrasena());
-        txtCorreo.setText(admin.getCorreo());
+        txtNombre.setText(estudiante.getNombre());
+        txtApellidos.setText(estudiante.getApellidos());
+        txtContrasena.setText(estudiante.getContrasena());
+        txtCorreo.setText(estudiante.getCorreo());
+        txtDescripcion.setText(estudiante.getDescripcion());
+        txtTelefono.setText(estudiante.getTelefono());
     }
 
     /**

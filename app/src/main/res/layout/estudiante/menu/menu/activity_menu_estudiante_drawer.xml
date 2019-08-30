@@ -17,9 +17,14 @@
             android:icon="@drawable/favorito"
             android:title="@string/favoritos" />
         <item
+            android:id="@+id/nav_Perfil"
+            android:icon="@drawable/edit"
+            android:title="Perfil" />
+        <item
             android:id="@+id/nav_editarPerfil"
             android:icon="@drawable/edit"
-            android:title="@string/editar_perfil" />
+            android:title="Editar Perfil" />
+
         <item
             android:id="@+id/nav_subirVideo"
             android:icon="@drawable/subir"
