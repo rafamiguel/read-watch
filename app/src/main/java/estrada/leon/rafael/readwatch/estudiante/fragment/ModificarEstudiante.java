@@ -176,7 +176,6 @@ public class ModificarEstudiante extends Fragment implements Response.Listener<J
 
     @Override
     public void onResponse(JSONObject response) {
-        progreso.hide();
         //Toast.makeText(getContext(), "Mensaje: "+response, Toast.LENGTH_SHORT).show();
         Estudiante estudiante = new Estudiante();
         JSONArray json = response.optJSONArray("usuario");

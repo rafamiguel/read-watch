@@ -56,7 +56,7 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private final boolean BUSCAR=false;
-    private final boolean MODIFICAR=false;
+    private final boolean MODIFICAR=true;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
