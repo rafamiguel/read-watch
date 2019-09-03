@@ -1,6 +1,7 @@
 package estrada.leon.rafael.readwatch.estudiante.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import estrada.leon.rafael.readwatch.estudiante.fragment.MainComentario;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Documentos;
 import estrada.leon.rafael.readwatch.R;
 
@@ -23,6 +25,7 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
     private Context context;
     private List<Documentos> documentosList;
     private OnDocumentosListener MonDocumentosListener;
+    Intent entrar;
 
     public DocumentosAdapter(Context context, List<Documentos> documentosList, OnDocumentosListener MonDocumentosListener){
         this.context=context;
@@ -82,6 +85,7 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
             btnFavorito.setOnClickListener(this);
             btnOpcion.setOnClickListener(this);
             btnEditar.setOnClickListener(this);
+            txtComentario.setOnClickListener(this);
             this.onDocumentosListener = onDocumentosListener;
         }
 
@@ -91,6 +95,10 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
                 case R.id.lblDescripcion:
                     onDocumentosListener.onDocumentosClick(getAdapterPosition(),documentosList,
                             Toast.makeText(context, "Esta es la descripcion", Toast.LENGTH_SHORT));
+                    break;
+                case R.id.txtComentario:
+                    entrar = new Intent(context, MainComentario.class);
+                    context.startActivity(entrar);
                     break;
                 case R.id.lblPerfil:
                     onDocumentosListener.onDocumentosClick(getAdapterPosition(),documentosList,

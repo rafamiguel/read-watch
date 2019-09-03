@@ -71,18 +71,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8565d305-1f84-456a-933c-3985d168541d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/entidades/Estudiante.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/ModificarEstudiante.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/estudiante/fragment/layout/fragment_modificar_estudiante.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/AdapterComentario.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/MainComentario.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/pojo/PojoComentario.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/vistadecomentario.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/estudiante/dialog/layout/dialog_comentario.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/fragment/ModificarAdmin.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/fragment/ModificarAdmin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/menu/MenuEstudiante.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/menu/MenuEstudiante.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/administrador/fragment/layout/fragment_modificar_admin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/administrador/fragment/layout/fragment_modificar_admin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/estudiante/menu/menu/activity_menu_estudiante_drawer.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/estudiante/menu/menu/activity_menu_estudiante_drawer.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/DocumentosAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/DocumentosAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/TemaLibreAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/TemaLibreAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/VideosAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/VideosAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/documentos.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/documentos.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/temaslibres.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/temaslibres.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/videos.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/videos.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -93,7 +97,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="b1d1b8ca" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Nexus_S_API_26" />
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
@@ -114,152 +118,96 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/fragment/RegistrarAdmin.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/AdapterComentario.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="557">
-              <caret line="148" column="104" selection-start-line="147" selection-start-column="7" selection-end-line="148" selection-end-column="104" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/fragment/ModificarAdmin.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="436">
-              <caret line="193" column="45" selection-start-line="180" selection-start-column="8" selection-end-line="193" selection-end-column="45" />
+            <state relative-caret-position="260">
+              <caret line="34" column="31" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
               <folding>
-                <element signature="e#3586#3741#0" expanded="true" />
-                <element signature="e#3740#3741#0" expanded="true" />
-                <element signature="e#4101#4248#0" expanded="true" />
-                <element signature="e#4247#4248#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#570#571#0" expanded="true" />
+                <element signature="e#594#595#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/entidades/Estudiante.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/MainComentario.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
-              <folding>
-                <element signature="e#312#313#0" expanded="true" />
-                <element signature="e#356#357#0" expanded="true" />
-                <element signature="e#392#393#0" expanded="true" />
-                <element signature="e#428#429#0" expanded="true" />
-                <element signature="e#460#461#0" expanded="true" />
-                <element signature="e#510#511#0" expanded="true" />
-                <element signature="e#552#553#0" expanded="true" />
-                <element signature="e#585#586#0" expanded="true" />
-                <element signature="e#614#615#0" expanded="true" />
-                <element signature="e#658#659#0" expanded="true" />
-                <element signature="e#694#695#0" expanded="true" />
-                <element signature="e#731#732#0" expanded="true" />
-                <element signature="e#764#765#0" expanded="true" />
-                <element signature="e#816#817#0" expanded="true" />
-                <element signature="e#860#861#0" expanded="true" />
-                <element signature="e#895#896#0" expanded="true" />
-                <element signature="e#926#927#0" expanded="true" />
-                <element signature="e#974#975#0" expanded="true" />
-                <element signature="e#1014#1015#0" expanded="true" />
-                <element signature="e#1052#1053#0" expanded="true" />
-                <element signature="e#1086#1087#0" expanded="true" />
-                <element signature="e#1140#1141#0" expanded="true" />
-                <element signature="e#1186#1187#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="68">
+              <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/entidades/Admin.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/TemaLibreAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-319">
-              <caret line="6" column="30" selection-start-line="3" selection-start-column="3" selection-end-line="6" selection-end-column="30" />
-              <folding>
-                <element signature="e#217#218#0" expanded="true" />
-                <element signature="e#246#247#0" expanded="true" />
-                <element signature="e#290#291#0" expanded="true" />
-                <element signature="e#326#327#0" expanded="true" />
-                <element signature="e#362#363#0" expanded="true" />
-                <element signature="e#394#395#0" expanded="true" />
-                <element signature="e#444#445#0" expanded="true" />
-                <element signature="e#486#487#0" expanded="true" />
-                <element signature="e#519#520#0" expanded="true" />
-                <element signature="e#548#549#0" expanded="true" />
-                <element signature="e#592#593#0" expanded="true" />
-                <element signature="e#628#629#0" expanded="true" />
-                <element signature="e#665#666#0" expanded="true" />
-                <element signature="e#698#699#0" expanded="true" />
-                <element signature="e#750#751#0" expanded="true" />
-                <element signature="e#794#795#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="224">
+              <caret line="93" column="26" selection-start-line="93" selection-start-column="26" selection-end-line="93" selection-end-column="26" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/temaslibres.xml">
+          <provider editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="android-designer2" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/VideosAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="216">
+              <caret line="76" column="26" lean-forward="true" selection-start-line="73" selection-start-column="16" selection-end-line="76" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/dialog/DialogSubirVideo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-72">
+              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/vistadecomentario.xml">
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="62">
+              <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
+            </state>
+          </provider>
+          <provider selected="true" editor-type-id="android-designer2" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/fragment/layout/fragment_modificar_estudiante.xml">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/dialog/layout/dialog_comentario.xml">
           <provider editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="119" column="42" selection-start-line="119" selection-start-column="42" selection-end-line="119" selection-end-column="42" />
-              <folding>
-                <element signature="e#1102#1130#0" expanded="true" />
-                <element signature="e#1627#1646#0" expanded="true" />
-                <element signature="e#2141#2161#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="102">
+              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
             </state>
           </provider>
           <provider selected="true" editor-type-id="android-designer2" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/ModificarEstudiante.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="176" column="56" selection-start-line="176" selection-start-column="56" selection-end-line="176" selection-end-column="56" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#4093#4248#0" expanded="true" />
-                <element signature="e#4247#4248#0" expanded="true" />
-              </folding>
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/documentos.xml">
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="935">
+              <caret line="55" column="64" selection-start-line="55" selection-start-column="64" selection-end-line="55" selection-end-column="64" />
             </state>
           </provider>
+          <provider selected="true" editor-type-id="android-designer2" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/interfaces/iComunicacionFragments.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/DocumentosAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/menu/MenuEstudiante.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="135" column="47" selection-start-line="135" selection-start-column="47" selection-end-line="135" selection-end-column="47" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/menu/menu/activity_menu_estudiante_drawer.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="25" column="44" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="44" />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer2" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/fragment/BuscarUsuario.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="129">
-              <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
+            <state relative-caret-position="106">
+              <caret line="99" column="60" selection-start-line="99" selection-start-column="60" selection-end-line="99" selection-end-column="60" />
             </state>
           </provider>
         </entry>
@@ -300,17 +248,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/pojo/DocumentosAdm.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/interfaces/iComunicacionFragmentsAdm.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/fragment/ElegirDocumentoAdm.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/ElegirTema.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/ElegirMateria.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/TemasPropuestosAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/MateriasPropuestas.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/TemasPropuestos.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/estudiante/fragment/layout/fragment_elegir_documento.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/administrador/fragment/layout/fragment_elegir_documento_adm.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/estudiante/fragment/layout/fragment_elegir_video.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/administrador/fragment/layout/fragment_elegir_video_adm.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/estudiante/fragment/layout/fragment_elegir_materia.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/estudiante/activity/layout/activity_registrar_estudiante.xml" />
@@ -319,19 +256,14 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/estudiante/fragment/layout/fragment_historial.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/video_documento_borrado.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/comentario_borrado.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/videos.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/documentos.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/Reportar.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/DocumentosAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/ElegirDocumento.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/interfaces/iComunicacionFragments.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/VideosAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/ElegirVideo.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/arrays.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/estudiante/dialog/layout/dialog_subir_video.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/estudiante/dialog/layout/estilo_recuadro_subir_documento.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/PreguntasTemaLibre.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/TemaLibreAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/administrador/adapter/layout/videos_adm.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/administrador/adapter/layout/documentos_adm.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/adapter/VideosAdapterAdm.java" />
@@ -351,6 +283,22 @@
         <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/ModificarEstudiante.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/menu/MenuEstudiante.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/estudiante/fragment/layout/fragment_modificar_estudiante.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/btn_comentario.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_boton_comentario.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/PojoComentario.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/BotonComentario.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/BotonComentario.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/VideosAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/videos.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/dialog_comentario.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/vistadecomentario.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/AdapterComentario.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/AdapterComentario.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/documentos.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/DocumentosAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/TemaLibreAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/temaslibres.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/estudiante/dialog/layout/dialog_comentario.xml" />
       </list>
     </option>
   </component>
@@ -372,6 +320,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="Scope">
         <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
           <expand>
@@ -458,62 +407,7 @@
               <item name="leon" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="rafael" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="readwatch" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="administrador" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="C:\Users\migue\Documents\GitHub\read-watch" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="estrada" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="leon" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="rafael" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="readwatch" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="administrador" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="fragment" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="C:\Users\migue\Documents\GitHub\read-watch" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="estrada" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="leon" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="rafael" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="readwatch" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="administrador" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="interfaces" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="C:\Users\migue\Documents\GitHub\read-watch" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="estrada" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="leon" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="rafael" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="readwatch" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="administrador" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="menu" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="C:\Users\migue\Documents\GitHub\read-watch" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="estrada" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="leon" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="rafael" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="readwatch" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="entidades" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="estudiante" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
             <path>
               <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
@@ -527,6 +421,7 @@
               <item name="rafael" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="readwatch" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="estudiante" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="adapter" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
             <path>
               <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
@@ -554,7 +449,7 @@
               <item name="rafael" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="readwatch" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="estudiante" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="interfaces" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="pojo" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
             <path>
               <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
@@ -567,8 +462,21 @@
               <item name="leon" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="rafael" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="readwatch" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="estudiante" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="menu" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="general" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="C:\Users\migue\Documents\GitHub\read-watch" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="estrada" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="leon" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="rafael" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="readwatch" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="general" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="activity" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
             <path>
               <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
@@ -586,74 +494,6 @@
               <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="res" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="C:\Users\migue\Documents\GitHub\read-watch" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="res" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="administrador" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="C:\Users\migue\Documents\GitHub\read-watch" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="res" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="administrador" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="fragment" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="C:\Users\migue\Documents\GitHub\read-watch" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="res" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="administrador" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="fragment" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="C:\Users\migue\Documents\GitHub\read-watch" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="res" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="administrador" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="menu" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="C:\Users\migue\Documents\GitHub\read-watch" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="res" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="administrador" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="menu" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="C:\Users\migue\Documents\GitHub\read-watch" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="res" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="administrador" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="menu" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="menu" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
             <path>
               <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
@@ -664,6 +504,52 @@
               <item name="res" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="estudiante" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="C:\Users\migue\Documents\GitHub\read-watch" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="res" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="estudiante" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="adapter" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="C:\Users\migue\Documents\GitHub\read-watch" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="res" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="estudiante" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="adapter" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="C:\Users\migue\Documents\GitHub\read-watch" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="res" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="estudiante" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="dialog" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="C:\Users\migue\Documents\GitHub\read-watch" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="res" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="estudiante" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="dialog" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
             <path>
               <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
@@ -687,49 +573,13 @@
               <item name="estudiante" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="fragment" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="C:\Users\migue\Documents\GitHub\read-watch" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="res" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="estudiante" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="menu" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="C:\Users\migue\Documents\GitHub\read-watch" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="res" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="estudiante" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="menu" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="read-watch" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="C:\Users\migue\Documents\GitHub\read-watch" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="res" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="layout" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="estudiante" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="menu" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="menu" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane" />
       <pane id="AndroidView" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -747,16 +597,17 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\migue\Documents\GitHub\read-watch\app\src\main\res\layout\estudiante\dialog\layout" />
+      <recent name="C:\Users\migue\Documents\GitHub\read-watch\app\src\main\res\layout\estudiante\adapter\layout" />
       <recent name="C:\Users\migue\Documents\GitHub\read-watch\app\src\main\res\layout\estudiante\fragment\layout" />
       <recent name="C:\Users\Rafael\AndroidStudioProjects\ProyectoTitulacion\Read&amp;Watch\app\src\main\res\layout\administrador\adapter\layout" />
       <recent name="C:\Users\Rafael\AndroidStudioProjects\ProyectoTitulacion\Read&amp;Watch\app\src\main\res\layout\administrador\fragment\layout" />
-      <recent name="C:\Users\Rafael\AndroidStudioProjects\ProyectoTitulacion\Read&amp;Watch\app\src\main\res\layout\estudiante\adapter\layout" />
-      <recent name="C:\Users\Rafael\AndroidStudioProjects\ProyectoTitulacion\Read&amp;Watch\app\src\main\res\layout\estudiante\fragment\layout" />
     </key>
     <key name="android.template.packageName">
+      <recent name="estrada.leon.rafael.readwatch" />
+      <recent name="estrada.leon.rafael.readwatch.general" />
       <recent name="estrada.leon.rafael.readwatch.estudiante.fragment" />
       <recent name="estrada.leon.rafael.readwatch.Administrador.Menu" />
-      <recent name="estrada.leon.rafael.readwatch" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="estrada.leon.rafael.readwatch" />
@@ -860,13 +711,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1563745465141</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Hice el recyclerView para elegirMateria y agregué su OnClickListener">
-      <created>1565122228000</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1565122228000</updated>
     </task>
     <task id="LOCAL-00011" summary="Agregue una imagen para las materias.">
       <created>1565122347442</created>
@@ -1204,7 +1048,14 @@
       <option name="project" value="LOCAL" />
       <updated>1567088507900</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="Ya se puede buscar al usuario estudiante">
+      <created>1567123661409</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1567123661409</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1218,6 +1069,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" sideWeight="0.5022523" side_tool="true" weight="0.32980332" />
       <window_info id="Structure" order="1" sideWeight="0.50541514" side_tool="true" weight="0.31316188" />
@@ -1226,7 +1078,7 @@
       <window_info id="Image Layers" order="4" />
       <window_info id="Designer" order="5" />
       <window_info id="Capture Tool" order="6" />
-      <window_info content_ui="combo" x="518" y="70" width="329" height="628" id="Project" order="7" sideWeight="0.49458483" visible="true" weight="0.20574887" />
+      <window_info active="true" content_ui="combo" x="518" y="70" width="329" height="628" id="Project" order="7" sideWeight="0.49458483" visible="true" weight="0.290469" />
       <window_info id="Resources Explorer" order="8" sideWeight="0.49774775" weight="0.32980332" />
       <window_info anchor="bottom" id="Version Control" order="0" weight="0.32242227" />
       <window_info anchor="bottom" id="Logcat" order="1" weight="0.3289689" />
@@ -1235,8 +1087,8 @@
       <window_info anchor="bottom" id="Event Log" order="4" weight="0.7133758" />
       <window_info anchor="bottom" id="Build" order="5" weight="0.33060557" />
       <window_info anchor="bottom" id="Android Profiler" order="6" weight="0.3289689" />
-      <window_info active="true" anchor="bottom" id="Run" order="7" visible="true" weight="0.16202946" />
-      <window_info anchor="bottom" id="Debug" order="8" weight="0.3535188" />
+      <window_info anchor="bottom" id="Run" order="7" weight="0.16202946" />
+      <window_info anchor="bottom" id="Debug" order="8" visible="true" weight="0.3535188" />
       <window_info anchor="bottom" id="Find" order="9" weight="0.3289689" />
       <window_info anchor="bottom" id="Messages" order="10" />
       <window_info anchor="right" id="Capture Analysis" order="0" />
@@ -1328,7 +1180,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Hice la vista de votar por un tema" />
     <MESSAGE value="Strings" />
     <MESSAGE value="a" />
     <MESSAGE value="Hice la vista de votar por un tema&#10;                                                                    &#10;                                                                    (cherry picked from commit 69aa9509c111ed59cf7ecaf50dd9081abf6f79e6)" />
@@ -1353,243 +1204,10 @@
     <MESSAGE value="Push que me pidio Rafa de nuevo" />
     <MESSAGE value="Se agregaron los php para servidor" />
     <MESSAGE value="Eliminé los php del servidor porque los voy a poner en otro repositorio" />
-    <option name="LAST_COMMIT_MESSAGE" value="Eliminé los php del servidor porque los voy a poner en otro repositorio" />
+    <MESSAGE value="Ya se puede buscar al usuario estudiante" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ya se puede buscar al usuario estudiante" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/fragment/layout/fragment_elegir_video.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="62" column="12" lean-forward="true" selection-start-line="62" selection-start-column="12" selection-end-line="62" selection-end-column="55" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/arrays.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/dialog/layout/dialog_subir_video.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="35" selection-start-line="35" selection-end-line="53" selection-end-column="67" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/dialog/layout/estilo_recuadro_subir_documento.xml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="71" column="67" selection-start-line="71" selection-start-column="67" selection-end-line="71" selection-end-column="67" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/menu/layout/content_menu_estudiante.xml">
-      <provider editor-type-id="text-editor" />
-      <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/menu/layout/app_bar_menu_estudiante.xml">
-      <provider editor-type-id="text-editor" />
-      <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/menu/layout/activity_menu_estudiante.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/menu/menu/menu_estudiante.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/MateriasPropuestasAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/Notificaciones.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="22" column="57" lean-forward="true" selection-start-line="22" selection-start-column="57" selection-end-line="22" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/PreguntasTemaLibre.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="89" column="13" selection-start-line="89" selection-start-column="13" selection-end-line="89" selection-end-column="13" />
-          <folding>
-            <element signature="e#3999#4000#0" expanded="true" />
-            <element signature="e#4051#4052#0" expanded="true" />
-            <element signature="e#4102#4103#0" expanded="true" />
-            <element signature="e#4154#4155#0" expanded="true" />
-            <element signature="e#4205#4206#0" expanded="true" />
-            <element signature="e#4257#4258#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/TemaLibreAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="105" column="26" selection-start-line="105" selection-start-column="26" selection-end-line="105" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/videos.xml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="54" column="63" selection-start-line="54" selection-start-column="63" selection-end-line="54" selection-end-column="63" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/administrador/adapter/layout/videos_adm.xml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="799">
-          <caret line="47" column="8" selection-start-line="47" selection-start-column="8" selection-end-line="47" selection-end-column="8" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/administrador/adapter/layout/documentos_adm.xml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="1037">
-          <caret line="61" column="4" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="4" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/fragment/ElegirDocumentoAdm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="25" column="12" selection-start-line="25" selection-start-column="12" selection-end-line="25" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/documentos.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="935">
-          <caret line="55" column="64" selection-start-line="55" selection-start-column="64" selection-end-line="55" selection-end-column="64" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/administrador/fragment/layout/fragment_buscar_usuario.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="61">
-          <caret line="14" column="27" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="27" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-317" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="25" column="59" selection-start-line="25" selection-start-column="59" selection-end-line="25" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/administrador/adapter/layout/buscarusuario.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-417" />
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/adapter/VideosAdapterAdm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50">
-          <caret line="78" column="47" selection-start-line="78" selection-start-column="47" selection-end-line="78" selection-end-column="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/adapter/DocumentosAdapterAdm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="100" selection-start-line="100" selection-end-line="100" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-28/java/lang/String.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_modificar_admin.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/DialogIngresarPropuesta.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="20" column="29" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/CorreoElectronico/MainCorreo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="50" column="103" selection-start-line="50" selection-start-column="103" selection-end-line="50" selection-end-column="103" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/adapter/BuscarUsuarioAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="35" column="26" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/administrador/fragment/layout/fragment_registrar_admin.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="67" column="67" selection-start-line="8" selection-start-column="4" selection-end-line="67" selection-end-column="67" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/fragment/CambiarContrasena.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/fragment/ElegirVideoAdm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="24" column="63" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/interfaces/iComunicacionFragmentsAdm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/menu/MenuAdministrador.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="32" column="151" selection-start-line="32" selection-start-column="151" selection-end-line="32" selection-end-column="151" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/administrador/menu/menu/activity_menu_administrador_drawer.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="224">
@@ -1597,17 +1215,6 @@
         </state>
       </provider>
       <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/general/activity/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="100" column="77" selection-start-line="100" selection-start-column="77" selection-end-line="100" selection-end-column="77" />
-          <folding>
-            <element signature="e#2476#2718#0" expanded="true" />
-            <element signature="e#2717#2718#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/activity/RegistrarEstudiante.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -1623,27 +1230,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/fragment/BuscarUsuario.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
-          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/modificarUsuario.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_modificar_usuario.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/interfaces/iComunicacionFragments.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/modificarUsuario.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_modificar_usuario.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/administrador/fragment/layout/fragment_modificar_admin.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -1652,28 +1240,17 @@
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/entidades/Admin.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/ElegirTema.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-319">
-          <caret line="6" column="30" selection-start-line="3" selection-start-column="3" selection-end-line="6" selection-end-column="30" />
-          <folding>
-            <element signature="e#217#218#0" expanded="true" />
-            <element signature="e#246#247#0" expanded="true" />
-            <element signature="e#290#291#0" expanded="true" />
-            <element signature="e#326#327#0" expanded="true" />
-            <element signature="e#362#363#0" expanded="true" />
-            <element signature="e#394#395#0" expanded="true" />
-            <element signature="e#444#445#0" expanded="true" />
-            <element signature="e#486#487#0" expanded="true" />
-            <element signature="e#519#520#0" expanded="true" />
-            <element signature="e#548#549#0" expanded="true" />
-            <element signature="e#592#593#0" expanded="true" />
-            <element signature="e#628#629#0" expanded="true" />
-            <element signature="e#665#666#0" expanded="true" />
-            <element signature="e#698#699#0" expanded="true" />
-            <element signature="e#750#751#0" expanded="true" />
-            <element signature="e#794#795#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-808">
+          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/fragment/ModificarAdmin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2686">
+          <caret line="198" column="24" selection-start-line="198" selection-start-column="22" selection-end-line="198" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -1709,55 +1286,295 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/fragment/ModificarAdmin.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/entidades/Admin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="436">
-          <caret line="193" column="45" selection-start-line="180" selection-start-column="8" selection-end-line="193" selection-end-column="45" />
+        <state relative-caret-position="102">
+          <caret line="6" column="30" selection-start-line="3" selection-start-column="3" selection-end-line="6" selection-end-column="30" />
           <folding>
-            <element signature="e#3586#3741#0" expanded="true" />
-            <element signature="e#3740#3741#0" expanded="true" />
-            <element signature="e#4101#4248#0" expanded="true" />
-            <element signature="e#4247#4248#0" expanded="true" />
+            <element signature="e#217#218#0" expanded="true" />
+            <element signature="e#246#247#0" expanded="true" />
+            <element signature="e#290#291#0" expanded="true" />
+            <element signature="e#326#327#0" expanded="true" />
+            <element signature="e#362#363#0" expanded="true" />
+            <element signature="e#394#395#0" expanded="true" />
+            <element signature="e#444#445#0" expanded="true" />
+            <element signature="e#486#487#0" expanded="true" />
+            <element signature="e#519#520#0" expanded="true" />
+            <element signature="e#548#549#0" expanded="true" />
+            <element signature="e#592#593#0" expanded="true" />
+            <element signature="e#628#629#0" expanded="true" />
+            <element signature="e#665#666#0" expanded="true" />
+            <element signature="e#698#699#0" expanded="true" />
+            <element signature="e#750#751#0" expanded="true" />
+            <element signature="e#794#795#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/ModificarEstudiante.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="176" column="56" selection-start-line="176" selection-start-column="56" selection-end-line="176" selection-end-column="56" />
+        <state relative-caret-position="2856">
+          <caret line="194" column="56" selection-start-line="194" selection-start-column="56" selection-end-line="194" selection-end-column="56" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4093#4248#0" expanded="true" />
-            <element signature="e#4247#4248#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/interfaces/iComunicacionFragments.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/menu/MenuEstudiante.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1649">
+          <caret line="135" column="47" selection-start-line="135" selection-start-column="47" selection-end-line="135" selection-end-column="47" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/menu/menu/activity_menu_estudiante_drawer.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
+        <state relative-caret-position="425">
           <caret line="25" column="44" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="44" />
         </state>
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/menu/MenuEstudiante.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/administrador/fragment/BuscarUsuario.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="135" column="47" selection-start-line="135" selection-start-column="47" selection-end-line="135" selection-end-column="47" />
+        <state relative-caret-position="221">
+          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/PreguntasTemaLibre.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="327">
+          <caret line="97" column="46" selection-start-line="97" selection-start-column="46" selection-end-line="97" selection-end-column="46" />
+          <folding>
+            <element signature="e#3999#4000#0" expanded="true" />
+            <element signature="e#4051#4052#0" expanded="true" />
+            <element signature="e#4102#4103#0" expanded="true" />
+            <element signature="e#4154#4155#0" expanded="true" />
+            <element signature="e#4205#4206#0" expanded="true" />
+            <element signature="e#4257#4258#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/temas.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/general/BotonComentario.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/btn_comentario.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="5" column="41" selection-start-line="5" selection-start-column="41" selection-end-line="5" selection-end-column="41" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_opciones.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="8" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/dialog/layout/dialog_hacer_pregunta.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/dialog/layout/dialog_subir_video.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/fragment/layout/fragment_elegir_tema.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-328" />
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/dialog/layout/estilo_recuadro_subir_documento.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/fragment/layout/fragment_perfil.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/fragment/layout/fragment_favoritos.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/fragment/layout/fragment_historial.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/fragment/layout/fragment_elegir_documento.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/fragment/layout/fragment_materias_propuestas.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/fragment/layout/fragment_modificar_estudiante.xml">
       <provider editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="119" column="42" selection-start-line="119" selection-start-column="42" selection-end-line="119" selection-end-column="42" />
+        <state relative-caret-position="1751">
+          <caret line="103" column="42" selection-start-line="103" selection-start-column="42" selection-end-line="103" selection-end-column="42" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/fragment/layout/fragment_preguntas_tema_libre.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/fragment/layout/fragment_seleccionar_semestre.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_boton_comentario.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-29" />
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/pojo/Documentos.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/TemasAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1489">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/ElegirVideo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1251">
+          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/pojo/Videos.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-130">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/general/activity/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="93">
+          <caret line="91" column="38" lean-forward="true" selection-start-line="91" selection-start-column="38" selection-end-line="91" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/fragment/layout/fragment_elegir_video.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="-1160" />
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/videos.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="1450">
+          <caret line="115" column="57" lean-forward="true" selection-start-line="115" selection-start-column="57" selection-end-line="115" selection-end-column="57" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/pojo/PojoComentario.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/AdapterComentario.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="34" column="31" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
           <folding>
-            <element signature="e#1102#1130#0" expanded="true" />
-            <element signature="e#1627#1646#0" expanded="true" />
-            <element signature="e#2141#2161#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#570#571#0" expanded="true" />
+            <element signature="e#594#595#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/documentos.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="935">
+          <caret line="55" column="64" selection-start-line="55" selection-start-column="64" selection-end-line="55" selection-end-column="64" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/dialog/DialogSubirVideo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-72">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/DocumentosAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="106">
+          <caret line="99" column="60" selection-start-line="99" selection-start-column="60" selection-end-line="99" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/fragment/MainComentario.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/VideosAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="76" column="26" lean-forward="true" selection-start-line="73" selection-start-column="16" selection-end-line="76" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/estrada/leon/rafael/readwatch/estudiante/adapter/TemaLibreAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="93" column="26" selection-start-line="93" selection-start-column="26" selection-end-line="93" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/temaslibres.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/adapter/layout/vistadecomentario.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="62">
+          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/estudiante/dialog/layout/dialog_comentario.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
         </state>
       </provider>
       <provider selected="true" editor-type-id="android-designer2" />
