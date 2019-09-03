@@ -1,6 +1,7 @@
 package estrada.leon.rafael.readwatch.estudiante.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import estrada.leon.rafael.readwatch.estudiante.fragment.MainComentario;
 import estrada.leon.rafael.readwatch.estudiante.pojo.TemaLibre;
 import estrada.leon.rafael.readwatch.R;
 
@@ -21,6 +23,7 @@ public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.View
     private Context context;
     private List<TemaLibre> temaLibreList;
     private OnTemaListener onTemaListener;
+    Intent entrar;
 
     public TemaLibreAdapter(Context context, List<TemaLibre> temaLibreList, OnTemaListener onTemaListener){
         this.context = context;
@@ -73,6 +76,7 @@ public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.View
             btnEditar.setOnClickListener(this);
             btnSubirDocumento.setOnClickListener(this);
             btnInsertarLink.setOnClickListener(this);
+            txtComentario.setOnClickListener(this);
 
             item.setOnClickListener(this);
         }
@@ -83,6 +87,10 @@ public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.View
                 case R.id.lblPregunta:
                     onTemaListener.onTemaClick(getAdapterPosition(),temaLibreList,
                             Toast.makeText(context, "Esta es la pregunta", Toast.LENGTH_SHORT));
+                    break;
+                case R.id.txtComentario:
+                    entrar = new Intent(context, MainComentario.class);
+                    context.startActivity(entrar);
                     break;
                 case R.id.lblDescripcion:
                     onTemaListener.onTemaClick(getAdapterPosition(),temaLibreList,

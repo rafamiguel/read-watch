@@ -76,9 +76,10 @@
             android:layout_width="236dp"
             android:layout_height="39dp"
             android:layout_marginTop="16dp"
-            android:importantForAutofill="no"
             android:ems="10"
+            android:focusable="false"
             android:hint="@string/comentario"
+            android:importantForAutofill="no"
             android:inputType="textPersonName"
             app:layout_constraintStart_toStartOf="@+id/lblDescripcion"
             app:layout_constraintTop_toBottomOf="@+id/lblDescripcion" />

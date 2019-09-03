@@ -1,6 +1,7 @@
 package estrada.leon.rafael.readwatch.estudiante.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,12 +15,14 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import estrada.leon.rafael.readwatch.estudiante.fragment.MainComentario;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
 import estrada.leon.rafael.readwatch.R;
 
 public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<Videos> list;
+    Intent entrar;
     private OnVideoListener mOnVideoListener;
 
     public VideosAdapter(Context context, List<Videos> list, OnVideoListener onVideoListener) {
@@ -53,6 +56,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             btnFavorito.setOnClickListener(this);
             btnOpcion.setOnClickListener(this);
             btnEditar.setOnClickListener(this);
+            txtComentario.setOnClickListener(this);
             this.onVideoListener = onVideoListener;
         }
 
@@ -66,6 +70,10 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 case R.id.lblPerfil:
                     onVideoListener.onVideoClick(getAdapterPosition(),list,
                             Toast.makeText(context, "Este es el perfil", Toast.LENGTH_SHORT));
+                    break;
+                case R.id.txtComentario:
+                    entrar = new Intent(context, MainComentario.class);
+                    context.startActivity(entrar);
                     break;
                 case R.id.lblReportar:
                     onVideoListener.reportarClick();

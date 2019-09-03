@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":app" external.linked.project.path="$MODULE_DIR$/../../Read&amp;amp;Watch/app" external.root.project.path="$MODULE_DIR$/../../Read&amp;amp;Watch" external.system.id="GRADLE" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":app" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
@@ -19,7 +19,7 @@
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
         <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
-        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/src/main/res;file://$MODULE_DIR$/src/main/res/layout/general/activity;file://$MODULE_DIR$/src/main/res/layout/general/adapter;file://$MODULE_DIR$/src/main/res/layout/administrador/activity;file://$MODULE_DIR$/src/main/res/layout/administrador/adapter;file://$MODULE_DIR$/src/main/res/layout/administrador/fragment;file://$MODULE_DIR$/src/main/res/layout/estudiante/activity;file://$MODULE_DIR$/src/main/res/layout/estudiante/adapter;file://$MODULE_DIR$/src/main/res/layout/estudiante/fragment;file://$MODULE_DIR$/src/main/res/layout/estudiante/menu;file://$MODULE_DIR$/src/main/res/layout/administrador/menu;file://$MODULE_DIR$/src/main/res/layout/administrador/notificacion;file://$MODULE_DIR$/src/main/res/layout/estudiante/notificacion;file://$MODULE_DIR$/src/main/res/layout/general/dialog;file://$MODULE_DIR$/src/main/res/layout/estudiante/dialog;file://$MODULE_DIR$/build/generated/res/resValues/debug" />
+        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/src/main/res;file://$MODULE_DIR$/src/main/res/layout/general/activity;file://$MODULE_DIR$/src/main/res/layout/administrador/adapter;file://$MODULE_DIR$/src/main/res/layout/administrador/fragment;file://$MODULE_DIR$/src/main/res/layout/estudiante/activity;file://$MODULE_DIR$/src/main/res/layout/estudiante/adapter;file://$MODULE_DIR$/src/main/res/layout/estudiante/fragment;file://$MODULE_DIR$/src/main/res/layout/estudiante/menu;file://$MODULE_DIR$/src/main/res/layout/administrador/menu;file://$MODULE_DIR$/src/main/res/layout/general/dialog;file://$MODULE_DIR$/src/main/res/layout/estudiante/dialog;file://$MODULE_DIR$/build/generated/res/resValues/debug" />
         <option name="TEST_RES_FOLDERS_RELATIVE_PATH" value="" />
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
       </configuration>
@@ -120,9 +120,9 @@
     <orderEntry type="library" scope="TEST" name="Gradle: com.android.support.test:runner:1.0.2@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.android.support.test:monitor:1.0.2@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.android.support.test.espresso:espresso-idling-resource:3.0.2@aar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\Rafael\AndroidStudioProjects\ProyectoTitulacion\Read&amp;Watch\app\libs\activation.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\Rafael\AndroidStudioProjects\ProyectoTitulacion\Read&amp;Watch\app\libs\additionnal.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\Rafael\AndroidStudioProjects\ProyectoTitulacion\Read&amp;Watch\app\libs\mail.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\migue\Documents\GitHub\read-watch\app\libs\activation.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\migue\Documents\GitHub\read-watch\app\libs\additionnal.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\migue\Documents\GitHub\read-watch\app\libs\mail.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:collections:28.0.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.core:common:1.1.1@jar" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.lifecycle:common:1.1.1@jar" level="project" />
