@@ -1,6 +1,7 @@
 package estrada.leon.rafael.readwatch.estudiante.fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +35,18 @@ import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
 
-public class ElegirVideo extends Fragment implements View.OnClickListener, VideosAdapter.OnVideoListener {
+public class ElegirVideo extends Fragment implements View.OnClickListener, VideosAdapter.OnVideoListener, Response.Listener<JSONObject>, Response.ErrorListener {
     private iComunicacionFragments interfaceFragments;
+    ProgressDialog progreso;
     View vista;
     Activity actividad;
+    JsonObjectRequest jsonObjectRequest;
+    StringRequest stringRequest;
+    int idTema;
+    List<Videos> videos;
+    RequestQueue request;
+    VideosAdapter videosAdapter;
+    RecyclerView recyclerVideos;
     private List<Videos> list;
 
     private OnFragmentInteractionListener mListener;
@@ -33,12 +54,15 @@ public class ElegirVideo extends Fragment implements View.OnClickListener, Video
     public ElegirVideo() {
     }
     public void cargarDatos(){
-        list=new ArrayList<>();
+        cargarWebService();
+        /*
         for (int i=0;i<20;i++){
-            list.add(new Videos("perfil"+1,"video"+1,"@drawable/miniatura"));
+                list.add(new Videos("perfil"+1,"video"+1,"@drawable/miniatura"));
         }
+        */
 
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +72,9 @@ public class ElegirVideo extends Fragment implements View.OnClickListener, Video
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Button btnVideo,btnDocumento,btnSubirVideo;
-        VideosAdapter videosAdapter;
-        RecyclerView recyclerVideos;
+        videos=new ArrayList<>();
+
+
         vista=inflater.inflate(R.layout.fragment_elegir_video, container, false);
         recyclerVideos=vista.findViewById(R.id.recyclerVideos);
         btnVideo=vista.findViewById(R.id.btnVideo);
@@ -59,9 +84,9 @@ public class ElegirVideo extends Fragment implements View.OnClickListener, Video
         btnDocumento.setOnClickListener(this);
         btnSubirVideo.setOnClickListener(this);
         recyclerVideos.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        cargarDatos();
-        videosAdapter=new VideosAdapter(getContext(),list, this);
-        recyclerVideos.setAdapter(videosAdapter);
+        request= Volley.newRequestQueue(getContext());
+
+        cargarWebService();
         return vista;
     }
 
@@ -109,6 +134,48 @@ public class ElegirVideo extends Fragment implements View.OnClickListener, Video
                 interfaceFragments.onClickSubirVid();
                 break;
         }
+    }
+    private void cargarWebService() {
+        String url;
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        url = "https://readandwatch.herokuapp.com/php/cargarVidDoc.php?" +
+                "idTema=2&tipo=v";
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+    }
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        progreso.hide();
+        Toast.makeText(getContext(), "Error.\n "+error.toString(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        JSONArray json;
+        JSONObject jsonObject=null;
+        Videos video;
+        json = response.optJSONArray("usuario");
+        String idUsuario,descripcion,miniatura;
+        try {
+            for(int i=0;i<json.length();i++){
+            jsonObject=json.getJSONObject(i);
+            idUsuario=jsonObject.optString("idUsuario");
+            descripcion=jsonObject.optString("descripcion");
+            miniatura=jsonObject.optString("rutaImagen");
+            video=new Videos(idUsuario,descripcion,miniatura);
+
+            videos.add(video);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        progreso.hide();
+        videosAdapter=new VideosAdapter(getContext(),videos, this);
+        recyclerVideos.setAdapter(videosAdapter);
     }
 
     public interface OnFragmentInteractionListener {
