@@ -35,7 +35,8 @@ import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
 
-public class ElegirVideo extends Fragment implements View.OnClickListener, VideosAdapter.OnVideoListener, Response.Listener<JSONObject>, Response.ErrorListener {
+public class ElegirVideo extends Fragment implements View.OnClickListener,
+        VideosAdapter.OnVideoListener, Response.Listener<JSONObject>, Response.ErrorListener {
     private iComunicacionFragments interfaceFragments;
     ProgressDialog progreso;
     View vista;
