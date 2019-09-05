@@ -22,14 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Random;
-
-import estrada.leon.rafael.readwatch.BtnOpciones;
-import estrada.leon.rafael.readwatch.CorreoElectronico.MainCorreo;
-import estrada.leon.rafael.readwatch.ModificarEliminar;
-import estrada.leon.rafael.readwatch.NotificacionPropuestaAceptada;
-import estrada.leon.rafael.readwatch.NotificacionPublicacionEliminada;
-import estrada.leon.rafael.readwatch.Notificaciones;
+import estrada.leon.rafael.readwatch.MainFileManager;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogContrasenaOlvidada;
 import estrada.leon.rafael.readwatch.administrador.menu.MenuAdministrador;
 import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
@@ -88,7 +81,9 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                entrar = new Intent(MainActivity.this, Notificaciones.class);
+                //entrar = new Intent(MainActivity.this, Notificaciones.class);
+                //startActivity(entrar);
+                entrar = new Intent(MainActivity.this, MainFileManager.class);
                 startActivity(entrar);
             }
         });

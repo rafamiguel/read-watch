@@ -2,6 +2,7 @@ package estrada.leon.rafael.readwatch.estudiante.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,11 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import estrada.leon.rafael.readwatch.MainFileManager;
 import estrada.leon.rafael.readwatch.estudiante.adapter.DocumentosAdapter;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Documentos;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
@@ -27,6 +30,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
 
     private iComunicacionFragments interfaceFragments;
     private List<Documentos> documentosList;
+    Intent entrar;
 
     private OnFragmentInteractionListener mListener;
 
@@ -46,6 +50,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        TextView lblElegirDocumento;
         RecyclerView recyclerDocumentos;
         Button btnVideo,btnDocumento,btnSubirDocumento;
         DocumentosAdapter adapter;
