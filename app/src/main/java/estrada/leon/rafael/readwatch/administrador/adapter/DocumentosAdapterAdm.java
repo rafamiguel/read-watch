@@ -54,7 +54,7 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
     }
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView lblDescripcion,lblPerfil,lblReportar;
+        private TextView lblDescripcion,lblPerfil;
         private EditText txtComentario;
         private ImageView btnDocumento;
         private OnDocumentosAdmListener onDocumentosAdmListener;
@@ -62,13 +62,11 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
             super(itemView);
             lblDescripcion = itemView.findViewById(R.id.lblDescripcion);
             lblPerfil = itemView.findViewById(R.id.lblPerfil);
-            lblReportar = itemView.findViewById(R.id.lblReportar);
             btnDocumento = itemView.findViewById(R.id.btnDocumento);
             txtComentario = itemView.findViewById(R.id.txtComentario);
 
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
-            lblReportar.setOnClickListener(this);
             btnDocumento.setOnClickListener(this);
             this.onDocumentosAdmListener = onDocumentosAdmListener;
         }

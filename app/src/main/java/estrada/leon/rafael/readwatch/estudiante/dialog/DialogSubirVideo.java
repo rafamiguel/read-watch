@@ -47,6 +47,7 @@ public class DialogSubirVideo extends AppCompatDialogFragment implements
         spinner_tema=view.findViewById(R.id.spinner_tema);
         spinner_materia=view.findViewById(R.id.spinner_materia);
         request= Volley.newRequestQueue(getContext());
+        cargarListasWebService();
         builder.setView(view)
                 .setTitle("Subir Video")
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -72,27 +73,29 @@ public class DialogSubirVideo extends AppCompatDialogFragment implements
         progreso.show();
         url = "https://readandwatch.herokuapp.com/php/listaMaterias.php";
         url=url.replace(" ", "%20");
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 JSONArray json;
                 JSONObject jsonObject=null;
                 json = response.optJSONArray("usuario");
                 List<String> materias = new ArrayList<String>();
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, materias);
-
-                spinner_tema.setAdapter(adapter);
+                ArrayAdapter<String> adapter;
                 try {
                     for(int i=0;i<json.length();i++){
                         jsonObject=json.getJSONObject(i);
-                        materias.add(jsonObject.optString("idUsuario"));
+                        materias.add(jsonObject.optString("nombre"));
                     }
+                    adapter = new ArrayAdapter<String>(getContext(),
+                            android.R.layout.simple_spinner_item, materias);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner_tema.setAdapter(adapter);
+                    progreso.hide();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                progreso.hide();
             }
         }, this);
         request.add(jsonObjectRequest);
@@ -105,7 +108,8 @@ public class DialogSubirVideo extends AppCompatDialogFragment implements
         url = "https://readandwatch.herokuapp.com/php/cargarVidDoc.php?" +
                 "idTema=2&tipo=v";
         url=url.replace(" ", "%20");
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
+                null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 

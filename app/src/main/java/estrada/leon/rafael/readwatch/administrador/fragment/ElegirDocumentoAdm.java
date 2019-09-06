@@ -1,5 +1,6 @@
 package estrada.leon.rafael.readwatch.administrador.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -94,7 +95,12 @@ public class ElegirDocumentoAdm extends Fragment implements DocumentosAdapterAdm
 
     @Override
     public void onAttach(Context context) {
+        Activity actividad;
         super.onAttach(context);
+        if (context instanceof Activity) {
+            actividad= (Activity) context;
+            comunicacionFragmentsAdm=(iComunicacionFragmentsAdm) actividad;
+        }
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {

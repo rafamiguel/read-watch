@@ -50,7 +50,7 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public class VideosAdmViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView lblDescripcion, lblPerfil, lblReportar;
+        TextView lblDescripcion, lblPerfil;
         OnVideoAdmListener onVideoAdmListener;
         ImageView btnMiniatura;
         EditText txtComentario;
@@ -59,12 +59,10 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
             lblDescripcion = itemView.findViewById(R.id.lblDescripcion);
             lblPerfil = itemView.findViewById(R.id.lblPerfil);
-            lblReportar = itemView.findViewById(R.id.lblReportar);
             btnMiniatura = itemView.findViewById(R.id.btnMiniatura);
             txtComentario = itemView.findViewById(R.id.txtComentario);
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
-            lblReportar.setOnClickListener(this);
             btnMiniatura.setOnClickListener(this);
             this.onVideoAdmListener = onVideoAdmListener;
         }
