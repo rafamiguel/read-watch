@@ -24,6 +24,7 @@
             android:label="@string/title_activity_menu_administrador"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".BotonIngresarPropuesta" />
+        <activity android:name=".administrador.fragment.MainComentarios" />
         <activity android:name=".VentanaEmergenteDeSeleccionDeVistaDePropuestasUsuarioEstudiante" />
         <activity android:name=".BotonPreguntaTemaLibre" />
         <activity

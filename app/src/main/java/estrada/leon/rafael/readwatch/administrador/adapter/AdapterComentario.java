@@ -1,4 +1,4 @@
-package estrada.leon.rafael.readwatch.estudiante.adapter;
+package estrada.leon.rafael.readwatch.administrador.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -6,13 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
 
+import estrada.leon.rafael.readwatch.administrador.pojo.PojoComentario;
 import estrada.leon.rafael.readwatch.R;
-import estrada.leon.rafael.readwatch.estudiante.pojo.PojoComentario;
 
 public class AdapterComentario extends RecyclerView.Adapter<AdapterComentario.ViewHolderComentario> {
 
@@ -29,7 +28,7 @@ public class AdapterComentario extends RecyclerView.Adapter<AdapterComentario.Vi
     @NonNull
     @Override
     public ViewHolderComentario onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.vistadecomentario, viewGroup, false );
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.vista_comentario_recycler, viewGroup, false );
         ViewHolderComentario viewHolderComentario = new ViewHolderComentario(view);
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(lp);
@@ -50,12 +49,11 @@ public class AdapterComentario extends RecyclerView.Adapter<AdapterComentario.Vi
     }
 
     public class ViewHolderComentario extends RecyclerView.ViewHolder {
-        TextView lblPerfil, lblReportar, lblComentario, txtComentario;
+        TextView lblPerfil,  txtComentario;
 
         public ViewHolderComentario(@NonNull View itemView) {
             super(itemView);
             lblPerfil = itemView.findViewById(R.id.lblPerfil);
-            lblReportar = itemView.findViewById(R.id.lblReportar);
             txtComentario = itemView.findViewById(R.id.txtComentario);
 
 

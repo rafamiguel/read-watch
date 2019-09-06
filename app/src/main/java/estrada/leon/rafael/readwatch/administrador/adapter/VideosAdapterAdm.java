@@ -1,12 +1,12 @@
 package estrada.leon.rafael.readwatch.administrador.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,12 +14,14 @@ import android.widget.Toast;
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.administrador.fragment.MainComentarios;
 import estrada.leon.rafael.readwatch.administrador.pojo.VideosAdm;
 
 public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<VideosAdm> list;
     private OnVideoAdmListener onVideoAdmListener;
+    Intent entrar;
 
     public VideosAdapterAdm(Context context, List<VideosAdm> list, OnVideoAdmListener onVideoAdmListener) {
         this.context = context;
@@ -50,10 +52,9 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public class VideosAdmViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView lblDescripcion, lblPerfil;
+        TextView lblDescripcion, lblPerfil, txtComentario;
         OnVideoAdmListener onVideoAdmListener;
         ImageView btnMiniatura;
-        EditText txtComentario;
 
         private VideosAdmViewHolder(@NonNull View itemView, OnVideoAdmListener onVideoAdmListener) {
             super(itemView);
@@ -64,6 +65,7 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
             btnMiniatura.setOnClickListener(this);
+            txtComentario.setOnClickListener(this);
             this.onVideoAdmListener = onVideoAdmListener;
         }
 
@@ -77,6 +79,10 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
                 case R.id.lblPerfil:
                     onVideoAdmListener.onVideoClick(getAdapterPosition(), list,
                             Toast.makeText(context, "Este es el perfil", Toast.LENGTH_SHORT));
+                    break;
+                case R.id.txtComentario:
+                    entrar = new Intent(context, MainComentarios.class);
+                    context.startActivity(entrar);
                     break;
                 case R.id.btnMiniatura:
                     onVideoAdmListener.onVideoClick(getAdapterPosition(), list,
