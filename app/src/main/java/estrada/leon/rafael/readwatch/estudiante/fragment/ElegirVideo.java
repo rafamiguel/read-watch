@@ -142,7 +142,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         progreso.setMessage("Cargando...");
         progreso.show();
         url = "https://readandwatch.herokuapp.com/php/cargarVidDoc.php?" +
-                "idTema=2&tipo=v";
+                "idTema=1&tipo=v";
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request.add(jsonObjectRequest);
