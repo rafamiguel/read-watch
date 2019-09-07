@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="270dp"
+        android:layout_height="136dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/txtComentario"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:focusable="false"
+            android:hint="@string/comentario"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:singleLine="false"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblPerfil"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/lblPerfil"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="16dp"
+            android:singleLine="false"
+            android:text="@string/perfil"
+            android:textColor="#131212"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</android.support.constraint.ConstraintLayout>

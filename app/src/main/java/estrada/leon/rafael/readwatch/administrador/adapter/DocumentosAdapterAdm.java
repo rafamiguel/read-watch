@@ -1,13 +1,12 @@
 package estrada.leon.rafael.readwatch.administrador.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +14,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.administrador.fragment.MainComentarios;
 import estrada.leon.rafael.readwatch.administrador.pojo.DocumentosAdm;
 
 public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapterAdm.ViewHolder> {
@@ -22,6 +22,7 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
     private Context context;
     private List<DocumentosAdm> list;
     private OnDocumentosAdmListener onDocumentosAdmListener;
+    Intent entrar;
 
     public DocumentosAdapterAdm(Context context, List<DocumentosAdm> list, OnDocumentosAdmListener onDocumentosAdmListener) {
         this.context = context;
@@ -54,8 +55,7 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
     }
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView lblDescripcion,lblPerfil;
-        private EditText txtComentario;
+        private TextView lblDescripcion,lblPerfil, txtComentario;
         private ImageView btnDocumento;
         private OnDocumentosAdmListener onDocumentosAdmListener;
         private ViewHolder (View itemView, OnDocumentosAdmListener onDocumentosAdmListener){
@@ -68,6 +68,7 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
             btnDocumento.setOnClickListener(this);
+            txtComentario.setOnClickListener(this);
             this.onDocumentosAdmListener = onDocumentosAdmListener;
         }
 
@@ -77,6 +78,10 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
                 case R.id.lblDescripcion:
                     onDocumentosAdmListener.onDocumentosClick(getAdapterPosition(),list,
                             Toast.makeText(context, "Esta es la descripcion", Toast.LENGTH_SHORT));
+                    break;
+                case R.id.txtComentario:
+                    entrar = new Intent(context, MainComentarios.class);
+                    context.startActivity(entrar);
                     break;
                 case R.id.lblPerfil:
                     onDocumentosAdmListener.onDocumentosClick(getAdapterPosition(),list,

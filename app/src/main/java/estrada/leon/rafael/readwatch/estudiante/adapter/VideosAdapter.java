@@ -70,6 +70,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 case R.id.txtComentario:
                     entrar = new Intent(context, MainComentario.class);
                     context.startActivity(entrar);
+
                     break;
                 case R.id.lblReportar:
                     onVideoListener.reportarClick();
@@ -100,6 +101,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         }
     }
+
 
 
     @NonNull
