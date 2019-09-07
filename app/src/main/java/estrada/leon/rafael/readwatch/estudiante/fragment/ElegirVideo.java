@@ -39,13 +39,12 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         VideosAdapter.OnVideoListener, Response.Listener<JSONObject>, Response.ErrorListener {
     private iComunicacionFragments interfaceFragments;
     ProgressDialog progreso;
+    JsonObjectRequest jsonObjectRequest;
+    int idTema;
+    RequestQueue request;
     View vista;
     Activity actividad;
-    JsonObjectRequest jsonObjectRequest;
-    StringRequest stringRequest;
-    int idTema;
     List<Videos> videos;
-    RequestQueue request;
     VideosAdapter videosAdapter;
     RecyclerView recyclerVideos;
     private List<Videos> list;
@@ -53,15 +52,6 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
     private OnFragmentInteractionListener mListener;
 
     public ElegirVideo() {
-    }
-    public void cargarDatos(){
-        cargarWebService();
-        /*
-        for (int i=0;i<20;i++){
-                list.add(new Videos("perfil"+1,"video"+1,"@drawable/miniatura"));
-        }
-        */
-
     }
 
     @Override

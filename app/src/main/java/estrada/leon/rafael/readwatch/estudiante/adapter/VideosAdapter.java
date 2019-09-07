@@ -32,30 +32,26 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public class VideosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView lblDescripcion,lblPerfil,lblReportar;
+        TextView lblDescripcion,lblPerfil;
         OnVideoListener onVideoListener;
         Button btnAdvertencia,btnFavorito,btnOpcion;
-        ImageView btnMiniatura,btnEditar;
+        ImageView btnMiniatura;
         EditText txtComentario;
         private VideosViewHolder(@NonNull View itemView, OnVideoListener onVideoListener) {
             super(itemView);
             lblDescripcion=itemView.findViewById(R.id.lblDescripcion);
             lblPerfil=itemView.findViewById(R.id.lblPerfil);
-            lblReportar=itemView.findViewById(R.id.lblReportar);
             btnMiniatura=itemView.findViewById(R.id.btnMiniatura);
             btnAdvertencia=itemView.findViewById(R.id.btnAdvertencia);
             btnFavorito=itemView.findViewById(R.id.btnFavorito);
             btnOpcion=itemView.findViewById(R.id.btnOpcion);
-            btnEditar=itemView.findViewById(R.id.btnEditar);
             txtComentario=itemView.findViewById(R.id.txtComentario);
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
-            lblReportar.setOnClickListener(this);
             btnMiniatura.setOnClickListener(this);
             btnAdvertencia.setOnClickListener(this);
             btnFavorito.setOnClickListener(this);
             btnOpcion.setOnClickListener(this);
-            btnEditar.setOnClickListener(this);
             txtComentario.setOnClickListener(this);
             this.onVideoListener = onVideoListener;
         }

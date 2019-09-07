@@ -6,10 +6,9 @@
     android:layout_height="match_parent">
 
     <android.support.constraint.ConstraintLayout
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -24,9 +23,8 @@
             android:importantForAutofill="no"
             android:inputType="textPersonName"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@+id/lblPerfil"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="28dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblPerfil" />
 
         <TextView
             android:id="@+id/lblPerfil"
@@ -35,9 +33,8 @@
             android:text="@string/perfil"
             android:textColor="#131212"
             android:textSize="18sp"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="28dp"
-            tools:layout_editor_absoluteY="16dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/lblReportar"
@@ -49,8 +46,17 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@id/txtComentario"
             app:layout_constraintStart_toEndOf="@id/txtComentario"
-            app:layout_constraintTop_toTopOf="@id/txtComentario"
-            app:layout_constraintVertical_bias="0.533" />
+            app:layout_constraintTop_toTopOf="@id/txtComentario" />
+
+        <ImageView
+            android:id="@+id/btnEditar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/edit"
+            android:backgroundTintMode="src_over"
+            app:layout_constraintStart_toEndOf="@+id/lblReportar"
+            app:layout_constraintTop_toTopOf="@+id/txtComentario" />
 
     </android.support.constraint.ConstraintLayout>
 

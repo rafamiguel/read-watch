@@ -26,7 +26,10 @@ public class MainComentario extends AppCompatActivity {
         recycler = findViewById(R.id.recyclerId);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recycler.setLayoutManager(linearLayoutManager);
+        recycler.setLayoutManager(new LinearLayoutManager
+                (this/*SI SE DETIENE LA APLICACION Y SE CAMBIÓ ESTO A UN FRAGMENT O DIALOG (PORQUE
+                TENIA QUE SER UN DIALOG) CAMBIAR EL THIS POR GETCONTEXT.*/
+                        ,LinearLayoutManager.VERTICAL,false));
         cargarDatos();
         adapterComentario = new AdapterComentario(this, list);
         recycler.setAdapter(adapterComentario);

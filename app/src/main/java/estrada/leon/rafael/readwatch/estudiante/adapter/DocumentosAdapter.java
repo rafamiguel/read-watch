@@ -60,31 +60,27 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView lblDescripcion,lblPerfil,lblReportar;
+        private TextView lblDescripcion,lblPerfil;
         private Button btnAdvertencia,btnFavorito,btnOpcion;
         private EditText txtComentario;
-        private ImageView btnDocumento,btnEditar;
+        private ImageView btnDocumento;
         private OnDocumentosListener onDocumentosListener;
         private ViewHolder (View itemView, OnDocumentosListener onDocumentosListener){
             super(itemView);
             lblDescripcion = itemView.findViewById(R.id.lblDescripcion);
             lblPerfil = itemView.findViewById(R.id.lblPerfil);
-            lblReportar = itemView.findViewById(R.id.lblReportar);
             btnDocumento = itemView.findViewById(R.id.btnDocumento);
             btnAdvertencia = itemView.findViewById(R.id.btnAdvertencia);
             btnFavorito = itemView.findViewById(R.id.btnFavorito);
             btnOpcion = itemView.findViewById(R.id.btnOpcion);
-            btnEditar = itemView.findViewById(R.id.btnEditar);
             txtComentario = itemView.findViewById(R.id.txtComentario);
 
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
-            lblReportar.setOnClickListener(this);
             btnDocumento.setOnClickListener(this);
             btnAdvertencia.setOnClickListener(this);
             btnFavorito.setOnClickListener(this);
             btnOpcion.setOnClickListener(this);
-            btnEditar.setOnClickListener(this);
             txtComentario.setOnClickListener(this);
             this.onDocumentosListener = onDocumentosListener;
         }

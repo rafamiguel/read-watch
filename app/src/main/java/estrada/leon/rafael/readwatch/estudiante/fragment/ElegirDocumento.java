@@ -1,6 +1,7 @@
 package estrada.leon.rafael.readwatch.estudiante.fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,6 +17,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +35,16 @@ import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragment
 import estrada.leon.rafael.readwatch.R;
 
 
-public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDocumentosListener, View.OnClickListener {
+public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDocumentosListener,
+        View.OnClickListener, Response.Listener<JSONObject>, Response.ErrorListener {
 
     private iComunicacionFragments interfaceFragments;
     private List<Documentos> documentosList;
     Intent entrar;
+    ProgressDialog progreso;
+    JsonObjectRequest jsonObjectRequest;
+    int idTema;
+    RequestQueue request;
 
     private OnFragmentInteractionListener mListener;
 
@@ -39,7 +53,8 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     public void cargarDatos(){
         documentosList=new ArrayList<>();
         for(int i=0;i<10;i++){
-            documentosList.add(new Documentos("perfil"+i,"video"+i,"@drawable/doc"));
+            documentosList.add(new Documentos("perfil"+i,"video"+i,
+                    "@drawable/doc"));
         }
     }
     @Override
@@ -67,7 +82,8 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         btnDocumento.setOnClickListener(this);
         btnSubirDocumento.setOnClickListener(this);
 
-        recyclerDocumentos.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        recyclerDocumentos.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.VERTICAL,false));
 
         cargarDatos();
         adapter=new DocumentosAdapter(getContext(),documentosList,this);
@@ -124,6 +140,26 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
                 break;
 
         }
+    }
+    private void cargarWebService() {
+        String url;
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        url = "https://readandwatch.herokuapp.com/php/cargarVidDoc.php?" +
+                "idTema=1&tipo=v";
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+    }
+    @Override
+    public void onErrorResponse(VolleyError error) {
+
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+
     }
 
     public interface OnFragmentInteractionListener {
