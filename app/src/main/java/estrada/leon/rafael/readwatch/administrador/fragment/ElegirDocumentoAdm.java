@@ -1,6 +1,7 @@
 package estrada.leon.rafael.readwatch.administrador.fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +33,17 @@ import estrada.leon.rafael.readwatch.administrador.adapter.DocumentosAdapterAdm;
 import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
 import estrada.leon.rafael.readwatch.administrador.pojo.DocumentosAdm;
 
-public class ElegirDocumentoAdm extends Fragment implements DocumentosAdapterAdm.OnDocumentosAdmListener,View.OnClickListener {
+public class ElegirDocumentoAdm extends Fragment implements
+        DocumentosAdapterAdm.OnDocumentosAdmListener,View.OnClickListener,
+        Response.Listener<JSONObject>, Response.ErrorListener{
     private iComunicacionFragmentsAdm comunicacionFragmentsAdm;
-    private List<DocumentosAdm> list;
+    private List<DocumentosAdm> documentos;
+    ProgressDialog progreso;
+    JsonObjectRequest jsonObjectRequest;
+    int idTema;
+    RequestQueue request;
+    RecyclerView recyclerDocumentos;
+    DocumentosAdapterAdm adapter;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -35,13 +55,6 @@ public class ElegirDocumentoAdm extends Fragment implements DocumentosAdapterAdm
 
     public ElegirDocumentoAdm() {
         // Required empty public constructor
-    }
-
-    public void cargarDatos(){
-        list=new ArrayList<>();
-        for(int i=0;i<10;i++){
-            list.add(new DocumentosAdm("perfil"+i,"video"+i,"@drawable/doc"));
-        }
     }
 
     public static ElegirDocumentoAdm newInstance(String param1, String param2) {
@@ -65,7 +78,6 @@ public class ElegirDocumentoAdm extends Fragment implements DocumentosAdapterAdm
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RecyclerView recyclerDocumentos;
         Button btnVideo,btnDocumento;
         DocumentosAdapterAdm adapter;
         View vista;
@@ -80,9 +92,8 @@ public class ElegirDocumentoAdm extends Fragment implements DocumentosAdapterAdm
 
         recyclerDocumentos.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
 
-        cargarDatos();
-        adapter=new DocumentosAdapterAdm(getContext(),list,this);
-        recyclerDocumentos.setAdapter(adapter);
+        request= Volley.newRequestQueue(getContext());
+        cargarWebService();
         return vista;
     }
 
@@ -126,6 +137,50 @@ public class ElegirDocumentoAdm extends Fragment implements DocumentosAdapterAdm
                 break;
 
         }
+    }
+
+    private void cargarWebService() {
+        documentos=new ArrayList<>();
+        String url;
+        String ip=getString(R.string.ip);
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        url = ip+"/php/cargarVidDoc.php?" +
+                "idTema=1&tipo=d";
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+    }
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        progreso.hide();
+        Toast.makeText(getContext(), "Error.\n "+error.toString(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        JSONArray json;
+        JSONObject jsonObject=null;
+        DocumentosAdm documento;
+        json = response.optJSONArray("usuario");
+        String idUsuario,descripcion,miniatura;
+        try {
+            for(int i=0;i<json.length();i++){
+                jsonObject=json.getJSONObject(i);
+                idUsuario=jsonObject.optString("idUsuario");
+                descripcion=jsonObject.optString("descripcion");
+                miniatura=jsonObject.optString("rutaImagen");
+                documento=new DocumentosAdm(idUsuario,descripcion,miniatura);
+                documentos.add(documento);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        progreso.hide();
+        adapter=new DocumentosAdapterAdm(getContext(),documentos,this);
+        recyclerDocumentos.setAdapter(adapter);
     }
 
     @Override

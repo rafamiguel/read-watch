@@ -43,7 +43,14 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        VideosAdm video = list.get(position);
+        VideosAdmViewHolder videosViewHolder = (VideosAdmViewHolder) viewHolder;
+        videosViewHolder.lblDescripcion.setText(video.getDescripcion());
+        videosViewHolder.lblPerfil.setText(video.getPerfil());
 
+        String uri = video.getRutaImagen();
+        int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
+        videosViewHolder.btnMiniatura.setImageResource(imageResource);
     }
 
     @Override

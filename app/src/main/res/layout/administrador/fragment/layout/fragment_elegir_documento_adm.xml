@@ -7,6 +7,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".administrador.fragment.ElegirDocumentoAdm">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
     <LinearLayout
         android:id="@+id/layoutBotones"
         android:layout_width="wrap_content"
@@ -63,16 +74,6 @@
             android:layout_weight="1"
             android:entries="@array/modos_ordenamiento" />
 
-        <Button
-            android:id="@+id/btnSubirDocumento"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#599191"
-            android:text="Subir Documento"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:layout_weight="0"/>
-
     </LinearLayout>
 
 
@@ -85,5 +86,9 @@
         app:layout_constraintTop_toBottomOf="@id/layoutSpinner">
 
     </android.support.v7.widget.RecyclerView>
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
 
 </android.support.constraint.ConstraintLayout>

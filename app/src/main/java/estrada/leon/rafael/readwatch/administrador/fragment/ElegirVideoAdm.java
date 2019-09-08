@@ -19,6 +19,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,7 +32,6 @@ import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.administrador.adapter.VideosAdapterAdm;
 import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
 import estrada.leon.rafael.readwatch.administrador.pojo.VideosAdm;
-import estrada.leon.rafael.readwatch.estudiante.adapter.VideosAdapter;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 
 public class ElegirVideoAdm extends Fragment implements View.OnClickListener,
@@ -90,6 +90,7 @@ public class ElegirVideoAdm extends Fragment implements View.OnClickListener,
         btnVideo.setOnClickListener(this);
         btnDocumento.setOnClickListener(this);
         recyclerVideosAdm.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        request= Volley.newRequestQueue(getContext());
         cargarWebService();
 
 
