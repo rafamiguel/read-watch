@@ -22,7 +22,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -39,23 +42,19 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         View.OnClickListener, Response.Listener<JSONObject>, Response.ErrorListener {
 
     private iComunicacionFragments interfaceFragments;
-    private List<Documentos> documentosList;
+    private List<Documentos> documentos;
+
     Intent entrar;
     ProgressDialog progreso;
     JsonObjectRequest jsonObjectRequest;
     int idTema;
     RequestQueue request;
+    RecyclerView recyclerDocumentos;
+    DocumentosAdapter adapter;
 
     private OnFragmentInteractionListener mListener;
 
     public ElegirDocumento() {
-    }
-    public void cargarDatos(){
-        documentosList=new ArrayList<>();
-        for(int i=0;i<10;i++){
-            documentosList.add(new Documentos("perfil"+i,"video"+i,
-                    "@drawable/doc"));
-        }
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,13 +65,10 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         TextView lblElegirDocumento;
-        RecyclerView recyclerDocumentos;
         Button btnVideo,btnDocumento,btnSubirDocumento;
-        DocumentosAdapter adapter;
         View vista;
-
+        documentos=new ArrayList<>();
         vista=inflater.inflate(R.layout.fragment_elegir_documento, container, false);
-
         recyclerDocumentos=vista.findViewById(R.id.recyclerDocumentos);
         btnVideo=vista.findViewById(R.id.btnVideo);
         btnDocumento=vista.findViewById(R.id.btnDocumento);
@@ -85,9 +81,9 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         recyclerDocumentos.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL,false));
 
-        cargarDatos();
-        adapter=new DocumentosAdapter(getContext(),documentosList,this);
-        recyclerDocumentos.setAdapter(adapter);
+
+        request= Volley.newRequestQueue(getContext());
+        cargarWebService();
         return vista;
 
 
@@ -143,23 +139,45 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     }
     private void cargarWebService() {
         String url;
+        String ip=getString(R.string.ip);
         progreso = new ProgressDialog(getContext());
         progreso.setMessage("Cargando...");
         progreso.show();
-        url = "https://readandwatch.herokuapp.com/php/cargarVidDoc.php?" +
-                "idTema=1&tipo=v";
+        url = ip+"/php/cargarVidDoc.php?" +
+                "idTema=1&tipo=d";
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request.add(jsonObjectRequest);
     }
     @Override
     public void onErrorResponse(VolleyError error) {
-
+        progreso.hide();
+        Toast.makeText(getContext(), "Error.\n "+error.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onResponse(JSONObject response) {
+        JSONArray json;
+        JSONObject jsonObject=null;
+        Documentos documento;
+        json = response.optJSONArray("usuario");
+        String idUsuario,descripcion,miniatura;
+        try {
+            for(int i=0;i<json.length();i++){
+                jsonObject=json.getJSONObject(i);
+                idUsuario=jsonObject.optString("idUsuario");
+                descripcion=jsonObject.optString("descripcion");
+                miniatura=jsonObject.optString("rutaImagen");
+                documento=new Documentos(idUsuario,descripcion,miniatura);
+                documentos.add(documento);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+        progreso.hide();
+        adapter=new DocumentosAdapter(getContext(),documentos,this);
+        recyclerDocumentos.setAdapter(adapter);
     }
 
     public interface OnFragmentInteractionListener {

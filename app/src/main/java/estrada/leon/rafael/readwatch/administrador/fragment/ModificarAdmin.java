@@ -126,18 +126,18 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
     }
 
     private void cargarWebService(boolean php) {
-        String url;
+        String url,ip=getString(R.string.ip);
         progreso = new ProgressDialog(getContext());
         progreso.setMessage("Cargando...");
         progreso.show();
         if(php==MODIFICAR){
-            url = "https://readandwatch.herokuapp.com/php/updateAdmin.php?" +
+            url = ip+"/php/updateAdmin.php?" +
                     "correo="+txtEscribeCorreo.getText().toString()+"&nombre="+
                     txtNombre.getText().toString()+"&apellidos="+txtApellidos.getText().toString()+"&contrasena="+txtContrasena.getText().toString()+"";
             url=url.replace(" ", "%20");
                     jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         }else{
-            url = "https://readandwatch.herokuapp.com/php/buscarAdmin.php?txtCorreo="+txtEscribeCorreo.getText().toString();
+            url = ip+"/php/buscarAdmin.php?txtCorreo="+txtEscribeCorreo.getText().toString();
             url=url.replace(" ", "%20");
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         }
