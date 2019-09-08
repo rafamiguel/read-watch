@@ -155,12 +155,12 @@ public class  MenuEstudiante extends AppCompatActivity
     }
 
     @Override
-    public void seleccionarSemestre(String materia) {
+    public void seleccionarSemestre(int idMateria) {
         fragment =new SeleccionarSemestre();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
         titulo.setText("Seleccione el semestre");
         //Toast.makeText(this, "Materia: " + materia, Toast.LENGTH_SHORT).show();
-        guardarPreferenciasMateria(materia);
+        //guardarPreferenciasMateria(idMateria);
     }
 
     private void guardarPreferenciasMateria(String materia) {
@@ -189,12 +189,12 @@ public class  MenuEstudiante extends AppCompatActivity
     }
 
     @Override
-    public void seleccionarVideo(String tema) {
+    public void seleccionarVideo(int idTema) {
         fragment =new ElegirVideo();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
         titulo.setText("Videos");
 
-        guardarPreferenciasTema(tema);
+        //guardarPreferenciasTema(idTema);
 
        // Toast.makeText(this, "El tema elegido es:" + tema, Toast.LENGTH_SHORT).show();
     }

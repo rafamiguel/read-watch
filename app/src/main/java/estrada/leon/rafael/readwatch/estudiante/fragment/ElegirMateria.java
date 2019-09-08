@@ -101,9 +101,9 @@ public class ElegirMateria extends Fragment implements MateriasAdapter.OnMateria
     @Override
     public void onMateriaClick(int position, List<Materias> lista) {
         if(lista.equals(listMaterias)){
-            interfaceFragments.seleccionarSemestre(listMaterias.get(position).getNombre());
+            interfaceFragments.seleccionarSemestre(listMaterias.get(position).getIdMateria());
         }else if(lista.equals(listMateriasPropuestas)){
-            interfaceFragments.seleccionarSemestre(listMateriasPropuestas.get(position).getNombre());
+            interfaceFragments.seleccionarSemestre(listMateriasPropuestas.get(position).getIdMateria());
         }
 
     }

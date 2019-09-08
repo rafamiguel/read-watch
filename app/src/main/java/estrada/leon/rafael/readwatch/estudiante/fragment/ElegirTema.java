@@ -103,7 +103,7 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
 
     @Override
     public void onTemaClick(int position, List<Item> lista) {
-        interfaceFragments.seleccionarVideo(((Subtemas) (temasList.get(position))).getNombre());
+        interfaceFragments.seleccionarVideo(((Subtemas) (temasList.get(position))).getIdSubtema());
     }
 
     private void cargarWebService() {
@@ -126,7 +126,7 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
     @Override
     public void onResponse(JSONObject response) {
         String nombre,rutaImagen,tipo;
-        int idTema, idMateria,idUsuario, votos, semestre;
+        int id,idUsuario, votos, semestre;
         Temas tema;
         Subtemas subtema;
         temasList=new ArrayList<>();
@@ -139,10 +139,14 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
                 jsonObject=json.getJSONObject(i);
                 tipo=jsonObject.optString("tipo");
                 if(tipo.equals("tema")) {
-                    tema = new Temas(jsonObject.optString("nombre"));
+                    nombre=jsonObject.optString("nombre");
+                    id=jsonObject.optInt("idTema");
+                    tema = new Temas(nombre,id);
                     temasList.add(tema);
                 }else if(tipo.equals("subtema")){
-                    subtema = new Subtemas(jsonObject.optString("nombre"));
+                    nombre=jsonObject.optString("nombre");
+                    id=jsonObject.optInt("idSubtema");
+                    subtema = new Subtemas(nombre,id);
                     temasList.add(subtema);
                 }
             }

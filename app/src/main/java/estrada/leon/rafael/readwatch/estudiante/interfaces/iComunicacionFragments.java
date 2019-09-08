@@ -3,9 +3,9 @@ package estrada.leon.rafael.readwatch.estudiante.interfaces;
 import android.widget.Toast;
 
 public interface iComunicacionFragments {
-    public void seleccionarSemestre(String materia);
+    public void seleccionarSemestre(int idMateria);
     public void seleccionarTema(int semestre);
-    public void seleccionarVideo(String tema);
+    public void seleccionarVideo(int idTema);
     public void onClickVideosHolder(Toast toast);
     public void vistaVideosDoc(boolean i);
     public void onClickDocumentosHolder(Toast toast);
