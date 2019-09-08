@@ -95,7 +95,7 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
 
     @Override
     public void onTemaClick(int position, List<Item> lista) {
-        interfaceFragments.seleccionarVideo();
+        interfaceFragments.seleccionarVideo(((Subtemas) (temasList.get(position))).getNombre());
     }
 
     public interface OnFragmentInteractionListener {

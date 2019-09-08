@@ -159,6 +159,7 @@ public class  MenuEstudiante extends AppCompatActivity
         fragment =new SeleccionarSemestre();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
         titulo.setText("Seleccione el semestre");
+        Toast.makeText(this, "Materia: " + materia, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -179,10 +180,12 @@ public class  MenuEstudiante extends AppCompatActivity
     }
 
     @Override
-    public void seleccionarVideo() {
+    public void seleccionarVideo(String tema) {
         fragment =new ElegirVideo();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
         titulo.setText("Videos");
+
+        Toast.makeText(this, "El tema elegido es:" + tema, Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -25,17 +26,22 @@ public class MateriasAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
     public class MateriasViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView btnMateria;
+        TextView lblMateria;
         OnMateriaListener onMateriaListener;
         private MateriasViewHolder(@NonNull View itemView, OnMateriaListener onMateriaListener) {
             super(itemView);
             btnMateria=itemView.findViewById(R.id.btnMateria);
+            lblMateria=itemView.findViewById(R.id.lblMateria);
             this.onMateriaListener=onMateriaListener;
             btnMateria.setOnClickListener(this);
+            lblMateria.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             if(v.getId()==R.id.btnMateria){
+                onMateriaListener.onMateriaClick(getAdapterPosition(),list);
+            }else if(v.getId()==R.id.lblMateria){
                 onMateriaListener.onMateriaClick(getAdapterPosition(),list);
             }
         }
@@ -57,9 +63,17 @@ public class MateriasAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Materias materia= list.get(position);
         MateriasViewHolder materiasViewHolder= (MateriasViewHolder)viewHolder;
-        String uri = materia.getRutaImagen();
-        int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
-        materiasViewHolder.btnMateria.setImageResource(imageResource);
+        if(materia.getRutaImagen()!="") {
+            String uri = materia.getRutaImagen();
+            int imageResource = context.getResources().getIdentifier(uri, null, context.getPackageName());
+            materiasViewHolder.lblMateria.setEnabled(false);
+            materiasViewHolder.lblMateria.setVisibility(View.GONE);
+            materiasViewHolder.btnMateria.setImageResource(imageResource);
+        }else{
+            materiasViewHolder.btnMateria.setEnabled(false);
+            materiasViewHolder.btnMateria.setVisibility(View.GONE);
+            materiasViewHolder.lblMateria.setText(materia.getNombre());
+        }
     }
 
     @Override
