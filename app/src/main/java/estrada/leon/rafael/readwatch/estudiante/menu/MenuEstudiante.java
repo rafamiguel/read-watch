@@ -159,14 +159,13 @@ public class  MenuEstudiante extends AppCompatActivity
         fragment =new SeleccionarSemestre();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
         titulo.setText("Seleccione el semestre");
-        //Toast.makeText(this, "Materia: " + materia, Toast.LENGTH_SHORT).show();
-        //guardarPreferenciasMateria(idMateria);
+        guardarPreferenciasMateria(idMateria);
     }
 
-    private void guardarPreferenciasMateria(String materia) {
+    private void guardarPreferenciasMateria(int materia) {
         SharedPreferences preferences = getSharedPreferences("Materia", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("materia", materia);
+        editor.putInt("materia", materia);
         Toast.makeText(this, "La materia es : "+materia, Toast.LENGTH_SHORT).show();
         editor.commit();
     }
@@ -194,16 +193,15 @@ public class  MenuEstudiante extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
         titulo.setText("Videos");
 
-        //guardarPreferenciasTema(idTema);
+        guardarPreferenciasTema(idTema);
 
-       // Toast.makeText(this, "El tema elegido es:" + tema, Toast.LENGTH_SHORT).show();
     }
 
-    private void guardarPreferenciasTema(String tema) {
+    private void guardarPreferenciasTema(int tema) {
         SharedPreferences preferences = getSharedPreferences("Tema", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("tema", tema);
-         Toast.makeText(this, "El tema elegido es: "+tema, Toast.LENGTH_SHORT).show();
+        editor.putInt("tema", tema);
+          Toast.makeText(this, "El tema elegido es: "+tema, Toast.LENGTH_SHORT).show();
         editor.commit();
     }
 
