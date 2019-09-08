@@ -8,7 +8,7 @@ public class Videos implements Item {
     private String rutaImagen;
     private int idUsuario;
 
-    public Videos(String descripcion, String perfil, String rutaImagen, int idUsuario) {
+    public Videos(String perfil,String descripcion, String rutaImagen, int idUsuario) {
         this.descripcion = descripcion;
         this.perfil = perfil;
         this.rutaImagen = rutaImagen;

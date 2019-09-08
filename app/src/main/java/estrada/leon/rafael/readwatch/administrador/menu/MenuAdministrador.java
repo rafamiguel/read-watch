@@ -170,4 +170,9 @@ public class MenuAdministrador extends AppCompatActivity
 
     }
 
+    @Override
+    public void onClickComentario(int idVidDoc) {
+
+    }
+
 }

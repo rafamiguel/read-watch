@@ -149,6 +149,11 @@ public class ElegirVideoAdm extends Fragment implements View.OnClickListener,
         comunicacionFragmentsAdm.onClickVidPerfil(list.get(position).getIdUsuario());
     }
 
+    @Override
+    public void comentarioClick(int position, List<VideosAdm> list) {
+        comunicacionFragmentsAdm.onClickComentario(list.get(position).getIdVidDoc());
+    }
+
 
     private void cargarWebService() {
         videos=new ArrayList<>();

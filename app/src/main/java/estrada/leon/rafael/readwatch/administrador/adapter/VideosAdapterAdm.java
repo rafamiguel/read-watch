@@ -104,5 +104,6 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
     public interface OnVideoAdmListener {
         void onVideoClick(int position, List<VideosAdm> list, Toast toast);
         void perfilClick(int position, List<VideosAdm> list);
+        void comentarioClick(int position, List<VideosAdm> list);
     }
 }
