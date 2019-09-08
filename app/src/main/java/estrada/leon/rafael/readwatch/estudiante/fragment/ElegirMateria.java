@@ -121,7 +121,6 @@ public class ElegirMateria extends Fragment implements MateriasAdapter.OnMateria
     @Override
     public void onErrorResponse(VolleyError error) {
         progreso.hide();
-        Toast.makeText(getContext(), "Error.\n "+error.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override

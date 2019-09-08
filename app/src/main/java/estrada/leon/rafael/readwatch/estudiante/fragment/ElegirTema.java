@@ -125,7 +125,6 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
     @Override
     public void onErrorResponse(VolleyError error) {
         progreso.hide();
-        Toast.makeText(getContext(), "Error.\n "+error.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override
