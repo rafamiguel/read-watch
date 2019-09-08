@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -81,6 +82,8 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         recyclerDocumentos.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL,false));
 
+        SharedPreferences preferences = getContext().getSharedPreferences("Tema", Context.MODE_PRIVATE);
+        idTema = preferences.getInt("tema", 0);
 
         request= Volley.newRequestQueue(getContext());
         cargarWebService();
@@ -144,7 +147,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         progreso.setMessage("Cargando...");
         progreso.show();
         url = ip+"/php/cargarVidDoc.php?" +
-                "idTema=1&tipo=d";
+                "idTema="+idTema+"&tipo=d";
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request.add(jsonObjectRequest);
@@ -152,7 +155,6 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     @Override
     public void onErrorResponse(VolleyError error) {
         progreso.hide();
-        Toast.makeText(getContext(), "Error.\n "+error.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override

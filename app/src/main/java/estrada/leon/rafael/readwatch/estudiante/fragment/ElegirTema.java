@@ -4,6 +4,7 @@ package estrada.leon.rafael.readwatch.estudiante.fragment;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -44,7 +45,7 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
     ProgressDialog progreso;
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
-
+    int idMateria, semestre;
     TemasAdapter temasAdapter;
     RecyclerView temas;
 
@@ -74,6 +75,10 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
             });
             temas.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
 
+            SharedPreferences preferences = getContext().getSharedPreferences("Materia", Context.MODE_PRIVATE);
+            idMateria = preferences.getInt("materia", 0);
+            preferences =  getContext().getSharedPreferences("Semestre", Context.MODE_PRIVATE);
+            semestre = preferences.getInt("semestre", 0);
             request= Volley.newRequestQueue(getContext());
             cargarWebService();
             return vista;
@@ -112,7 +117,7 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
         progreso.setMessage("Cargando...");
         progreso.show();
         url = "https://readandwatch.herokuapp.com/php/cargarTemas.php?" +
-                "idMateria=1&semestre=1";
+                "idMateria="+idMateria+"&semestre="+semestre;
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this , this);
         request.add(jsonObjectRequest);

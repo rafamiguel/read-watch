@@ -76,11 +76,11 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         btnDocumento.setOnClickListener(this);
         btnSubirVideo.setOnClickListener(this);
         recyclerVideos.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        request= Volley.newRequestQueue(getContext());
 
         SharedPreferences preferences = getContext().getSharedPreferences("Tema", Context.MODE_PRIVATE);
-        int idTema = preferences.getInt("tema", 0);
+        idTema = preferences.getInt("tema", 0);
 
+        request= Volley.newRequestQueue(getContext());
         cargarWebService();
         return vista;
     }
@@ -136,7 +136,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         progreso.setMessage("Cargando...");
         progreso.show();
         url = "https://readandwatch.herokuapp.com/php/cargarVidDoc.php?" +
-                "idTema=1&tipo=v";
+                "idTema="+idTema+"&tipo=v";
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request.add(jsonObjectRequest);
@@ -144,7 +144,6 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
     @Override
     public void onErrorResponse(VolleyError error) {
         progreso.hide();
-        Toast.makeText(getContext(), "Error.\n "+error.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override
