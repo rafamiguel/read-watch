@@ -54,8 +54,8 @@ public class MainComentarios extends AppCompatActivity implements  Response.List
         progreso = new ProgressDialog(this);
         progreso.setMessage("Cargando...");
         progreso.show();
-        url = "https://readandwatch.herokuapp.com/php/cargarVidDoc.php?" +
-                "idTema=1&tipo=v";
+        url = "https://readandwatch.herokuapp.com/php/cargarComentarios.php?" +
+                "idVidDoc=1";
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request.add(jsonObjectRequest);
@@ -76,10 +76,9 @@ public class MainComentarios extends AppCompatActivity implements  Response.List
         try {
             for(int i=0;i<json.length();i++){
                 jsonObject=json.getJSONObject(i);
-                nombre=jsonObject.optString("nombre");
-                comentarioString=jsonObject.optString("comentario");
+                nombre=jsonObject.optString("idUsuario");
+                comentarioString=jsonObject.optString("texto");
                 comentario=new PojoComentario(nombre,comentarioString);
-
                 list.add(comentario);
             }
         } catch (JSONException e) {

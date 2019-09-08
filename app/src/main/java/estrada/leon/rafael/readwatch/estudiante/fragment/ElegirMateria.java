@@ -98,10 +98,10 @@ public class ElegirMateria extends Fragment implements MateriasAdapter.OnMateria
     public void onMateriaClick(int position, List<Materias> lista) {
         if(lista.equals(listMaterias)){
             Toast.makeText(actividad, "Tocaste el elemento: "+listMaterias.get(position).getRutaImagen(), Toast.LENGTH_SHORT).show();
-            interfaceFragments.seleccionarSemestre();
+            //interfaceFragments.seleccionarSemestre();
         }else if(lista.equals(listMateriasPropuestas)){
             Toast.makeText(actividad, "Tocaste el elemento: "+listMateriasPropuestas.get(position).getRutaImagen(), Toast.LENGTH_SHORT).show();
-            interfaceFragments.seleccionarSemestre();
+            //interfaceFragments.seleccionarSemestre();
         }
 
     }
