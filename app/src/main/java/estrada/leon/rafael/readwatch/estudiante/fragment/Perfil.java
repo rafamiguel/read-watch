@@ -1,7 +1,9 @@
 package estrada.leon.rafael.readwatch.estudiante.fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,22 +12,41 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.entidades.Estudiante;
 import estrada.leon.rafael.readwatch.estudiante.adapter.PerfilAdapter;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Documentos;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
 
-public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener {
+public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, Response.Listener<JSONObject>, Response.ErrorListener{
     List<Item> list;
+    ProgressDialog progreso;
+    TextView lblNombreApellidos,lblDescripcion,lblCelular;
+    RequestQueue request;
+    int idUsuarios;
+    private final boolean BUSCAR=true;
+    JsonObjectRequest jsonObjectRequest;
     private iComunicacionFragments interfaceFragments;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -66,7 +87,12 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ImageView fotoPerfil;
-        TextView lblNombreApellidos,lblDescripcion,lblCelular;
+        request= Volley.newRequestQueue(getContext());
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        idUsuarios = preferences.getInt("idUsuario", 0);
+        cargarWebServices();
+
+
         RecyclerView recyclerPerfil;
         PerfilAdapter perfilAdapter;
         View view;
@@ -82,6 +108,21 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener {
         perfilAdapter=new PerfilAdapter(getContext(),list,this);
         recyclerPerfil.setAdapter(perfilAdapter);
         return view;
+
+
+    }
+
+    private void cargarWebServices() {
+        String url;
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Cargando...");
+        progreso.show();
+
+            url = "https://readandwatch.herokuapp.com/php/buscarEstudiante.php?idUsuario="+idUsuarios;
+            url=url.replace(" ", "%20");
+            jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+
+        request.add(jsonObjectRequest);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -116,6 +157,34 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener {
     @Override
     public void onPerfilClick(int position, List<Item> lista, Toast toast) {
         interfaceFragments.onClickDocFavHolder(toast);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        progreso.hide();
+        Toast.makeText(getContext(), "No se pudieron mostrar los datos "+error.toString(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        Estudiante estudiante = new Estudiante();
+        JSONArray json = response.optJSONArray("usuario");
+        JSONObject jsonObject=null;
+        try {
+            jsonObject=json.getJSONObject(0);
+            estudiante.setNombre(jsonObject.optString("nombre"));
+            estudiante.setApellidos(jsonObject.optString("apellidos"));
+            estudiante.setContrasena(jsonObject.optString("contrasena"));
+            estudiante.setDescripcion(jsonObject.optString("descripcion"));
+            estudiante.setTelefono(jsonObject.optString("telefono"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        lblNombreApellidos.setText(estudiante.getNombre()+" "+estudiante.getApellidos());
+        lblDescripcion.setText(estudiante.getDescripcion());
+        lblCelular.setText(estudiante.getTelefono());
+        progreso.hide();
     }
 
     public interface OnFragmentInteractionListener {

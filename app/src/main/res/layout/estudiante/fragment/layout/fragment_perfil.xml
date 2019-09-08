@@ -6,11 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".estudiante.fragment.Perfil">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -26,6 +28,26 @@
                 tools:src="@drawable/profilepic" />
 
             <TextView
+                android:id="@+id/lblDescripcion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/descripcion"
+                android:textColor="#000000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblNombreApellidos" />
+
+            <TextView
+                android:id="@+id/lblCelular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Celular"
+                android:textColor="#000000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblDescripcion" />
+
+            <TextView
                 android:id="@+id/lblNombreApellidos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,26 +56,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fotoPerfil" />
-
-            <TextView
-                android:id="@+id/lblDescripcion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                app:layout_constraintTop_toBottomOf="@id/lblNombreApellidos"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:text="@string/descripcion" />
-
-            <TextView
-                android:id="@+id/lblCelular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                app:layout_constraintTop_toBottomOf="@id/lblDescripcion"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:text="Celular" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerPerfil"
