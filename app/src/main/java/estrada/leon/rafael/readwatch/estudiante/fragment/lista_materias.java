@@ -34,15 +34,15 @@ public class lista_materias extends Fragment {
 
     public void cargarDatos(){
         list=new Materias[]{
-                new Materias("@drawable/quimica","Química"),
-                new Materias("@drawable/electronica","Electrónica"),
-                new Materias("@drawable/bases_datos","Bases de datos"),
-                new Materias("@drawable/geografia","Geografía"),
-                new Materias("@drawable/historia","Historia"),
-                new Materias("@drawable/biologia","Biología"),
-                new Materias("@drawable/fisica","Física"),
-                new Materias("@drawable/literatura","Literatura"),
-                new Materias("@drawable/astronomia","Astronomía")
+                new Materias(1,"@drawable/quimica","Química"),
+                new Materias(2,"@drawable/electronica","Electrónica"),
+                new Materias(3,"@drawable/bases_datos","Bases de datos"),
+                new Materias(4,"@drawable/geografia","Geografía"),
+                new Materias(5,"@drawable/historia","Historia"),
+                new Materias(6,"@drawable/biologia","Biología"),
+                new Materias(7,"@drawable/fisica","Física"),
+                new Materias(8,"@drawable/literatura","Literatura"),
+                new Materias(9,"@drawable/astronomia","Astronomía")
         };
     }
 
