@@ -1,7 +1,9 @@
 package estrada.leon.rafael.readwatch.estudiante.menu;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -164,6 +166,16 @@ public class  MenuEstudiante extends AppCompatActivity
         fragment =new ElegirTema();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
         titulo.setText("Elige un tema");
+
+        guardarPreferencias(semestre);
+    }
+
+    private void guardarPreferencias(int semestre) {
+        SharedPreferences preferences = getSharedPreferences("Semestre", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("semestre", semestre);
+        Toast.makeText(this, "El semestre es: "+semestre, Toast.LENGTH_SHORT).show();
+        editor.commit();
     }
 
     @Override
