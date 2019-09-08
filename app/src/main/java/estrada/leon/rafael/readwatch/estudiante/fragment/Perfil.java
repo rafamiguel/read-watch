@@ -62,7 +62,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
         list=new ArrayList<>();
         for(int i=1;i<11;i++){
             list.add(new Documentos("perfil"+i,"Documento"+i,"@drawable/btnDocumento"));
-            list.add(new Videos("perfil"+i,"video"+i,"@drawable/miniatura"));
+            list.add(new Videos("perfil"+i,"video"+i,"@drawable/miniatura",i));
         }
     }
     public static Perfil newInstance(String param1, String param2) {
