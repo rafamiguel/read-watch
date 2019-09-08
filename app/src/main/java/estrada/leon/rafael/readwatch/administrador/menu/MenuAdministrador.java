@@ -165,4 +165,9 @@ public class MenuAdministrador extends AppCompatActivity
         toast.show();
     }
 
+    @Override
+    public void onClickVidPerfil(int idUsuario) {
+
+    }
+
 }

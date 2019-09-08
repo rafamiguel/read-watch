@@ -16,6 +16,7 @@ import java.util.List;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.administrador.fragment.MainComentarios;
 import estrada.leon.rafael.readwatch.administrador.pojo.VideosAdm;
+import estrada.leon.rafael.readwatch.estudiante.adapter.VideosAdapter;
 
 public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
@@ -84,8 +85,7 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
                             Toast.makeText(context, "Esta es la descripcion", Toast.LENGTH_SHORT));
                     break;
                 case R.id.lblPerfil:
-                    onVideoAdmListener.onVideoClick(getAdapterPosition(), list,
-                            Toast.makeText(context, "Este es el perfil", Toast.LENGTH_SHORT));
+                    onVideoAdmListener.perfilClick(getAdapterPosition(),list);
                     break;
                 case R.id.txtComentario:
                     entrar = new Intent(context, MainComentarios.class);
@@ -103,5 +103,6 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
     public interface OnVideoAdmListener {
         void onVideoClick(int position, List<VideosAdm> list, Toast toast);
+        void perfilClick(int position, List<VideosAdm> list);
     }
 }

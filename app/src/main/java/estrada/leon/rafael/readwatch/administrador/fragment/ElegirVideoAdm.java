@@ -144,6 +144,10 @@ public class ElegirVideoAdm extends Fragment implements View.OnClickListener,
         comunicacionFragmentsAdm.onClickVideosAdmHolder(list.get(position).getIdVidDoc());
     }
 
+    @Override
+    public void perfilClick(int position, List<VideosAdm> list) {
+        comunicacionFragmentsAdm.onClickVidPerfil(list.get(position).getIdUsuario());
+    }
 
 
     private void cargarWebService() {
@@ -170,16 +174,16 @@ public class ElegirVideoAdm extends Fragment implements View.OnClickListener,
         JSONObject jsonObject=null;
         VideosAdm video;
         json = response.optJSONArray("usuario");
-        String idUsuario,descripcion,miniatura;
-        int idVidDoc;
+        String descripcion,miniatura;
+        int idVidDoc,idUsuario;
         try {
             for(int i=0;i<json.length();i++){
                 jsonObject=json.getJSONObject(i);
-                idUsuario=jsonObject.optString("idUsuario");
+                idUsuario=jsonObject.optInt("idUsuario");
                 descripcion=jsonObject.optString("descripcion");
                 miniatura=jsonObject.optString("rutaImagen");
                 idVidDoc=jsonObject.optInt("idVidDoc");
-                video=new VideosAdm(idUsuario,descripcion,miniatura,idVidDoc);
+                video=new VideosAdm(Integer.toString(idUsuario),descripcion,miniatura,idVidDoc,idUsuario);
 
                 videos.add(video);
             }

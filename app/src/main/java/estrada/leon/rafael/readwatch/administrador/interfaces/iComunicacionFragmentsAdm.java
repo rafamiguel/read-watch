@@ -8,4 +8,5 @@ public interface iComunicacionFragmentsAdm {
     public void vistaVideosDoc(boolean i);
     public void onClickInactivo(Toast toast);
     public void onClickDocumentosHolder(Toast toast);
+    public void onClickVidPerfil(int idUsuario);
 }
