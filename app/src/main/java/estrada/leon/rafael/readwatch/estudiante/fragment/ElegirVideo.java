@@ -117,6 +117,11 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
     }
 
     @Override
+    public void perfilClick(int position,List<Videos> list) {
+        interfaceFragments.onClickVidPerfil(list.get(position).getIdUsuario());
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnVideo:
@@ -152,14 +157,16 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         JSONObject jsonObject=null;
         Videos video;
         json = response.optJSONArray("usuario");
-        String idUsuario,descripcion,miniatura;
+        String descripcion,miniatura;
+        int idUsuario;
         try {
             for(int i=0;i<json.length();i++){
             jsonObject=json.getJSONObject(i);
-            idUsuario=jsonObject.optString("idUsuario");
+            idUsuario=jsonObject.optInt("idUsuario");
             descripcion=jsonObject.optString("descripcion");
             miniatura=jsonObject.optString("rutaImagen");
-            video=new Videos(idUsuario,descripcion,miniatura);
+
+            video=new Videos(Integer.toString(idUsuario),descripcion,miniatura,idUsuario);
 
             videos.add(video);
             }

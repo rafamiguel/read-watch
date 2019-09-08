@@ -15,7 +15,7 @@ public interface iComunicacionFragments {
     public void onClickNuevaPregunta();
     public void onClickProponerTema();
     public void onClickProponerMateria();
-    public void onClickVidPerfil();
+    public void onClickVidPerfil(int idUsuario);
     public void onClickDocPerfil();
     public void onClickReportar();
     public void onClickSubirDoc();

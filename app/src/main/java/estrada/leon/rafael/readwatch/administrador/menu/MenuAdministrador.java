@@ -1,5 +1,7 @@
 package estrada.leon.rafael.readwatch.administrador.menu;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -134,8 +136,10 @@ public class MenuAdministrador extends AppCompatActivity
     }
 
     @Override
-    public void onClickVideosAdmHolder(Toast toast) {
-        toast.show();
+    public void onClickVideosAdmHolder(int idVidDoc) {
+        SharedPreferences preferences = getSharedPreferences("IdVidDoc", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("idVidDoc", idVidDoc);
     }
 
     @Override

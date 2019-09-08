@@ -141,7 +141,7 @@ public class ElegirVideoAdm extends Fragment implements View.OnClickListener,
 
     @Override
     public void onVideoClick(int position, List<VideosAdm> list, Toast toast) {
-        comunicacionFragmentsAdm.onClickVideosAdmHolder(toast);
+        comunicacionFragmentsAdm.onClickVideosAdmHolder(list.get(position).getIdVidDoc());
     }
 
 
@@ -171,13 +171,15 @@ public class ElegirVideoAdm extends Fragment implements View.OnClickListener,
         VideosAdm video;
         json = response.optJSONArray("usuario");
         String idUsuario,descripcion,miniatura;
+        int idVidDoc;
         try {
             for(int i=0;i<json.length();i++){
                 jsonObject=json.getJSONObject(i);
                 idUsuario=jsonObject.optString("idUsuario");
                 descripcion=jsonObject.optString("descripcion");
                 miniatura=jsonObject.optString("rutaImagen");
-                video=new VideosAdm(idUsuario,descripcion,miniatura);
+                idVidDoc=jsonObject.optInt("idVidDoc");
+                video=new VideosAdm(idUsuario,descripcion,miniatura,idVidDoc);
 
                 videos.add(video);
             }

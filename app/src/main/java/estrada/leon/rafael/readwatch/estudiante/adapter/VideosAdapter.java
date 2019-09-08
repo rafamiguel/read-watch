@@ -64,8 +64,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             Toast.makeText(context, "Esta es la descripcion", Toast.LENGTH_SHORT));
                     break;
                 case R.id.lblPerfil:
-                    onVideoListener.onVideoClick(getAdapterPosition(),list,
-                            Toast.makeText(context, "Este es el perfil", Toast.LENGTH_SHORT));
+                    onVideoListener.perfilClick(getAdapterPosition(),list);
                     break;
                 case R.id.txtComentario:
                     entrar = new Intent(context, MainComentario.class);
@@ -136,6 +135,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public interface OnVideoListener{
         void onVideoClick(int position,List<Videos> list, Toast toast);
         void reportarClick();
+        void perfilClick(int position,List<Videos> list);
     }
 
 }

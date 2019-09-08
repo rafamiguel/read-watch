@@ -248,7 +248,8 @@ public class  MenuEstudiante extends AppCompatActivity
     }
 
     @Override
-    public void onClickVidPerfil() {
+    public void onClickVidPerfil(int idUsuario) {
+
     }
 
     @Override
