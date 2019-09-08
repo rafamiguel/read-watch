@@ -106,29 +106,11 @@ public class ModificarEstudiante extends Fragment implements Response.Listener<J
 
         SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuarios = preferences.getInt("idUsuario", 0);
-        /*String nombre = preferences.getString("nombre", "No tiene informacion");
-        String apellidos = preferences.getString("apellidos", "No tiene informacion");
-        String descripcion = preferences.getString("descripcion", "No tiene informacion");
-        String contrasena = preferences.getString("contrasena", "No tiene informacion");
-        String telefono = preferences.getString("telefono", "No tiene informacion");*/
-
-        /*txtNombre.setText(nombre);
-        txtApellidos.setText(apellidos);
-        txtContrasena.setText(contrasena);
-        txtDescripcion.setText(descripcion);
-        txtTelefono.setText(telefono);*/
         idUsuario.setText(Integer.toString(idUsuarios));
 
         cargarWebService(BUSCAR);
 
 
-
-        btnBuscar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cargarWebService(BUSCAR);
-            }
-        });
         btnModificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -203,7 +203,7 @@ public class  MenuEstudiante extends AppCompatActivity
         SharedPreferences preferences = getSharedPreferences("Tema", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("tema", tema);
-        Toast.makeText(this, "El tema elegido es: "+tema, Toast.LENGTH_SHORT).show();
+         Toast.makeText(this, "El tema elegido es: "+tema, Toast.LENGTH_SHORT).show();
         editor.commit();
     }
 
