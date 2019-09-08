@@ -106,7 +106,6 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
         txtContrasena= vista.findViewById(R.id.txtContrasena);
         txtEscribeCorreo = vista.findViewById(R.id.txtEscribeCorreo);
         btnModificar = vista.findViewById(R.id.btnModificar);
-        btnBuscar = vista.findViewById(R.id.btnBuscar);
         admin = new Admin();
         request= Volley.newRequestQueue(getContext());
 
@@ -115,12 +114,7 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
         txtEscribeCorreo.setText(Integer.toString(idUsuarios));
         cargarWebService(BUSCAR);
 
-        btnBuscar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cargarWebService(BUSCAR);
-            }
-        });
+
         btnModificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
