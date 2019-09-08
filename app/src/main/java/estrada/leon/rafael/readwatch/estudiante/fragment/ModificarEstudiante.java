@@ -3,6 +3,7 @@ package estrada.leon.rafael.readwatch.estudiante.fragment;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -40,7 +41,7 @@ public class ModificarEstudiante extends Fragment implements Response.Listener<J
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private iComunicacionFragments comunicacionFragments;
-    EditText txtNombre, txtApellidos, txtContrasena, txtEscribeCorreo, txtTelefono, txtDescripcion;
+    EditText txtNombre, txtApellidos, txtContrasena, idUsuario, txtTelefono, txtDescripcion;
     Button btnBuscar, btnModificar;
     ProgressDialog progreso;
     Activity actividad;
@@ -96,12 +97,31 @@ public class ModificarEstudiante extends Fragment implements Response.Listener<J
         txtNombre = vista.findViewById(R.id.txtNombre);
         txtApellidos = vista.findViewById(R.id.txtApellidos);
         txtContrasena= vista.findViewById(R.id.txtContrasena);
-        txtEscribeCorreo = vista.findViewById(R.id.txtEscribeCorreo);
+        idUsuario = vista.findViewById(R.id.idUsuario);
         txtDescripcion = vista.findViewById(R.id.txtDescripcion);
         txtTelefono = vista.findViewById(R.id.txtTelefono);
         btnModificar = vista.findViewById(R.id.btnModificar);
         btnBuscar = vista.findViewById(R.id.btnBuscar);
         request= Volley.newRequestQueue(getContext());
+
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuarios = preferences.getInt("idUsuario", 0);
+        /*String nombre = preferences.getString("nombre", "No tiene informacion");
+        String apellidos = preferences.getString("apellidos", "No tiene informacion");
+        String descripcion = preferences.getString("descripcion", "No tiene informacion");
+        String contrasena = preferences.getString("contrasena", "No tiene informacion");
+        String telefono = preferences.getString("telefono", "No tiene informacion");*/
+
+        /*txtNombre.setText(nombre);
+        txtApellidos.setText(apellidos);
+        txtContrasena.setText(contrasena);
+        txtDescripcion.setText(descripcion);
+        txtTelefono.setText(telefono);*/
+        idUsuario.setText(Integer.toString(idUsuarios));
+
+        cargarWebService(BUSCAR);
+
+
 
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,14 +146,14 @@ public class ModificarEstudiante extends Fragment implements Response.Listener<J
         progreso.show();
         if(php==MODIFICAR){
             url = "https://readandwatch.herokuapp.com/php/updateEstudiante.php?" +
-                    "correo="+txtEscribeCorreo.getText().toString()+"&nombre="+
+                    "idUsuario="+idUsuario.getText().toString()+"&nombre="+
                     txtNombre.getText().toString()+"&apellidos="+txtApellidos.getText().toString()+
                     "&contrasena="+txtContrasena.getText().toString()+"&telefono="+
                     txtTelefono.getText().toString()+"&descripcion="+txtDescripcion.getText().toString();
             url=url.replace(" ", "%20");
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         }else{
-            url = "https://readandwatch.herokuapp.com/php/buscarEstudiante.php?txtCorreo="+txtEscribeCorreo.getText().toString();
+            url = "https://readandwatch.herokuapp.com/php/buscarEstudiante.php?idUsuario="+idUsuario.getText().toString();
             url=url.replace(" ", "%20");
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         }

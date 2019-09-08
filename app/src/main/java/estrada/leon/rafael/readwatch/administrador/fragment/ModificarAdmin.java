@@ -3,6 +3,7 @@ package estrada.leon.rafael.readwatch.administrador.fragment;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -108,6 +109,12 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
         btnBuscar = vista.findViewById(R.id.btnBuscar);
         admin = new Admin();
         request= Volley.newRequestQueue(getContext());
+
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuarios = preferences.getInt("idUsuario", 0);
+        txtEscribeCorreo.setText(Integer.toString(idUsuarios));
+        cargarWebService(BUSCAR);
+
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,12 +139,12 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
         progreso.show();
         if(php==MODIFICAR){
             url = ip+"/php/updateAdmin.php?" +
-                    "correo="+txtEscribeCorreo.getText().toString()+"&nombre="+
+                    "idUsuario="+txtEscribeCorreo.getText().toString()+"&nombre="+
                     txtNombre.getText().toString()+"&apellidos="+txtApellidos.getText().toString()+"&contrasena="+txtContrasena.getText().toString()+"";
             url=url.replace(" ", "%20");
                     jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         }else{
-            url = ip+"/php/buscarAdmin.php?txtCorreo="+txtEscribeCorreo.getText().toString();
+            url = ip+"/php/buscarAdmin.php?idUsuario="+txtEscribeCorreo.getText().toString();
             url=url.replace(" ", "%20");
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         }

@@ -1,7 +1,11 @@
 package estrada.leon.rafael.readwatch.general.activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +34,7 @@ import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.activity.RegistrarEstudiante;
 
 public class MainActivity extends AppCompatActivity implements Response.Listener<JSONObject>, Response.ErrorListener {
+ ;
     ImageView logo;
     EditText txtUsuario,txtContra;
     Button btnEntrar;
@@ -109,15 +114,21 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
 
     @Override
     public void onResponse(JSONObject response) {
+        Fragment fragment = new Fragment();
+        Bundle bundle = new Bundle();
         JSONArray json = response.optJSONArray("usuario");
         JSONObject jsonObject=null;
+
         try {
             jsonObject=json.getJSONObject(0);
             if(jsonObject.optInt("idUsuario")!=-1){
                 if(jsonObject.optString("tipo").equals("A")) {
+                    guardarPreferencias(jsonObject);
                     entrar = new Intent(MainActivity.this, MenuAdministrador.class);
                     startActivity(entrar);
+
                 }else{
+                    guardarPreferencias(jsonObject);
                     entrar = new Intent(MainActivity.this, MenuEstudiante.class);
                     startActivity(entrar);
                 }
@@ -129,5 +140,34 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void guardarPreferencias(JSONObject jsonObject) {
+        SharedPreferences preferences = getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = jsonObject.optInt("idUsuario");
+        String correo = jsonObject.optString("correo");
+        String contrasena = jsonObject.optString("contrasena");
+        String nombre = jsonObject.optString("nombre");
+        String apellidos = jsonObject.optString("apellidos");
+        String telefono = jsonObject.optString("telefono");
+        String descripcion = jsonObject.optString("descripcion");
+        String rutaFoto = jsonObject.optString("rutaFoto");
+        String tipo = jsonObject.optString("tipo");
+        String estado = jsonObject.optString("estado");
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("idUsuario", idUsuario);
+        editor.putString("correo", correo);
+        editor.putString("contrasena", contrasena);
+        editor.putString("nombre", nombre);
+        editor.putString("apellidos", apellidos);
+        editor.putString("telefono", telefono);
+        editor.putString("descripcion", descripcion);
+        editor.putString("rutaFoto", rutaFoto);
+        editor.putString("tipo", tipo);
+        editor.putString("estado", estado);
+
+        Toast.makeText(getApplicationContext(), "idUsuario:"+idUsuario+" correo: "+correo+" contra:"+contrasena+" nombre: "+nombre+" tipo: "+tipo, Toast.LENGTH_SHORT).show();
+        editor.commit();
     }
 }
