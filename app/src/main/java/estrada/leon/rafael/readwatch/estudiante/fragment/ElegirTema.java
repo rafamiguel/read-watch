@@ -2,6 +2,7 @@ package estrada.leon.rafael.readwatch.estudiante.fragment;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,22 +37,20 @@ import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragment
 import estrada.leon.rafael.readwatch.R;
 
 
-public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener {
-        private List<Item> temasList=new ArrayList<>();
+public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener,
+        Response.Listener<JSONObject>, Response.ErrorListener{
         private iComunicacionFragments interfaceFragments;
+    List<Item> temasList;
+    ProgressDialog progreso;
+    JsonObjectRequest jsonObjectRequest;
+    RequestQueue request;
 
-        private OnFragmentInteractionListener mListener;
+    TemasAdapter temasAdapter;
+    RecyclerView temas;
+
+    private OnFragmentInteractionListener mListener;
 
         public ElegirTema() {
-        }
-
-        public void cargarDatos(){
-            for (int j=1;j<6;j++){
-                temasList.add(new Temas("Tema"+j));
-                for(int i=1;i<6;i++){
-                    temasList.add(new Subtemas("SubTema"+i));
-                }
-            }
         }
 
         @Override
@@ -50,9 +61,7 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            TemasAdapter temasAdapter;
             TextView lblTemaInexistente;
-            RecyclerView temas;
             View vista;
             vista=inflater.inflate(R.layout.fragment_elegir_tema, container, false);
             temas=vista.findViewById(R.id.temas);
@@ -65,9 +74,8 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
             });
             temas.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
 
-            cargarDatos();
-            temasAdapter= new TemasAdapter(getContext(),temasList,this);
-            temas.setAdapter(temasAdapter);
+            request= Volley.newRequestQueue(getContext());
+            cargarWebService();
             return vista;
         }
 
@@ -96,6 +104,55 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
     @Override
     public void onTemaClick(int position, List<Item> lista) {
         interfaceFragments.seleccionarVideo(((Subtemas) (temasList.get(position))).getNombre());
+    }
+
+    private void cargarWebService() {
+        String url;
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        url = "https://readandwatch.herokuapp.com/php/cargarTemas.php?" +
+                "idMateria=1&semestre=1";
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this , this);
+        request.add(jsonObjectRequest);
+    }
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        progreso.hide();
+        Toast.makeText(getContext(), "Error.\n "+error.toString(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        String nombre,rutaImagen,tipo;
+        int idTema, idMateria,idUsuario, votos, semestre;
+        Temas tema;
+        Subtemas subtema;
+        temasList=new ArrayList<>();
+        JSONArray json;
+        JSONObject jsonObject=null;
+        json = response.optJSONArray("usuario");
+
+        try {
+            for(int i=0;i<json.length();i++){
+                jsonObject=json.getJSONObject(i);
+                tipo=jsonObject.optString("tipo");
+                if(tipo.equals("tema")) {
+                    tema = new Temas(jsonObject.optString("nombre"));
+                    temasList.add(tema);
+                }else if(tipo.equals("subtema")){
+                    subtema = new Subtemas(jsonObject.optString("nombre"));
+                    temasList.add(subtema);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        progreso.hide();
+        temasAdapter= new TemasAdapter(getContext(),temasList,this);
+        temas.setAdapter(temasAdapter);
     }
 
     public interface OnFragmentInteractionListener {
