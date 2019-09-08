@@ -160,7 +160,7 @@ public class  MenuEstudiante extends AppCompatActivity
     }
 
     @Override
-    public void seleccionarTema() {
+    public void seleccionarTema(int semestre) {
         fragment =new ElegirTema();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
         titulo.setText("Elige un tema");

@@ -72,7 +72,26 @@ public class SeleccionarSemestre extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        interfaceFragments.seleccionarTema();
+        switch(v.getId()){
+            case R.id.lbl1:
+                interfaceFragments.seleccionarTema(1);
+                break;
+            case R.id.lbl2:
+                interfaceFragments.seleccionarTema(2);
+                break;
+            case R.id.lbl3:
+                interfaceFragments.seleccionarTema(3);
+                break;
+            case R.id.lbl4:
+                interfaceFragments.seleccionarTema(4);
+                break;
+            case R.id.lbl5:
+                interfaceFragments.seleccionarTema(5);
+                break;
+            case R.id.lbl6:
+                interfaceFragments.seleccionarTema(6);
+                break;
+        }
     }
 
     public interface OnFragmentInteractionListener {
