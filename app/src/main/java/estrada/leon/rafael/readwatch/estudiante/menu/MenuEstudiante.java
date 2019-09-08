@@ -73,9 +73,6 @@ public class  MenuEstudiante extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
 
 
-
-
-
     }
 
     @Override
