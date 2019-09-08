@@ -3,6 +3,7 @@ package estrada.leon.rafael.readwatch.estudiante.fragment;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -76,6 +77,9 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         btnSubirVideo.setOnClickListener(this);
         recyclerVideos.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         request= Volley.newRequestQueue(getContext());
+
+        SharedPreferences preferences = getContext().getSharedPreferences("Tema", Context.MODE_PRIVATE);
+        int idTema = preferences.getInt("tema", 0);
 
         cargarWebService();
         return vista;
