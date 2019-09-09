@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
 import estrada.leon.rafael.readwatch.entidades.Estudiante;
 import estrada.leon.rafael.readwatch.estudiante.adapter.PerfilAdapter;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
@@ -165,6 +166,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
             activity= (Activity) context;
             interfaceFragments=(iComunicacionFragments)activity;
         }
+
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {

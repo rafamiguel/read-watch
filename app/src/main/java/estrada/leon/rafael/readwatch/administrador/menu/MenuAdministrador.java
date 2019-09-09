@@ -29,12 +29,16 @@ import estrada.leon.rafael.readwatch.administrador.fragment.ModificarAdmin;
 import estrada.leon.rafael.readwatch.administrador.fragment.RegistrarAdmin;
 import estrada.leon.rafael.readwatch.administrador.fragment.UsuariosInactivos;
 import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
+import estrada.leon.rafael.readwatch.estudiante.fragment.Perfil;
+import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 
 public class MenuAdministrador extends AppCompatActivity
-        implements iComunicacionFragmentsAdm,  NavigationView.OnNavigationItemSelectedListener,
+        implements iComunicacionFragmentsAdm,   NavigationView.OnNavigationItemSelectedListener,
         BuscarUsuario.OnFragmentInteractionListener,ElegirVideoAdm.OnFragmentInteractionListener,
         RegistrarAdmin.OnFragmentInteractionListener, CambiarContrasena.OnFragmentInteractionListener,
-        UsuariosInactivos.OnFragmentInteractionListener, ElegirDocumentoAdm.OnFragmentInteractionListener, ModificarAdmin.OnFragmentInteractionListener {
+        UsuariosInactivos.OnFragmentInteractionListener, ElegirDocumentoAdm.OnFragmentInteractionListener,
+        ModificarAdmin.OnFragmentInteractionListener,
+        iComunicacionFragments, Perfil.OnFragmentInteractionListener{
     Fragment fragment;
     TextView titulo;
     Intent entrar;
@@ -146,6 +150,26 @@ public class MenuAdministrador extends AppCompatActivity
     }
 
     @Override
+    public void seleccionarSemestre(int idMateria) {
+
+    }
+
+    @Override
+    public void seleccionarTema(int semestre) {
+
+    }
+
+    @Override
+    public void seleccionarVideo(int idTema) {
+
+    }
+
+    @Override
+    public void onClickVideosHolder(Toast toast) {
+
+    }
+
+    @Override
     public void vistaVideosDoc(boolean i) {
         if(i){
             fragment =new ElegirVideoAdm();
@@ -169,7 +193,71 @@ public class MenuAdministrador extends AppCompatActivity
     }
 
     @Override
+    public void onClickTemasLibresHolder(Toast toast) {
+
+    }
+
+    @Override
+    public void onClickVidFavHolder(Toast toast) {
+
+    }
+
+    @Override
+    public void onClickDocFavHolder(Toast toast) {
+
+    }
+
+    @Override
+    public void onClickNuevaPregunta() {
+
+    }
+
+    @Override
+    public void onClickProponerTema() {
+
+    }
+
+    @Override
+    public void onClickProponerMateria() {
+
+    }
+
+    @Override
     public void onClickVidPerfil(int idUsuario) {
+        SharedPreferences preferences = getSharedPreferences("Perfil Estudiante", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("perfilEstudiante", idUsuario);
+        Toast.makeText(this, "El id del perfil es: "+idUsuario, Toast.LENGTH_SHORT).show();
+        editor.commit();
+
+        SharedPreferences preference = getSharedPreferences("Dato perfil", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edito = preference.edit();
+        edito.putString("dato", "PO");
+        edito.commit();
+
+
+        fragment= new Perfil();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
+        titulo.setText("Perfil");
+    }
+
+    @Override
+    public void onClickDocPerfil() {
+
+    }
+
+    @Override
+    public void onClickReportar() {
+
+    }
+
+    @Override
+    public void onClickSubirDoc() {
+
+    }
+
+    @Override
+    public void onClickSubirVid() {
 
     }
 

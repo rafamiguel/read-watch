@@ -118,7 +118,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
 
     @Override
     public void perfilClick(int position,List<Videos> list) {
-        interfaceFragments.onClickVidPerfil(list.get(position).getIdUsuario());
+        ((iComunicacionFragments)interfaceFragments).onClickVidPerfil(list.get(position).getIdUsuario());
     }
 
     @Override
