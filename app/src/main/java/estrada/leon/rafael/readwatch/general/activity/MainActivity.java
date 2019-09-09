@@ -174,5 +174,10 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
 
         Toast.makeText(getApplicationContext(), "idUsuario:"+idUsuario+" correo: "+correo+" contra:"+contrasena+" nombre: "+nombre+" tipo: "+tipo, Toast.LENGTH_SHORT).show();
         editor.commit();
+
+        SharedPreferences preference = getSharedPreferences("Dato perfil", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edito = preference.edit();
+        edito.putString("dato", "PP");
+        edito.commit();
     }
 }

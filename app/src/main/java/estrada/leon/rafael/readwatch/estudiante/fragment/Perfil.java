@@ -45,6 +45,8 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
     TextView lblNombreApellidos,lblDescripcion,lblCelular;
     RequestQueue request;
     int idUsuarios;
+    int perfilEstudiante;
+    String dato;
     private final boolean BUSCAR=true;
     JsonObjectRequest jsonObjectRequest;
     private iComunicacionFragments interfaceFragments;
@@ -57,6 +59,9 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
     private OnFragmentInteractionListener mListener;
 
     public Perfil() {
+    }
+    public void setIdUsuario(int idUsuario){
+        this.idUsuarios = idUsuario;
     }
     void cargarDatos(){
         list=new ArrayList<>();
@@ -88,10 +93,25 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
                              Bundle savedInstanceState) {
         ImageView fotoPerfil;
         request= Volley.newRequestQueue(getContext());
-        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
-        idUsuarios = preferences.getInt("idUsuario", 0);
-        cargarWebServices();
 
+        SharedPreferences preferenc = getContext().getSharedPreferences("Dato perfil", Context.MODE_PRIVATE);
+        dato = preferenc.getString("dato", "");
+        if(dato.equalsIgnoreCase("PP")) {
+            SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+            idUsuarios = preferences.getInt("idUsuario", 0);
+            cargarWebServices(1);
+        }
+
+        if(dato.equalsIgnoreCase("PO")) {
+            SharedPreferences preference = getContext().getSharedPreferences("Perfil Estudiante", Context.MODE_PRIVATE);
+            perfilEstudiante = preference.getInt("perfilEstudiante", 0);
+            cargarWebServices(2);
+        }
+
+        SharedPreferences preference = getContext().getSharedPreferences("Dato perfil", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = preference.edit();
+        edit.putString("dato", "PP");
+        edit.commit();
 
         RecyclerView recyclerPerfil;
         PerfilAdapter perfilAdapter;
@@ -112,16 +132,21 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
 
     }
 
-    private void cargarWebServices() {
+    private void cargarWebServices(int a) {
         String url;
         progreso = new ProgressDialog(getContext());
         progreso.setMessage("Cargando...");
         progreso.show();
-
-            url = "https://readandwatch.herokuapp.com/php/buscarEstudiante.php?idUsuario="+idUsuarios;
-            url=url.replace(" ", "%20");
+        if(a==2) {
+            url = "https://readandwatch.herokuapp.com/php/buscarEstudiante.php?idUsuario=" + perfilEstudiante;
+            url = url.replace(" ", "%20");
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
-
+        }
+        if (a==1) {
+            url = "https://readandwatch.herokuapp.com/php/buscarEstudiante.php?idUsuario=" + idUsuarios;
+            url = url.replace(" ", "%20");
+            jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        }
         request.add(jsonObjectRequest);
     }
 
