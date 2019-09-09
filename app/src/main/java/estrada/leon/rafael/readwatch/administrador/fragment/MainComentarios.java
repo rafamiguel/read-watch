@@ -30,7 +30,6 @@ import estrada.leon.rafael.readwatch.administrador.pojo.PojoComentario;
 
 public class MainComentarios extends AppCompatActivity implements  Response.Listener<JSONObject>,
         Response.ErrorListener{
-    ProgressDialog progreso;
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
     RecyclerView recycler;
@@ -56,9 +55,6 @@ public class MainComentarios extends AppCompatActivity implements  Response.List
     private void cargarWebService() {
         list=new ArrayList<>();
         String url;
-        progreso = new ProgressDialog(this);
-        progreso.setMessage("Cargando...");
-        progreso.show();
         url = "https://readandwatch.herokuapp.com/php/cargarComentarios.php?" +
                 "idVidDoc="+idVidDoc;
         url=url.replace(" ", "%20");
@@ -67,7 +63,6 @@ public class MainComentarios extends AppCompatActivity implements  Response.List
     }
     @Override
     public void onErrorResponse(VolleyError error) {
-        progreso.hide();
         Toast.makeText(this, "Error.\n "+error.toString(), Toast.LENGTH_LONG).show();
     }
 
@@ -90,7 +85,6 @@ public class MainComentarios extends AppCompatActivity implements  Response.List
             e.printStackTrace();
         }
 
-        progreso.hide();
         adapterComentario = new AdapterComentario(this, list);
         recycler.setAdapter(adapterComentario);
     }
