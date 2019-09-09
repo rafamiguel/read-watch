@@ -88,7 +88,7 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
                     onVideoAdmListener.perfilClick(getAdapterPosition(),list);
                     break;
                 case R.id.txtComentario:
-
+                    onVideoAdmListener.comentarioClick(getAdapterPosition(),list);
                     break;
                 case R.id.btnMiniatura:
                     onVideoAdmListener.onVideoClick(getAdapterPosition(), list,
