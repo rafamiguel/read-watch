@@ -4,7 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -33,13 +35,21 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
     RecyclerView recycler;
     List<PojoComentario> list= new ArrayList<>();
     AdapterComentario adapterComentario;
-    int idVidDoc;
+    int idVidDoc,idUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_comentario);
+        setContentView(R.layout.vista_comentarios);
         recycler = findViewById(R.id.recyclerId);
+        Button btnOk=findViewById(R.id.btnOk);
+        final EditText txtNuevoComentario=findViewById(R.id.txtNuevoComentario);
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                insertarComentario(txtNuevoComentario.getText().toString());
+            }
+        });
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycler.setLayoutManager(new LinearLayoutManager
@@ -47,10 +57,26 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                 TENIA QUE SER UN DIALOG) CAMBIAR EL THIS POR GETCONTEXT.*/
                         ,LinearLayoutManager.VERTICAL,false));
         Bundle extras = getIntent().getExtras();
-        int id = extras.getInt("idVidDoc");
-        idVidDoc=id;
+        idVidDoc = extras.getInt("idVidDoc");
+        idUsuario = extras.getInt("idUsuario");
         request= Volley.newRequestQueue(this);
         cargarWebService();
+    }
+
+    private void insertarComentario(String texto){
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/insertarComentario.php?" +
+                "idUsuario="+idUsuario+"&idVidDoc="+idVidDoc+"&texto="+texto;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Toast.makeText(MainComentario.this, "Comentario ingresado correctamente",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }, this);
+        request.add(jsonObjectRequest);
     }
 
     private void cargarWebService() {
@@ -59,7 +85,8 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
         url = "https://readandwatch.herokuapp.com/php/cargarComentarios.php?" +
                 "idVidDoc="+idVidDoc;
         url=url.replace(" ", "%20");
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                this, this);
         request.add(jsonObjectRequest);
     }
     @Override

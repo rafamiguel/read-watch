@@ -67,10 +67,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     onVideoListener.perfilClick(getAdapterPosition(),list);
                     break;
                 case R.id.txtComentario:
-                    entrar = new Intent(context, MainComentario.class);
-                    entrar.putExtra("idVidDoc",list.get(getAdapterPosition()).getIdVidDoc());
-                    context.startActivity(entrar);
-
+                    onVideoListener.comentarioClick(getAdapterPosition(), list);
                     break;
                 case R.id.lblReportar:
                     onVideoListener.reportarClick();
@@ -137,6 +134,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         void onVideoClick(int position,List<Videos> list, Toast toast);
         void reportarClick();
         void perfilClick(int position,List<Videos> list);
+        void comentarioClick(int position, List<Videos> list);
     }
 
 }

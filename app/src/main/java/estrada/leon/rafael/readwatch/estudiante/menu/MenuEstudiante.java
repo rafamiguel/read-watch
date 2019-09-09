@@ -32,6 +32,7 @@ import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirTema;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirVideo;
 import estrada.leon.rafael.readwatch.estudiante.fragment.Favoritos;
 import estrada.leon.rafael.readwatch.estudiante.fragment.Historial;
+import estrada.leon.rafael.readwatch.estudiante.fragment.MainComentario;
 import estrada.leon.rafael.readwatch.estudiante.fragment.MateriasPropuestas;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ModificarEstudiante;
 import estrada.leon.rafael.readwatch.estudiante.fragment.Perfil;
@@ -318,6 +319,14 @@ public class  MenuEstudiante extends AppCompatActivity
     public void onClickSubirVid() {
         DialogSubirVideo nuevo = new DialogSubirVideo();
         nuevo.show(getSupportFragmentManager(), "ejemplo");
+    }
+
+    @Override
+    public void onClickComentario(int idUsuario, int idVidDoc) {
+        Intent entrar = new Intent(this, MainComentario.class);
+        entrar.putExtra("idVidDoc",idVidDoc);
+        entrar.putExtra("idUsuario",idUsuario);
+        this.startActivity(entrar);
     }
 
     @Override

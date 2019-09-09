@@ -262,6 +262,11 @@ public class MenuAdministrador extends AppCompatActivity
     }
 
     @Override
+    public void onClickComentario(int idUsuario, int idVidDoc) {
+
+    }
+
+    @Override
     public void onClickComentario(int idVidDoc) {
 
         entrar = new Intent(this, MainComentarios.class);

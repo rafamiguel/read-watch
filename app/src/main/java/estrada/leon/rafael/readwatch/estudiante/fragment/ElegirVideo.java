@@ -3,6 +3,7 @@ package estrada.leon.rafael.readwatch.estudiante.fragment;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -119,6 +120,14 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
     @Override
     public void perfilClick(int position,List<Videos> list) {
         ((iComunicacionFragments)interfaceFragments).onClickVidPerfil(list.get(position).getIdUsuario());
+    }
+
+    @Override
+    public void comentarioClick(int position, List<Videos> list) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idVidDoc =list.get(position).getIdVidDoc();
+        interfaceFragments.onClickComentario(idUsuario,idVidDoc);
     }
 
     @Override
