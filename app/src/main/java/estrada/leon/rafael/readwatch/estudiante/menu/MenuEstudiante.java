@@ -43,7 +43,7 @@ import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.fragment.SeleccionarSemestre;
 
 public class  MenuEstudiante extends AppCompatActivity
-        implements iComunicacionFragments, NavigationView.OnNavigationItemSelectedListener,
+        implements iComunicacionFragments,NavigationView.OnNavigationItemSelectedListener,
         ElegirMateria.OnFragmentInteractionListener, SeleccionarSemestre.OnFragmentInteractionListener,
         ElegirTema.OnFragmentInteractionListener, ElegirVideo.OnFragmentInteractionListener,
         ElegirDocumento.OnFragmentInteractionListener, Historial.OnFragmentInteractionListener,
