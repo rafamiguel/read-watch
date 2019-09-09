@@ -270,6 +270,21 @@ public class  MenuEstudiante extends AppCompatActivity
 
     @Override
     public void onClickDocPerfil(int idUsuario) {
+        SharedPreferences preferences = getSharedPreferences("Perfil Estudiante", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("perfilEstudiante", idUsuario);
+        Toast.makeText(this, "El id del perfil es: "+idUsuario, Toast.LENGTH_SHORT).show();
+        editor.commit();
+
+        SharedPreferences preference = getSharedPreferences("Dato perfil", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edito = preference.edit();
+        edito.putString("dato", "PO");
+        edito.commit();
+
+
+        fragment= new Perfil();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
+        titulo.setText("Perfil");
 
     }
 
