@@ -1,6 +1,8 @@
 package estrada.leon.rafael.readwatch.administrador.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,6 +36,7 @@ public class MainComentarios extends AppCompatActivity implements  Response.List
     RecyclerView recycler;
     List<PojoComentario> list= new ArrayList<>();
     AdapterComentario adapterComentario;
+    int idVidDoc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,8 @@ public class MainComentarios extends AppCompatActivity implements  Response.List
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycler.setLayoutManager(linearLayoutManager);
+        SharedPreferences preferences = this.getSharedPreferences("IdVidDoc", Context.MODE_PRIVATE);
+        idVidDoc = preferences.getInt("idVidDoc", 0);
         request= Volley.newRequestQueue(this);
         cargarWebService();
 
@@ -55,7 +60,7 @@ public class MainComentarios extends AppCompatActivity implements  Response.List
         progreso.setMessage("Cargando...");
         progreso.show();
         url = "https://readandwatch.herokuapp.com/php/cargarComentarios.php?" +
-                "idVidDoc=1";
+                "idVidDoc="+idVidDoc;
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request.add(jsonObjectRequest);

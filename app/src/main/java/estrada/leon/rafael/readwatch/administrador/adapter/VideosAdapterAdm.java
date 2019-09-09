@@ -22,7 +22,7 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
     private Context context;
     private List<VideosAdm> list;
     private OnVideoAdmListener onVideoAdmListener;
-    Intent entrar;
+
 
     public VideosAdapterAdm(Context context, List<VideosAdm> list, OnVideoAdmListener onVideoAdmListener) {
         this.context = context;
@@ -88,8 +88,7 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
                     onVideoAdmListener.perfilClick(getAdapterPosition(),list);
                     break;
                 case R.id.txtComentario:
-                    entrar = new Intent(context, MainComentarios.class);
-                    context.startActivity(entrar);
+
                     break;
                 case R.id.btnMiniatura:
                     onVideoAdmListener.onVideoClick(getAdapterPosition(), list,

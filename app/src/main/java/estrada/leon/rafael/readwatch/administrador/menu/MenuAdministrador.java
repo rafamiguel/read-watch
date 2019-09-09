@@ -1,6 +1,7 @@
 package estrada.leon.rafael.readwatch.administrador.menu;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import estrada.leon.rafael.readwatch.administrador.fragment.BuscarUsuario;
 import estrada.leon.rafael.readwatch.administrador.fragment.CambiarContrasena;
 import estrada.leon.rafael.readwatch.administrador.fragment.ElegirDocumentoAdm;
 import estrada.leon.rafael.readwatch.administrador.fragment.ElegirVideoAdm;
+import estrada.leon.rafael.readwatch.administrador.fragment.MainComentarios;
 import estrada.leon.rafael.readwatch.administrador.fragment.ModificarAdmin;
 import estrada.leon.rafael.readwatch.administrador.fragment.RegistrarAdmin;
 import estrada.leon.rafael.readwatch.administrador.fragment.UsuariosInactivos;
@@ -35,6 +37,7 @@ public class MenuAdministrador extends AppCompatActivity
         UsuariosInactivos.OnFragmentInteractionListener, ElegirDocumentoAdm.OnFragmentInteractionListener, ModificarAdmin.OnFragmentInteractionListener {
     Fragment fragment;
     TextView titulo;
+    Intent entrar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,7 +175,11 @@ public class MenuAdministrador extends AppCompatActivity
 
     @Override
     public void onClickComentario(int idVidDoc) {
-
+        SharedPreferences preferences = getSharedPreferences("IdVidDoc", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("idVidDoc", idVidDoc);
+        entrar = new Intent(this, MainComentarios.class);
+        startActivity(entrar);
     }
 
 }

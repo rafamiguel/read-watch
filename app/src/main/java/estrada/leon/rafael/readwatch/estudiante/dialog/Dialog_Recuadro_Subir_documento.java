@@ -2,8 +2,10 @@ package estrada.leon.rafael.readwatch.estudiante.dialog;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -165,6 +167,13 @@ public class Dialog_Recuadro_Subir_documento extends AppCompatDialogFragment imp
         request.add(jsonObjectRequest);
     }
     public void subirDocWebService(String descripcion,String ruta){
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idTema;
+
+        preferences = getContext().getSharedPreferences("Tema", Context.MODE_PRIVATE);
+        idTema = preferences.getInt("tema", 0);
+
         request= Volley.newRequestQueue(getContext());
         String url;
         progreso = new ProgressDialog(getContext());
@@ -174,7 +183,7 @@ public class Dialog_Recuadro_Subir_documento extends AppCompatDialogFragment imp
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String datetime = dateformat.format(c.getTime());
         url = "https://readandwatch.herokuapp.com/php/insertarVidDoc.php?" +
-                "idTema=1&tipo=d&descripcion="+descripcion+"&ruta="+ruta+"&fechaSubida="+datetime;
+                "idTema="+idTema+"&tipo=d&descripcion="+descripcion+"&ruta="+ruta+"&fechaSubida="+datetime+"&idUsuario="+idUsuario;
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
                 null, new Response.Listener<JSONObject>() {

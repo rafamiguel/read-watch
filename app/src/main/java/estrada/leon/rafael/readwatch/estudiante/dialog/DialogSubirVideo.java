@@ -2,7 +2,9 @@ package estrada.leon.rafael.readwatch.estudiante.dialog;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -156,11 +158,18 @@ public class DialogSubirVideo extends AppCompatDialogFragment implements
         progreso = new ProgressDialog(getContext());
         progreso.setMessage("Cargando...");
         progreso.show();
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idTema;
+
+        preferences = getContext().getSharedPreferences("Tema", Context.MODE_PRIVATE);
+        idTema = preferences.getInt("tema", 0);
+
         Calendar c = Calendar.getInstance();
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String datetime = dateformat.format(c.getTime());
         url = "https://readandwatch.herokuapp.com/php/insertarVidDoc.php?" +
-                "idTema=1&tipo=v&descripcion="+descripcion+"&ruta="+ruta+"&fechaSubida="+datetime;
+                "idTema="+idTema+"&tipo=v&descripcion="+descripcion+"&ruta="+ruta+"&fechaSubida="+datetime+"&idUsuario="+idUsuario;
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
                 null, new Response.Listener<JSONObject>() {
