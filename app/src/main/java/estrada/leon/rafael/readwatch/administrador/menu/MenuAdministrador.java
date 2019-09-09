@@ -242,7 +242,7 @@ public class MenuAdministrador extends AppCompatActivity
     }
 
     @Override
-    public void onClickDocPerfil() {
+    public void onClickDocPerfil(int idUsuario) {
 
     }
 

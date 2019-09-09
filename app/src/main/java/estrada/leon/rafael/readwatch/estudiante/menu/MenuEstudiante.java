@@ -268,7 +268,7 @@ public class  MenuEstudiante extends AppCompatActivity
     }
 
     @Override
-    public void onClickDocPerfil() {
+    public void onClickDocPerfil(int idUsuario) {
 
     }
 

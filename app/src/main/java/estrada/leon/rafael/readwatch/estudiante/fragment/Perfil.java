@@ -67,7 +67,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
     void cargarDatos(){
         list=new ArrayList<>();
         for(int i=1;i<11;i++){
-            list.add(new Documentos("perfil"+i,"Documento"+i,"@drawable/btnDocumento"));
+            list.add(new Documentos("perfil"+i,"Documento"+i,"@drawable/btnDocumento",1));
             list.add(new Videos("perfil"+i,"video"+i,"@drawable/miniatura",i,1));
         }
     }

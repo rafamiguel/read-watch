@@ -124,6 +124,11 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         interfaceFragments.onClickReportar();
     }
 
+    @Override
+    public void perfilClick(int position, List<Documentos> documentosList) {
+        interfaceFragments.onClickDocPerfil(documentosList.get(position).getId());
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -164,13 +169,15 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         Documentos documento;
         json = response.optJSONArray("usuario");
         String idUsuario,descripcion,miniatura;
+        int id;
         try {
             for(int i=0;i<json.length();i++){
                 jsonObject=json.getJSONObject(i);
                 idUsuario=jsonObject.optString("idUsuario");
                 descripcion=jsonObject.optString("descripcion");
                 miniatura=jsonObject.optString("rutaImagen");
-                documento=new Documentos(idUsuario,descripcion,miniatura);
+                id=jsonObject.optInt("idVidDoc");
+                documento=new Documentos(idUsuario,descripcion,miniatura,id);
                 documentos.add(documento);
             }
         } catch (JSONException e) {

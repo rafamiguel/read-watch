@@ -97,8 +97,7 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
                     context.startActivity(entrar);
                     break;
                 case R.id.lblPerfil:
-                    onDocumentosListener.onDocumentosClick(getAdapterPosition(),documentosList,
-                            Toast.makeText(context, "Este es el perfil", Toast.LENGTH_SHORT));
+                    onDocumentosListener.perfilClick(getAdapterPosition(),documentosList);
                     break;
                 case R.id.lblReportar:
                     onDocumentosListener.reportarClick();
@@ -133,5 +132,6 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
     public interface OnDocumentosListener{
         void onDocumentosClick(int position, List<Documentos> documentosList, Toast toast);
         void reportarClick();
+        void perfilClick(int position, List<Documentos> documentosList);
     }
 }
