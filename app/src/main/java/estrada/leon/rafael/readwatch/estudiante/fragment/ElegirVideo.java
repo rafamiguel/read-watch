@@ -158,15 +158,15 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         Videos video;
         json = response.optJSONArray("usuario");
         String descripcion,miniatura;
-        int idUsuario;
+        int idUsuario,idVidDoc;
         try {
             for(int i=0;i<json.length();i++){
             jsonObject=json.getJSONObject(i);
             idUsuario=jsonObject.optInt("idUsuario");
             descripcion=jsonObject.optString("descripcion");
             miniatura=jsonObject.optString("rutaImagen");
-
-            video=new Videos(Integer.toString(idUsuario),descripcion,miniatura,idUsuario);
+            idVidDoc=jsonObject.optInt("idVidDoc");
+            video=new Videos(Integer.toString(idUsuario),descripcion,miniatura,idUsuario,idVidDoc);
 
             videos.add(video);
             }

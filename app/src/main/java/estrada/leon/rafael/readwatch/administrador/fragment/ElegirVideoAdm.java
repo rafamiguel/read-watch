@@ -188,7 +188,7 @@ public class ElegirVideoAdm extends Fragment implements View.OnClickListener,
                 descripcion=jsonObject.optString("descripcion");
                 miniatura=jsonObject.optString("rutaImagen");
                 idVidDoc=jsonObject.optInt("idVidDoc");
-                video=new VideosAdm(Integer.toString(idUsuario),descripcion,miniatura,idVidDoc,idUsuario);
+                video=new VideosAdm(descripcion,Integer.toString(idUsuario),miniatura,idVidDoc,idUsuario);
 
                 videos.add(video);
             }

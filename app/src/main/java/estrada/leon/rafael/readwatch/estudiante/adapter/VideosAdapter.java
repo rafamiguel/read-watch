@@ -68,6 +68,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     break;
                 case R.id.txtComentario:
                     entrar = new Intent(context, MainComentario.class);
+                    entrar.putExtra("idVidDoc",list.get(getAdapterPosition()).getIdUsuario());
                     context.startActivity(entrar);
 
                     break;

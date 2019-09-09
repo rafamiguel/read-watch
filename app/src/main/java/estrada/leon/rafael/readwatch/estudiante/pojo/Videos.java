@@ -7,12 +7,14 @@ public class Videos implements Item {
     private String perfil;
     private String rutaImagen;
     private int idUsuario;
+    private int idVidDoc;
 
-    public Videos(String perfil,String descripcion, String rutaImagen, int idUsuario) {
+    public Videos(String perfil,String descripcion, String rutaImagen, int idUsuario, int idVidDoc) {
         this.descripcion = descripcion;
         this.perfil = perfil;
         this.rutaImagen = rutaImagen;
         this.idUsuario = idUsuario;
+        this.idVidDoc=idVidDoc;
     }
     public String getDescripcion(){
         return this.descripcion;
@@ -43,6 +45,14 @@ public class Videos implements Item {
 
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public int getIdVidDoc() {
+        return idVidDoc;
+    }
+
+    public void setIdVidDoc(int idVidDoc) {
+        this.idVidDoc = idVidDoc;
     }
 
     @Override
