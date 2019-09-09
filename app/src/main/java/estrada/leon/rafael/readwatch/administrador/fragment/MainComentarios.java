@@ -26,6 +26,7 @@ import java.util.List;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.administrador.adapter.AdapterComentario;
+import estrada.leon.rafael.readwatch.administrador.menu.MenuAdministrador;
 import estrada.leon.rafael.readwatch.administrador.pojo.PojoComentario;
 
 public class MainComentarios extends AppCompatActivity implements  Response.Listener<JSONObject>,
@@ -45,8 +46,9 @@ public class MainComentarios extends AppCompatActivity implements  Response.List
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycler.setLayoutManager(linearLayoutManager);
-        SharedPreferences preferences = this.getSharedPreferences("IdVidDoc", Context.MODE_PRIVATE);
-        idVidDoc = preferences.getInt("idVidDoc", 0);
+        Bundle extras = getIntent().getExtras();
+        int id = extras.getInt("idVidDoc");
+        idVidDoc=id;
         request= Volley.newRequestQueue(this);
         cargarWebService();
 

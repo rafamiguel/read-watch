@@ -175,10 +175,9 @@ public class MenuAdministrador extends AppCompatActivity
 
     @Override
     public void onClickComentario(int idVidDoc) {
-        SharedPreferences preferences = getSharedPreferences("IdVidDoc", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("idVidDoc", idVidDoc);
+
         entrar = new Intent(this, MainComentarios.class);
+        entrar.putExtra("idVidDoc",idVidDoc);
         startActivity(entrar);
     }
 
