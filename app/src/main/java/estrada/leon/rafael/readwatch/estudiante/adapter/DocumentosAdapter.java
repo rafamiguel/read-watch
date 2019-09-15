@@ -2,6 +2,7 @@ package estrada.leon.rafael.readwatch.estudiante.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -93,8 +94,7 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
                             Toast.makeText(context, "Esta es la descripcion", Toast.LENGTH_SHORT));
                     break;
                 case R.id.txtComentario:
-                    entrar = new Intent(context, MainComentario.class);
-                    context.startActivity(entrar);
+                    onDocumentosListener.comentarioClick(getAdapterPosition(), documentosList);
                     break;
                 case R.id.lblPerfil:
                     onDocumentosListener.perfilClick(getAdapterPosition(),documentosList);
@@ -133,5 +133,6 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
         void onDocumentosClick(int position, List<Documentos> documentosList, Toast toast);
         void reportarClick();
         void perfilClick(int position, List<Documentos> documentosList);
+        void comentarioClick(int position, List<Documentos> list);
     }
 }

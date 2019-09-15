@@ -126,7 +126,17 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
 
     @Override
     public void perfilClick(int position, List<Documentos> documentosList) {
-        interfaceFragments.onClickDocPerfil(documentosList.get(position).getId());
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        interfaceFragments.onClickDocPerfil(idUsuario);
+    }
+
+    @Override
+    public void comentarioClick(int position, List<Documentos> list) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idVidDoc =list.get(position).getId();
+        interfaceFragments.onClickComentario(idUsuario,idVidDoc);
     }
 
 
