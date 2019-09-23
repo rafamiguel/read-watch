@@ -25,7 +25,7 @@ import java.util.List;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.adapter.AdapterComentario;
-import estrada.leon.rafael.readwatch.estudiante.pojo.PojoComentario;
+import estrada.leon.rafael.readwatch.estudiante.pojo.Comentarios;
 
 public class MainComentario extends AppCompatActivity implements  Response.Listener<JSONObject>,
         Response.ErrorListener {
@@ -33,7 +33,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
     RecyclerView recycler;
-    List<PojoComentario> list= new ArrayList<>();
+    List<Comentarios> list= new ArrayList<>();
     AdapterComentario adapterComentario;
     int idVidDoc,idUsuario;
 
@@ -98,7 +98,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
     public void onResponse(JSONObject response) {
         JSONArray json;
         JSONObject jsonObject=null;
-        PojoComentario comentario;
+        Comentarios comentario;
         json = response.optJSONArray("usuario");
         String nombre,comentarioString;
         try {
@@ -106,7 +106,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                 jsonObject=json.getJSONObject(i);
                 nombre=jsonObject.optString("idUsuario");
                 comentarioString=jsonObject.optString("texto");
-                comentario=new PojoComentario(nombre,comentarioString);
+                comentario=new Comentarios(nombre,comentarioString);
                 list.add(comentario);
             }
         } catch (JSONException e) {

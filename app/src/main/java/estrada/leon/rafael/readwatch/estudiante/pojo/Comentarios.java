@@ -1,10 +1,12 @@
 package estrada.leon.rafael.readwatch.estudiante.pojo;
 
-public class PojoComentario {
+import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
+
+public class Comentarios implements Item {
     private String Perfil;
     private String Comentario;
 
-    public PojoComentario(String Perfil, String Comentario){
+    public Comentarios(String Perfil, String Comentario){
         this.Comentario = Comentario;
         this.Perfil = Perfil;
     }
@@ -23,5 +25,10 @@ public class PojoComentario {
 
     public void setComentario(String comentario) {
         Comentario = comentario;
+    }
+
+    @Override
+    public int getViewType() {
+        return 3;
     }
 }
