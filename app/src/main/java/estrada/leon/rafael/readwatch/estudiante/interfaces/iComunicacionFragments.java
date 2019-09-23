@@ -20,7 +20,7 @@ public interface iComunicacionFragments {
     public void onClickReportar();
     public void onClickSubirDoc();
     public void onClickSubirVid();
-    public void onClickComentario(int idUsuario, int idVidDoc);
-    public void onClickSubirVidPreg();
-    public void onClickSubirDocPreg();
+    public void onClickComentario(int idUsuario, int idVidDoc,  int idPregunta);
+    public void onClickSubirVidPreg(int idPregunta);
+    public void onClickSubirDocPreg(int idPregunta);
 }

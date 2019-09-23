@@ -20,7 +20,7 @@ import estrada.leon.rafael.readwatch.estudiante.pojo.Comentarios;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Documentos;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
 
-public class AdapterComentario extends RecyclerView.Adapter<AdapterComentario.ViewHolderComentario> {
+public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context context;
     List<Item> list;
@@ -48,33 +48,38 @@ public class AdapterComentario extends RecyclerView.Adapter<AdapterComentario.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolderComentario viewHolder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
 
         switch(getItemViewType(position)){
             case DOCUMENTO: {
                 Documentos documento = (Documentos) list.get(position);
-               // DocumentosViewHolder documentosViewHolder = (DocumentosViewHolder) viewHolder;
-                //documentosViewHolder.lblPerfil.setText(documento.getPerfil());
-               // documentosViewHolder.lblDescripcion.setText(documento.getDescripcion());
+                DocumentosViewHolder documentosViewHolder = (DocumentosViewHolder) viewHolder;
+                documentosViewHolder.lblPerfil.setText(documento.getPerfil());
+                documentosViewHolder.lblDescripcion.setText(documento.getDescripcion());
                 break;
             }
             case VIDEO:{
                 Videos video=(Videos)list.get(position);
-                //VideosViewHolder videosViewHolder=(VideosViewHolder) viewHolder;
-               // videosViewHolder.lblPerfil.setText(video.getPerfil());
-               // videosViewHolder.lblDescripcion.setText(video.getDescripcion());
+                VideosViewHolder videosViewHolder=(VideosViewHolder) viewHolder;
+                videosViewHolder.lblPerfil.setText(video.getPerfil());
+                videosViewHolder.lblDescripcion.setText(video.getDescripcion());
                 String uri = video.getRutaImagen();
                 int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
-               // videosViewHolder.btnMiniatura.setImageResource(imageResource);
+                videosViewHolder.btnMiniatura.setImageResource(imageResource);
                 break;
             }
             case COMENTARIO:{
-
+                Comentarios comentario = (Comentarios) list.get(position);
+                ViewHolderComentario viewHolderComentario=(ViewHolderComentario) viewHolder;
+                viewHolderComentario.txtComentario.setText(comentario.getComentario());
+                viewHolderComentario.lblPerfil.setText(comentario.getPerfil());
             }
             break;
             default:
-               // viewHolder.txtComentario.setText((Comentarios)list.get(position).getComentario());
-                //viewHolder.lblPerfil.setText((Comentarios)list.get(position).getPerfil());
+                Comentarios comentario = (Comentarios) list.get(position);
+                ViewHolderComentario viewHolderComentario=(ViewHolderComentario) viewHolder;
+                viewHolderComentario.txtComentario.setText(comentario.getComentario());
+                viewHolderComentario.lblPerfil.setText(comentario.getPerfil());
         }
     }
 

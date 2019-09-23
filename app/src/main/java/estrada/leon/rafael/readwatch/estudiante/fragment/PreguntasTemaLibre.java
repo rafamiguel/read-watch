@@ -3,6 +3,7 @@ package estrada.leon.rafael.readwatch.estudiante.fragment;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -42,7 +43,6 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
     RecyclerView recyclerTemas;
     View vista;
     TemaLibreAdapter adapter;
-    List<TemaLibre> temaLibreList = new ArrayList<>();
     ProgressDialog progreso;
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
@@ -114,13 +114,21 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
     }
 
     @Override
-    public void onClickSubirVid() {
-        interfaceFragments.onClickSubirVidPreg();
+    public void onClickSubirVid(int position,  List<TemaLibre> temaLibreList) {
+        interfaceFragments.onClickSubirVidPreg(temaLibreList.get(position).getId());
     }
 
     @Override
-    public void onClickSubirDoc() {
-        interfaceFragments.onClickSubirDocPreg();
+    public void onClickSubirDoc(int position,  List<TemaLibre> temaLibreList) {
+        interfaceFragments.onClickSubirDocPreg(temaLibreList.get(position).getId());
+    }
+
+    @Override
+    public void comentarioClick(int position,  List<TemaLibre> temaLibreList) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idPregunta = preguntas.get(position).getId();
+        interfaceFragments.onClickComentario(idUsuario,0,idPregunta);
     }
 
     private void cargarWebService(){
@@ -146,12 +154,14 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
         TemaLibre temaLibre;
         json = response.optJSONArray("usuario");
         String descripcion,titulo;
+        int id;
         try {
             for(int i=0;i<json.length();i++){
                 jsonObject=json.getJSONObject(i);
                 descripcion=jsonObject.optString("descripcion");
                 titulo=jsonObject.optString("titulo");
-                temaLibre=new TemaLibre(descripcion,titulo);
+                id=jsonObject.optInt("idPregunta");
+                temaLibre=new TemaLibre(descripcion,titulo,id);
 
                 preguntas.add(temaLibre);
             }

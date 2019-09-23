@@ -25,6 +25,7 @@ import java.util.List;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.adapter.AdapterComentario;
+import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Comentarios;
 
 public class MainComentario extends AppCompatActivity implements  Response.Listener<JSONObject>,
@@ -33,9 +34,9 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
     RecyclerView recycler;
-    List<Comentarios> list= new ArrayList<>();
+    List<Item> list= new ArrayList<>();
     AdapterComentario adapterComentario;
-    int idVidDoc,idUsuario;
+    int idVidDoc=0,idUsuario,idPregunta=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,11 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insertarComentario(txtNuevoComentario.getText().toString());
+                if(idPregunta!=0) {
+                    insertarComentario(txtNuevoComentario.getText().toString());
+                }else{
+
+                }
             }
         });
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
@@ -57,10 +62,17 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                 TENIA QUE SER UN DIALOG) CAMBIAR EL THIS POR GETCONTEXT.*/
                         ,LinearLayoutManager.VERTICAL,false));
         Bundle extras = getIntent().getExtras();
-        idVidDoc = extras.getInt("idVidDoc");
-        idUsuario = extras.getInt("idUsuario");
-        request= Volley.newRequestQueue(this);
-        cargarWebService();
+        if(extras.getInt("idVidDoc")!=0) {
+            idVidDoc = extras.getInt("idVidDoc");
+            idUsuario = extras.getInt("idUsuario");
+            request = Volley.newRequestQueue(this);
+            cargarComentariosVidDoc();
+        }else if(extras.getInt("idVidDoc")==0){
+            idPregunta = extras.getInt("idPregunta");
+            idUsuario = extras.getInt("idUsuario");
+            request = Volley.newRequestQueue(this);
+            cargarComentariosPreg();
+        }
     }
 
     private void insertarComentario(String texto){
@@ -78,8 +90,18 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
         }, this);
         request.add(jsonObjectRequest);
     }
+    private void cargarComentariosPreg() {
+        list=new ArrayList<>();
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/cargarComentariosPreg.php?" +
+                "idPregunta="+idPregunta;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                this, this);
+        request.add(jsonObjectRequest);
+    }
 
-    private void cargarWebService() {
+    private void cargarComentariosVidDoc() {
         list=new ArrayList<>();
         String url;
         url = "https://readandwatch.herokuapp.com/php/cargarComentarios.php?" +

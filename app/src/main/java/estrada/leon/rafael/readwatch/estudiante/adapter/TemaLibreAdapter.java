@@ -89,8 +89,7 @@ public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.View
                             Toast.makeText(context, "Esta es la pregunta", Toast.LENGTH_SHORT));
                     break;
                 case R.id.txtComentario:
-                    entrar = new Intent(context, MainComentario.class);
-                    context.startActivity(entrar);
+                    onTemaListener.comentarioClick(getAdapterPosition(),temaLibreList);
                     break;
                 case R.id.lblDescripcion:
                     onTemaListener.onTemaClick(getAdapterPosition(),temaLibreList,
@@ -100,7 +99,7 @@ public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.View
                     onTemaListener.onClickReportar();
                     break;
                 case R.id.btnSubirDocumento:
-                    onTemaListener.onClickSubirDoc();
+                    onTemaListener.onClickSubirDoc(getAdapterPosition(),temaLibreList);
                     break;
                 case R.id.btnAdvertencia:
                     onTemaListener.onClickReportar();
@@ -110,7 +109,7 @@ public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.View
                             Toast.makeText(context, "Este es el botón para editar", Toast.LENGTH_SHORT));
                     break;
                 case R.id.btnInsertarLink:
-                    onTemaListener.onClickSubirVid();
+                    onTemaListener.onClickSubirVid(getAdapterPosition(),temaLibreList);
                     break;
                 default:
                     onTemaListener.onTemaClick(getAdapterPosition(),temaLibreList,
@@ -122,7 +121,8 @@ public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.View
     public interface OnTemaListener{
         void onTemaClick(int position, List<TemaLibre> temaLibreList, Toast toast);
         void onClickReportar();
-        void onClickSubirVid();
-        void onClickSubirDoc();
+        void onClickSubirVid(int position, List<TemaLibre> temaLibreList);
+        void onClickSubirDoc(int position, List<TemaLibre> temaLibreList);
+        void comentarioClick(int position, List<TemaLibre> temaLibreList);
     }
 }

@@ -337,22 +337,23 @@ public class  MenuEstudiante extends AppCompatActivity
     }
 
     @Override
-    public void onClickComentario(int idUsuario, int idVidDoc) {
+    public void onClickComentario(int idUsuario, int idVidDoc, int idPregunta) {
         Intent entrar = new Intent(this, MainComentario.class);
         entrar.putExtra("idVidDoc",idVidDoc);
         entrar.putExtra("idUsuario",idUsuario);
+        entrar.putExtra("idPregunta",idPregunta);
         this.startActivity(entrar);
     }
 
     @Override
-    public void onClickSubirVidPreg() {
+    public void onClickSubirVidPreg(int idPregunta) {
         DialogSubirVideo nuevo = new DialogSubirVideo();
         nuevo.desactivarSpinners();
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
 
     @Override
-    public void onClickSubirDocPreg() {
+    public void onClickSubirDocPreg(int idPregunta) {
         Dialog_Recuadro_Subir_documento nuevo = new Dialog_Recuadro_Subir_documento();
         nuevo.desactivarSpinners();
         nuevo.show(getSupportFragmentManager() , "ejemplo");
