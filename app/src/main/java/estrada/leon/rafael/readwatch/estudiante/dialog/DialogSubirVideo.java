@@ -40,6 +40,12 @@ public class DialogSubirVideo extends AppCompatDialogFragment implements
     RequestQueue request;
     EditText txtDescripcion,txtLink;
     Spinner spinner_tema,spinner_materia;
+    boolean spinnersOff=false;
+
+    public void desactivarSpinners(){
+        spinnersOff = true;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -49,6 +55,10 @@ public class DialogSubirVideo extends AppCompatDialogFragment implements
         txtLink=view.findViewById(R.id.txtLink);
         spinner_tema=view.findViewById(R.id.spinner_tema);
         spinner_materia=view.findViewById(R.id.spinner_materia);
+        if(spinnersOff){
+            spinner_materia.setVisibility(View.GONE);
+            spinner_tema.setVisibility(View.GONE);
+        }
         spinner_materia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

@@ -345,6 +345,20 @@ public class  MenuEstudiante extends AppCompatActivity
     }
 
     @Override
+    public void onClickSubirVidPreg() {
+        DialogSubirVideo nuevo = new DialogSubirVideo();
+        nuevo.desactivarSpinners();
+        nuevo.show(getSupportFragmentManager(), "ejemplo");
+    }
+
+    @Override
+    public void onClickSubirDocPreg() {
+        Dialog_Recuadro_Subir_documento nuevo = new Dialog_Recuadro_Subir_documento();
+        nuevo.desactivarSpinners();
+        nuevo.show(getSupportFragmentManager() , "ejemplo");
+    }
+
+    @Override
     public void onClickVideosHolder(Toast toast) {
         toast.show();
     }

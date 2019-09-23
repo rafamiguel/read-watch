@@ -55,7 +55,7 @@ public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView lblPregunta, lblDescripcion, lblReportar;
         EditText txtComentario;
-        Button btnAgregarPregunta, btnAdvertencia, btnEditar, btnSubirDocumento, btnInsertarLink;
+        Button btnAdvertencia, btnEditar, btnSubirDocumento, btnInsertarLink;
         OnTemaListener onTemaListener;
         private ViewHolder(View item, OnTemaListener onTemaListener){
             super(item);

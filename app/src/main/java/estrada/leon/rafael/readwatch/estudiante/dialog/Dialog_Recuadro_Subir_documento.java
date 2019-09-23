@@ -45,7 +45,11 @@ public class Dialog_Recuadro_Subir_documento extends AppCompatDialogFragment imp
     RequestQueue request;
     EditText txtDescripcion,txtTitulo;
     Spinner spinner_tema,spinner_materia;
+    boolean spinnersOff=false;
 
+    public void desactivarSpinners(){
+        spinnersOff=true;
+    }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         TextView lblElegirDocumento;
@@ -56,6 +60,10 @@ public class Dialog_Recuadro_Subir_documento extends AppCompatDialogFragment imp
         txtTitulo=view.findViewById(R.id.txtTitulo);
         spinner_tema=view.findViewById(R.id.spinner_tema);
         spinner_materia=view.findViewById(R.id.spinner_materia);
+        if(spinnersOff){
+            spinner_tema.setVisibility(View.GONE);
+            spinner_materia.setVisibility(View.GONE);
+        }
         spinner_materia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
