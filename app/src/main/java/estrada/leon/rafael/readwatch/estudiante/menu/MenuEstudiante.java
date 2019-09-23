@@ -333,6 +333,7 @@ public class  MenuEstudiante extends AppCompatActivity
     @Override
     public void onClickSubirVid() {
         DialogSubirVideo nuevo = new DialogSubirVideo();
+        nuevo.desactivarSpinners(1, 0);
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
 
@@ -346,8 +347,10 @@ public class  MenuEstudiante extends AppCompatActivity
 
     @Override
     public void onClickSubirVidPreg() {
+        //preguntas tema libre
+
         DialogSubirVideo nuevo = new DialogSubirVideo();
-        nuevo.desactivarSpinners();
+        nuevo.desactivarSpinners(0, 1);
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
 

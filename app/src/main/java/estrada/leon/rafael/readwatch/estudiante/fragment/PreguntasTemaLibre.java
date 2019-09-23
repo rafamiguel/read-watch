@@ -79,6 +79,9 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
         recyclerTemas.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         request= Volley.newRequestQueue(getContext());
         cargarWebService();
+        //adapter = new TemaLibreAdapter(getContext(),temaLibreList, this);
+
+        //recyclerTemas.setAdapter(adapter);
         return vista;
     }
 
@@ -120,7 +123,7 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
 
     @Override
     public void onClickSubirDoc() {
-        interfaceFragments.onClickSubirDocPreg();
+        interfaceFragments.onClickSubirDoc();
     }
 
     private void cargarWebService(){

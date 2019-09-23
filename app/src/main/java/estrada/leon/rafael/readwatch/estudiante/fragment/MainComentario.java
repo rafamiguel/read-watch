@@ -25,6 +25,7 @@ import java.util.List;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.adapter.AdapterComentario;
+import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Comentarios;
 
 public class MainComentario extends AppCompatActivity implements  Response.Listener<JSONObject>,
@@ -33,7 +34,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
     RecyclerView recycler;
-    List<Comentarios> list= new ArrayList<>();
+    List<Item> list= new ArrayList<>();
     AdapterComentario adapterComentario;
     int idVidDoc,idUsuario;
 
@@ -70,12 +71,12 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Toast.makeText(MainComentario.this, "Comentario ingresado correctamente",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }, this);
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Toast.makeText(MainComentario.this, "Comentario ingresado correctamente",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }, this);
         request.add(jsonObjectRequest);
     }
 
