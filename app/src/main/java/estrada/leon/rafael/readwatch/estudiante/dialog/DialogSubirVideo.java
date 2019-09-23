@@ -178,10 +178,12 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
         progreso.show();
         SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preferences.getInt("idUsuario", 0);
-        int idTema;
+        int idTema, idPregunta;
 
         preferences = getContext().getSharedPreferences("Tema", Context.MODE_PRIVATE);
         idTema = preferences.getInt("tema", 0);
+
+
 
         Calendar c = Calendar.getInstance();
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -191,9 +193,11 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
                     "idTema=" + idTema + "&tipo=v&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
             url=url.replace(" ", "%20");
         }else {
+            preferences = getContext().getSharedPreferences("pregunta", Context.MODE_PRIVATE);
+            idPregunta = preferences.getInt("idPregunta",0);
             //Opción del video en Temas Libres
-            url = "https://readandwatch.herokuapp.com/php/insertarVidDoc.php?" +
-                    "idTema=" + idTema + "&tipo=v&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "";
+            url = "https://readandwatch.herokuapp.com/php/insertarVidPreg.php?" +
+                    "idPregunta=" + 1 + "&tipo=v&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
             url=url.replace(" ", "%20");
         }
 

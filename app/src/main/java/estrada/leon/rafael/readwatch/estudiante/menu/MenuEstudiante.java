@@ -347,6 +347,9 @@ public class  MenuEstudiante extends AppCompatActivity
 
     @Override
     public void onClickSubirVidPreg(int idPregunta) {
+        SharedPreferences preferences = getSharedPreferences("pregunta", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("idPregunta", idPregunta);
         DialogSubirVideo nuevo = new DialogSubirVideo();
         nuevo.desactivarSpinners(0,1);
         nuevo.show(getSupportFragmentManager(), "ejemplo");
