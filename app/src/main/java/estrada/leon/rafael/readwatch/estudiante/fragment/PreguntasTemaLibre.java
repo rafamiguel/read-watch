@@ -1,6 +1,7 @@
 package estrada.leon.rafael.readwatch.estudiante.fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +34,8 @@ import estrada.leon.rafael.readwatch.estudiante.pojo.TemaLibre;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
 
-public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnTemaListener {
+public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnTemaListener,
+        Response.Listener<JSONObject>, Response.ErrorListener {
     iComunicacionFragments interfaceFragments;
     FloatingActionButton fabNuevaPregunta;
     Activity actividad;
@@ -30,22 +43,17 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
     View vista;
     TemaLibreAdapter adapter;
     List<TemaLibre> temaLibreList = new ArrayList<>();
+    ProgressDialog progreso;
+    JsonObjectRequest jsonObjectRequest;
+    RequestQueue request;
+    List<TemaLibre> preguntas;
+    TemaLibreAdapter temaLibreAdapter;
 
     private OnFragmentInteractionListener mListener;
 
     public PreguntasTemaLibre() {
     }
-    public void cargarDatos(){
-        temaLibreList = new ArrayList<>();
-        temaLibreList.add(new TemaLibre("Me urge!!!", "Gallina o huevo"));
-        temaLibreList.add(new TemaLibre("Es tarea", "Bueno o malo??"));
-        temaLibreList.add(new TemaLibre("salu2", "¿Cuál es el sentido de la vida?"));
-        temaLibreList.add(new TemaLibre("jaja que pregunton soi", "¿Habrá vida en otros planetas?"));
-        temaLibreList.add(new TemaLibre("ola","¿Cómo puede ser infinito el Universo?"));
-        temaLibreList.add(new TemaLibre("me encontre esta pregunta en yahoo respuestas jaja",
-                "¿Ayúdenme porfavor, la suma 11111111-1111111+111111.......... Así hasta llegar al uno," +
-                        " cuál sería el resultado? Y cómo sacarían la respuesta? "));
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +64,8 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        preguntas=new ArrayList<>();
+
         vista=inflater.inflate(R.layout.fragment_preguntas_tema_libre, container, false);
         fabNuevaPregunta = vista.findViewById(R.id.fabNuevaPregunta2);
         fabNuevaPregunta.setOnClickListener(new View.OnClickListener() {
@@ -64,11 +74,11 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
               interfaceFragments.onClickNuevaPregunta();
             }
         });
+
         recyclerTemas =  vista.findViewById(R.id.recyclerTemas);
         recyclerTemas.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        cargarDatos();
-        adapter = new TemaLibreAdapter(getContext(),temaLibreList, this);
-        recyclerTemas.setAdapter(adapter);
+        request= Volley.newRequestQueue(getContext());
+        cargarWebService();
         return vista;
     }
 
@@ -111,6 +121,46 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
     @Override
     public void onClickSubirDoc() {
         interfaceFragments.onClickSubirDoc();
+    }
+
+    private void cargarWebService(){
+        String url;
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        url = "https://readandwatch.herokuapp.com/php/cargarPregunta.php";
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        progreso.hide();
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        JSONArray json;
+        JSONObject jsonObject=null;
+        TemaLibre temaLibre;
+        json = response.optJSONArray("usuario");
+        String descripcion,titulo;
+        try {
+            for(int i=0;i<json.length();i++){
+                jsonObject=json.getJSONObject(i);
+                descripcion=jsonObject.optString("descripcion");
+                titulo=jsonObject.optString("titulo");
+                temaLibre=new TemaLibre(descripcion,titulo);
+
+                preguntas.add(temaLibre);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        progreso.hide();
+        temaLibreAdapter=new TemaLibreAdapter(getContext(),preguntas, this);
+        recyclerTemas.setAdapter(temaLibreAdapter);
     }
 
     public interface OnFragmentInteractionListener {
