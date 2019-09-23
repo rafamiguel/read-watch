@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,17 +34,23 @@ import java.util.List;
 
 import estrada.leon.rafael.readwatch.R;
 
-public class DialogSubirVideo extends AppCompatDialogFragment implements
+public class DialogSubirVideo  extends AppCompatDialogFragment implements
         Response.Listener<JSONObject>, Response.ErrorListener {
     ProgressDialog progreso;
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
     EditText txtDescripcion,txtLink;
     Spinner spinner_tema,spinner_materia;
+    int opcion;
     boolean spinnersOff=false;
 
-    public void desactivarSpinners(){
-        spinnersOff = true;
+
+
+    public void desactivarSpinners(int opc, int spin){
+        if(spin == 1) {
+            spinnersOff = true;
+        }
+        this.opcion = opc;
     }
 
     @Override
@@ -162,6 +169,7 @@ public class DialogSubirVideo extends AppCompatDialogFragment implements
                 }, this);
         request.add(jsonObjectRequest);
     }
+
     public void subirVidWebService(String descripcion,String ruta){
         request= Volley.newRequestQueue(getContext());
         String url;
@@ -178,9 +186,17 @@ public class DialogSubirVideo extends AppCompatDialogFragment implements
         Calendar c = Calendar.getInstance();
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String datetime = dateformat.format(c.getTime());
-        url = "https://readandwatch.herokuapp.com/php/insertarVidDoc.php?" +
-                "idTema="+idTema+"&tipo=v&descripcion="+descripcion+"&ruta="+ruta+"&fechaSubida="+datetime+"&idUsuario="+idUsuario;
-        url=url.replace(" ", "%20");
+        if (opcion ==1) {
+            url = "https://readandwatch.herokuapp.com/php/insertarVidDoc.php?" +
+                    "idTema=" + idTema + "&tipo=v&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
+            url=url.replace(" ", "%20");
+        }else {
+            //Opción del video en Temas Libres
+            url = "https://readandwatch.herokuapp.com/php/insertarVidDoc.php?" +
+                    "idTema=" + idTema + "&tipo=v&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "";
+            url=url.replace(" ", "%20");
+        }
+
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
                 null, new Response.Listener<JSONObject>() {
             @Override
@@ -195,6 +211,8 @@ public class DialogSubirVideo extends AppCompatDialogFragment implements
             }
         });
         request.add(jsonObjectRequest);
+
+
     }
 
     @Override

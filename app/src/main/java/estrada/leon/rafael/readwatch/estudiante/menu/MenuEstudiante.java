@@ -348,7 +348,7 @@ public class  MenuEstudiante extends AppCompatActivity
     @Override
     public void onClickSubirVidPreg(int idPregunta) {
         DialogSubirVideo nuevo = new DialogSubirVideo();
-        nuevo.desactivarSpinners();
+        nuevo.desactivarSpinners(0,1);
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
 

@@ -82,12 +82,12 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Toast.makeText(MainComentario.this, "Comentario ingresado correctamente",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }, this);
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Toast.makeText(MainComentario.this, "Comentario ingresado correctamente",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }, this);
         request.add(jsonObjectRequest);
     }
     private void cargarComentariosPreg() {
