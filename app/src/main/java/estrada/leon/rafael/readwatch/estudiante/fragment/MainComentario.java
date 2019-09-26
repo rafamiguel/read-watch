@@ -1,5 +1,6 @@
 package estrada.leon.rafael.readwatch.estudiante.fragment;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,6 +38,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
     List<Item> list= new ArrayList<>();
     AdapterComentario adapterComentario;
     int idVidDoc=0,idUsuario,idPregunta=0;
+    Context contexto=this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +116,37 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                 "idPregunta="+idPregunta;
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                this, this);
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONArray json;
+                        JSONObject jsonObject=null;
+                        Comentarios comentario;
+                        json = response.optJSONArray("usuario");
+                        String nombre,comentarioString;
+                        try {
+                            for(int i=0;i<json.length();i++){
+                                jsonObject=json.getJSONObject(i);
+                                nombre=jsonObject.optString("idUsuario");
+                                comentarioString=jsonObject.optString("texto");
+                                comentario=new Comentarios(nombre,comentarioString);
+                                list.add(comentario);
+                            }
+                            for(int i=0;i<json.length();i++){
+                                jsonObject=json.getJSONObject(i);
+                                nombre=jsonObject.optString("idUsuario");
+                                comentarioString=jsonObject.optString("texto");
+                                comentario=new Comentarios(nombre,comentarioString);
+                                list.add(comentario);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        adapterComentario = new AdapterComentario(contexto, list);
+                        recycler.setAdapter(adapterComentario);
+                    }
+                }, this);
         request.add(jsonObjectRequest);
     }
 

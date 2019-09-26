@@ -350,6 +350,7 @@ public class  MenuEstudiante extends AppCompatActivity
         SharedPreferences preferences = getSharedPreferences("pregunta", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("idPregunta", idPregunta);
+        editor.commit();
         DialogSubirVideo nuevo = new DialogSubirVideo();
         nuevo.desactivarSpinners(0,1);
         nuevo.show(getSupportFragmentManager(), "ejemplo");

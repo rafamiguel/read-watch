@@ -6,20 +6,29 @@ public class Documentos implements Item {
     private String perfil;
     private String descripcion;
     private String rutaImagen;
-    private int id;
-    public Documentos(String perfil, String descripcion,String rutaImagen, int id){
+    private int idVidDoc,idUsuario;
+    public Documentos(String perfil,String descripcion, String rutaImagen, int idUsuario, int idVidDoc){
         this.perfil=perfil;
         this.descripcion=descripcion;
         this.rutaImagen=rutaImagen;
-        this.id=id;
+        this.idVidDoc=idVidDoc;
+        this.idUsuario=idUsuario;
     }
 
-    public int getId() {
-        return id;
+    public int getIdVidDoc() {
+        return idVidDoc;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdVidDoc(int idVidDoc) {
+        this.idVidDoc = idVidDoc;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getPerfil(){return  perfil;}

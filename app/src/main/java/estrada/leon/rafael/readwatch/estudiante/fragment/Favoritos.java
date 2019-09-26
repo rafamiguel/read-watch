@@ -40,7 +40,7 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
     public void cargarDatos(){
         list=new ArrayList<>();
         for(int i=1;i<11;i++){
-            list.add(new Documentos("perfil"+i,"Documento"+i,"@drawable/btnDocumento",1));
+            list.add(new Documentos("perfil"+i,"Documento"+i,"@drawable/btnDocumento",i,1));
             list.add(new Videos("perfil"+i,"video"+i,"@drawable/miniatura",i,1));
         }
     }

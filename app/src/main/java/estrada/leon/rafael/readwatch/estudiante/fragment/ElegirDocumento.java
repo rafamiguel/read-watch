@@ -126,16 +126,14 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
 
     @Override
     public void perfilClick(int position, List<Documentos> documentosList) {
-        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
-        int idUsuario = preferences.getInt("idUsuario", 0);
-        interfaceFragments.onClickDocPerfil(idUsuario);
+        ((iComunicacionFragments)interfaceFragments).onClickVidPerfil(documentosList.get(position).getIdUsuario());
     }
 
     @Override
     public void comentarioClick(int position, List<Documentos> list) {
         SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preferences.getInt("idUsuario", 0);
-        int idVidDoc =list.get(position).getId();
+        int idVidDoc =list.get(position).getIdVidDoc();
         interfaceFragments.onClickComentario(idUsuario,idVidDoc,0);
     }
 
@@ -178,16 +176,16 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         JSONObject jsonObject=null;
         Documentos documento;
         json = response.optJSONArray("usuario");
-        String idUsuario,descripcion,miniatura;
-        int id;
+        String descripcion,miniatura;
+        int idUsuario,idVidDoc;
         try {
             for(int i=0;i<json.length();i++){
                 jsonObject=json.getJSONObject(i);
-                idUsuario=jsonObject.optString("idUsuario");
+                idUsuario=jsonObject.optInt("idUsuario");
                 descripcion=jsonObject.optString("descripcion");
                 miniatura=jsonObject.optString("rutaImagen");
-                id=jsonObject.optInt("idVidDoc");
-                documento=new Documentos(idUsuario,descripcion,miniatura,id);
+                idVidDoc=jsonObject.optInt("idVidDoc");
+                documento=new Documentos(Integer.toString(idUsuario),descripcion,miniatura,idUsuario,idVidDoc);
                 documentos.add(documento);
             }
         } catch (JSONException e) {

@@ -266,6 +266,7 @@ public class MenuAdministrador extends AppCompatActivity
 
     }
 
+
     @Override
     public void onClickSubirVidPreg(int idPregunta) {
 
