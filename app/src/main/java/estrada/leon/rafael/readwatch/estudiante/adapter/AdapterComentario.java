@@ -37,14 +37,32 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @NonNull
     @Override
-    public ViewHolderComentario onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.vistadecomentario, viewGroup, false );
-        ViewHolderComentario viewHolderComentario = new ViewHolderComentario(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        RecyclerView.ViewHolder viewHolder;
+        View view;
+        switch (viewType){
+            case DOCUMENTO:{
+                view=LayoutInflater.from(context).inflate(R.layout.documentos,viewGroup,false);
+                viewHolder=new DocumentosViewHolder(view);
+                break;
+            }
+            case VIDEO:{
+                view=LayoutInflater.from(context).inflate(R.layout.videos,viewGroup,false);
+                viewHolder=new VideosViewHolder(view);
+                break;
+            }
+            case COMENTARIO:{
+                view=LayoutInflater.from(context).inflate(R.layout.vistadecomentario,viewGroup,false);
+                viewHolder=new ViewHolderComentario(view);
+                break;
+            }
+            default:
+                view=LayoutInflater.from(context).inflate(R.layout.vistadecomentario,viewGroup,false);
+                viewHolder=new ViewHolderComentario(view);
+        }
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(lp);
-
-
-        return viewHolderComentario;
+        return viewHolder;
     }
 
     @Override
@@ -132,33 +150,7 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Override
         public void onClick(View v) {
             switch(v.getId()){
-                case R.id.lblDescripcion:
 
-                    break;
-
-                case R.id.lblPerfil:
-                    break;
-                case R.id.txtComentario:
-
-                    break;
-                case R.id.lblReportar:
-
-                    break;
-                case R.id.btnMiniatura:
-
-                    break;
-                case R.id.btnAdvertencia:
-
-                    break;
-                case R.id.btnFavorito:
-
-                    break;
-                case R.id.btnOpcion:
-
-                    break;
-                case R.id.btnEditar:
-
-                    break;
                 default:
 
             }
@@ -180,37 +172,19 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
             btnFavorito = itemView.findViewById(R.id.btnFavorito);
             btnOpcion = itemView.findViewById(R.id.btnOpcion);
             txtComentario = itemView.findViewById(R.id.txtComentario);
-
+            txtComentario.setVisibility(View.GONE);
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
             btnDocumento.setOnClickListener(this);
             btnAdvertencia.setOnClickListener(this);
             btnFavorito.setOnClickListener(this);
             btnOpcion.setOnClickListener(this);
-            txtComentario.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             switch(view.getId()){
-                case R.id.lblDescripcion:
-                    break;
-                case R.id.txtComentario:
-                    break;
-                case R.id.lblPerfil:
-                    break;
-                case R.id.lblReportar:
-                    break;
-                case R.id.btnDocumento:
-                    break;
-                case R.id.btnAdvertencia:
-                    break;
-                case R.id.btnFavorito:
-                    break;
-                case R.id.btnOpcion:
-                    break;
-                case R.id.btnEditar:
-                    break;
+
                 default:
             }
         }
