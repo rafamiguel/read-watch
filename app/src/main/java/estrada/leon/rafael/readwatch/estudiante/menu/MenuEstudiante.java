@@ -328,11 +328,13 @@ public class  MenuEstudiante extends AppCompatActivity
     public void onClickSubirDoc() {
         Dialog_Recuadro_Subir_documento nuevo = new Dialog_Recuadro_Subir_documento();
         nuevo.show(getSupportFragmentManager() , "ejemplo");
+        nuevo.desactivarSpinners(0);
     }
 
     @Override
     public void onClickSubirVid() {
         DialogSubirVideo nuevo = new DialogSubirVideo();
+        nuevo.desactivarSpinners(0);
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
 
@@ -352,14 +354,18 @@ public class  MenuEstudiante extends AppCompatActivity
         editor.putInt("idPregunta", idPregunta);
         editor.commit();
         DialogSubirVideo nuevo = new DialogSubirVideo();
-        nuevo.desactivarSpinners(0,1);
+        nuevo.desactivarSpinners(1);
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
 
     @Override
     public void onClickSubirDocPreg(int idPregunta) {
+        SharedPreferences preferences = getSharedPreferences("pregunta", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("idPregunta", idPregunta);
+        editor.commit();
         Dialog_Recuadro_Subir_documento nuevo = new Dialog_Recuadro_Subir_documento();
-        nuevo.desactivarSpinners();
+        nuevo.desactivarSpinners(1);
         nuevo.show(getSupportFragmentManager() , "ejemplo");
     }
 

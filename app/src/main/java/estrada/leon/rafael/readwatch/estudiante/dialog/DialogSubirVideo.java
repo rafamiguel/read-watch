@@ -41,16 +41,14 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
     RequestQueue request;
     EditText txtDescripcion,txtLink;
     Spinner spinner_tema,spinner_materia;
-    int opcion;
     boolean spinnersOff=false;
 
 
 
-    public void desactivarSpinners(int opc, int spin){
+    public void desactivarSpinners(int spin){
         if(spin == 1) {
             spinnersOff = true;
         }
-        this.opcion = opc;
     }
 
     @Override
@@ -188,7 +186,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
         Calendar c = Calendar.getInstance();
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String datetime = dateformat.format(c.getTime());
-        if (opcion ==1) {
+        if (spinnersOff==false) {
             url = "https://readandwatch.herokuapp.com/php/insertarVidDoc.php?" +
                     "idTema=" + idTema + "&tipo=v&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
             url=url.replace(" ", "%20");
@@ -197,7 +195,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
             idPregunta = preferences.getInt("idPregunta",0);
             //Opción del video en Temas Libres
             url = "https://readandwatch.herokuapp.com/php/insertarVidPreg.php?" +
-                    "idPregunta=" + idPregunta + "&tipo=v&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
+                    "idPregunta=" + idPregunta  + "&tipo=v&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
             url=url.replace(" ", "%20");
         }
 

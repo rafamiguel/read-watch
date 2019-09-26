@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -47,9 +48,12 @@ public class Dialog_Recuadro_Subir_documento extends AppCompatDialogFragment imp
     Spinner spinner_tema,spinner_materia;
     boolean spinnersOff=false;
 
-    public void desactivarSpinners(){
-        spinnersOff=true;
+    public void desactivarSpinners(int spin){
+        if(spin == 1) {
+            spinnersOff = true;
+        }
     }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         TextView lblElegirDocumento;
@@ -177,7 +181,7 @@ public class Dialog_Recuadro_Subir_documento extends AppCompatDialogFragment imp
     public void subirDocWebService(String descripcion,String ruta){
         SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preferences.getInt("idUsuario", 0);
-        int idTema;
+        int idTema, idPregunta;
 
         preferences = getContext().getSharedPreferences("Tema", Context.MODE_PRIVATE);
         idTema = preferences.getInt("tema", 0);
@@ -190,9 +194,23 @@ public class Dialog_Recuadro_Subir_documento extends AppCompatDialogFragment imp
         Calendar c = Calendar.getInstance();
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String datetime = dateformat.format(c.getTime());
-        url = "https://readandwatch.herokuapp.com/php/insertarVidDoc.php?" +
-                "idTema="+idTema+"&tipo=d&descripcion="+descripcion+"&ruta="+ruta+"&fechaSubida="+datetime+"&idUsuario="+idUsuario;
-        url=url.replace(" ", "%20");
+
+        if (spinnersOff==false) {
+
+            url = "https://readandwatch.herokuapp.com/php/insertarVidDoc.php?" +
+                    "idTema=" + idTema + "&tipo=d&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
+            url = url.replace(" ", "%20");
+
+        }else{
+            preferences = getContext().getSharedPreferences("pregunta", Context.MODE_PRIVATE);
+            idPregunta = preferences.getInt("idPregunta",0);
+            //Opción del documento en Temas Libres
+            url = "https://readandwatch.herokuapp.com/php/insertarDocPreg.php?" +
+                    "idPregunta=" + idPregunta  + "&tipo=d&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
+            url=url.replace(" ", "%20");
+
+        }
+
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
                 null, new Response.Listener<JSONObject>() {
             @Override
@@ -207,6 +225,7 @@ public class Dialog_Recuadro_Subir_documento extends AppCompatDialogFragment imp
             }
         });
         request.add(jsonObjectRequest);
+
     }
     @Override
     public void onErrorResponse(VolleyError error) {
