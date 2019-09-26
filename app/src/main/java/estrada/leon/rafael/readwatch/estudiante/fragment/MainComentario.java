@@ -48,10 +48,10 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(idPregunta!=0) {
+                if(idVidDoc!=0) {
                     insertarComentario(txtNuevoComentario.getText().toString());
                 }else{
-
+                    insertarComentarioPreg(txtNuevoComentario.getText().toString());
                 }
             }
         });
@@ -90,6 +90,23 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                 }, this);
         request.add(jsonObjectRequest);
     }
+
+    private void insertarComentarioPreg(String texto){
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/insertarComentarioPreg.php?" +
+                "idUsuario="+idUsuario+"&idPregunta="+idPregunta+"&texto="+texto;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Toast.makeText(MainComentario.this, "Comentario ingresado correctamente",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }, this);
+        request.add(jsonObjectRequest);
+    }
+
     private void cargarComentariosPreg() {
         list=new ArrayList<>();
         String url;
