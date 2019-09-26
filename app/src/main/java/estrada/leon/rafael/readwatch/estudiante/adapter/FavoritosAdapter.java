@@ -22,8 +22,8 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private Context context;
     private List<Item> list;
     private OnFavoritosListener onFavoritosListener;
-    private final int documento=1;
-    private final int video=2;
+    private final int DOCUMENTO=1;
+    private final int VIDEO=2;
 
     public FavoritosAdapter(Context context, List<Item> list,OnFavoritosListener onFavoritosListener) {
         this.context = context;
@@ -37,12 +37,12 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         RecyclerView.ViewHolder viewHolder;
         View view;
         switch (viewType){
-            case documento:{
+            case DOCUMENTO:{
                 view=LayoutInflater.from(context).inflate(R.layout.documento_fav,viewGroup,false);
                 viewHolder=new DocumentosViewHolder(view,onFavoritosListener);
                 break;
             }
-            case video:{
+            case VIDEO:{
                 view=LayoutInflater.from(context).inflate(R.layout.video_fav,viewGroup,false);
                 viewHolder=new VideosViewHolder(view,onFavoritosListener);
                 break;
@@ -60,14 +60,14 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         switch(getItemViewType(position)){
-            case documento: {
+            case DOCUMENTO: {
                 Documentos documento = (Documentos) list.get(position);
                 DocumentosViewHolder documentosViewHolder = (DocumentosViewHolder) viewHolder;
                 documentosViewHolder.lblPerfil.setText(documento.getPerfil());
                 documentosViewHolder.lblDescripcion.setText(documento.getDescripcion());
                 break;
             }
-            case video:{
+            case VIDEO:{
                 Videos video=(Videos)list.get(position);
                 VideosViewHolder videosViewHolder=(VideosViewHolder) viewHolder;
                 videosViewHolder.lblPerfil.setText(video.getPerfil());

@@ -28,6 +28,8 @@ import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.adapter.AdapterComentario;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Comentarios;
+import estrada.leon.rafael.readwatch.estudiante.pojo.Documentos;
+import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
 
 public class MainComentario extends AppCompatActivity implements  Response.Listener<JSONObject>,
         Response.ErrorListener {
@@ -122,8 +124,11 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                         JSONArray json;
                         JSONObject jsonObject=null;
                         Comentarios comentario;
-                        json = response.optJSONArray("usuario");
-                        String nombre,comentarioString;
+                        Videos video;
+                        Documentos documento;
+                        json = response.optJSONArray("comentario");
+                        String nombre,comentarioString,descripcion,rutaImagen;
+                        int idVidDoc,idUsuario;
                         try {
                             for(int i=0;i<json.length();i++){
                                 jsonObject=json.getJSONObject(i);
@@ -132,12 +137,21 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                                 comentario=new Comentarios(nombre,comentarioString);
                                 list.add(comentario);
                             }
+                            json = response.optJSONArray("vidDoc");
                             for(int i=0;i<json.length();i++){
                                 jsonObject=json.getJSONObject(i);
-                                nombre=jsonObject.optString("idUsuario");
-                                comentarioString=jsonObject.optString("texto");
-                                comentario=new Comentarios(nombre,comentarioString);
-                                list.add(comentario);
+                                idVidDoc = jsonObject.optInt("idVidDoc");
+                                descripcion = jsonObject.optString("descripcion");
+                                rutaImagen = jsonObject.optString("rutaImagen");
+                                idUsuario=jsonObject.optInt("idUsuario");
+                                if(jsonObject.optString("tipo").equals("v")) {
+                                    video=new Videos(Integer.toString(idUsuario),descripcion,rutaImagen,idUsuario,idVidDoc);
+                                    list.add(video);
+                                }else {
+                                    documento=new Documentos(Integer.toString(idUsuario),descripcion,rutaImagen,idUsuario,idVidDoc);
+                                    list.add(documento);
+                                }
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
