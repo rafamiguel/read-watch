@@ -197,7 +197,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
             idPregunta = preferences.getInt("idPregunta",0);
             //Opción del video en Temas Libres
             url = "https://readandwatch.herokuapp.com/php/insertarVidPreg.php?" +
-                    "idPregunta=" + 1 + "&tipo=v&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
+                    "idPregunta=" + idPregunta + "&tipo=v&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
             url=url.replace(" ", "%20");
         }
 
