@@ -22,13 +22,15 @@ import estrada.leon.rafael.readwatch.R;
 public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<Videos> list;
+    int[] idUsuarioVidDoc;
     Intent entrar;
     private OnVideoListener mOnVideoListener;
 
-    public VideosAdapter(Context context, List<Videos> list, OnVideoListener onVideoListener) {
+    public VideosAdapter(Context context, List<Videos> list, OnVideoListener onVideoListener, int[] idUsuarioVidDoc) {
         this.context=context;
         this.list=list;
         this.mOnVideoListener = onVideoListener;
+        this.idUsuarioVidDoc=idUsuarioVidDoc;
     }
 
     public class VideosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -84,8 +86,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             Toast.makeText(context, "Este es el botón de favoritos", Toast.LENGTH_SHORT));
                     break;
                 case R.id.btnOpcion:
-                    onVideoListener.onVideoClick(getAdapterPosition(),list,
-                            Toast.makeText(context, "Este es el botón de opciones (editar y eliminar).", Toast.LENGTH_SHORT));
+                    onVideoListener.opcionClick(getAdapterPosition(),list);
                     break;
                 case R.id.btnEditar:
                     onVideoListener.onVideoClick(getAdapterPosition(),list,
@@ -119,6 +120,19 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         VideosViewHolder videosViewHolder = (VideosViewHolder) viewHolder;
         videosViewHolder.lblDescripcion.setText(video.getDescripcion());
         videosViewHolder.lblPerfil.setText(video.getPerfil());
+        if (idUsuarioVidDoc!=null) {
+            for (int j = 0; j < idUsuarioVidDoc.length; j++) {
+                if (idUsuarioVidDoc[j] == video.getIdVidDoc()) {
+                    videosViewHolder.btnOpcion.setVisibility(View.VISIBLE);
+                    break;
+                } else {
+                    videosViewHolder.btnOpcion.setVisibility(View.GONE);
+                }
+            }
+        }else{
+            videosViewHolder.btnOpcion.setVisibility(View.GONE);
+        }
+
 
         String uri = video.getRutaImagen();
         int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
@@ -135,6 +149,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         void reportarClick();
         void perfilClick(int position,List<Videos> list);
         void comentarioClick(int position, List<Videos> list);
+        void opcionClick(int position, List<Videos> list);
     }
 
 }

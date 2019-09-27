@@ -23,4 +23,5 @@ public interface iComunicacionFragments {
     public void onClickComentario(int idUsuario, int idVidDoc,  int idPregunta);
     public void onClickSubirVidPreg(int idPregunta);
     public void onClickSubirDocPreg(int idPregunta);
+    public void onClickOpcion(int idUsuario,int idVidDoc);
 }

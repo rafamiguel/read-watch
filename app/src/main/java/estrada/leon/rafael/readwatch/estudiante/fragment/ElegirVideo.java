@@ -83,9 +83,9 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         idTema = preferences.getInt("tema", 0);
 
         request= Volley.newRequestQueue(getContext());
-
-        cargarWebService();
         buscarVideos();
+        cargarWebService();
+
         return vista;
     }
 
@@ -134,6 +134,14 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
     }
 
     @Override
+    public void opcionClick(int position, List<Videos> list) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idVidDoc =list.get(position).getIdVidDoc();
+        interfaceFragments.onClickOpcion(idUsuario,idVidDoc);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnVideo:
@@ -160,21 +168,19 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
             public void onResponse(JSONObject response) {
                 JSONArray json = response.optJSONArray("usuario");
                 JSONObject jsonObject=null;
-                idUsuarioVidDoc =  new int[json.length()];
-                int a;
-
+                if(json.length()<1){
+                    idUsuarioVidDoc = new int[1];
+                    idUsuarioVidDoc[0]=0;
+                }else {
+                    idUsuarioVidDoc = new int[json.length()];
+                }
                 for(int i=0;i<json.length();i++){
                     try {
                         jsonObject=json.getJSONObject(i);
                         idUsuarioVidDoc[i]= jsonObject.getInt("idVidDoc");
-                        a=0;
-
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-
                 }
 
 
@@ -186,7 +192,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
 
             }
         });
-       // request.add(jsonObjectRequest);
+       request.add(jsonObjectRequest);
 
     }
 
@@ -231,7 +237,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         }
 
         progreso.hide();
-        videosAdapter=new VideosAdapter(getContext(),videos, this);
+        videosAdapter=new VideosAdapter(getContext(),videos, this,idUsuarioVidDoc);
         recyclerVideos.setAdapter(videosAdapter);
 
     }
