@@ -22,6 +22,18 @@ public class DialogBotonModificarEliminar extends AppCompatDialogFragment {
 
         lblEliminar = view.findViewById(R.id.lblEliminar);
         lblModificar = view.findViewById(R.id.lblAnadir);
+        lblEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        lblModificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         return builder.create();
     }
 }
