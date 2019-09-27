@@ -4,9 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
-import estrada.leon.rafael.readwatch.general.DialogBotonModificarEliminar;
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogBotonModificarEliminar;
 
 public class ModificarEliminar extends AppCompatActivity {
     Button btnModificar;

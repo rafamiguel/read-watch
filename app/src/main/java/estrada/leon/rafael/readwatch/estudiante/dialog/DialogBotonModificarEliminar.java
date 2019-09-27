@@ -1,4 +1,4 @@
-package estrada.leon.rafael.readwatch.general;
+package estrada.leon.rafael.readwatch.estudiante.dialog;
 
 import android.app.Dialog;
 import android.os.Bundle;
