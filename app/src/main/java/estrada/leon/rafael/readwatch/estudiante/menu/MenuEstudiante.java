@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDialogFragment;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
@@ -27,7 +26,7 @@ import android.widget.Toast;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogModificarEliminar;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogHacerPregunta;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogSubirVideo;
-import estrada.leon.rafael.readwatch.estudiante.dialog.Dialog_Recuadro_Subir_documento;
+import estrada.leon.rafael.readwatch.estudiante.dialog.Dialog_Subir_documento;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirDocumento;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirMateria;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirTema;
@@ -145,7 +144,7 @@ public class  MenuEstudiante extends AppCompatActivity
             DialogSubirVideo nuevo = new DialogSubirVideo();
             nuevo.show(getSupportFragmentManager(), "ejemplo");
         } else if (id == R.id.nav_subirArchivo) {
-            Dialog_Recuadro_Subir_documento nuevo = new Dialog_Recuadro_Subir_documento();
+            Dialog_Subir_documento nuevo = new Dialog_Subir_documento();
             nuevo.show(getSupportFragmentManager(), "ejemplo");
         }else if(id==R.id.nav_historial) {
             FragmentManager fragmentManager=getSupportFragmentManager();
@@ -331,9 +330,9 @@ public class  MenuEstudiante extends AppCompatActivity
 
     @Override
     public void onClickSubirDoc() {
-        Dialog_Recuadro_Subir_documento nuevo = new Dialog_Recuadro_Subir_documento();
+        Dialog_Subir_documento nuevo = new Dialog_Subir_documento();
+        nuevo.setModo(Dialog_Subir_documento.MATERIA);
         nuevo.show(getSupportFragmentManager() , "ejemplo");
-        nuevo.desactivarSpinners(0);
     }
 
     @Override
@@ -369,18 +368,19 @@ public class  MenuEstudiante extends AppCompatActivity
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("idPregunta", idPregunta);
         editor.commit();
-        Dialog_Recuadro_Subir_documento nuevo = new Dialog_Recuadro_Subir_documento();
-        nuevo.desactivarSpinners(1);
+        Dialog_Subir_documento nuevo = new Dialog_Subir_documento();
+        nuevo.setModo(Dialog_Subir_documento.PREGUNTAR);
         nuevo.show(getSupportFragmentManager() , "ejemplo");
     }
 
     @Override
-    public void onClickOpcion(int idUsuario, int idVidDoc) {
+    public void onClickOpcion(int idUsuario, int idVidDoc, int opcion) {
         SharedPreferences preferences = getSharedPreferences("VidDocSeleccionado", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("idVidDoc", idVidDoc);
         editor.commit();
         DialogModificarEliminar nuevo = new DialogModificarEliminar();
+        nuevo.setOpcion(opcion);
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
 
@@ -417,7 +417,7 @@ public class  MenuEstudiante extends AppCompatActivity
 
     @Override
     public void resubirDoc() {
-        DialogSubirVideo nuevo = new DialogSubirVideo();
+        Dialog_Subir_documento nuevo = new Dialog_Subir_documento();
         nuevo.setModo(DialogSubirVideo.RESUBIR);
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }

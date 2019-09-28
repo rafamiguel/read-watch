@@ -138,7 +138,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preferences.getInt("idUsuario", 0);
         int idVidDoc =list.get(position).getIdVidDoc();
-        interfaceFragments.onClickOpcion(idUsuario,idVidDoc);
+        interfaceFragments.onClickOpcion(idUsuario,idVidDoc,1);
     }
 
     @Override

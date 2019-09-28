@@ -14,6 +14,11 @@ import estrada.leon.rafael.readwatch.R;
 public class DialogModificarEliminar extends AppCompatDialogFragment {
     TextView lblEliminar, lblModificar;
     IOpciones listener;
+    int opcion;
+
+    public void setOpcion(int opcion){
+        this.opcion=opcion;
+    }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -33,7 +38,11 @@ public class DialogModificarEliminar extends AppCompatDialogFragment {
         lblModificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.resubirVideo();
+                if(opcion==1) {
+                    listener.resubirVideo();
+                }else{
+                    listener.resubirDoc();
+                }
             }
         });
         return builder.create();

@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,9 +35,8 @@ import java.util.List;
 
 import estrada.leon.rafael.readwatch.MainFileManager;
 import estrada.leon.rafael.readwatch.R;
-import estrada.leon.rafael.readwatch.general.activity.MainActivity;
 
-public class Dialog_Recuadro_Subir_documento extends AppCompatDialogFragment implements
+public class Dialog_Subir_documento extends AppCompatDialogFragment implements
         Response.Listener<JSONObject>, Response.ErrorListener{
     Intent entrar;
     ProgressDialog progreso;
@@ -46,12 +44,11 @@ public class Dialog_Recuadro_Subir_documento extends AppCompatDialogFragment imp
     RequestQueue request;
     EditText txtDescripcion,txtTitulo;
     Spinner spinner_tema,spinner_materia;
-    boolean spinnersOff=false;
+    public static final int PREGUNTAR=1,RESUBIR=2, MATERIA=3;
+    int modo;
 
-    public void desactivarSpinners(int spin){
-        if(spin == 1) {
-            spinnersOff = true;
-        }
+    public void setModo(int modo){
+        this.modo = modo;
     }
 
     @Override
@@ -59,14 +56,14 @@ public class Dialog_Recuadro_Subir_documento extends AppCompatDialogFragment imp
         TextView lblElegirDocumento;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.estilo_recuadro_subir_documento, null);
+        View view = inflater.inflate(R.layout.dialog_subir_documento, null);
         txtDescripcion=view.findViewById(R.id.txtDescripcion);
         txtTitulo=view.findViewById(R.id.txtTitulo);
         spinner_tema=view.findViewById(R.id.spinner_tema);
         spinner_materia=view.findViewById(R.id.spinner_materia);
-        if(spinnersOff){
-            spinner_tema.setVisibility(View.GONE);
+        if(modo==PREGUNTAR || modo==RESUBIR || modo==MATERIA){
             spinner_materia.setVisibility(View.GONE);
+            spinner_tema.setVisibility(View.GONE);
         }
         spinner_materia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -106,6 +103,37 @@ public class Dialog_Recuadro_Subir_documento extends AppCompatDialogFragment imp
                 startActivity(entrar);
             }
         });
+        if(modo==RESUBIR){
+            builder.setView(view)
+                    .setTitle("Modificar")
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    })
+                    .setPositiveButton("Modificar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            subirDocWebService(txtDescripcion.getText().toString(),txtTitulo.getText().toString());
+                        }
+                    });
+        }else{
+            builder.setView(view)
+                    .setTitle("Subir Video")
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    })
+                    .setPositiveButton("Subir", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            subirDocWebService(txtDescripcion.getText().toString(),txtTitulo.getText().toString());
+                        }
+                    });
+        }
         return builder.create();
     }
     public void cargarListaMateriasWebService(){
@@ -181,33 +209,41 @@ public class Dialog_Recuadro_Subir_documento extends AppCompatDialogFragment imp
     public void subirDocWebService(String descripcion,String ruta){
         SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preferences.getInt("idUsuario", 0);
-        int idTema, idPregunta;
+        int idTema, idPregunta,idVidDoc;
 
         preferences = getContext().getSharedPreferences("Tema", Context.MODE_PRIVATE);
         idTema = preferences.getInt("tema", 0);
 
         request= Volley.newRequestQueue(getContext());
-        String url;
+        String url="";
         progreso = new ProgressDialog(getContext());
         progreso.setMessage("Cargando...");
         progreso.show();
         Calendar c = Calendar.getInstance();
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String datetime = dateformat.format(c.getTime());
-
-        if (spinnersOff==false) {
-
-            url = "https://readandwatch.herokuapp.com/php/insertarVidDoc.php?" +
-                    "idTema=" + idTema + "&tipo=d&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
-            url = url.replace(" ", "%20");
-
-        }else{
-            preferences = getContext().getSharedPreferences("pregunta", Context.MODE_PRIVATE);
-            idPregunta = preferences.getInt("idPregunta",0);
-            //Opción del documento en Temas Libres
-            url = "https://readandwatch.herokuapp.com/php/insertarDocPreg.php?" +
-                    "idPregunta=" + idPregunta  + "&tipo=d&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
-            url=url.replace(" ", "%20");
+        switch(modo){
+            case PREGUNTAR:
+                preferences = getContext().getSharedPreferences("pregunta", Context.MODE_PRIVATE);
+                idPregunta = preferences.getInt("idPregunta",0);
+                //Opción del documento en Temas Libres
+                url = "https://readandwatch.herokuapp.com/php/insertarDocPreg.php?" +
+                        "idPregunta=" + idPregunta  + "&tipo=d&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
+                url=url.replace(" ", "%20");
+                break;
+            case RESUBIR:
+                preferences = getContext().getSharedPreferences("VidDocSeleccionado", Context.MODE_PRIVATE);
+                idVidDoc = preferences.getInt("idVidDoc",0);
+                url = "https://readandwatch.herokuapp.com/php/updateVidDoc.php?" +
+                        "idVidDoc=" + idVidDoc+"&idTema="+idTema + "&tipo=d&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
+                url=url.replace(" ", "%20");
+                break;
+            case MATERIA:
+                url = "https://readandwatch.herokuapp.com/php/insertarVidDoc.php?" +
+                        "idTema=" + idTema + "&tipo=d&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
+                url = url.replace(" ", "%20");
+                break;
+            default:
 
         }
 

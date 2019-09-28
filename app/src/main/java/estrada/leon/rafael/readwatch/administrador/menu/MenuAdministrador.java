@@ -278,7 +278,7 @@ public class MenuAdministrador extends AppCompatActivity
     }
 
     @Override
-    public void onClickOpcion(int idUsuario, int idVidDoc) {
+    public void onClickOpcion(int idUsuario, int idVidDoc, int opcion) {
 
     }
 
