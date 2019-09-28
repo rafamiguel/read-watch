@@ -128,12 +128,7 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
                             Toast.makeText(context, "Este es el botón de favoritos", Toast.LENGTH_SHORT));
                     break;
                 case R.id.btnOpcion:
-                    onDocumentosListener.onDocumentosClick(getAdapterPosition(),documentosList,
-                            Toast.makeText(context, "Este es el botón de opciones (editar y eliminar).", Toast.LENGTH_SHORT));
-                    break;
-                case R.id.btnEditar:
-                    onDocumentosListener.onDocumentosClick(getAdapterPosition(),documentosList,
-                            Toast.makeText(context, "Este es el botón de editar comentario", Toast.LENGTH_SHORT));
+                    onDocumentosListener.opcionClick(getAdapterPosition(),documentosList);
                     break;
                 default:
                     onDocumentosListener.onDocumentosClick(getAdapterPosition(),documentosList,
@@ -148,5 +143,6 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
         void reportarClick();
         void perfilClick(int position, List<Documentos> documentosList);
         void comentarioClick(int position, List<Documentos> list);
+        void opcionClick(int position, List<Documentos> list);
     }
 }

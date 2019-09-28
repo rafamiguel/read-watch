@@ -53,5 +53,6 @@ public class DialogModificarEliminar extends AppCompatDialogFragment {
 
     public interface IOpciones{
         void resubirVideo();
+        void resubirDoc();
     }
 }

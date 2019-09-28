@@ -414,4 +414,11 @@ public class  MenuEstudiante extends AppCompatActivity
         nuevo.setModo(DialogSubirVideo.RESUBIR);
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
+
+    @Override
+    public void resubirDoc() {
+        DialogSubirVideo nuevo = new DialogSubirVideo();
+        nuevo.setModo(DialogSubirVideo.RESUBIR);
+        nuevo.show(getSupportFragmentManager(), "ejemplo");
+    }
 }
