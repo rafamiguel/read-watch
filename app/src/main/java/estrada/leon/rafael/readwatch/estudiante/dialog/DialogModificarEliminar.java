@@ -1,6 +1,7 @@
 package estrada.leon.rafael.readwatch.estudiante.dialog;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -12,7 +13,7 @@ import estrada.leon.rafael.readwatch.R;
 
 public class DialogModificarEliminar extends AppCompatDialogFragment {
     TextView lblEliminar, lblModificar;
-    IOpciones iOpciones;
+    IOpciones listener;
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -32,12 +33,25 @@ public class DialogModificarEliminar extends AppCompatDialogFragment {
         lblModificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                listener.resubirVideo();
             }
         });
         return builder.create();
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        // Verify that the host activity implements the callback interface
+        try {
+            // Instantiate the NoticeDialogListener so we can send events to the host
+            listener = (IOpciones) context;
+        } catch (ClassCastException e) {
+
+        }
+    }
+
     public interface IOpciones{
-        void resubirVideo(AppCompatDialogFragment dialog);
+        void resubirVideo();
     }
 }
