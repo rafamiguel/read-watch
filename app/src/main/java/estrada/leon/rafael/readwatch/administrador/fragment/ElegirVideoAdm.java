@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -29,24 +30,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.R;
-import estrada.leon.rafael.readwatch.administrador.adapter.VideosAdapterAdm;
 import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
-import estrada.leon.rafael.readwatch.administrador.pojo.VideosAdm;
+import estrada.leon.rafael.readwatch.estudiante.adapter.MateriasAdapter;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
+import estrada.leon.rafael.readwatch.estudiante.pojo.Materias;
 
-public class ElegirVideoAdm extends Fragment implements View.OnClickListener,
-        VideosAdapterAdm.OnVideoAdmListener, Response.Listener<JSONObject>, Response.ErrorListener {
+public class ElegirVideoAdm extends Fragment implements  MateriasAdapter.OnMateriaListener,
+        Response.Listener<JSONObject>, Response.ErrorListener {
     private iComunicacionFragmentsAdm comunicacionFragmentsAdm;
     private iComunicacionFragments interfaceFragments;
     ProgressDialog progreso;
     JsonObjectRequest jsonObjectRequest;
-    int idTema;
+    private List<Materias> listMaterias,listMateriasPropuestas;
+    private MateriasAdapter materiasAdapter;
     RequestQueue request;
     View vista;
     Activity actividad;
-    List<VideosAdm> videos;
-    VideosAdapterAdm videosAdapterAdm;
-    RecyclerView recyclerVideosAdm;
+    RecyclerView recyclerMaterias, recyclerMateriasPropuestas;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -81,20 +81,16 @@ public class ElegirVideoAdm extends Fragment implements View.OnClickListener,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Button btnVideo,btnDocumento;
-
-        vista = inflater.inflate(R.layout.fragment_elegir_video_adm, container, false);
-        recyclerVideosAdm=vista.findViewById(R.id.recyclerVideosAdm);
-        btnVideo=vista.findViewById(R.id.btnVideo);
-        btnDocumento=vista.findViewById(R.id.btnDocumento);
-        btnVideo.setOnClickListener(this);
-        btnDocumento.setOnClickListener(this);
-        recyclerVideosAdm.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        TextView lblTemaInexistente;
+        vista = inflater.inflate(R.layout.fragment_elegir_materia, container, false);
+        recyclerMaterias=vista.findViewById(R.id.recyclerMaterias);
+        recyclerMateriasPropuestas=vista.findViewById(R.id.recyclerMateriasPropuestas);
+        lblTemaInexistente=vista.findViewById(R.id.lblTemaInexistente);
+        lblTemaInexistente.setText("");
+        recyclerMaterias.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        recyclerMateriasPropuestas.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         request= Volley.newRequestQueue(getContext());
         cargarWebService();
-
-
-
 
         return vista;
     }
@@ -127,78 +123,67 @@ public class ElegirVideoAdm extends Fragment implements View.OnClickListener,
         mListener = null;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btnVideo:
-                comunicacionFragmentsAdm.vistaVideosDoc(true);
-                break;
-            case R.id.btnDocumento:
-                comunicacionFragmentsAdm.vistaVideosDoc(false);
-                break;
-        }
-    }
 
-    @Override
-    public void onVideoClick(int position, List<VideosAdm> list, Toast toast) {
-        comunicacionFragmentsAdm.onClickVideosAdmHolder(list.get(position).getIdVidDoc());
-    }
-
-    @Override
-    public void perfilClick(int position, List<VideosAdm> list) {
-        comunicacionFragmentsAdm.onClickVidPerfil(list.get(position).getIdUsuario());
-    }
-
-    @Override
-    public void comentarioClick(int position, List<VideosAdm> list) {
-        comunicacionFragmentsAdm.onClickComentario(list.get(position).getIdVidDoc());
-    }
-
-
-    private void cargarWebService() {
-        videos=new ArrayList<>();
-        String url;
-        progreso = new ProgressDialog(getContext());
-        progreso.setMessage("Cargando...");
-        progreso.show();
-        url = "https://readandwatch.herokuapp.com/php/cargarVidDoc.php?" +
-                "idTema=1&tipo=v";
-        url=url.replace(" ", "%20");
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
-        request.add(jsonObjectRequest);
-    }
     @Override
     public void onErrorResponse(VolleyError error) {
         progreso.hide();
-        Toast.makeText(getContext(), "Error.\n "+error.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onResponse(JSONObject response) {
+        listMaterias=new ArrayList<>();
+        listMateriasPropuestas = new ArrayList<>();
         JSONArray json;
         JSONObject jsonObject=null;
-        VideosAdm video;
+        Materias materia;
         json = response.optJSONArray("usuario");
-        String descripcion,miniatura;
-        int idVidDoc,idUsuario;
+        String nombre,rutaImagen;
+        int idMateria, votos,idUsuario;
         try {
             for(int i=0;i<json.length();i++){
                 jsonObject=json.getJSONObject(i);
+                idMateria=jsonObject.optInt("idMateria");
+                nombre=jsonObject.optString("nombre");
+                rutaImagen=jsonObject.optString("rutaImagen");
+                votos=jsonObject.optInt("votos");
                 idUsuario=jsonObject.optInt("idUsuario");
-                descripcion=jsonObject.optString("descripcion");
-                miniatura=jsonObject.optString("rutaImagen");
-                idVidDoc=jsonObject.optInt("idVidDoc");
-                video=new VideosAdm(descripcion,Integer.toString(idUsuario),miniatura,idVidDoc,idUsuario);
+                materia=new Materias(idMateria,rutaImagen,nombre);
 
-                videos.add(video);
+                if(idUsuario==1) {
+                    listMaterias.add(materia);
+                }else{
+                    listMateriasPropuestas.add(materia);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         progreso.hide();
-        videosAdapterAdm=new VideosAdapterAdm(getContext(),videos, this);
-        recyclerVideosAdm.setAdapter(videosAdapterAdm);
+        materiasAdapter = new MateriasAdapter(getContext(), listMaterias, this);
+        recyclerMaterias.setAdapter(materiasAdapter);
+        materiasAdapter = new MateriasAdapter(getContext(), listMateriasPropuestas, this);
+        recyclerMateriasPropuestas.setAdapter(materiasAdapter);
+    }
+
+    private void cargarWebService() {
+        String url;
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        url = "https://readandwatch.herokuapp.com/php/cargarMaterias.php";
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        request.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onMateriaClick(int position, List<Materias> lista) {
+        if(lista.equals(listMaterias)){
+            interfaceFragments.seleccionarSemestre(listMaterias.get(position).getIdMateria());
+        }else if(lista.equals(listMateriasPropuestas)){
+            interfaceFragments.seleccionarSemestre(listMateriasPropuestas.get(position).getIdMateria());
+        }
     }
 
     public interface OnFragmentInteractionListener {
