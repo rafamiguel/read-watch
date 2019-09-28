@@ -41,14 +41,11 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
     RequestQueue request;
     EditText txtDescripcion,txtLink;
     Spinner spinner_tema,spinner_materia;
-    boolean spinnersOff=false;
+    public static final int PREGUNTAR=1,RESUBIR=2, MATERIA=3;
+    int modo;
 
-
-
-    public void desactivarSpinners(int spin){
-        if(spin == 1) {
-            spinnersOff = true;
-        }
+    public void setModo(int modo){
+        this.modo = modo;
     }
 
     @Override
@@ -60,7 +57,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
         txtLink=view.findViewById(R.id.txtLink);
         spinner_tema=view.findViewById(R.id.spinner_tema);
         spinner_materia=view.findViewById(R.id.spinner_materia);
-        if(spinnersOff){
+        if(modo==PREGUNTAR || modo==RESUBIR || modo==MATERIA){
             spinner_materia.setVisibility(View.GONE);
             spinner_tema.setVisibility(View.GONE);
         }
@@ -79,20 +76,38 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
         });
         request= Volley.newRequestQueue(getContext());
         cargarListaMateriasWebService();
-        builder.setView(view)
-                .setTitle("Subir Video")
-                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                    }
-                })
-                .setPositiveButton("Subir", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        subirVidWebService(txtDescripcion.getText().toString(),txtLink.getText().toString());
-                    }
-                });
+        if(modo==RESUBIR){
+            builder.setView(view)
+                    .setTitle("Modificar")
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    })
+                    .setPositiveButton("Modificar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            subirVidWebService(txtDescripcion.getText().toString(),txtLink.getText().toString());
+                        }
+                    });
+        }else{
+            builder.setView(view)
+                    .setTitle("Subir Video")
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    })
+                    .setPositiveButton("Subir", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            subirVidWebService(txtDescripcion.getText().toString(),txtLink.getText().toString());
+                        }
+                    });
+        }
         return builder.create();
 
 
@@ -170,13 +185,13 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
 
     public void subirVidWebService(String descripcion,String ruta){
         request= Volley.newRequestQueue(getContext());
-        String url;
+        String url="";
         progreso = new ProgressDialog(getContext());
         progreso.setMessage("Cargando...");
         progreso.show();
         SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preferences.getInt("idUsuario", 0);
-        int idTema, idPregunta;
+        int idTema, idPregunta, idVidDoc;
 
         preferences = getContext().getSharedPreferences("Tema", Context.MODE_PRIVATE);
         idTema = preferences.getInt("tema", 0);
@@ -186,17 +201,29 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
         Calendar c = Calendar.getInstance();
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String datetime = dateformat.format(c.getTime());
-        if (spinnersOff==false) {
-            url = "https://readandwatch.herokuapp.com/php/insertarVidDoc.php?" +
-                    "idTema=" + idTema + "&tipo=v&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
-            url=url.replace(" ", "%20");
-        }else {
-            preferences = getContext().getSharedPreferences("pregunta", Context.MODE_PRIVATE);
-            idPregunta = preferences.getInt("idPregunta",0);
-            //Opción del video en Temas Libres
-            url = "https://readandwatch.herokuapp.com/php/insertarVidPreg.php?" +
-                    "idPregunta=" + idPregunta  + "&tipo=v&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
-            url=url.replace(" ", "%20");
+        switch(modo){
+            case PREGUNTAR:
+                preferences = getContext().getSharedPreferences("pregunta", Context.MODE_PRIVATE);
+                idPregunta = preferences.getInt("idPregunta",0);
+                //Opción del video en Temas Libres
+                url = "https://readandwatch.herokuapp.com/php/insertarVidPreg.php?" +
+                        "idPregunta=" + idPregunta  + "&tipo=v&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
+                url=url.replace(" ", "%20");
+                break;
+            case RESUBIR:
+                preferences = getContext().getSharedPreferences("VidDocSeleccionado", Context.MODE_PRIVATE);
+                idVidDoc = preferences.getInt("idVidDoc",0);
+                url = "https://readandwatch.herokuapp.com/php/updateVidDoc.php?" +
+                        "idVidDoc=" + idVidDoc+"&idTema="+idTema + "&tipo=v&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
+                url=url.replace(" ", "%20");
+                break;
+            case MATERIA:
+                url = "https://readandwatch.herokuapp.com/php/insertarVidDoc.php?" +
+                        "idTema=" + idTema + "&tipo=v&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
+                url=url.replace(" ", "%20");
+                break;
+            default:
+
         }
 
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,

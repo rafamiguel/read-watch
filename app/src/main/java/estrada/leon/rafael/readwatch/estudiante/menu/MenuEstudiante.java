@@ -339,7 +339,7 @@ public class  MenuEstudiante extends AppCompatActivity
     @Override
     public void onClickSubirVid() {
         DialogSubirVideo nuevo = new DialogSubirVideo();
-        nuevo.desactivarSpinners(0);
+        nuevo.setModo(DialogSubirVideo.MATERIA);
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
 
@@ -359,7 +359,7 @@ public class  MenuEstudiante extends AppCompatActivity
         editor.putInt("idPregunta", idPregunta);
         editor.commit();
         DialogSubirVideo nuevo = new DialogSubirVideo();
-        nuevo.desactivarSpinners(1);
+        nuevo.setModo(DialogSubirVideo.PREGUNTAR);
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
 
@@ -376,6 +376,10 @@ public class  MenuEstudiante extends AppCompatActivity
 
     @Override
     public void onClickOpcion(int idUsuario, int idVidDoc) {
+        SharedPreferences preferences = getSharedPreferences("VidDocSeleccionado", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("idVidDoc", idVidDoc);
+        editor.commit();
         DialogModificarEliminar nuevo = new DialogModificarEliminar();
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
@@ -407,7 +411,7 @@ public class  MenuEstudiante extends AppCompatActivity
     @Override
     public void resubirVideo() {
         DialogSubirVideo nuevo = new DialogSubirVideo();
-        nuevo.desactivarSpinners(0);
+        nuevo.setModo(DialogSubirVideo.RESUBIR);
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
 }
