@@ -17,7 +17,6 @@
         <activity android:name=".CorreoElectronico.MainCorreo" />
         <activity android:name=".NotificacionPublicacionEliminada" />
         <activity android:name=".BtnOpciones" />
-        <activity android:name=".ModificarEliminar" />
         <activity
             android:name=".administrador.menu.MenuAdministrador"
             android:configChanges="orientation|keyboardHidden|screenSize"

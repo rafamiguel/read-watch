@@ -10,17 +10,17 @@ import android.widget.TextView;
 
 import estrada.leon.rafael.readwatch.R;
 
-public class DialogBotonModificarEliminar extends AppCompatDialogFragment {
+public class DialogModificarEliminar extends AppCompatDialogFragment {
     TextView lblEliminar, lblModificar;
 
-    public DialogBotonModificarEliminar(){
+    public DialogModificarEliminar(){
 
     }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_boton_modificar_eliminar, null);
+        View view = inflater.inflate(R.layout.dialog_modificar_eliminar, null);
         builder.setView(view)
                 .setTitle("OPCIONES");
 

@@ -23,7 +23,7 @@ import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import estrada.leon.rafael.readwatch.estudiante.dialog.DialogBotonModificarEliminar;
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogModificarEliminar;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogHacerPregunta;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogSubirVideo;
 import estrada.leon.rafael.readwatch.estudiante.dialog.Dialog_Recuadro_Subir_documento;
@@ -372,7 +372,7 @@ public class  MenuEstudiante extends AppCompatActivity
 
     @Override
     public void onClickOpcion(int idUsuario, int idVidDoc) {
-        DialogBotonModificarEliminar nuevo = new DialogBotonModificarEliminar();
+        DialogModificarEliminar nuevo = new DialogModificarEliminar();
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
 
