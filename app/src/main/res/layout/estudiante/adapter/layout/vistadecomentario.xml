@@ -14,8 +14,8 @@
 
         <TextView
             android:id="@+id/txtComentario"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_width="200dp"
+            android:layout_height="0dp"
             android:layout_marginTop="8dp"
             android:ems="10"
             android:focusable="false"

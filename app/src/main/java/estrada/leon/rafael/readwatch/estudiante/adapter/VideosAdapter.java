@@ -25,14 +25,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     int[] idUsuarioVidDoc;
     Intent entrar;
     private OnVideoListener mOnVideoListener;
-    boolean reportar=true;
-    boolean favorito=true;
-    boolean opcion=true;
-    public void setVisibility(boolean reportar,boolean favorito, boolean opcion){
-       this.reportar=reportar;
-       this.favorito=favorito;
-       this.opcion=opcion;
-    }
+
     public VideosAdapter(Context context, List<Videos> list, OnVideoListener onVideoListener, int[] idUsuarioVidDoc) {
         this.context=context;
         this.list=list;
@@ -139,16 +132,6 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }else{
             videosViewHolder.btnOpcion.setVisibility(View.GONE);
         }
-
-        if(reportar==false)
-            videosViewHolder.btnAdvertencia.setVisibility(View.GONE);
-        if(favorito==false)
-            videosViewHolder.btnFavorito.setVisibility(View.GONE);
-        if(opcion==false)
-            videosViewHolder.btnOpcion.setVisibility(View.GONE);
-        String uri = video.getRutaImagen();
-        int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
-        videosViewHolder.btnMiniatura.setImageResource(imageResource);
     }
 
     @Override

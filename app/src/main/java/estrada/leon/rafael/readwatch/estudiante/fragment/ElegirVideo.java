@@ -160,7 +160,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         SharedPreferences preference = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preference.getInt("idUsuario", 0);
 
-        String url = "https://readandwatch.herokuapp.com/php/cargarVideosUsuario.php?" +
+        String url = "https://readandwatch.herokuapp.com/php/cargarVidDocUsuario.php?" +
                 "idUsuario="+idUsuario+"&tipo=v";
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {

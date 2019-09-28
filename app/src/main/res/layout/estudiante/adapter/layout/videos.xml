@@ -6,17 +6,66 @@
     android:id="@+id/videosLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <android.support.constraint.ConstraintLayout
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btnFavorito"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/star2"
+            android:backgroundTintMode="src_over"
+            app:layout_constraintBottom_toBottomOf="@id/btnAdvertencia"
+            app:layout_constraintEnd_toStartOf="@+id/btnOpcion"
+            app:layout_constraintTop_toTopOf="@id/btnAdvertencia" />
+
+        <Button
+            android:id="@+id/btnOpcion"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/opcio"
+            android:backgroundTintMode="src_over"
+            app:layout_constraintBottom_toBottomOf="@id/btnFavorito"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnFavorito" />
+
+        <Button
+            android:id="@+id/btnAdvertencia"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/warning"
+            android:backgroundTintMode="src_over"
+            app:layout_constraintEnd_toStartOf="@id/btnFavorito"
+            app:layout_constraintTop_toTopOf="@id/btnMiniatura" />
+
+        <EditText
+            android:id="@+id/txtComentario"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:ems="10"
+            android:focusable="false"
+            android:hint="@string/comentario"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnMiniatura" />
 
         <ImageView
             android:id="@+id/btnMiniatura"
             android:layout_width="138dp"
             android:layout_height="82dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
             android:src="@drawable/miniatura"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,60 +87,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="2dp"
             android:text="@string/descripcion"
             android:textColor="#0A0A0A"
             android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/txtComentario"
             app:layout_constraintStart_toEndOf="@id/btnMiniatura"
-            app:layout_constraintTop_toBottomOf="@id/lblPerfil" />
-
-        <Button
-            android:id="@+id/btnFavorito"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/star2"
-            android:backgroundTintMode="src_over"
-            app:layout_constraintBottom_toBottomOf="@id/btnAdvertencia"
-            app:layout_constraintStart_toEndOf="@id/btnAdvertencia"
-            app:layout_constraintTop_toTopOf="@id/btnAdvertencia"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <Button
-            android:id="@+id/btnOpcion"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/opcio"
-            android:backgroundTintMode="src_over"
-            app:layout_constraintBottom_toBottomOf="@id/btnFavorito"
-            app:layout_constraintStart_toEndOf="@id/btnFavorito"
-            app:layout_constraintTop_toTopOf="@id/btnFavorito"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <Button
-            android:id="@+id/btnAdvertencia"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="30dp"
-            android:background="@drawable/warning"
-            android:backgroundTintMode="src_over"
-            app:layout_constraintStart_toEndOf="@id/lblPerfil"
-            app:layout_constraintTop_toTopOf="@id/btnMiniatura" />
-
-        <EditText
-            android:id="@+id/txtComentario"
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:focusable="false"
-            android:hint="@string/comentario"
-            android:importantForAutofill="no"
-            android:inputType="textPersonName"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@id/btnMiniatura"
-            app:layout_constraintTop_toBottomOf="@id/btnMiniatura" />
+            app:layout_constraintTop_toTopOf="@+id/btnMiniatura" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -54,8 +54,12 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
             public void onClick(View v) {
                 if(idVidDoc!=0) {
                     insertarComentario(txtNuevoComentario.getText().toString());
-                }else{
+                    request = Volley.newRequestQueue(getApplicationContext());
+                    cargarComentariosVidDoc();
+                }else {
                     insertarComentarioPreg(txtNuevoComentario.getText().toString());
+                    request = Volley.newRequestQueue(getApplicationContext());
+                    cargarComentariosPreg();
                 }
             }
         });
@@ -71,7 +75,8 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
             idUsuario = extras.getInt("idUsuario");
             request = Volley.newRequestQueue(this);
             cargarComentariosVidDoc();
-        }else if(extras.getInt("idVidDoc")==0){
+        }
+        if(extras.getInt("idVidDoc")==0){
             idPregunta = extras.getInt("idPregunta");
             idUsuario = extras.getInt("idUsuario");
             request = Volley.newRequestQueue(this);
@@ -162,6 +167,8 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
 
                         adapterComentario = new AdapterComentario(contexto, list);
                         recycler.setAdapter(adapterComentario);
+                        adapterComentario.refresh(list);
+                        recycler.invalidate();
                     }
                 }, this);
         request.add(jsonObjectRequest);
@@ -203,6 +210,8 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
 
         adapterComentario = new AdapterComentario(this, list);
         recycler.setAdapter(adapterComentario);
+        adapterComentario.refresh(list);
+        recycler.invalidate();
     }
 
 }

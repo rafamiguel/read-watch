@@ -26,13 +26,14 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
     private Context context;
     private List<Documentos> documentosList;
     private OnDocumentosListener MonDocumentosListener;
+    int[] idUsuarioVidDoc;
     Intent entrar;
 
-    public DocumentosAdapter(Context context, List<Documentos> documentosList, OnDocumentosListener MonDocumentosListener){
+    public DocumentosAdapter(Context context, List<Documentos> documentosList, OnDocumentosListener MonDocumentosListener, int[] idUsuarioVidDoc){
         this.context=context;
         this.documentosList=documentosList;
         this.MonDocumentosListener= MonDocumentosListener;
-
+        this.idUsuarioVidDoc=idUsuarioVidDoc;
     }
 
     @NonNull
@@ -47,11 +48,24 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-    viewHolder.lblPerfil.setText(documentosList.get(i).getPerfil());
-    viewHolder.lblDescripcion.setText(documentosList.get(i).getDescripcion());
-    String uri = documentosList.get(i).getRutaImagen();
-    int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
-    viewHolder.btnDocumento.setImageResource(imageResource);
+        Documentos documento=documentosList.get(i);
+        viewHolder.lblPerfil.setText(documento.getPerfil());
+        viewHolder.lblDescripcion.setText(documento.getDescripcion());
+        String uri = documento.getRutaImagen();
+        int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
+        viewHolder.btnDocumento.setImageResource(imageResource);
+            if (idUsuarioVidDoc!=null) {
+                for (int j = 0; j < idUsuarioVidDoc.length; j++) {
+                    if (idUsuarioVidDoc[j] == documento.getIdVidDoc()) {
+                        viewHolder.btnOpcion.setVisibility(View.VISIBLE);
+                        break;
+                    } else {
+                        viewHolder.btnOpcion.setVisibility(View.GONE);
+                    }
+                }
+            }else{
+                viewHolder.btnOpcion.setVisibility(View.GONE);
+            }
     }
 
     @Override

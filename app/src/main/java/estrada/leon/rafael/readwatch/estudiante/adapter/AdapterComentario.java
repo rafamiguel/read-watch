@@ -1,6 +1,7 @@
 package estrada.leon.rafael.readwatch.estudiante.adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,11 +28,18 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final int DOCUMENTO=1;
     private final int VIDEO=2;
     private final int COMENTARIO=3;
+    boolean reportar=true;
+    boolean favorito=true;
+    boolean opcion=true;
 
     public AdapterComentario(Context context, List<Item> list){
         this.context = context;
         this.list=list;
+    }
 
+    public void refresh(List<Item> list){
+        this.list = list;
+        notifyDataSetChanged();
     }
 
 
@@ -108,13 +116,14 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public class ViewHolderComentario extends RecyclerView.ViewHolder {
         TextView lblPerfil, lblReportar, lblComentario, txtComentario;
-
+        ImageView btnEditar;
         public ViewHolderComentario(@NonNull View itemView) {
             super(itemView);
             lblPerfil = itemView.findViewById(R.id.lblPerfil);
             lblReportar = itemView.findViewById(R.id.lblReportar);
             txtComentario = itemView.findViewById(R.id.txtComentario);
-
+            btnEditar=itemView.findViewById(R.id.btnEditar);
+            btnEditar.setVisibility(View.GONE);
 
         }
 
@@ -135,16 +144,16 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
             lblPerfil=itemView.findViewById(R.id.lblPerfil);
             btnMiniatura=itemView.findViewById(R.id.btnMiniatura);
             btnAdvertencia=itemView.findViewById(R.id.btnAdvertencia);
+            btnAdvertencia.setVisibility(View.GONE);
             btnFavorito=itemView.findViewById(R.id.btnFavorito);
+            btnFavorito.setVisibility(View.GONE);
             btnOpcion=itemView.findViewById(R.id.btnOpcion);
+            btnOpcion.setVisibility(View.GONE);
             txtComentario=itemView.findViewById(R.id.txtComentario);
             txtComentario.setVisibility(View.GONE);
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
             btnMiniatura.setOnClickListener(this);
-            btnAdvertencia.setOnClickListener(this);
-            btnFavorito.setOnClickListener(this);
-            btnOpcion.setOnClickListener(this);
         }
 
         @Override
@@ -169,16 +178,16 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
             lblPerfil = itemView.findViewById(R.id.lblPerfil);
             btnDocumento = itemView.findViewById(R.id.btnDocumento);
             btnAdvertencia = itemView.findViewById(R.id.btnAdvertencia);
+            btnAdvertencia.setVisibility(View.GONE);
             btnFavorito = itemView.findViewById(R.id.btnFavorito);
+            btnFavorito.setVisibility(View.GONE);
             btnOpcion = itemView.findViewById(R.id.btnOpcion);
+            btnOpcion.setVisibility(View.GONE);
             txtComentario = itemView.findViewById(R.id.txtComentario);
             txtComentario.setVisibility(View.GONE);
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
             btnDocumento.setOnClickListener(this);
-            btnAdvertencia.setOnClickListener(this);
-            btnFavorito.setOnClickListener(this);
-            btnOpcion.setOnClickListener(this);
         }
 
         @Override

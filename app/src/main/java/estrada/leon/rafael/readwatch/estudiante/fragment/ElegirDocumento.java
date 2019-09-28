@@ -53,6 +53,8 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     RecyclerView recyclerDocumentos;
     DocumentosAdapter adapter;
 
+    int []idUsuarioVidDoc;
+
     private OnFragmentInteractionListener mListener;
 
     public ElegirDocumento() {
@@ -86,6 +88,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         idTema = preferences.getInt("tema", 0);
 
         request= Volley.newRequestQueue(getContext());
+        buscarDoc();
         cargarWebService();
         return vista;
 
@@ -153,6 +156,45 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
 
         }
     }
+    private void buscarDoc(){
+        SharedPreferences preference = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preference.getInt("idUsuario", 0);
+
+        String url = "https://readandwatch.herokuapp.com/php/cargarVidDocUsuario.php?" +
+                "idUsuario="+idUsuario+"&tipo=d";
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                JSONArray json = response.optJSONArray("usuario");
+                JSONObject jsonObject=null;
+                if(json.length()<1){
+                    idUsuarioVidDoc = new int[1];
+                    idUsuarioVidDoc[0]=0;
+                }else {
+                    idUsuarioVidDoc = new int[json.length()];
+                }
+                for(int i=0;i<json.length();i++){
+                    try {
+                        jsonObject=json.getJSONObject(i);
+                        idUsuarioVidDoc[i]= jsonObject.getInt("idVidDoc");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+
+    }
     private void cargarWebService() {
         String url;
         String ip=getString(R.string.ip);
@@ -193,7 +235,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         }
 
         progreso.hide();
-        adapter=new DocumentosAdapter(getContext(),documentos,this);
+        adapter=new DocumentosAdapter(getContext(),documentos,this,idUsuarioVidDoc);
         recyclerDocumentos.setAdapter(adapter);
     }
 
