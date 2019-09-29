@@ -1,6 +1,7 @@
 package estrada.leon.rafael.readwatch.administrador.menu;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -46,7 +47,7 @@ public class MenuAdministrador extends AppCompatActivity
     Fragment fragment;
     TextView titulo;
     Intent entrar;
-    TextView lblEliminar, lblModificar, lblAnadir, title;
+    TextView lblEliminar, lblModificar, lblAnadir, title, txtNombre, txtFoto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -313,6 +314,124 @@ public class MenuAdministrador extends AppCompatActivity
         lblAnadir = view.findViewById(R.id.lblAnadir);
         builder.setCustomTitle(title);
 
+        lblEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirDialogEliminar();
+
+            }
+        });
+
+        lblAnadir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirDialog();
+            }
+        });
+
+        lblModificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirDialogModificar();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(true);
+        alertDialog.show();
+    }
+
+    private void abrirDialogEliminar() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_eliminar_materia, null);
+        builder.setView(view);
+        title = new TextView(this);
+        title.setText("Eliminar Materia");
+        title.setGravity(Gravity.CENTER);
+        title.setTextSize(20);
+        title.setTextColor(Color.BLACK);
+
+
+        builder.setCustomTitle(title);
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        })
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(true);
+        alertDialog.show();
+    }
+
+    private void abrirDialogModificar() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_modificar_materia, null);
+        builder.setView(view);
+        title = new TextView(this);
+        title.setText("Modificar Materia");
+        title.setGravity(Gravity.CENTER);
+        title.setTextSize(20);
+        title.setTextColor(Color.BLACK);
+
+        txtNombre = view.findViewById(R.id.lblEliminar);
+        txtFoto = view.findViewById(R.id.lblModificar);
+        builder.setCustomTitle(title);
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        })
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(true);
+        alertDialog.show();
+
+    }
+
+    private void abrirDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_insertar_materia, null);
+        builder.setView(view);
+        title = new TextView(this);
+        title.setText("Agregar Materia");
+        title.setGravity(Gravity.CENTER);
+        title.setTextSize(20);
+        title.setTextColor(Color.BLACK);
+
+        txtNombre = view.findViewById(R.id.lblEliminar);
+        txtFoto = view.findViewById(R.id.lblModificar);
+        builder.setCustomTitle(title);
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        })
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
         AlertDialog alertDialog = builder.create();
         alertDialog.setCancelable(true);
         alertDialog.show();
