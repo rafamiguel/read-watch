@@ -1,5 +1,6 @@
 package estrada.leon.rafael.readwatch.administrador.menu;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,8 +22,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.administrador.fragment.BuscarUsuario;
@@ -45,12 +56,17 @@ public class MenuAdministrador extends AppCompatActivity
         ModificarAdmin.OnFragmentInteractionListener,
         iComunicacionFragments, Perfil.OnFragmentInteractionListener{
     Fragment fragment;
+    ProgressDialog progreso;
+    JsonObjectRequest jsonObjectRequest;
     TextView titulo;
     Intent entrar;
-    TextView lblEliminar, lblModificar, lblAnadir, title, txtNombre, txtFoto;
+    TextView lblEliminar, lblModificar, lblAnadir, title, lblNombre, lblFoto;
+    EditText txtNombre, txtFoto;
+    RequestQueue request;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        request= Volley.newRequestQueue(getApplicationContext());
         setContentView(R.layout.activity_menu_administrador);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -384,8 +400,8 @@ public class MenuAdministrador extends AppCompatActivity
         title.setTextSize(20);
         title.setTextColor(Color.BLACK);
 
-        txtNombre = view.findViewById(R.id.lblEliminar);
-        txtFoto = view.findViewById(R.id.lblModificar);
+        lblNombre = view.findViewById(R.id.lblEliminar);
+        lblFoto = view.findViewById(R.id.lblModificar);
         builder.setCustomTitle(title);
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
@@ -417,8 +433,8 @@ public class MenuAdministrador extends AppCompatActivity
         title.setTextSize(20);
         title.setTextColor(Color.BLACK);
 
-        txtNombre = view.findViewById(R.id.lblEliminar);
-        txtFoto = view.findViewById(R.id.lblModificar);
+        txtNombre = view.findViewById(R.id.txtNombre);
+        txtFoto = view.findViewById(R.id.txtFoto);
         builder.setCustomTitle(title);
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
@@ -429,12 +445,44 @@ public class MenuAdministrador extends AppCompatActivity
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        insertarMateriaWebService(txtNombre.getText().toString(),txtFoto.getText().toString());
                     }
                 });
         AlertDialog alertDialog = builder.create();
         alertDialog.setCancelable(true);
         alertDialog.show();
+    }
+
+    private void insertarMateriaWebService(String nombre, String rutaImagen) {
+        request= Volley.newRequestQueue(getApplicationContext());
+        String url;
+        progreso = new ProgressDialog(this);
+        progreso.setMessage("Cargando...");
+        progreso.show();
+
+
+        url = "https://readandwatch.herokuapp.com/php/insertarMateria.php?nombre="+nombre+"&rutaImagen="+rutaImagen;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
+                null, new Response.Listener<JSONObject>(){
+
+
+            @Override
+            public void onResponse(JSONObject response) {
+                progreso.hide();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                error.printStackTrace();
+                Toast.makeText(MenuAdministrador.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        request.add(jsonObjectRequest);
+
+
     }
 
 }
