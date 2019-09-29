@@ -1,39 +1,41 @@
-package estrada.leon.rafael.readwatch.estudiante.fragment;
+package estrada.leon.rafael.readwatch.administrador.fragment;
 
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
-import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
 
-public class SeleccionarSemestre extends Fragment implements View.OnClickListener{
-    private iComunicacionFragments interfaceFragments;
 
+public class SeleccionarSemestreAdm extends Fragment implements View.OnClickListener {
+    private iComunicacionFragmentsAdm interfaceFragmentAdm;
     private OnFragmentInteractionListener mListener;
 
-    public SeleccionarSemestre(){}
+    public SeleccionarSemestreAdm() {
+        // Required empty public constructor
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        }
+
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         TextView lbl1,lbl2,lbl3,lbl4,lbl5,lbl6;
 
         View vista;
-        vista= inflater.inflate(R.layout.fragment_seleccionar_semestre, container, false);
+        vista= inflater.inflate(R.layout.fragment_seleccionar_semestre_adm, container, false);
         lbl1=vista.findViewById(R.id.lbl1);
         lbl2=vista.findViewById(R.id.lbl2);
         lbl3=vista.findViewById(R.id.lbl3);
@@ -49,13 +51,19 @@ public class SeleccionarSemestre extends Fragment implements View.OnClickListene
         return vista;
     }
 
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
     @Override
     public void onAttach(Context context) {
         Activity actividad;
         super.onAttach(context);
         if (context instanceof Activity) {
             actividad= (Activity) context;
-            interfaceFragments=(iComunicacionFragments)actividad;
+            interfaceFragmentAdm=(iComunicacionFragmentsAdm)actividad;
         }
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -72,30 +80,33 @@ public class SeleccionarSemestre extends Fragment implements View.OnClickListene
     }
 
     @Override
-    public void onClick(View v) {
-        switch(v.getId()){
+    public void onClick(View view) {
+        switch(view.getId()){
             case R.id.lbl1:
-              interfaceFragments.seleccionarTema(1);
+                interfaceFragmentAdm.seleccionarTema(1);
+
                 break;
             case R.id.lbl2:
-                interfaceFragments.seleccionarTema(2);
+                interfaceFragmentAdm.seleccionarTema(2);
                 break;
             case R.id.lbl3:
-                interfaceFragments.seleccionarTema(3);
+                interfaceFragmentAdm.seleccionarTema(3);
                 break;
             case R.id.lbl4:
-                interfaceFragments.seleccionarTema(4);
+                interfaceFragmentAdm.seleccionarTema(4);
                 break;
             case R.id.lbl5:
-                interfaceFragments.seleccionarTema(5);
+                interfaceFragmentAdm.seleccionarTema(5);
                 break;
             case R.id.lbl6:
-                interfaceFragments.seleccionarTema(6);
+                interfaceFragmentAdm.seleccionarTema(6);
                 break;
         }
+
     }
 
     public interface OnFragmentInteractionListener {
+
         void onFragmentInteraction(Uri uri);
     }
 }

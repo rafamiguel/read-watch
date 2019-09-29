@@ -28,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import estrada.leon.rafael.readwatch.MainFileManager;
+import estrada.leon.rafael.readwatch.administrador.fragment.SeleccionarSemestreAdm;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogContrasenaOlvidada;
 import estrada.leon.rafael.readwatch.administrador.menu.MenuAdministrador;
 import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
             public void onClick(View view) {
                 //entrar = new Intent(MainActivity.this, Notificaciones.class);
                 //startActivity(entrar);
-                entrar = new Intent(MainActivity.this, MainFileManager.class);
+                entrar = new Intent(MainActivity.this, SeleccionarSemestreAdm.class);
                 startActivity(entrar);
             }
         });

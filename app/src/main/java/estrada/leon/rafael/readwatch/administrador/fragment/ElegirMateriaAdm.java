@@ -37,7 +37,6 @@ import estrada.leon.rafael.readwatch.estudiante.pojo.Materias;
 public class ElegirMateriaAdm extends Fragment implements  MateriasAdapter.OnMateriaListener,
         Response.Listener<JSONObject>, Response.ErrorListener, MateriasAdapterAdmin.OnMateriaListener{
     private iComunicacionFragmentsAdm comunicacionFragmentsAdm;
-    private iComunicacionFragments interfaceFragments;
     ProgressDialog progreso;
     JsonObjectRequest jsonObjectRequest;
     private List<Materias> listMaterias,listMateriasPropuestas;
@@ -179,9 +178,9 @@ public class ElegirMateriaAdm extends Fragment implements  MateriasAdapter.OnMat
     @Override
     public void onMateriaClick(int position, List<Materias> lista) {
         if(lista.equals(listMaterias)){
-            interfaceFragments.seleccionarSemestre(listMaterias.get(position).getIdMateria());
+            comunicacionFragmentsAdm.seleccionarSemestre(listMaterias.get(position).getIdMateria());
         }else if(lista.equals(listMateriasPropuestas)){
-            interfaceFragments.seleccionarSemestre(listMateriasPropuestas.get(position).getIdMateria());
+            comunicacionFragmentsAdm.seleccionarSemestre(listMateriasPropuestas.get(position).getIdMateria());
         }
     }
 

@@ -40,11 +40,13 @@ public class MateriasAdapterAdmin extends RecyclerView.Adapter<RecyclerView.View
         TextView lblMateria;
 
         MateriasAdapter.OnMateriaListener onMateriaListener;
-        private MateriasViewHolder(@NonNull View itemView, MateriasAdapter.OnMateriaListener onMateriaListener) {
+        MateriasAdapterAdmin.OnMateriaListener onMateriaListenerAdm;
+        private MateriasViewHolder(@NonNull View itemView, MateriasAdapterAdmin.OnMateriaListener onMateriaListenerAdm) {
             super(itemView);
             btnMateria=itemView.findViewById(R.id.btnMateria);
             lblMateria=itemView.findViewById(R.id.lblMateria);
-            this.onMateriaListener=onMateriaListener;
+            //this.onMateriaListener=onMateriaListener;
+            this.onMateriaListenerAdm = onMateriaListenerAdm;
             btnMateria.setOnClickListener(this);
             lblMateria.setOnClickListener(this);
         }
@@ -52,9 +54,9 @@ public class MateriasAdapterAdmin extends RecyclerView.Adapter<RecyclerView.View
         @Override
         public void onClick(View v) {
             if(v.getId()==R.id.btnMateria){
-                onMateriaListener.onMateriaClick(getAdapterPosition(),list);
+                onMateriaListenerAdmin.onMateriaClick(getAdapterPosition(),list);
             }else if(v.getId()==R.id.lblMateria){
-                onMateriaListener.onMateriaClick(getAdapterPosition(),list);
+                onMateriaListenerAdmin.onMateriaClick(getAdapterPosition(),list);
             }
         }
 
@@ -75,7 +77,7 @@ public class MateriasAdapterAdmin extends RecyclerView.Adapter<RecyclerView.View
 
             }
         });
-        viewHolder= new MateriasAdapterAdmin.MateriasViewHolder(view,onMateriaListener);
+        viewHolder= new MateriasAdapterAdmin.MateriasViewHolder(view, onMateriaListenerAdmin);
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(lp);
         return viewHolder;
@@ -107,7 +109,8 @@ public class MateriasAdapterAdmin extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public interface OnMateriaListener{
-        public void onClickOpciones();
+        void onClickOpciones();
+        void onMateriaClick(int position,List<Materias> lista);
     }
 }
 

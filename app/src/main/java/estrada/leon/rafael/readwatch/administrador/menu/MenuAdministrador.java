@@ -43,9 +43,12 @@ import estrada.leon.rafael.readwatch.administrador.fragment.ElegirMateriaAdm;
 import estrada.leon.rafael.readwatch.administrador.fragment.MainComentarios;
 import estrada.leon.rafael.readwatch.administrador.fragment.ModificarAdmin;
 import estrada.leon.rafael.readwatch.administrador.fragment.RegistrarAdmin;
+import estrada.leon.rafael.readwatch.administrador.fragment.SeleccionarSemestreAdm;
 import estrada.leon.rafael.readwatch.administrador.fragment.UsuariosInactivos;
 import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
+import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirTema;
 import estrada.leon.rafael.readwatch.estudiante.fragment.Perfil;
+import estrada.leon.rafael.readwatch.estudiante.fragment.SeleccionarSemestre;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 
 public class MenuAdministrador extends AppCompatActivity
@@ -53,7 +56,7 @@ public class MenuAdministrador extends AppCompatActivity
         BuscarUsuario.OnFragmentInteractionListener, ElegirMateriaAdm.OnFragmentInteractionListener,
         RegistrarAdmin.OnFragmentInteractionListener, CambiarContrasena.OnFragmentInteractionListener,
         UsuariosInactivos.OnFragmentInteractionListener, ElegirDocumentoAdm.OnFragmentInteractionListener,
-        ModificarAdmin.OnFragmentInteractionListener,
+        ModificarAdmin.OnFragmentInteractionListener, SeleccionarSemestreAdm.OnFragmentInteractionListener,
         iComunicacionFragments, Perfil.OnFragmentInteractionListener{
     Fragment fragment;
     ProgressDialog progreso;
@@ -173,12 +176,37 @@ public class MenuAdministrador extends AppCompatActivity
 
     @Override
     public void seleccionarSemestre(int idMateria) {
+        fragment =new SeleccionarSemestreAdm();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).addToBackStack(null).commit();
+        titulo.setText("Seleccione el semestre");
+        guardarPreferenciasMateria(idMateria);
 
+    }
+
+    private void guardarPreferenciasMateria(int idMateria) {
+        SharedPreferences preferences = getSharedPreferences("Materia", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("materia", idMateria);
+        Toast.makeText(this, "La materia es : "+idMateria, Toast.LENGTH_SHORT).show();
+        editor.commit();
     }
 
     @Override
     public void seleccionarTema(int semestre) {
+        //fragment =new ElegirTema();
+       // getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).addToBackStack(null).commit();
+       // titulo.setText("Elige un tema");
 
+       // guardarPreferencias(semestre);
+
+    }
+
+    private void guardarPreferencias(int semestre) {
+        SharedPreferences preferences = getSharedPreferences("Semestre", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("semestre", semestre);
+        Toast.makeText(this, "El semestre es: "+semestre, Toast.LENGTH_SHORT).show();
+        editor.commit();
     }
 
     @Override
