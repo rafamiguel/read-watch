@@ -469,7 +469,7 @@ public class MenuAdministrador extends AppCompatActivity
 
             @Override
             public void onResponse(JSONObject response) {
-                progreso.hide();
+                progreso.hide();Toast.makeText(MenuAdministrador.this, "Subida con exito", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
