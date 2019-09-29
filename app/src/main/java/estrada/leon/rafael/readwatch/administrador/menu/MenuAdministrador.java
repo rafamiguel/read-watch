@@ -66,6 +66,7 @@ public class MenuAdministrador extends AppCompatActivity
     TextView lblEliminar, lblModificar, lblAnadir, title, lblNombre, lblFoto;
     EditText txtNombre, txtFoto;
     RequestQueue request;
+    String url="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -341,9 +342,9 @@ public class MenuAdministrador extends AppCompatActivity
     }
 
     @Override
-    public void onClickOpciones() {
+    public void onClickOpciones(final int idMateria) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
+        final int idMaterias = idMateria;
         LayoutInflater inflater = this.getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_opciones, null);
         builder.setView(view);
@@ -376,7 +377,7 @@ public class MenuAdministrador extends AppCompatActivity
         lblModificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                abrirDialogModificar();
+                abrirDialogModificar(idMaterias);
             }
         });
 
@@ -384,6 +385,7 @@ public class MenuAdministrador extends AppCompatActivity
         alertDialog.setCancelable(true);
         alertDialog.show();
     }
+
 
     private void abrirDialogEliminar() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -416,9 +418,10 @@ public class MenuAdministrador extends AppCompatActivity
         alertDialog.show();
     }
 
-    private void abrirDialogModificar() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    private void abrirDialogModificar(final int idMaterias) {
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        Toast.makeText(getApplicationContext(),String.valueOf(idMaterias),Toast.LENGTH_SHORT).show();
         LayoutInflater inflater = this.getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_modificar_materia, null);
         builder.setView(view);
@@ -428,8 +431,8 @@ public class MenuAdministrador extends AppCompatActivity
         title.setTextSize(20);
         title.setTextColor(Color.BLACK);
 
-        lblNombre = view.findViewById(R.id.lblEliminar);
-        lblFoto = view.findViewById(R.id.lblModificar);
+        txtNombre = view.findViewById(R.id.txtNombre);
+        txtFoto = view.findViewById(R.id.txtFoto);
         builder.setCustomTitle(title);
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
@@ -441,11 +444,33 @@ public class MenuAdministrador extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
+                        progreso = new ProgressDialog(MenuAdministrador.this);
+                        progreso.setMessage("Cargando...");
+                        progreso.show();
+                        url = "https://readandwatch.herokuapp.com/php/updateMateria.php?idMateria=" + idMaterias  + "&nombre=" + txtNombre.getText().toString() + "&rutaImagen=" + txtFoto.getText().toString();
+                        url=url.replace(" ", "%20");
+                        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
+                                null, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                progreso.hide();
+                                Toast.makeText(getApplicationContext(),"Materia modificada con éxito",Toast.LENGTH_SHORT).show();
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                progreso.hide();
+                                Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        request.add(jsonObjectRequest);
                     }
                 });
         AlertDialog alertDialog = builder.create();
         alertDialog.setCancelable(true);
         alertDialog.show();
+
+
 
     }
 

@@ -45,16 +45,20 @@ public class MateriasAdapterAdmin extends RecyclerView.Adapter<RecyclerView.View
             super(itemView);
             btnMateria=itemView.findViewById(R.id.btnMateria);
             lblMateria=itemView.findViewById(R.id.lblMateria);
+            btnOpcion = itemView.findViewById(R.id.btnOpcion);
             //this.onMateriaListener=onMateriaListener;
             this.onMateriaListenerAdm = onMateriaListenerAdm;
             btnMateria.setOnClickListener(this);
             lblMateria.setOnClickListener(this);
+            btnOpcion.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             if(v.getId()==R.id.btnMateria){
                 onMateriaListenerAdmin.onMateriaClick(getAdapterPosition(),list);
+            }else if(v.getId()==R.id.btnOpcion){
+                onMateriaListenerAdmin.onClickOpciones(getAdapterPosition(),list);
             }else if(v.getId()==R.id.lblMateria){
                 onMateriaListenerAdmin.onMateriaClick(getAdapterPosition(),list);
             }
@@ -69,14 +73,6 @@ public class MateriasAdapterAdmin extends RecyclerView.Adapter<RecyclerView.View
         RecyclerView.ViewHolder viewHolder;
         View view;
         view= LayoutInflater.from(context).inflate(R.layout.materias_adm,viewGroup,false);
-        btnOpcion = view.findViewById(R.id.btnOpcion);
-        btnOpcion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onMateriaListenerAdmin.onClickOpciones();
-
-            }
-        });
         viewHolder= new MateriasAdapterAdmin.MateriasViewHolder(view, onMateriaListenerAdmin);
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(lp);
@@ -109,7 +105,7 @@ public class MateriasAdapterAdmin extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public interface OnMateriaListener{
-        void onClickOpciones();
+        void onClickOpciones(int position,List<Materias>lista);
         void onMateriaClick(int position,List<Materias> lista);
     }
 }

@@ -10,7 +10,7 @@ public interface iComunicacionFragmentsAdm {
     public void onClickDocumentosHolder(Toast toast);
     public void onClickVidPerfil(int idUsuario);
     public void onClickComentario(int idVidDoc);
-    public void onClickOpciones();
+    public void onClickOpciones(int idMateria);
     public void seleccionarTema(int semestre);
     public void seleccionarSemestre(int idMateria);
 }

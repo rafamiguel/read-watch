@@ -185,8 +185,12 @@ public class ElegirMateriaAdm extends Fragment implements  MateriasAdapter.OnMat
     }
 
     @Override
-    public void onClickOpciones() {
-        comunicacionFragmentsAdm.onClickOpciones();
+    public void onClickOpciones(int position, List<Materias> lista) {
+        if(lista.equals(listMaterias)) {
+            comunicacionFragmentsAdm.onClickOpciones(listMaterias.get(position).getIdMateria());
+        }else if(lista.equals(listMateriasPropuestas)){
+            comunicacionFragmentsAdm.onClickOpciones(listMateriasPropuestas.get(position).getIdMateria());
+        }
     }
 
     public interface OnFragmentInteractionListener {
