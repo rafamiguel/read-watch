@@ -29,7 +29,10 @@ public class DialogOpciones extends AppCompatDialogFragment {
         lblModificar = view.findViewById(R.id.lblModificar);
         lblAnadir = view.findViewById(R.id.lblAnadir);
         builder.setCustomTitle(title);
+
         return builder.create();
 
     }
+
+
 }

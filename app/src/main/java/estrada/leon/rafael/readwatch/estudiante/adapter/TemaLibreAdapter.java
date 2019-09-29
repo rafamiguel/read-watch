@@ -115,6 +115,7 @@ public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.View
                     onTemaListener.onTemaClick(getAdapterPosition(),temaLibreList,
                             Toast.makeText(context, "Este es el boton para insertar Link", Toast.LENGTH_SHORT));
 
+
             }
         }
     }

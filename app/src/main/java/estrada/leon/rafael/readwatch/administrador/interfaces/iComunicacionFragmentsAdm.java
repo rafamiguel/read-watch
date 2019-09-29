@@ -10,4 +10,5 @@ public interface iComunicacionFragmentsAdm {
     public void onClickDocumentosHolder(Toast toast);
     public void onClickVidPerfil(int idUsuario);
     public void onClickComentario(int idVidDoc);
+    public void onClickOpciones();
 }

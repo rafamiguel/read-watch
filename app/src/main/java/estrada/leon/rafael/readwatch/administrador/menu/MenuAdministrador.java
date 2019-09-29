@@ -3,12 +3,15 @@ package estrada.leon.rafael.readwatch.administrador.menu;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +19,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +27,7 @@ import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.administrador.fragment.BuscarUsuario;
 import estrada.leon.rafael.readwatch.administrador.fragment.CambiarContrasena;
 import estrada.leon.rafael.readwatch.administrador.fragment.ElegirDocumentoAdm;
-import estrada.leon.rafael.readwatch.administrador.fragment.ElegirVideoAdm;
+import estrada.leon.rafael.readwatch.administrador.fragment.ElegirMateriaAdm;
 import estrada.leon.rafael.readwatch.administrador.fragment.MainComentarios;
 import estrada.leon.rafael.readwatch.administrador.fragment.ModificarAdmin;
 import estrada.leon.rafael.readwatch.administrador.fragment.RegistrarAdmin;
@@ -34,7 +38,7 @@ import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragment
 
 public class MenuAdministrador extends AppCompatActivity
         implements iComunicacionFragmentsAdm,   NavigationView.OnNavigationItemSelectedListener,
-        BuscarUsuario.OnFragmentInteractionListener,ElegirVideoAdm.OnFragmentInteractionListener,
+        BuscarUsuario.OnFragmentInteractionListener, ElegirMateriaAdm.OnFragmentInteractionListener,
         RegistrarAdmin.OnFragmentInteractionListener, CambiarContrasena.OnFragmentInteractionListener,
         UsuariosInactivos.OnFragmentInteractionListener, ElegirDocumentoAdm.OnFragmentInteractionListener,
         ModificarAdmin.OnFragmentInteractionListener,
@@ -42,6 +46,7 @@ public class MenuAdministrador extends AppCompatActivity
     Fragment fragment;
     TextView titulo;
     Intent entrar;
+    TextView lblEliminar, lblModificar, lblAnadir, title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +117,7 @@ public class MenuAdministrador extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
             titulo.setText("R&W");
         } else if (id == R.id.nav_ver_temas) {
-            fragment =new ElegirVideoAdm();
+            fragment =new ElegirMateriaAdm();
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
             titulo.setText("VideosAdm");
         } else if (id == R.id.nav_cambiar_contra) {
@@ -172,7 +177,7 @@ public class MenuAdministrador extends AppCompatActivity
     @Override
     public void vistaVideosDoc(boolean i) {
         if(i){
-            fragment =new ElegirVideoAdm();
+            fragment =new ElegirMateriaAdm();
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
             titulo.setText("VideosAdm");
         }else{
@@ -288,6 +293,29 @@ public class MenuAdministrador extends AppCompatActivity
         entrar = new Intent(this, MainComentarios.class);
         entrar.putExtra("idVidDoc",idVidDoc);
         startActivity(entrar);
+    }
+
+    @Override
+    public void onClickOpciones() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_opciones, null);
+        builder.setView(view);
+        title = new TextView(this);
+        title.setText("OPCIONES");
+        title.setGravity(Gravity.CENTER);
+        title.setTextSize(20);
+        title.setTextColor(Color.BLACK);
+
+        lblEliminar = view.findViewById(R.id.lblEliminar);
+        lblModificar = view.findViewById(R.id.lblModificar);
+        lblAnadir = view.findViewById(R.id.lblAnadir);
+        builder.setCustomTitle(title);
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(true);
+        alertDialog.show();
     }
 
 }
