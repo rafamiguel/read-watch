@@ -362,7 +362,7 @@ public class MenuAdministrador extends AppCompatActivity
         lblEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                abrirDialogEliminar();
+                abrirDialogEliminar(idMaterias);
 
             }
         });
@@ -387,9 +387,9 @@ public class MenuAdministrador extends AppCompatActivity
     }
 
 
-    private void abrirDialogEliminar() {
+    private void abrirDialogEliminar(final int idMateria) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
+        Toast.makeText(getApplicationContext(),String.valueOf(idMateria),Toast.LENGTH_SHORT).show();
         LayoutInflater inflater = this.getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_eliminar_materia, null);
         builder.setView(view);
@@ -410,6 +410,26 @@ public class MenuAdministrador extends AppCompatActivity
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        progreso = new ProgressDialog(MenuAdministrador.this);
+                        progreso.setMessage("Cargando...");
+                        progreso.show();
+                        url = "https://readandwatch.herokuapp.com/php/deleteMateria.php?idMateria=" + idMateria ;
+                        url=url.replace(" ", "%20");
+                        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
+                                null, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                progreso.hide();
+                                Toast.makeText(getApplicationContext(),"Materia eliminada con éxito",Toast.LENGTH_SHORT).show();
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                progreso.hide();
+                                Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        request.add(jsonObjectRequest);
 
                     }
                 });
