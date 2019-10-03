@@ -5,9 +5,9 @@ import android.widget.Toast;
 public interface iComunicacionFragments {
     public void seleccionarSemestre(int idMateria);
     public void seleccionarTema(int semestre);
-    public void seleccionarVideo(int idTema);
+    public void seleccionarVideo(int idTema, int idUsuario);
     public void onClickVideosHolder(Toast toast);
-    public void vistaVideosDoc(boolean i);
+    public void vistaVideosDoc(boolean i, int idUsuario);
     public void onClickDocumentosHolder(Toast toast);
     public void onClickTemasLibresHolder(Toast toast);
     public void onClickVidFavHolder(Toast toast);

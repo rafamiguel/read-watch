@@ -108,7 +108,9 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
 
     @Override
     public void onTemaClick(int position, List<Item> lista) {
-        interfaceFragments.seleccionarVideo(((Subtemas) (temasList.get(position))).getIdSubtema());
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        interfaceFragments.seleccionarVideo(((Subtemas) (temasList.get(position))).getIdSubtema(),idUsuario);
     }
 
     private void cargarWebService() {

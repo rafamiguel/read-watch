@@ -86,7 +86,7 @@ public class MateriasAdapterAdmin extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Materias materia= list.get(position);
         MateriasAdapterAdmin.MateriasViewHolder materiasViewHolder= (MateriasAdapterAdmin.MateriasViewHolder)viewHolder;
-        if(materia.getRutaImagen()!="") {
+        if(materia.getRutaImagen().length()>3) {
             String uri = materia.getRutaImagen();
             int imageResource = context.getResources().getIdentifier(uri, null, context.getPackageName());
             materiasViewHolder.lblMateria.setEnabled(false);

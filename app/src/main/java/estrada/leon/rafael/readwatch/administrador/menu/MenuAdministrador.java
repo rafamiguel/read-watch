@@ -202,6 +202,11 @@ public class MenuAdministrador extends AppCompatActivity
 
     }
 
+    @Override
+    public void seleccionarVideo(int idTema, int idUsuario) {
+
+    }
+
     private void guardarPreferencias(int semestre) {
         SharedPreferences preferences = getSharedPreferences("Semestre", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -210,13 +215,14 @@ public class MenuAdministrador extends AppCompatActivity
         editor.commit();
     }
 
+
     @Override
-    public void seleccionarVideo(int idTema) {
+    public void onClickVideosHolder(Toast toast) {
 
     }
 
     @Override
-    public void onClickVideosHolder(Toast toast) {
+    public void vistaVideosDoc(boolean i, int idUsuario) {
 
     }
 
