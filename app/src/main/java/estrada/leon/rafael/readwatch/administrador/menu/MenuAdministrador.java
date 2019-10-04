@@ -5,13 +5,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -22,19 +26,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import estrada.leon.rafael.readwatch.MainFileManager;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.administrador.fragment.BuscarUsuario;
 import estrada.leon.rafael.readwatch.administrador.fragment.CambiarContrasena;
@@ -65,8 +79,12 @@ public class MenuAdministrador extends AppCompatActivity
     Intent entrar;
     TextView lblEliminar, lblModificar, lblAnadir, title, lblNombre, lblFoto;
     EditText txtNombre, txtFoto;
+    Button txtFoto2;
+    ImageView imagen;
     RequestQueue request;
     String url="";
+    StringRequest stringRequest;
+    Bitmap bitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -457,8 +475,15 @@ public class MenuAdministrador extends AppCompatActivity
         title.setTextSize(20);
         title.setTextColor(Color.BLACK);
 
+        imagen = view.findViewById(R.id.imageView);
         txtNombre = view.findViewById(R.id.txtNombre);
-        txtFoto = view.findViewById(R.id.txtFoto);
+        txtFoto2 = view.findViewById(R.id.txtFoto);
+        txtFoto2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cargarImagen();
+            }
+        });
         builder.setCustomTitle(title);
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
@@ -473,7 +498,7 @@ public class MenuAdministrador extends AppCompatActivity
                         progreso = new ProgressDialog(MenuAdministrador.this);
                         progreso.setMessage("Cargando...");
                         progreso.show();
-                        url = "https://readandwatch.herokuapp.com/php/updateMateria.php?idMateria=" + idMaterias  + "&nombre=" + txtNombre.getText().toString() + "&rutaImagen=" + txtFoto.getText().toString();
+                        url = "https://readandwatch.herokuapp.com/php/updateMateria.php?idMateria=" + idMaterias  + "&nombre=" + txtNombre .getText().toString() + "&rutaImagen=" + txtFoto.getText().toString();
                         url=url.replace(" ", "%20");
                         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
                                 null, new Response.Listener<JSONObject>() {
@@ -512,8 +537,15 @@ public class MenuAdministrador extends AppCompatActivity
         title.setTextSize(20);
         title.setTextColor(Color.BLACK);
 
+        imagen = view.findViewById(R.id.imageView);
         txtNombre = view.findViewById(R.id.txtNombre);
-        txtFoto = view.findViewById(R.id.txtFoto);
+        txtFoto2 = view.findViewById(R.id.txtFoto);
+        txtFoto2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cargarImagen();
+            }
+        });
         builder.setCustomTitle(title);
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
@@ -524,7 +556,9 @@ public class MenuAdministrador extends AppCompatActivity
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        insertarMateriaWebService(txtNombre.getText().toString(),txtFoto.getText().toString());
+                        //insertarMateriaWebService(txtNombre.getText().toString(),txtFoto.getText().toString());
+                        insertarMateriaWebService();
+
                     }
                 });
         AlertDialog alertDialog = builder.create();
@@ -532,13 +566,65 @@ public class MenuAdministrador extends AppCompatActivity
         alertDialog.show();
     }
 
-    private void insertarMateriaWebService(String nombre, String rutaImagen) {
+    private void cargarImagen() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/");
+        startActivityForResult(intent.createChooser(intent, "Seleccione la aplicación"),10);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            Uri path = data.getData();
+            imagen.setImageURI(path);
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),path);
+                imagen.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void insertarMateriaWebService() {
         request= Volley.newRequestQueue(getApplicationContext());
         String url;
         progreso = new ProgressDialog(this);
         progreso.setMessage("Cargando...");
         progreso.show();
+        url = "https://readandwatch.herokuapp.com/php/insertarMateriaServer.php?";
+        stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                progreso.hide();
+                if(response.trim().equalsIgnoreCase("registra")){
+                    txtNombre.setText("");
+                    Toast.makeText(getApplicationContext(), "Se subio correctamente", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getApplicationContext(), "No se subio correctamente", Toast.LENGTH_SHORT).show();
+                }
 
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+               String nombre = txtNombre.getText().toString();
+               String rutaImagen = convertirImgString(bitmap);
+               Map<String, String> parametros =  new HashMap<>();
+               parametros.put("nombre", nombre);
+               parametros.put("rutaImagen", rutaImagen);
+                return parametros;
+            }
+        };
+        request.add(stringRequest);
+        /*
 
         url = "https://readandwatch.herokuapp.com/php/insertarMateria.php?nombre="+nombre+"&rutaImagen="+rutaImagen;
         url=url.replace(" ", "%20");
@@ -560,8 +646,18 @@ public class MenuAdministrador extends AppCompatActivity
             }
         });
         request.add(jsonObjectRequest);
+        */
 
 
+
+    }
+
+    private String convertirImgString(Bitmap bitmap) {
+        ByteArrayOutputStream array = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,array);
+        byte[] imageByte = array.toByteArray();
+        String imagenString = Base64.encodeToString(imageByte,Base64.DEFAULT);
+        return imagenString;
     }
 
 }
