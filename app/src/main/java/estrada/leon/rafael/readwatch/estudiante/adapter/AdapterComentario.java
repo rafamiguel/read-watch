@@ -114,7 +114,7 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
         return list.size();
     }
 
-    public class ViewHolderComentario extends RecyclerView.ViewHolder {
+    public class ViewHolderComentario extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView lblPerfil, lblReportar, lblComentario, txtComentario;
         ImageView btnEditar;
         public ViewHolderComentario(@NonNull View itemView) {
@@ -124,9 +124,16 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
             txtComentario = itemView.findViewById(R.id.txtComentario);
             btnEditar=itemView.findViewById(R.id.btnEditar);
             btnEditar.setVisibility(View.GONE);
+            btnEditar.setOnClickListener(this);
 
         }
 
+        @Override
+        public void onClick(View v) {
+            if(v==btnEditar){
+
+            }
+        }
     }
     @Override
     public int getItemViewType(int posicion){

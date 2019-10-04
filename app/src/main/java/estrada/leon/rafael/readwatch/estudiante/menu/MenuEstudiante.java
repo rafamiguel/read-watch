@@ -385,6 +385,17 @@ public class  MenuEstudiante extends AppCompatActivity
     }
 
     @Override
+    public void onClickOpcionCom(int idUsuario, int idVidDoc, int opcion) {
+        SharedPreferences preferences = getSharedPreferences("VidDocSeleccionado", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("idVidDoc", idVidDoc);
+        editor.commit();
+        DialogModificarEliminar nuevo = new DialogModificarEliminar();
+        nuevo.setOpcion(opcion);
+        nuevo.show(getSupportFragmentManager(), "ejemplo");
+    }
+
+    @Override
     public void onClickVideosHolder(Toast toast) {
         toast.show();
     }
