@@ -205,7 +205,7 @@ public class  MenuEstudiante extends AppCompatActivity
     }
 
     @Override
-    public void seleccionarVideo(int idTema) {
+    public void seleccionarVideo(int idTema, int idUsuario) {
         fragment =new ElegirVideo();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
         titulo.setText("Videos");
@@ -402,7 +402,7 @@ public class  MenuEstudiante extends AppCompatActivity
     }
 
     @Override
-    public void vistaVideosDoc(boolean i) {
+    public void vistaVideosDoc(boolean i, int idUsuario) {
         if(i){
             fragment =new ElegirVideo();
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();

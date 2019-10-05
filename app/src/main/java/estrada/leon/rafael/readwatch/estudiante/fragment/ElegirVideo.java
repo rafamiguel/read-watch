@@ -143,12 +143,14 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
 
     @Override
     public void onClick(View v) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
         switch (v.getId()){
             case R.id.btnVideo:
-                interfaceFragments.vistaVideosDoc(true);
+                interfaceFragments.vistaVideosDoc(true,idUsuario);
                 break;
             case R.id.btnDocumento:
-                interfaceFragments.vistaVideosDoc(false);
+                interfaceFragments.vistaVideosDoc(false,idUsuario);
                 break;
             case R.id.btnSubirVideo:
                 interfaceFragments.onClickSubirVid();
