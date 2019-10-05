@@ -45,7 +45,6 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     private iComunicacionFragments interfaceFragments;
     private List<Documentos> documentos;
 
-    Intent entrar;
     ProgressDialog progreso;
     JsonObjectRequest jsonObjectRequest;
     int idTema;

@@ -26,7 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import estrada.leon.rafael.readwatch.R;
-import estrada.leon.rafael.readwatch.entidades.Estudiante;
+import estrada.leon.rafael.readwatch.general.pojo.Estudiante;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 
 /**

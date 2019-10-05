@@ -1,6 +1,8 @@
 package estrada.leon.rafael.readwatch.estudiante.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,13 +28,17 @@ import java.util.List;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.adapter.AdapterComentario;
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogModificarEliminar;
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogSubirVideo;
+import estrada.leon.rafael.readwatch.estudiante.dialog.Dialog_Subir_documento;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
+import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Comentarios;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Documentos;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
 
 public class MainComentario extends AppCompatActivity implements  Response.Listener<JSONObject>,
-        Response.ErrorListener {
+        Response.ErrorListener, AdapterComentario.OnComentariosListener, DialogModificarEliminar.IOpcionesComentario {
     Button btnComentario;
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
@@ -41,6 +47,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
     AdapterComentario adapterComentario;
     int idVidDoc=0,idUsuario,idPregunta=0;
     Context contexto=this;
+    private int []idComentarioUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +81,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
             idVidDoc = extras.getInt("idVidDoc");
             idUsuario = extras.getInt("idUsuario");
             request = Volley.newRequestQueue(this);
+            buscarComentariosUsuario();
             cargarComentariosVidDoc();
         }
         if(extras.getInt("idVidDoc")==0){
@@ -133,14 +141,15 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                         Documentos documento;
                         json = response.optJSONArray("comentario");
                         String nombre,comentarioString,descripcion,rutaImagen;
-                        int idVidDoc,idUsuario;
+                        int idVidDoc,idUsuario,idComentario;
                         try {
                             if(json!=null) {
                                 for (int i = 0; i < json.length(); i++) {
                                     jsonObject = json.getJSONObject(i);
                                     nombre = jsonObject.optString("idUsuario");
                                     comentarioString = jsonObject.optString("texto");
-                                    comentario = new Comentarios(nombre, comentarioString);
+                                    idComentario=jsonObject.optInt("idComentario");
+                                    comentario = new Comentarios(nombre, comentarioString,idComentario);
                                     list.add(comentario);
                                 }
                             }
@@ -165,7 +174,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                             e.printStackTrace();
                         }
 
-                        adapterComentario = new AdapterComentario(contexto, list);
+                        adapterComentario = new AdapterComentario(contexto, list,(MainComentario)contexto,idComentarioUsuario);
                         recycler.setAdapter(adapterComentario);
                         adapterComentario.refresh(list);
                         recycler.invalidate();
@@ -184,6 +193,40 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                 this, this);
         request.add(jsonObjectRequest);
     }
+
+    private void buscarComentariosUsuario(){
+        String url = "https://readandwatch.herokuapp.com/php/cargarComentariosUsuario.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                JSONArray json = response.optJSONArray("usuario");
+                JSONObject jsonObject=null;
+                if(json.length()<1){
+                    idComentarioUsuario = new int[1];
+                    idComentarioUsuario[0]=0;
+                }else {
+                    idComentarioUsuario = new int[json.length()];
+                }
+                for(int i=0;i<json.length();i++){
+                    try {
+                        jsonObject=json.getJSONObject(i);
+                        idComentarioUsuario[i]= jsonObject.getInt("idComentario");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
     @Override
     public void onErrorResponse(VolleyError error) {
        // Toast.makeText(this, "Error.\n "+error.toString(), Toast.LENGTH_LONG).show();
@@ -196,22 +239,71 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
         Comentarios comentario;
         json = response.optJSONArray("usuario");
         String nombre,comentarioString;
+        int idComentario;
         try {
             for(int i=0;i<json.length();i++){
                 jsonObject=json.getJSONObject(i);
                 nombre=jsonObject.optString("idUsuario");
                 comentarioString=jsonObject.optString("texto");
-                comentario=new Comentarios(nombre,comentarioString);
+                idComentario=jsonObject.optInt("idComentario");
+                comentario=new Comentarios(nombre,comentarioString,idComentario);
                 list.add(comentario);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        adapterComentario = new AdapterComentario(this, list);
+        adapterComentario = new AdapterComentario(this, list,this,idComentarioUsuario);
         recycler.setAdapter(adapterComentario);
         adapterComentario.refresh(list);
         recycler.invalidate();
     }
 
+    @Override
+    public void opcionClick(int position, List<Item> list) {
+        int idComentario=((Comentarios)list.get(position)).getIdComentario();
+        SharedPreferences preferences = getSharedPreferences("comentarioSeleccionado", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("idComentario", idComentario);
+        editor.commit();
+        DialogModificarEliminar nuevo = new DialogModificarEliminar();
+        nuevo.setOpcion(3);
+        nuevo.show(getSupportFragmentManager(), "ejemplo");
+    }
+
+
+
+    @Override
+    public void resubirCom() {
+
+    }
+
+    @Override
+    public void eliminarCom(int idComentario) {
+        ProgressDialog progreso;
+        JsonObjectRequest jsonObjectRequest;
+        RequestQueue request;
+        String url;
+        String ip=getString(R.string.ip);
+        url = ip+"/php/eliminarComentario.php?" +
+                "idComentario="+idComentario;
+        url=url.replace(" ", "%20");
+        progreso = new ProgressDialog(this);
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        request= Volley.newRequestQueue(this);
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Toast.makeText(MainComentario.this, "Comentario eliminado con éxito", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainComentario.this, "Errror", Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
+        progreso.hide();
+    }
 }

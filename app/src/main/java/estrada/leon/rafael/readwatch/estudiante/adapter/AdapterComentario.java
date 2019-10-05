@@ -28,13 +28,17 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final int DOCUMENTO=1;
     private final int VIDEO=2;
     private final int COMENTARIO=3;
+    private OnComentariosListener onComentariosListener;
     boolean reportar=true;
     boolean favorito=true;
     boolean opcion=true;
+    private int []idComentarioUsuario;
 
-    public AdapterComentario(Context context, List<Item> list){
+    public AdapterComentario(Context context, List<Item> list,OnComentariosListener onComentariosListener,int []idComentarioUsuario){
         this.context = context;
         this.list=list;
+        this.onComentariosListener=onComentariosListener;
+        this.idComentarioUsuario=idComentarioUsuario;
     }
 
     public void refresh(List<Item> list){
@@ -99,6 +103,18 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
                 ViewHolderComentario viewHolderComentario=(ViewHolderComentario) viewHolder;
                 viewHolderComentario.txtComentario.setText(comentario.getComentario());
                 viewHolderComentario.lblPerfil.setText(comentario.getPerfil());
+                if (idComentarioUsuario!=null) {
+                    for (int j = 0; j < idComentarioUsuario.length; j++) {
+                        if (idComentarioUsuario[j] == comentario.getIdComentario()) {
+                            ((ViewHolderComentario) viewHolder).btnEditar.setVisibility(View.VISIBLE);
+                            break;
+                        } else {
+                            ((ViewHolderComentario) viewHolder).btnEditar.setVisibility(View.GONE);
+                        }
+                    }
+                }else{
+                    ((ViewHolderComentario) viewHolder).btnEditar.setVisibility(View.GONE);
+                }
             }
             break;
             default:
@@ -106,6 +122,18 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
                 ViewHolderComentario viewHolderComentario=(ViewHolderComentario) viewHolder;
                 viewHolderComentario.txtComentario.setText(comentario.getComentario());
                 viewHolderComentario.lblPerfil.setText(comentario.getPerfil());
+                if (idComentarioUsuario!=null) {
+                    for (int j = 0; j < idComentarioUsuario.length; j++) {
+                        if (idComentarioUsuario[j] == comentario.getIdComentario()) {
+                            ((ViewHolderComentario) viewHolder).btnEditar.setVisibility(View.VISIBLE);
+                            break;
+                        } else {
+                            ((ViewHolderComentario) viewHolder).btnEditar.setVisibility(View.GONE);
+                        }
+                    }
+                }else{
+                    ((ViewHolderComentario) viewHolder).btnEditar.setVisibility(View.GONE);
+                }
         }
     }
 
@@ -130,8 +158,10 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         @Override
         public void onClick(View v) {
-            if(v==btnEditar){
-
+            switch(v.getId()){
+                case R.id.btnEditar:{
+                    onComentariosListener.opcionClick(getAdapterPosition(),list);
+                }
             }
         }
     }
@@ -204,5 +234,9 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
                 default:
             }
         }
+    }
+
+    public interface OnComentariosListener{
+        void opcionClick(int position, List<Item> list);
     }
 }

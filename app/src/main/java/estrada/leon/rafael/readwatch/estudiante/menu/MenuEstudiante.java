@@ -1,5 +1,6 @@
 package estrada.leon.rafael.readwatch.estudiante.menu;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +23,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogModificarEliminar;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogHacerPregunta;
@@ -54,9 +64,11 @@ public class  MenuEstudiante extends AppCompatActivity
         lista_materias.OnFragmentInteractionListener,
         MateriasPropuestas.OnFragmentInteractionListener,
         ModificarEstudiante.OnFragmentInteractionListener,
-        DialogModificarEliminar.IOpciones{
+        DialogModificarEliminar.IOpcionesVidDoc{
     Fragment fragment;
     TextView titulo;
+
+    int []idComentarioUsuario;
 
 
     @Override
@@ -385,17 +397,6 @@ public class  MenuEstudiante extends AppCompatActivity
     }
 
     @Override
-    public void onClickOpcionCom(int idUsuario, int idVidDoc, int opcion) {
-        SharedPreferences preferences = getSharedPreferences("VidDocSeleccionado", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("idVidDoc", idVidDoc);
-        editor.commit();
-        DialogModificarEliminar nuevo = new DialogModificarEliminar();
-        nuevo.setOpcion(opcion);
-        nuevo.show(getSupportFragmentManager(), "ejemplo");
-    }
-
-    @Override
     public void onClickVideosHolder(Toast toast) {
         toast.show();
     }
@@ -432,4 +433,5 @@ public class  MenuEstudiante extends AppCompatActivity
         nuevo.setModo(DialogSubirVideo.RESUBIR);
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
+
 }

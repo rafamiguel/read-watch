@@ -26,7 +26,7 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
     private Context context;
     private List<Documentos> documentosList;
     private OnDocumentosListener MonDocumentosListener;
-    int[] idUsuarioVidDoc;
+    private int[] idUsuarioVidDoc;
     Intent entrar;
 
     public DocumentosAdapter(Context context, List<Documentos> documentosList, OnDocumentosListener MonDocumentosListener, int[] idUsuarioVidDoc){

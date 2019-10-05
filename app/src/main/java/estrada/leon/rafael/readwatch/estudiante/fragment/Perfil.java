@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,8 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.R;
-import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
-import estrada.leon.rafael.readwatch.entidades.Estudiante;
+import estrada.leon.rafael.readwatch.general.pojo.Estudiante;
 import estrada.leon.rafael.readwatch.estudiante.adapter.PerfilAdapter;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;

@@ -1,10 +1,12 @@
-package estrada.leon.rafael.readwatch.entidades;
+package estrada.leon.rafael.readwatch.general.pojo;
 
-public class Admin {
+public class Estudiante {
     private String nombre;
     private String apellidos;
     private String correo;
     private String contrasena;
+    private String telefono;
+    private String descripcion;
 
     public String getNombre() {
         return nombre;
@@ -36,5 +38,21 @@ public class Admin {
 
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }
