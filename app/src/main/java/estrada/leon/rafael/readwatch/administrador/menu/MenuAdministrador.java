@@ -1,16 +1,21 @@
 package estrada.leon.rafael.readwatch.administrador.menu;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -33,18 +38,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -481,7 +490,7 @@ public class MenuAdministrador extends AppCompatActivity
         txtFoto2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cargarImagen();
+                //cargarImagen();
             }
         });
         builder.setCustomTitle(title);
@@ -525,7 +534,7 @@ public class MenuAdministrador extends AppCompatActivity
 
     }
 
-    private void abrirDialog() {
+    private void abrirDialog() { /*INSERTAR MATERIA*/
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         LayoutInflater inflater = this.getLayoutInflater();
@@ -543,22 +552,25 @@ public class MenuAdministrador extends AppCompatActivity
         txtFoto2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cargarImagen();
+                ActivityCompat.requestPermissions(MenuAdministrador.this,
+                        new String[]{
+                                Manifest.permission.READ_EXTERNAL_STORAGE},999);
+                //cargarImagen();
             }
         });
         builder.setCustomTitle(title);
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
 
-            }
-        })
+                    }
+                })
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //insertarMateriaWebService(txtNombre.getText().toString(),txtFoto.getText().toString());
-                        insertarMateriaWebService();
 
+                        //insertarMateriaWebService();
+                        addimage();
                     }
                 });
         AlertDialog alertDialog = builder.create();
@@ -566,20 +578,31 @@ public class MenuAdministrador extends AppCompatActivity
         alertDialog.show();
     }
 
-    private void cargarImagen() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/");
-        startActivityForResult(intent.createChooser(intent, "Seleccione la aplicación"),10);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode==999){
+            if(grantResults.length>0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent.createChooser(intent, "Seleccione la aplicación"),999);
+            }else{
+                Toast.makeText(this, "No tienes permisos", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK){
+        if(requestCode == 999 && resultCode==RESULT_OK && data!=null){
             Uri path = data.getData();
             imagen.setImageURI(path);
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),path);
+                InputStream inputStream = getContentResolver().openInputStream(path);
+
+                bitmap = BitmapFactory.decodeStream(inputStream);
                 imagen.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -587,46 +610,53 @@ public class MenuAdministrador extends AppCompatActivity
         }
     }
 
-    private void insertarMateriaWebService() {
-        request= Volley.newRequestQueue(getApplicationContext());
-        String url;
+    public void addimage() {
+        String link = "https://readandwatch.000webhostapp.com/imagen/php.php";
+
+        StringRequest request1 = new StringRequest(Request.Method.POST, link, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(MenuAdministrador.this, "Imagen subida correctamente.", Toast.LENGTH_LONG).show();
+            }
+        }
+        , new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError volleyError) {
+            if (volleyError != null && volleyError.getMessage() != null) {
+                Toast.makeText(MenuAdministrador.this, volleyError.getMessage(), Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(MenuAdministrador.this, "Something went wrong", Toast.LENGTH_LONG).show();
+
+            }
+        }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                String nombre = txtNombre.getText().toString();
+                String rutaImagen = convertirImgString(bitmap);
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("imagename", nombre);
+                params.put("imagecode", rutaImagen);
+                return params;
+            }
+        };
+
+        RetryPolicy mRetryPolicy = new DefaultRetryPolicy(
+            0,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+
+        request1.setRetryPolicy(mRetryPolicy);
         progreso = new ProgressDialog(this);
         progreso.setMessage("Cargando...");
         progreso.show();
-        url = "https://readandwatch.herokuapp.com/php/insertarMateriaServer.php?";
-        stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                progreso.hide();
-                if(response.trim().equalsIgnoreCase("registra")){
-                    txtNombre.setText("");
-                    Toast.makeText(getApplicationContext(), "Se subio correctamente", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getApplicationContext(), "No se subio correctamente", Toast.LENGTH_SHORT).show();
-                }
+        request.add(request1);
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                progreso.hide();
-                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-               String nombre = txtNombre.getText().toString();
-               String rutaImagen = convertirImgString(bitmap);
-               Map<String, String> parametros =  new HashMap<>();
-               parametros.put("nombre", nombre);
-               parametros.put("rutaImagen", rutaImagen);
-                return parametros;
-            }
-        };
-        request.add(stringRequest);
-        /*
-
-        url = "https://readandwatch.herokuapp.com/php/insertarMateria.php?nombre="+nombre+"&rutaImagen="+rutaImagen;
+        request= Volley.newRequestQueue(MenuAdministrador.this);
+        url = "https://readandwatch.herokuapp.com/php/insertarMateria.php?" +
+                "nombre="+txtNombre.getText().toString()+
+                "&rutaImagen="+
+                "https://readandwatch.000webhostapp.com/imagen/"+txtNombre.getText().toString()+".jpeg";
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
                 null, new Response.Listener<JSONObject>(){
@@ -634,7 +664,7 @@ public class MenuAdministrador extends AppCompatActivity
 
             @Override
             public void onResponse(JSONObject response) {
-                progreso.hide();Toast.makeText(MenuAdministrador.this, "Subida con exito", Toast.LENGTH_SHORT).show();
+                progreso.hide();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -646,11 +676,8 @@ public class MenuAdministrador extends AppCompatActivity
             }
         });
         request.add(jsonObjectRequest);
-        */
-
-
-
     }
+
 
     private String convertirImgString(Bitmap bitmap) {
         ByteArrayOutputStream array = new ByteArrayOutputStream();

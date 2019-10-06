@@ -1,6 +1,8 @@
 package estrada.leon.rafael.readwatch.administrador.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +13,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.util.List;
 
@@ -27,7 +35,7 @@ public class MateriasAdapterAdmin extends RecyclerView.Adapter<RecyclerView.View
     private MateriasAdapterAdmin.OnMateriaListener onMateriaListenerAdmin;
     iComunicacionFragmentsAdm interfaceFragments;
     Button btnOpcion;
-
+    RequestQueue request;
     public MateriasAdapterAdmin(Context context, List<Materias> list, MateriasAdapter.OnMateriaListener onMateriaListener, MateriasAdapterAdmin.OnMateriaListener onMateriaListenerAdmin) {
         this.context=context;
         this.list=list;
@@ -86,12 +94,17 @@ public class MateriasAdapterAdmin extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Materias materia= list.get(position);
         MateriasAdapterAdmin.MateriasViewHolder materiasViewHolder= (MateriasAdapterAdmin.MateriasViewHolder)viewHolder;
-        if(materia.getRutaImagen().length()>3) {
-            String uri = materia.getRutaImagen();
-            int imageResource = context.getResources().getIdentifier(uri, null, context.getPackageName());
+        if(materia.getRutaImagen().length()>30) {
+            cargarImagenWebService(materia.getRutaImagen(),materiasViewHolder);
             materiasViewHolder.lblMateria.setEnabled(false);
             materiasViewHolder.lblMateria.setVisibility(View.GONE);
+
+        }else if(materia.getRutaImagen().length()>3){
+            String uri = materia.getRutaImagen();
+            int imageResource = context.getResources().getIdentifier(uri, null, context.getPackageName());
             materiasViewHolder.btnMateria.setImageResource(imageResource);
+            materiasViewHolder.lblMateria.setEnabled(false);
+            materiasViewHolder.lblMateria.setVisibility(View.GONE);
         }else{
             materiasViewHolder.btnMateria.setEnabled(false);
             materiasViewHolder.btnMateria.setVisibility(View.GONE);
@@ -99,6 +112,21 @@ public class MateriasAdapterAdmin extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+    public void cargarImagenWebService(String rutaImagen, final MateriasAdapterAdmin.MateriasViewHolder materiasViewHolder){
+        request= Volley.newRequestQueue(context);
+        ImageRequest imageRequest= new ImageRequest(rutaImagen, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                materiasViewHolder.btnMateria.setImageBitmap(response);
+            }
+
+        },0,0,ImageView.ScaleType.CENTER,null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(context, "Error al cargar las imagenes", Toast.LENGTH_SHORT).show();
+            }});
+        request.add(imageRequest);
+    }
     @Override
     public int getItemCount() {
         return list.size();

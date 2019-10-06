@@ -1,6 +1,7 @@
 package estrada.leon.rafael.readwatch.estudiante.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.util.List;
 
@@ -18,7 +26,7 @@ public class MateriasAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private Context context;
     private List<Materias> list;
     private OnMateriaListener onMateriaListener;
-
+    RequestQueue request;
     public MateriasAdapter(Context context, List<Materias> list, OnMateriaListener onMateriaListener) {
         this.context=context;
         this.list=list;
@@ -63,19 +71,38 @@ public class MateriasAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Materias materia= list.get(position);
         MateriasViewHolder materiasViewHolder= (MateriasViewHolder)viewHolder;
-        if(materia.getRutaImagen().length()>3) {
-            String uri = materia.getRutaImagen();
-            int imageResource = context.getResources().getIdentifier(uri, null, context.getPackageName());
+        if(materia.getRutaImagen().length()>30) {
+            cargarImagenWebService(materia.getRutaImagen(),materiasViewHolder);
             materiasViewHolder.lblMateria.setEnabled(false);
             materiasViewHolder.lblMateria.setVisibility(View.GONE);
+
+        }else if(materia.getRutaImagen().length()>3){
+            String uri = materia.getRutaImagen();
+            int imageResource = context.getResources().getIdentifier(uri, null, context.getPackageName());
             materiasViewHolder.btnMateria.setImageResource(imageResource);
+            materiasViewHolder.lblMateria.setEnabled(false);
+            materiasViewHolder.lblMateria.setVisibility(View.GONE);
         }else{
             materiasViewHolder.btnMateria.setEnabled(false);
             materiasViewHolder.btnMateria.setVisibility(View.GONE);
             materiasViewHolder.lblMateria.setText(materia.getNombre());
         }
     }
+    public void cargarImagenWebService(String rutaImagen, final MateriasAdapter.MateriasViewHolder materiasViewHolder){
+        request= Volley.newRequestQueue(context);
+        ImageRequest imageRequest= new ImageRequest(rutaImagen, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                materiasViewHolder.btnMateria.setImageBitmap(response);
+            }
 
+        },0,0,ImageView.ScaleType.CENTER,null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(context, "Error al cargar las imagenes", Toast.LENGTH_SHORT).show();
+            }});
+        request.add(imageRequest);
+    }
     @Override
     public int getItemCount() {
         return list.size();
