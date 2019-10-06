@@ -434,4 +434,36 @@ public class  MenuEstudiante extends AppCompatActivity
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
 
-}
+    @Override
+    public void eliminarVidDoc(int idVidDoc, final int opc) {
+        ProgressDialog progreso;
+        JsonObjectRequest jsonObjectRequest;
+        RequestQueue request;
+        String url;
+        String ip=getString(R.string.ip);
+        url = ip+"/php/eliminarVideo.php?" +
+                "idVidDoc="+idVidDoc;
+        url=url.replace(" ", "%20");
+        progreso = new ProgressDialog(this);
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        final int a = opc;
+        request= Volley.newRequestQueue(this);
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (a == 1) {
+                    Toast.makeText(MenuEstudiante.this, "Video eliminado con éxito", Toast.LENGTH_SHORT).show();
+                }
+                else { Toast.makeText(MenuEstudiante.this, "Documento eliminado con éxito", Toast.LENGTH_SHORT).show();}
+                }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MenuEstudiante.this, "Errror", Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
+        progreso.hide();
+    }
+    }

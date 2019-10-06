@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirDocumento;
@@ -40,6 +41,16 @@ public class DialogModificarEliminar extends AppCompatDialogFragment {
         lblEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(opcion==1){
+                    SharedPreferences preferences = getContext().getSharedPreferences("VidDocSeleccionado", Context.MODE_PRIVATE);
+                    int idVidDoc = preferences.getInt("idVidDoc",0);
+                    listenerVidDoc.eliminarVidDoc(idVidDoc, 1);
+                }
+                if(opcion==2){
+                    SharedPreferences preferences = getContext().getSharedPreferences("VidDocSeleccionado", Context.MODE_PRIVATE);
+                    int idVidDoc = preferences.getInt("idVidDoc",0);
+                    listenerVidDoc.eliminarVidDoc(idVidDoc, 2);
+                }
                 if(opcion==3){
                     SharedPreferences preferences = getContext().getSharedPreferences("comentarioSeleccionado", Context.MODE_PRIVATE);
                     int idComentario = preferences.getInt("idComentario", 0);
@@ -91,5 +102,6 @@ public class DialogModificarEliminar extends AppCompatDialogFragment {
     public interface IOpcionesVidDoc{
         void resubirVideo();
         void resubirDoc();
+        void eliminarVidDoc(int idVidDoc, int opc);
     }
 }
