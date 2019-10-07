@@ -478,7 +478,7 @@ public class MenuAdministrador extends AppCompatActivity
                                 null, new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                progreso.hide();
+                                 progreso.hide();
                                 Toast.makeText(getApplicationContext(),"Materia eliminada con éxito",Toast.LENGTH_SHORT).show();
                             }
                         }, new Response.ErrorListener() {
@@ -516,9 +516,13 @@ public class MenuAdministrador extends AppCompatActivity
         txtFoto2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //cargarImagen();
+                ActivityCompat.requestPermissions(MenuAdministrador.this,
+                        new String[]{
+                                Manifest.permission.READ_EXTERNAL_STORAGE},999);
+
             }
         });
+
         builder.setCustomTitle(title);
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
@@ -529,11 +533,52 @@ public class MenuAdministrador extends AppCompatActivity
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        String link = "https://readandwatch.000webhostapp.com/imagen/php.php";
 
+                        StringRequest request1 = new StringRequest(Request.Method.POST, link, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Toast.makeText(MenuAdministrador.this, "Imagen subida correctamente.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                                , new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError volleyError) {
+                                if (volleyError != null && volleyError.getMessage() != null) {
+                                    Toast.makeText(MenuAdministrador.this, volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(MenuAdministrador.this, "Something went wrong", Toast.LENGTH_LONG).show();
+
+                                }
+                            }
+                        }) {
+                            @Override
+                            protected Map<String, String> getParams() {
+                                String nombre = txtNombre.getText().toString();
+                                String rutaImagen = convertirImgString(bitmap);
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("imagename", nombre);
+                                params.put("imagecode", rutaImagen);
+                                return params;
+                            }
+                        };
+
+                        RetryPolicy mRetryPolicy = new DefaultRetryPolicy(
+                                0,
+                                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+
+                        request1.setRetryPolicy(mRetryPolicy);
                         progreso = new ProgressDialog(MenuAdministrador.this);
                         progreso.setMessage("Cargando...");
                         progreso.show();
-                        url = "https://readandwatch.herokuapp.com/php/updateMateria.php?idMateria=" + idMaterias  + "&nombre=" + txtNombre .getText().toString() + "&rutaImagen=" + txtFoto.getText().toString();
+                        request.add(request1);
+
+                        request= Volley.newRequestQueue(MenuAdministrador.this);
+                        url = "https://readandwatch.herokuapp.com/php/updateMateria.php?idMateria=" + idMaterias  +
+                                "&nombre="+txtNombre.getText().toString()+
+                                "&rutaImagen="+
+                                "https://readandwatch.000webhostapp.com/imagen/"+txtNombre.getText().toString()+".jpeg";
                         url=url.replace(" ", "%20");
                         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
                                 null, new Response.Listener<JSONObject>() {
@@ -550,6 +595,7 @@ public class MenuAdministrador extends AppCompatActivity
                             }
                         });
                         request.add(jsonObjectRequest);
+
                     }
                 });
         AlertDialog alertDialog = builder.create();
@@ -674,7 +720,7 @@ public class MenuAdministrador extends AppCompatActivity
 
         request1.setRetryPolicy(mRetryPolicy);
         progreso = new ProgressDialog(this);
-        progreso.setMessage("Cargando...");
+       progreso.setMessage("Cargando...");
         progreso.show();
         request.add(request1);
 
@@ -695,7 +741,7 @@ public class MenuAdministrador extends AppCompatActivity
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                progreso.hide();
+               progreso.hide();
                 error.printStackTrace();
                 Toast.makeText(MenuAdministrador.this, error.toString(), Toast.LENGTH_SHORT).show();
 

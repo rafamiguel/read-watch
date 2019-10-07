@@ -120,6 +120,10 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         VideosViewHolder videosViewHolder = (VideosViewHolder) viewHolder;
         videosViewHolder.lblDescripcion.setText(video.getDescripcion());
         videosViewHolder.lblPerfil.setText(video.getPerfil());
+        String uri = video.getRutaImagen();
+        int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
+        videosViewHolder.btnMiniatura.setImageResource(imageResource);
+
         if (idUsuarioVidDoc!=null) {
             for (int j = 0; j < idUsuarioVidDoc.length; j++) {
                 if (idUsuarioVidDoc[j] == video.getIdVidDoc()) {

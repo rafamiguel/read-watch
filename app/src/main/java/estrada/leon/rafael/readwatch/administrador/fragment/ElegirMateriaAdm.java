@@ -157,7 +157,7 @@ public class ElegirMateriaAdm extends Fragment implements  MateriasAdapter.OnMat
             e.printStackTrace();
         }
 
-        progreso.hide();
+       // progreso.hide();
         materiasAdapter = new MateriasAdapterAdmin(getContext(), listMaterias, this, this);
         recyclerMaterias.setAdapter(materiasAdapter);
         materiasAdapter = new MateriasAdapterAdmin(getContext(), listMateriasPropuestas,this, this);
@@ -166,9 +166,9 @@ public class ElegirMateriaAdm extends Fragment implements  MateriasAdapter.OnMat
 
     private void cargarWebService() {
         String url;
-        progreso = new ProgressDialog(getContext());
-        progreso.setMessage("Cargando...");
-        progreso.show();
+       // progreso = new ProgressDialog(getContext());
+        // progreso.setMessage("Cargando...");
+       // progreso.show();
         url = "https://readandwatch.herokuapp.com/php/cargarMaterias.php";
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
