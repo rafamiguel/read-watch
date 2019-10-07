@@ -3,6 +3,7 @@ package estrada.leon.rafael.readwatch.administrador.fragment;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -91,7 +92,8 @@ public class ElegirDocumentoAdm extends Fragment implements
         btnDocumento.setOnClickListener(this);
 
         recyclerDocumentos.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-
+        SharedPreferences preferences = getContext().getSharedPreferences("Tema", Context.MODE_PRIVATE);
+        idTema = preferences.getInt("tema", 0);
         request= Volley.newRequestQueue(getContext());
         cargarWebService();
         return vista;
@@ -147,7 +149,7 @@ public class ElegirDocumentoAdm extends Fragment implements
         progreso.setMessage("Cargando...");
         progreso.show();
         url = ip+"/php/cargarVidDoc.php?" +
-                "idTema=1&tipo=d";
+                "idTema="+idTema+"&tipo=d";
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request.add(jsonObjectRequest);

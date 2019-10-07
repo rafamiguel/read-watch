@@ -57,18 +57,22 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import estrada.leon.rafael.readwatch.DialogModificarEliminarAdm;
 import estrada.leon.rafael.readwatch.MainFileManager;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.administrador.fragment.BuscarUsuario;
 import estrada.leon.rafael.readwatch.administrador.fragment.CambiarContrasena;
 import estrada.leon.rafael.readwatch.administrador.fragment.ElegirDocumentoAdm;
 import estrada.leon.rafael.readwatch.administrador.fragment.ElegirMateriaAdm;
+import estrada.leon.rafael.readwatch.administrador.fragment.ElegirTemaAdm;
+import estrada.leon.rafael.readwatch.administrador.fragment.ElegirVideoAdm;
 import estrada.leon.rafael.readwatch.administrador.fragment.MainComentarios;
 import estrada.leon.rafael.readwatch.administrador.fragment.ModificarAdmin;
 import estrada.leon.rafael.readwatch.administrador.fragment.RegistrarAdmin;
 import estrada.leon.rafael.readwatch.administrador.fragment.SeleccionarSemestreAdm;
 import estrada.leon.rafael.readwatch.administrador.fragment.UsuariosInactivos;
 import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogModificarEliminar;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirTema;
 import estrada.leon.rafael.readwatch.estudiante.fragment.Perfil;
 import estrada.leon.rafael.readwatch.estudiante.fragment.SeleccionarSemestre;
@@ -80,7 +84,8 @@ public class MenuAdministrador extends AppCompatActivity
         RegistrarAdmin.OnFragmentInteractionListener, CambiarContrasena.OnFragmentInteractionListener,
         UsuariosInactivos.OnFragmentInteractionListener, ElegirDocumentoAdm.OnFragmentInteractionListener,
         ModificarAdmin.OnFragmentInteractionListener, SeleccionarSemestreAdm.OnFragmentInteractionListener,
-        iComunicacionFragments, Perfil.OnFragmentInteractionListener{
+        iComunicacionFragments, Perfil.OnFragmentInteractionListener, ElegirTemaAdm.OnFragmentInteractionListener,
+    ElegirVideoAdm.OnFragmentInteractionListener, DialogModificarEliminarAdm.IOpcionesVidDoc{
     Fragment fragment;
     ProgressDialog progreso;
     JsonObjectRequest jsonObjectRequest;
@@ -91,13 +96,14 @@ public class MenuAdministrador extends AppCompatActivity
     Button txtFoto2;
     ImageView imagen;
     RequestQueue request;
-    String url="";
+    String url = "";
     StringRequest stringRequest;
     Bitmap bitmap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        request= Volley.newRequestQueue(getApplicationContext());
+        request = Volley.newRequestQueue(getApplicationContext());
         setContentView(R.layout.activity_menu_administrador);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -110,7 +116,7 @@ public class MenuAdministrador extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        titulo=findViewById(R.id.toolbar_title_adm);
+        titulo = findViewById(R.id.toolbar_title_adm);
 
     }
 
@@ -153,26 +159,26 @@ public class MenuAdministrador extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_buscar_usuario) {
-            fragment =new BuscarUsuario();
-            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
+            fragment = new BuscarUsuario();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).commit();
             titulo.setText("Buscar usuario");
         } else if (id == R.id.nav_usuarios_inactivos) {
-            fragment =new UsuariosInactivos();
-            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
+            fragment = new UsuariosInactivos();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).commit();
             titulo.setText("Usuarios inactivos");
         } else if (id == R.id.nav_agregar_admin) {
-            fragment =new RegistrarAdmin();
-            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
+            fragment = new RegistrarAdmin();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).commit();
             titulo.setText("R&W");
         } else if (id == R.id.nav_ver_temas) {
-            fragment =new ElegirMateriaAdm();
-            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
+            fragment = new ElegirMateriaAdm();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).commit();
             titulo.setText("VideosAdm");
         } else if (id == R.id.nav_cambiar_contra) {
             fragment = new CambiarContrasena();
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).commit();
             titulo.setText("Cambiar contraseña");
-        }else if(id == R.id.nav_modificar_datos){
+        } else if (id == R.id.nav_modificar_datos) {
             fragment = new ModificarAdmin();
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).commit();
             titulo.setText("Cambiar datos");
@@ -204,8 +210,8 @@ public class MenuAdministrador extends AppCompatActivity
 
     @Override
     public void seleccionarSemestre(int idMateria) {
-        fragment =new SeleccionarSemestreAdm();
-        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).addToBackStack(null).commit();
+        fragment = new SeleccionarSemestreAdm();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).addToBackStack(null).commit();
         titulo.setText("Seleccione el semestre");
         guardarPreferenciasMateria(idMateria);
 
@@ -215,22 +221,17 @@ public class MenuAdministrador extends AppCompatActivity
         SharedPreferences preferences = getSharedPreferences("Materia", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("materia", idMateria);
-        Toast.makeText(this, "La materia es : "+idMateria, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "La materia es : " + idMateria, Toast.LENGTH_SHORT).show();
         editor.commit();
     }
 
     @Override
     public void seleccionarTema(int semestre) {
-        //fragment =new ElegirTema();
-       // getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).addToBackStack(null).commit();
-       // titulo.setText("Elige un tema");
+        fragment = new ElegirTemaAdm();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).addToBackStack(null).commit();
+        titulo.setText("Elige un tema");
 
-       // guardarPreferencias(semestre);
-
-    }
-
-    @Override
-    public void seleccionarVideo(int idTema, int idUsuario) {
+        guardarPreferencias(semestre);
 
     }
 
@@ -238,7 +239,25 @@ public class MenuAdministrador extends AppCompatActivity
         SharedPreferences preferences = getSharedPreferences("Semestre", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("semestre", semestre);
-        Toast.makeText(this, "El semestre es: "+semestre, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "El semestre es: " + semestre, Toast.LENGTH_SHORT).show();
+        editor.commit();
+    }
+
+    @Override
+    public void seleccionarVideo(int idTema, int idUsuario) {
+        fragment =new ElegirVideoAdm();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).addToBackStack(null).commit();
+        titulo.setText("Videos");
+
+        guardarPreferenciasTema(idTema);
+    }
+
+
+    private void guardarPreferenciasTema(int tema) {
+        SharedPreferences preferences = getSharedPreferences("Tema", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("tema", tema);
+        Toast.makeText(this, "El tema elegido es: "+tema, Toast.LENGTH_SHORT).show();
         editor.commit();
     }
 
@@ -256,7 +275,7 @@ public class MenuAdministrador extends AppCompatActivity
     @Override
     public void vistaVideosDoc(boolean i) {
         if(i){
-            fragment =new ElegirMateriaAdm();
+            fragment =new ElegirVideoAdm();
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
             titulo.setText("VideosAdm");
         }else{
@@ -363,6 +382,13 @@ public class MenuAdministrador extends AppCompatActivity
 
     @Override
     public void onClickOpcion(int idUsuario, int idVidDoc, int opcion) {
+        SharedPreferences preferences = getSharedPreferences("VidDocSeleccionado", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("idVidDoc", idVidDoc);
+        editor.commit();
+        DialogModificarEliminarAdm nuevo = new DialogModificarEliminarAdm();
+        nuevo.setOpcion(opcion);
+        nuevo.show(getSupportFragmentManager(), "ejemplo");
 
     }
 
@@ -685,6 +711,49 @@ public class MenuAdministrador extends AppCompatActivity
         byte[] imageByte = array.toByteArray();
         String imagenString = Base64.encodeToString(imageByte,Base64.DEFAULT);
         return imagenString;
+    }
+
+    @Override
+    public void resubirVideo() {
+
+    }
+
+    @Override
+    public void resubirDoc() {
+
+    }
+
+    @Override
+    public void eliminarVidDoc(int idVidDoc, int opc) {
+        ProgressDialog progreso;
+        JsonObjectRequest jsonObjectRequest;
+        RequestQueue request;
+        String url;
+        String ip=getString(R.string.ip);
+        url = ip+"/php/eliminarVideo.php?" +
+                "idVidDoc="+idVidDoc;
+        url=url.replace(" ", "%20");
+        progreso = new ProgressDialog(this);
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        final int a = opc;
+        request= Volley.newRequestQueue(this);
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (a == 1) {
+                    Toast.makeText(MenuAdministrador.this, "Video eliminado con éxito", Toast.LENGTH_SHORT).show();
+                }
+                else { Toast.makeText(MenuAdministrador.this, "Documento eliminado con éxito", Toast.LENGTH_SHORT).show();}
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MenuAdministrador.this, "Errror", Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
+        progreso.hide();
     }
 
 }

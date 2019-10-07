@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,39 +31,12 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.onVideoAdmListener = onVideoAdmListener;
     }
 
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        RecyclerView.ViewHolder viewHolder;
-        View view;
-        view= LayoutInflater.from(context).inflate(R.layout.videos_adm,viewGroup,false);
-        viewHolder=new VideosAdmViewHolder(view, onVideoAdmListener);
-        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        view.setLayoutParams(lp);
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        VideosAdm video = list.get(position);
-        VideosAdmViewHolder videosViewHolder = (VideosAdmViewHolder) viewHolder;
-        videosViewHolder.lblDescripcion.setText(video.getDescripcion());
-        videosViewHolder.lblPerfil.setText(video.getPerfil());
-
-        String uri = video.getRutaImagen();
-        int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
-        videosViewHolder.btnMiniatura.setImageResource(imageResource);
-    }
-
-    @Override
-    public int getItemCount() {
-        return list.size();
-    }
-
     public class VideosAdmViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView lblDescripcion, lblPerfil, txtComentario;
         OnVideoAdmListener onVideoAdmListener;
         ImageView btnMiniatura;
+        Button btnOpcion;
+
 
         private VideosAdmViewHolder(@NonNull View itemView, OnVideoAdmListener onVideoAdmListener) {
             super(itemView);
@@ -70,9 +44,11 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
             lblPerfil = itemView.findViewById(R.id.lblPerfil);
             btnMiniatura = itemView.findViewById(R.id.btnMiniatura);
             txtComentario = itemView.findViewById(R.id.txtComentario);
+            btnOpcion=itemView.findViewById(R.id.btnOpcion);
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
             btnMiniatura.setOnClickListener(this);
+            btnOpcion.setOnClickListener(this);
             txtComentario.setOnClickListener(this);
             this.onVideoAdmListener = onVideoAdmListener;
         }
@@ -90,19 +66,58 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
                 case R.id.txtComentario:
                     onVideoAdmListener.comentarioClick(getAdapterPosition(),list);
                     break;
+                case R.id.btnOpcion:
+                    onVideoAdmListener.opcionClick(getAdapterPosition(),list);
+                    break;
                 case R.id.btnMiniatura:
                     onVideoAdmListener.onVideoClick(getAdapterPosition(), list,
                             Toast.makeText(context, "Esta es la miniatura", Toast.LENGTH_SHORT));
                     break;
-                 default:
+                default:
                     onVideoAdmListener.onVideoClick(getAdapterPosition(), list,
                             Toast.makeText(context, "Este es el Video" + list.get(getAdapterPosition()), Toast.LENGTH_SHORT));
             }
         }
     }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        RecyclerView.ViewHolder viewHolder;
+        View view;
+        view= LayoutInflater.from(context).inflate(R.layout.videos_adm,viewGroup,false);
+        viewHolder= new VideosAdmViewHolder(view, onVideoAdmListener);
+        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        view.setLayoutParams(lp);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        VideosAdm video = list.get(position);
+        VideosAdmViewHolder videosViewHolder = (VideosAdmViewHolder) viewHolder;
+        videosViewHolder.lblDescripcion.setText(video.getDescripcion());
+        videosViewHolder.lblPerfil.setText(video.getPerfil());
+
+        String uri = video.getRutaImagen();
+        int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
+        videosViewHolder.btnMiniatura.setImageResource(imageResource);
+
+        videosViewHolder.btnOpcion.setVisibility(View.VISIBLE);
+
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
+
+
     public interface OnVideoAdmListener {
         void onVideoClick(int position, List<VideosAdm> list, Toast toast);
         void perfilClick(int position, List<VideosAdm> list);
         void comentarioClick(int position, List<VideosAdm> list);
+        void opcionClick(int adapterPosition, List<VideosAdm> list);
     }
 }

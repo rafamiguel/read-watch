@@ -13,4 +13,6 @@ public interface iComunicacionFragmentsAdm {
     public void onClickOpciones(int idMateria);
     public void seleccionarTema(int semestre);
     public void seleccionarSemestre(int idMateria);
+
+    public void onClickOpcion(int idUsuario, int idVidDoc, int i);
 }

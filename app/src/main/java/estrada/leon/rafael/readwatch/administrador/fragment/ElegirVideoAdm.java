@@ -3,6 +3,7 @@ package estrada.leon.rafael.readwatch.administrador.fragment;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -89,6 +90,8 @@ public class ElegirVideoAdm extends Fragment implements View.OnClickListener,
         btnDocumento=vista.findViewById(R.id.btnDocumento);
         btnVideo.setOnClickListener(this);
         btnDocumento.setOnClickListener(this);
+        SharedPreferences preferences = getContext().getSharedPreferences("Tema", Context.MODE_PRIVATE);
+        idTema = preferences.getInt("tema", 0);
         recyclerVideosAdm.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         request= Volley.newRequestQueue(getContext());
         cargarWebService();
@@ -154,6 +157,13 @@ public class ElegirVideoAdm extends Fragment implements View.OnClickListener,
         comunicacionFragmentsAdm.onClickComentario(list.get(position).getIdVidDoc());
     }
 
+    public void opcionClick(int position, List<VideosAdm> list) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idVidDoc =list.get(position).getIdVidDoc();
+        comunicacionFragmentsAdm.onClickOpcion(idUsuario,idVidDoc,1);
+    }
+
 
     private void cargarWebService() {
         videos=new ArrayList<>();
@@ -162,7 +172,7 @@ public class ElegirVideoAdm extends Fragment implements View.OnClickListener,
         progreso.setMessage("Cargando...");
         progreso.show();
         url = "https://readandwatch.herokuapp.com/php/cargarVidDoc.php?" +
-                "idTema=1&tipo=v";
+                "idTema="+idTema+"&tipo=v";
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request.add(jsonObjectRequest);
