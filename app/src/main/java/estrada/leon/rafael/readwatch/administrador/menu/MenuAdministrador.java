@@ -160,27 +160,27 @@ public class MenuAdministrador extends AppCompatActivity
 
         if (id == R.id.nav_buscar_usuario) {
             fragment = new BuscarUsuario();
-            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).addToBackStack(null).commit();
             titulo.setText("Buscar usuario");
         } else if (id == R.id.nav_usuarios_inactivos) {
             fragment = new UsuariosInactivos();
-            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).addToBackStack(null).commit();
             titulo.setText("Usuarios inactivos");
         } else if (id == R.id.nav_agregar_admin) {
             fragment = new RegistrarAdmin();
-            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).addToBackStack(null).commit();
             titulo.setText("R&W");
         } else if (id == R.id.nav_ver_temas) {
             fragment = new ElegirMateriaAdm();
-            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).addToBackStack(null).commit();
             titulo.setText("VideosAdm");
         } else if (id == R.id.nav_cambiar_contra) {
             fragment = new CambiarContrasena();
-            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).addToBackStack(null).commit();
             titulo.setText("Cambiar contraseña");
         } else if (id == R.id.nav_modificar_datos) {
             fragment = new ModificarAdmin();
-            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm, fragment).addToBackStack(null).commit();
             titulo.setText("Cambiar datos");
 
         } else if (id == R.id.nav_salir) {
@@ -276,11 +276,11 @@ public class MenuAdministrador extends AppCompatActivity
     public void vistaVideosDoc(boolean i) {
         if(i){
             fragment =new ElegirVideoAdm();
-            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).addToBackStack(null).commit();
             titulo.setText("VideosAdm");
         }else{
             fragment =new ElegirDocumentoAdm();
-            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).addToBackStack(null).commit();
             titulo.setText("DocumentosAdm");
         }
     }
@@ -340,7 +340,7 @@ public class MenuAdministrador extends AppCompatActivity
 
 
         fragment= new Perfil();
-        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).addToBackStack(null).commit();
         titulo.setText("Perfil");
     }
 
