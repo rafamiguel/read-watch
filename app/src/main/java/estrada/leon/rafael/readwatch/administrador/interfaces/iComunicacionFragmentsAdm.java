@@ -1,5 +1,6 @@
 package estrada.leon.rafael.readwatch.administrador.interfaces;
 
+import android.text.Editable;
 import android.widget.Toast;
 
 public interface iComunicacionFragmentsAdm {

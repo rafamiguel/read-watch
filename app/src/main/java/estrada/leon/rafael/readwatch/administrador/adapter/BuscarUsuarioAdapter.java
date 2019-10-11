@@ -12,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+
+import org.json.JSONObject;
+
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.administrador.pojo.BuscarUsuarioAd;
@@ -22,11 +26,13 @@ public class BuscarUsuarioAdapter extends RecyclerView.Adapter<BuscarUsuarioAdap
     Context context;
     List<BuscarUsuarioAd> list;
     OnBuscarListener onBuscarListener;
+    Response.Listener<JSONObject> a;
     public BuscarUsuarioAdapter(Context context, List<BuscarUsuarioAd>list, OnBuscarListener onBuscarListener){
         this.context = context;
         this.list = list;
         this.onBuscarListener = onBuscarListener;
     }
+
 
     @NonNull
     @Override
@@ -40,6 +46,8 @@ public class BuscarUsuarioAdapter extends RecyclerView.Adapter<BuscarUsuarioAdap
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.lblPerfil.setText(list.get(i).getPerfil());
        viewHolder.btnPerfil.setText(list.get(i).getRutaImagen());
+       viewHolder.lblApellido.setText(list.get(i).getApellido());
+
 
     }
 
@@ -50,7 +58,7 @@ public class BuscarUsuarioAdapter extends RecyclerView.Adapter<BuscarUsuarioAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         Button btnPerfil,btnEliminar;
-        TextView lblPerfil;
+        TextView lblPerfil, lblApellido;
         OnBuscarListener onBuscarListener;
         public ViewHolder (View item, OnBuscarListener onBuscarListener){
             super(item);
@@ -58,6 +66,7 @@ public class BuscarUsuarioAdapter extends RecyclerView.Adapter<BuscarUsuarioAdap
             btnPerfil = item.findViewById(R.id.btnPerfil);
             btnEliminar = item.findViewById(R.id.btnEliminar);
             lblPerfil = item.findViewById(R.id.lblPerfil);
+            lblApellido = item.findViewById(R.id.lblApellido);
 
             btnPerfil.setOnClickListener(this);
             btnEliminar.setOnClickListener(this);

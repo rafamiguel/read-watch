@@ -46,6 +46,7 @@ public class ElegirVideoAdm extends Fragment implements View.OnClickListener,
     View vista;
     Activity actividad;
     List<VideosAdm> videos;
+
     VideosAdapterAdm videosAdapterAdm;
     RecyclerView recyclerVideosAdm;
 
