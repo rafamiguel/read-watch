@@ -538,7 +538,7 @@ public class MenuAdministrador extends AppCompatActivity
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String link = "https://readandwatch1.000webhostapp.com/imagen/guardarImagenes.php";
+                            String link = getString(R.string.ip_server_archivos_php)+"guardarImagenes.php";
 
                         StringRequest request1 = new StringRequest(Request.Method.POST, link, new Response.Listener<String>() {
                             @Override
@@ -582,8 +582,8 @@ public class MenuAdministrador extends AppCompatActivity
                         request= Volley.newRequestQueue(MenuAdministrador.this);
                         url = "https://readandwatch.herokuapp.com/php/updateMateria.php?idMateria=" + idMaterias  +
                                 "&nombre="+txtNombre.getText().toString()+
-                                "&rutaImagen="+
-                                "https://readandwatch1.000webhostapp.com/imagen/"+txtNombre.getText().toString()+".jpeg";
+                                "&rutaImagen="+ getString(R.string.ip_server_archivos_imagenes)+
+                                txtNombre.getText().toString()+".jpeg";
                         url=url.replace(" ", "%20");
                         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
                                 null, new Response.Listener<JSONObject>() {
@@ -688,7 +688,7 @@ public class MenuAdministrador extends AppCompatActivity
     }
 
     public void addimage() {
-        String link = "https://readandwatch1.000webhostapp.com/imagen/guardarImagenes.php";
+        String link = getString(R.string.ip_server_archivos_php)+"guardarImagenes.php";
 
         StringRequest request1 = new StringRequest(Request.Method.POST, link, new Response.Listener<String>() {
             @Override
@@ -733,7 +733,7 @@ public class MenuAdministrador extends AppCompatActivity
         url = "https://readandwatch.herokuapp.com/php/insertarMateria.php?" +
                 "nombre="+txtNombre.getText().toString()+
                 "&rutaImagen="+
-                "https://readandwatch1.000webhostapp.com/imagen/"+txtNombre.getText().toString()+".jpeg";
+                getString(R.string.ip_server_archivos_imagenes)+txtNombre.getText().toString()+".jpeg";
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
                 null, new Response.Listener<JSONObject>(){

@@ -78,6 +78,8 @@
     <string name="lista_materias">Elija la materia de la que\nseleccionará el tema</string>
     <string name="materia">Materia</string>
     <string name="ip">https://readandwatch.herokuapp.com</string>
+    <string name="ip_server_archivos_imagenes">https://readandwatch.000webhostapp.com/imagenes/</string>
+    <string name="ip_server_archivos_php">https://readandwatch.000webhostapp.com/php/</string>
 </resources>
 
 
