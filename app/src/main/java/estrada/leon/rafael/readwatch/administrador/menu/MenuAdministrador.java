@@ -184,7 +184,7 @@ public class MenuAdministrador extends AppCompatActivity
             titulo.setText("Cambiar datos");
 
         } else if (id == R.id.nav_salir) {
-
+            finish();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -502,7 +502,7 @@ public class MenuAdministrador extends AppCompatActivity
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         Toast.makeText(getApplicationContext(),String.valueOf(idMaterias),Toast.LENGTH_SHORT).show();
         LayoutInflater inflater = this.getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_modificar_materia, null);
+        View view = inflater.inflate(R.layout.dialog_modificar_materia,  null);
         builder.setView(view);
         title = new TextView(this);
         title.setText("Modificar Materia");
@@ -533,7 +533,7 @@ public class MenuAdministrador extends AppCompatActivity
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String link = "https://readandwatch.000webhostapp.com/imagen/php.php";
+                        String link = "https://readandwatch1.000webhostapp.com/imagen/guardarImagenes.php";
 
                         StringRequest request1 = new StringRequest(Request.Method.POST, link, new Response.Listener<String>() {
                             @Override
@@ -578,7 +578,7 @@ public class MenuAdministrador extends AppCompatActivity
                         url = "https://readandwatch.herokuapp.com/php/updateMateria.php?idMateria=" + idMaterias  +
                                 "&nombre="+txtNombre.getText().toString()+
                                 "&rutaImagen="+
-                                "https://readandwatch.000webhostapp.com/imagen/"+txtNombre.getText().toString()+".jpeg";
+                                "https://readandwatch1.000webhostapp.com/imagen/"+txtNombre.getText().toString()+".jpeg";
                         url=url.replace(" ", "%20");
                         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
                                 null, new Response.Listener<JSONObject>() {
@@ -683,7 +683,7 @@ public class MenuAdministrador extends AppCompatActivity
     }
 
     public void addimage() {
-        String link = "https://readandwatch.000webhostapp.com/imagen/php.php";
+        String link = "https://readandwatch1.000webhostapp.com/imagen/guardarImagenes.php";
 
         StringRequest request1 = new StringRequest(Request.Method.POST, link, new Response.Listener<String>() {
             @Override
@@ -728,7 +728,7 @@ public class MenuAdministrador extends AppCompatActivity
         url = "https://readandwatch.herokuapp.com/php/insertarMateria.php?" +
                 "nombre="+txtNombre.getText().toString()+
                 "&rutaImagen="+
-                "https://readandwatch.000webhostapp.com/imagen/"+txtNombre.getText().toString()+".jpeg";
+                "https://readandwatch1.000webhostapp.com/imagen/"+txtNombre.getText().toString()+".jpeg";
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
                 null, new Response.Listener<JSONObject>(){
@@ -800,6 +800,10 @@ public class MenuAdministrador extends AppCompatActivity
         });
         request.add(jsonObjectRequest);
         progreso.hide();
+    }
+
+    @Override
+    public void eliminarCom(int idComentario) {
     }
 
 }

@@ -16,7 +16,8 @@ import estrada.leon.rafael.readwatch.administrador.menu.MenuAdministrador;
 import estrada.leon.rafael.readwatch.estudiante.fragment.MainComentario;
 
 public class DialogModificarEliminarAdm extends AppCompatDialogFragment {
-    TextView lblEliminar, lblModificar;
+    TextView lblEliminar;
+    TextView lblModificar;
     //IOpcionesComentario listenerComentario;
     IOpcionesVidDoc listenerVidDoc;
     int opcion;
@@ -32,9 +33,10 @@ public class DialogModificarEliminarAdm extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.dialog_modificar_eliminar, null);
         builder.setView(view)
                 .setTitle("OPCIONES");
-
-        lblEliminar = view.findViewById(R.id.lblEliminar);
         lblModificar = view.findViewById(R.id.lblAnadir);
+        if (opcion==4){ lblModificar.setVisibility(View.INVISIBLE);}
+        lblEliminar = view.findViewById(R.id.lblEliminar);
+
         lblEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,6 +54,13 @@ public class DialogModificarEliminarAdm extends AppCompatDialogFragment {
                     SharedPreferences preferences = getContext().getSharedPreferences("comentarioSeleccionado", Context.MODE_PRIVATE);
                     int idComentario = preferences.getInt("idComentario", 0);
                   //  listenerComentario.eliminarCom(idComentario);
+                }
+                if (opcion==4){
+                    //lblModificar.setEnabled(false);
+
+                    SharedPreferences preferences = getContext().getSharedPreferences("comentarioSeleccionado", Context.MODE_PRIVATE);
+                    int idComentario = preferences.getInt("idComentario", 0);
+                    listenerVidDoc.eliminarCom(idComentario);
                 }
             }
         });
@@ -91,5 +100,6 @@ public class DialogModificarEliminarAdm extends AppCompatDialogFragment {
         void resubirVideo();
         void resubirDoc();
         void eliminarVidDoc(int idVidDoc, int opc);
+        void eliminarCom(int idComentario);
     }
 }

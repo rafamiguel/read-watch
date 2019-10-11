@@ -31,6 +31,17 @@
             app:layout_constraintTop_toBottomOf="@+id/lblPerfil"
             tools:ignore="MissingConstraints" />
 
+        <ImageView
+            android:id="@+id/btnEliminar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/bote"
+            android:backgroundTintMode="src_over"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/txtComentario"
+            app:layout_constraintTop_toTopOf="@id/txtComentario" />
+
         <TextView
             android:id="@+id/lblPerfil"
             android:layout_width="wrap_content"
@@ -44,7 +55,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
-
 
 
     </android.support.constraint.ConstraintLayout>

@@ -6,21 +6,30 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.administrador.pojo.PojoComentario;
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
+import estrada.leon.rafael.readwatch.estudiante.pojo.Comentarios;
 
 public class AdapterComentario extends RecyclerView.Adapter<AdapterComentario.ViewHolderComentario> {
 
     Context context;
-    List<PojoComentario> list;
+    List<Item> list;
+    private OnComentariosListener onComentariosListener;
+    private int []idComentarioUsuario;
 
-    public AdapterComentario(Context context, List<PojoComentario> list){
+    public AdapterComentario(Context context, List<Item> list, OnComentariosListener onComentariosListener, int []idComentarioUsuario){
         this.context = context;
         this.list=list;
+        this.onComentariosListener=onComentariosListener;
+        this.idComentarioUsuario=idComentarioUsuario;
 
     }
 
@@ -32,15 +41,16 @@ public class AdapterComentario extends RecyclerView.Adapter<AdapterComentario.Vi
         ViewHolderComentario viewHolderComentario = new ViewHolderComentario(view);
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(lp);
-
-
         return viewHolderComentario;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderComentario viewHolderComentario, int i) {
-        viewHolderComentario.txtComentario.setText(list.get(i).getComentario());
-        viewHolderComentario.lblPerfil.setText(list.get(i).getPerfil());
+        Comentarios comentario = (Comentarios) list.get(i);
+        viewHolderComentario.txtComentario.setText(comentario.getComentario());
+        viewHolderComentario.lblPerfil.setText(comentario.getPerfil());
+        viewHolderComentario.btnEliminar.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -48,16 +58,31 @@ public class AdapterComentario extends RecyclerView.Adapter<AdapterComentario.Vi
         return list.size();
     }
 
-    public class ViewHolderComentario extends RecyclerView.ViewHolder {
+    public class ViewHolderComentario extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView lblPerfil,  txtComentario;
+        ImageView btnEliminar;
 
         public ViewHolderComentario(@NonNull View itemView) {
             super(itemView);
             lblPerfil = itemView.findViewById(R.id.lblPerfil);
             txtComentario = itemView.findViewById(R.id.txtComentario);
-
-
+            btnEliminar = itemView.findViewById(R.id.btnEliminar);
+            btnEliminar.setVisibility(View.VISIBLE);
+            btnEliminar.setOnClickListener(this);
         }
 
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()){
+                case R.id.btnEliminar:{
+                    onComentariosListener.opcionClick(getLayoutPosition(),list);
+                }
+
+            }
+        }
+    }
+    public interface OnComentariosListener{
+        void opcionClick(int position, List<Item> list);
     }
 }

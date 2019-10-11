@@ -3,10 +3,12 @@ package estrada.leon.rafael.readwatch.administrador.pojo;
 public class PojoComentario {
     private String Perfil;
     private String Comentario;
+    private int idComentario;
 
-    public PojoComentario(String Perfil, String Comentario){
+    public PojoComentario(String Perfil, String Comentario, int idComentario){
         this.Comentario = Comentario;
         this.Perfil = Perfil;
+        this.idComentario = idComentario;
     }
 
     public String getPerfil() {
@@ -23,5 +25,9 @@ public class PojoComentario {
 
     public void setComentario(String comentario) {
         Comentario = comentario;
+    }
+
+    public int getIdComentario() {
+        return idComentario;
     }
 }

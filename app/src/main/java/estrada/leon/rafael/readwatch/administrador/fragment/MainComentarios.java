@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Button;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -24,18 +24,23 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import estrada.leon.rafael.readwatch.DialogModificarEliminarAdm;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.administrador.adapter.AdapterComentario;
-import estrada.leon.rafael.readwatch.administrador.menu.MenuAdministrador;
 import estrada.leon.rafael.readwatch.administrador.pojo.PojoComentario;
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogModificarEliminar;
+import estrada.leon.rafael.readwatch.estudiante.fragment.MainComentario;
+import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
+import estrada.leon.rafael.readwatch.estudiante.pojo.Comentarios;
 
 public class MainComentarios extends AppCompatActivity implements  Response.Listener<JSONObject>,
-        Response.ErrorListener{
+        Response.ErrorListener, AdapterComentario.OnComentariosListener, DialogModificarEliminarAdm.IOpcionesVidDoc{
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
     RecyclerView recycler;
-    List<PojoComentario> list= new ArrayList<>();
+    List<Item> list= new ArrayList<>();
     AdapterComentario adapterComentario;
+    private int []idComentarioUsuario;
     int idVidDoc;
 
     @Override
@@ -72,23 +77,83 @@ public class MainComentarios extends AppCompatActivity implements  Response.List
     public void onResponse(JSONObject response) {
         JSONArray json;
         JSONObject jsonObject=null;
-        PojoComentario comentario;
+        Comentarios comentario;
         json = response.optJSONArray("usuario");
         String nombre,comentarioString;
+        int id;
         try {
             for(int i=0;i<json.length();i++){
                 jsonObject=json.getJSONObject(i);
                 nombre=jsonObject.optString("idUsuario");
                 comentarioString=jsonObject.optString("texto");
-                comentario=new PojoComentario(nombre,comentarioString);
+                id = jsonObject.getInt("idComentario");
+                comentario=new Comentarios(nombre,comentarioString,id);
                 list.add(comentario);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        adapterComentario = new AdapterComentario(this, list);
+        adapterComentario = new AdapterComentario(this, list, (MainComentarios)this, idComentarioUsuario);
         recycler.setAdapter(adapterComentario);
     }
 
+
+    @Override
+    public void opcionClick(int position, List<Item> list) {
+        int idComentario=((Comentarios)list.get(position)).getIdComentario();
+        SharedPreferences preferences = getSharedPreferences("comentarioSeleccionado", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("idComentario", idComentario);
+        editor.commit();
+        DialogModificarEliminarAdm nuevo = new DialogModificarEliminarAdm();
+        nuevo.setOpcion(4);
+        nuevo.show(getSupportFragmentManager(), "ejemplo");
+    }
+
+    @Override
+    public void resubirVideo() {
+
+    }
+
+    @Override
+    public void resubirDoc() {
+
+    }
+
+    @Override
+    public void eliminarVidDoc(int idVidDoc, int opc) {
+
+    }
+
+    @Override
+    public void eliminarCom(int idComentario) {
+        Toast.makeText(this,String.valueOf(idComentario), Toast.LENGTH_SHORT).show();
+
+        ProgressDialog progreso;
+        JsonObjectRequest jsonObjectRequest;
+        RequestQueue request;
+        String url;
+        String ip=getString(R.string.ip);
+        url = ip+"/php/eliminarComentario.php?" +
+                "idComentario="+idComentario;
+        url=url.replace(" ", "%20");
+        progreso = new ProgressDialog(this);
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        request= Volley.newRequestQueue(this);
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Toast.makeText(MainComentarios.this, "Comentario eliminado con éxito", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainComentarios.this, "Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
+        progreso.hide();
+    }
 }

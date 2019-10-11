@@ -80,8 +80,7 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
                             Toast.makeText(context, "Esta es la descripcion", Toast.LENGTH_SHORT));
                     break;
                 case R.id.txtComentario:
-                    entrar = new Intent(context, MainComentarios.class);
-                    context.startActivity(entrar);
+                    onDocumentosAdmListener.comentarioClick(getAdapterPosition(),list);
                     break;
                 case R.id.lblPerfil:
                     onDocumentosAdmListener.onDocumentosClick(getAdapterPosition(),list,
@@ -101,5 +100,7 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
 
     public interface OnDocumentosAdmListener{
         void onDocumentosClick(int position, List<DocumentosAdm> list, Toast toast);
+
+        void comentarioClick(int adapterPosition, List<DocumentosAdm> list);
     }
 }
