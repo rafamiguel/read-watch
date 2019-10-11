@@ -33,6 +33,7 @@ import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.administrador.adapter.DocumentosAdapterAdm;
 import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
 import estrada.leon.rafael.readwatch.administrador.pojo.DocumentosAdm;
+import estrada.leon.rafael.readwatch.administrador.pojo.VideosAdm;
 
 public class ElegirDocumentoAdm extends Fragment implements
         DocumentosAdapterAdm.OnDocumentosAdmListener,View.OnClickListener,
@@ -196,6 +197,15 @@ public class ElegirDocumentoAdm extends Fragment implements
     public void comentarioClick(int adapterPosition, List<DocumentosAdm> list) {
         comunicacionFragmentsAdm.onClickComentario(list.get(adapterPosition).getIdVidDoc());
     }
+
+    @Override
+    public void opcionClick(int position, List<DocumentosAdm> list) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idVidDoc =list.get(position).getIdVidDoc();
+        comunicacionFragmentsAdm.onClickOpcion(idUsuario,idVidDoc,2);
+    }
+
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

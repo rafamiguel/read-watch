@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
         String uri = list.get(i).getRutaImagen();
         int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
         viewHolder.btnDocumento.setImageResource(imageResource);
+        viewHolder.btnOpcion.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -58,17 +60,20 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
         private TextView lblDescripcion,lblPerfil, txtComentario;
         private ImageView btnDocumento;
         private OnDocumentosAdmListener onDocumentosAdmListener;
+        private Button btnOpcion;
         private ViewHolder (View itemView, OnDocumentosAdmListener onDocumentosAdmListener){
             super(itemView);
             lblDescripcion = itemView.findViewById(R.id.lblDescripcion);
             lblPerfil = itemView.findViewById(R.id.lblPerfil);
             btnDocumento = itemView.findViewById(R.id.btnDocumento);
             txtComentario = itemView.findViewById(R.id.txtComentario);
+            btnOpcion = itemView.findViewById(R.id.btnOpcion);
 
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
             btnDocumento.setOnClickListener(this);
             txtComentario.setOnClickListener(this);
+            btnOpcion.setOnClickListener(this);
             this.onDocumentosAdmListener = onDocumentosAdmListener;
         }
 
@@ -86,6 +91,9 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
                     onDocumentosAdmListener.onDocumentosClick(getAdapterPosition(),list,
                             Toast.makeText(context, "Este es el perfil", Toast.LENGTH_SHORT));
                     break;
+                case R.id.btnOpcion:
+                    onDocumentosAdmListener.opcionClick(getAdapterPosition(),list);
+                    break;
                 case R.id.btnDocumento:
                     onDocumentosAdmListener.onDocumentosClick(getAdapterPosition(),list,
                             Toast.makeText(context, "Esta es la miniatura", Toast.LENGTH_SHORT));
@@ -102,5 +110,7 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
         void onDocumentosClick(int position, List<DocumentosAdm> list, Toast toast);
 
         void comentarioClick(int adapterPosition, List<DocumentosAdm> list);
+
+        void opcionClick(int adapterPosition, List<DocumentosAdm> list);
     }
 }
