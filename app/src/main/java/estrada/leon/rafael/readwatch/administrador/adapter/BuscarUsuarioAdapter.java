@@ -1,17 +1,12 @@
 package estrada.leon.rafael.readwatch.administrador.adapter;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,8 +16,6 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import estrada.leon.rafael.readwatch.DialogEliminarUsuario;
-import estrada.leon.rafael.readwatch.administrador.fragment.BuscarUsuario;
 import estrada.leon.rafael.readwatch.administrador.pojo.BuscarUsuarioAd;
 import estrada.leon.rafael.readwatch.R;
 

@@ -1,4 +1,4 @@
-package estrada.leon.rafael.readwatch;
+package estrada.leon.rafael.readwatch.administrador.Dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -19,6 +19,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
+
+import estrada.leon.rafael.readwatch.R;
 
 public class DialogEliminarUsuario extends AppCompatDialogFragment implements Response.ErrorListener, Response.Listener {
     ProgressDialog progreso;
