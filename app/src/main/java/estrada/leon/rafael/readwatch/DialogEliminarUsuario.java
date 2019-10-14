@@ -18,6 +18,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONObject;
+
 public class DialogEliminarUsuario extends AppCompatDialogFragment implements Response.ErrorListener, Response.Listener {
     ProgressDialog progreso;
     JsonObjectRequest jsonObjectRequest;
@@ -74,7 +76,13 @@ public class DialogEliminarUsuario extends AppCompatDialogFragment implements Re
         progreso.show();
         url = "https://readandwatch.herokuapp.com/php/suspenderEstudiante.php?nombre="+nombre+"&apellidos="+apellidos;
         url=url.replace(" ", "%20");
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this,this);
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                progreso.hide();
+                Toast.makeText(getContext(),"Se suspendio al alumno correctamente",Toast.LENGTH_SHORT).show();
+            }
+        }, this);
         request.add(jsonObjectRequest);
     }
 
@@ -98,6 +106,6 @@ public class DialogEliminarUsuario extends AppCompatDialogFragment implements Re
     @Override
     public void onResponse(Object response) {
         progreso.hide();
-        Toast.makeText(getContext(),"Se elimino/suspendio correctamente",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(),"Se elimino correctamente",Toast.LENGTH_SHORT).show();
     }
 }

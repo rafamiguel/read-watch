@@ -1,14 +1,18 @@
 package estrada.leon.rafael.readwatch.administrador.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -17,19 +21,23 @@ import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Subtemas;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Temas;
 
-public class TemasAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class TemasAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
     private List<Item> temasList;
     private OnTemasListener onTemasListener;
     private final int TEMA = 1;
     private final int SUBTEMA = 2;
+    Button btnOpcion, btnOpcionTema;
+    int i;
 
     public TemasAdapterAdm(Context context, List<Item> temasList,OnTemasListener onTemasListener){
         this.context=context;
         this.temasList=temasList;
         this.onTemasListener=onTemasListener;
     }
+
+
     /*Por cada tipo de vista en el RecyclerView se necesita una clase con la estructura que se puede ver
      * en las siguientes clases*/
     public class TemasViewHolder extends RecyclerView.ViewHolder {
@@ -49,11 +57,19 @@ public class TemasAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHolde
             this.onTemasListener=onTemasListener;
             nombre= itemView.findViewById(R.id.nombreSubtema);
             nombre.setOnClickListener(this);
+            btnOpcion.setOnClickListener(this);
+            btnOpcionTema.setOnClickListener(this);
         }
         @Override
         public void onClick(View v) {
             if(v.getId()==R.id.nombreSubtema){
                 onTemasListener.onTemaClick(getAdapterPosition(),temasList);
+            }
+            if(v.getId()==R.id.btnOpcion){
+                onTemasListener.Subtema(getAdapterPosition(),temasList);
+            }
+            if(v.getId()==R.id.btnOpcionTema){
+                Toast.makeText(context, "Hola", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -68,17 +84,21 @@ public class TemasAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHolde
         View view;
         switch (viewType){
             case TEMA:{
-                view= LayoutInflater.from(context).inflate(R.layout.temas,viewGroup,false);
+                view= LayoutInflater.from(context).inflate(R.layout.temas_adm,viewGroup,false);
+                btnOpcionTema = view.findViewById(R.id.btnOpcionTema);
+
                 viewHolder=new TemasViewHolder(view);
                 break;
             }
             case SUBTEMA:{
-                view=LayoutInflater.from(context).inflate(R.layout.subtemas,viewGroup,false);
+                view=LayoutInflater.from(context).inflate(R.layout.subtemas_adm,viewGroup,false);
+                btnOpcion = view.findViewById(R.id.btnOpcion);
                 viewHolder=new SubtemasViewHolder(view,onTemasListener);
                 break;
             }
             default:
-                view=LayoutInflater.from(context).inflate(R.layout.subtemas,viewGroup,false);
+                view=LayoutInflater.from(context).inflate(R.layout.subtemas_adm,viewGroup,false);
+                btnOpcion = view.findViewById(R.id.btnOpcion);
                 viewHolder=new SubtemasViewHolder(view,onTemasListener);
                 return viewHolder;
         }
@@ -92,7 +112,7 @@ public class TemasAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHolde
     /*onBind es el que va a recorrer la lista, por eso llamamos a la función getItemViewType
      * para ver que tipo de elemento está en nuestra lista.*/
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int posicion) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int posicion) {
         switch(getItemViewType(posicion)){
             case TEMA:{
                 Temas tema = (Temas) temasList.get(posicion);
@@ -122,7 +142,11 @@ public class TemasAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public int getItemViewType(int posicion){
         return temasList.get(posicion).getViewType();
     }
+
+
     public interface OnTemasListener{
         void onTemaClick(int position,List<Item> lista);
+        void Tema(int position, List<Item> lista);
+        void Subtema(int posicion, List<Item> lista);
     }
 }

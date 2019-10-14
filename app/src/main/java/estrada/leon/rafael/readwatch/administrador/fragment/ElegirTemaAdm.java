@@ -1,6 +1,7 @@
 package estrada.leon.rafael.readwatch.administrador.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -44,9 +46,10 @@ public class ElegirTemaAdm extends Fragment implements TemasAdapterAdm.OnTemasLi
     ProgressDialog progreso;
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
-    int idMateria, semestre;
+    int idMateria, semestre, tema;
     TemasAdapterAdm temasAdapter;
     RecyclerView temas;
+    TextView lblModificar, lblEliminar;
 
     private OnFragmentInteractionListener mListener;
 
@@ -110,6 +113,78 @@ public class ElegirTemaAdm extends Fragment implements TemasAdapterAdm.OnTemasLi
         SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preferences.getInt("idUsuario", 0);
         interfaceFragments.seleccionarVideo(((Subtemas) (temasList.get(position))).getIdSubtema(),idUsuario);
+    }
+
+    @Override
+    public void Tema(final int posicion, List<Item> lista) {
+        AlertDialog.Builder a = new AlertDialog.Builder(getContext());
+        View mView = getLayoutInflater().inflate(R.layout.dialog_modificar_eliminar, null);
+        lblEliminar = mView.findViewById(R.id.lblEliminar);
+        lblModificar = mView.findViewById(R.id.lblAnadir);
+
+        lblModificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), String.valueOf(posicion), Toast.LENGTH_SHORT).show();
+            }
+        });
+        lblEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences preferences =  getContext().getSharedPreferences("Tema", Context.MODE_PRIVATE);
+                tema = preferences.getInt("tema", 0);
+               // Toast.makeText(getContext(), "Eliminar", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), String.valueOf(tema), Toast.LENGTH_SHORT).show();
+            }
+        });
+        a.setView(mView);
+        AlertDialog dialog = a.create();
+        dialog.show();
+
+    }
+
+    @Override
+    public void Subtema(final int posicion, List<Item> lista) {
+        AlertDialog.Builder a = new AlertDialog.Builder(getContext());
+        View mView = getLayoutInflater().inflate(R.layout.dialog_modificar_eliminar, null);
+        lblEliminar = mView.findViewById(R.id.lblEliminar);
+        lblModificar = mView.findViewById(R.id.lblAnadir);
+
+        lblModificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               Toast.makeText(getContext(), "UN peso", Toast.LENGTH_SHORT).show();
+            }
+        });
+        lblEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int i= (((Subtemas)(temasList.get(posicion))).getIdSubtema());
+                Toast.makeText(getContext(), String.valueOf(i), Toast.LENGTH_SHORT).show();
+                deleteSubtema(i);
+            }
+        });
+        a.setView(mView);
+        AlertDialog dialog = a.create();
+        dialog.show();
+    }
+
+    private void deleteSubtema(int i) {
+        String url;
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        url = "https://readandwatch.herokuapp.com/php/deleteSubtema.php?" +
+                "idSubtema="+i;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                progreso.hide();
+                Toast.makeText(getContext(), "Se elimino correctamente", Toast.LENGTH_SHORT).show();
+            }
+        }, this);
+        request.add(jsonObjectRequest);
     }
 
     private void cargarWebService() {
