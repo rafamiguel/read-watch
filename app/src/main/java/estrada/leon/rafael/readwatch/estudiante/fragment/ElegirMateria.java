@@ -42,7 +42,7 @@ public class ElegirMateria extends Fragment implements MateriasAdapter.OnMateria
     private RecyclerView recyclerMaterias,recyclerMateriasPropuestas;
     private MateriasAdapter materiasAdapter;
 
-    ProgressDialog progreso;
+    //ProgressDialog progreso;
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
 
@@ -110,9 +110,9 @@ public class ElegirMateria extends Fragment implements MateriasAdapter.OnMateria
 
     private void cargarWebService() {
         String url;
-        progreso = new ProgressDialog(getContext());
-        progreso.setMessage("Cargando...");
-        progreso.show();
+        //progreso = new ProgressDialog(getContext());
+        //progreso.setMessage("Cargando...");
+        //progreso.show();
         url = "https://readandwatch.herokuapp.com/php/cargarMaterias.php";
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
@@ -120,7 +120,7 @@ public class ElegirMateria extends Fragment implements MateriasAdapter.OnMateria
     }
     @Override
     public void onErrorResponse(VolleyError error) {
-        progreso.hide();
+        //progreso.hide();
     }
 
     @Override
@@ -153,7 +153,7 @@ public class ElegirMateria extends Fragment implements MateriasAdapter.OnMateria
             e.printStackTrace();
         }
 
-        progreso.hide();
+       // progreso.hide();
         materiasAdapter = new MateriasAdapter(getContext(), listMaterias, this);
         recyclerMaterias.setAdapter(materiasAdapter);
         materiasAdapter = new MateriasAdapter(getContext(), listMateriasPropuestas, this);
