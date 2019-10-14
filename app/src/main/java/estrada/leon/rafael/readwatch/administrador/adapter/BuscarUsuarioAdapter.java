@@ -1,7 +1,10 @@
 package estrada.leon.rafael.readwatch.administrador.adapter;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,8 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import estrada.leon.rafael.readwatch.DialogEliminarUsuario;
+import estrada.leon.rafael.readwatch.administrador.fragment.BuscarUsuario;
 import estrada.leon.rafael.readwatch.administrador.pojo.BuscarUsuarioAd;
 import estrada.leon.rafael.readwatch.R;
 
@@ -64,12 +69,10 @@ public class BuscarUsuarioAdapter extends RecyclerView.Adapter<BuscarUsuarioAdap
             super(item);
             this.onBuscarListener = onBuscarListener;
             btnPerfil = item.findViewById(R.id.btnPerfil);
-            btnEliminar = item.findViewById(R.id.btnEliminar);
             lblPerfil = item.findViewById(R.id.lblPerfil);
             lblApellido = item.findViewById(R.id.lblApellido);
 
             btnPerfil.setOnClickListener(this);
-            btnEliminar.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
 
             item.setOnClickListener(this);
@@ -82,17 +85,18 @@ public class BuscarUsuarioAdapter extends RecyclerView.Adapter<BuscarUsuarioAdap
                     onBuscarListener.OnBuscarClick(getAdapterPosition(), list,
                             Toast.makeText(context, "Esta es la foto del perfil", Toast.LENGTH_SHORT));
                     break;
-                case R.id.btnEliminar:
-                    onBuscarListener.OnBuscarClick(getAdapterPosition(), list,
-                            Toast.makeText(context, "Botón para eliminar usuario", Toast.LENGTH_SHORT));
-                    break;
                 case R.id.lblPerfil:
                     onBuscarListener.OnBuscarClick(getAdapterPosition(), list,
                             Toast.makeText(context, "Nombre del perfil", Toast.LENGTH_SHORT));
                     break;
             }
         }
+
+
+
     }
+
+
 
     public interface OnBuscarListener{
         void OnBuscarClick (int posicion, List<BuscarUsuarioAd> list, Toast toast);

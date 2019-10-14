@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import estrada.leon.rafael.readwatch.DialogEliminarUsuario;
 import estrada.leon.rafael.readwatch.administrador.adapter.BuscarUsuarioAdapter;
 import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
 import estrada.leon.rafael.readwatch.administrador.pojo.BuscarUsuarioAd;
@@ -47,7 +48,7 @@ public class BuscarUsuario extends Fragment implements BuscarUsuarioAdapter.OnBu
         View.OnClickListener, Response.Listener<JSONObject>, Response.ErrorListener{
     RecyclerView recyclerBuscar;
     EditText txtNombre, txtApellido;
-    Button buscar;
+    Button buscar, btnOpcion;
     Activity actividad;
     ProgressDialog progreso;
     JsonObjectRequest jsonObjectRequest;
@@ -56,6 +57,8 @@ public class BuscarUsuario extends Fragment implements BuscarUsuarioAdapter.OnBu
     RequestQueue request;
     String url;
     RecyclerView recycler;
+    DialogEliminarUsuario a;
+    String nombre,apellido, rutaFoto;
 
     private iComunicacionFragmentsAdm interfaceFragments;
     View vista;
@@ -107,16 +110,22 @@ public class BuscarUsuario extends Fragment implements BuscarUsuarioAdapter.OnBu
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
+        a = new DialogEliminarUsuario();
         vista=inflater.inflate(R.layout.fragment_buscar_usuario, container, false);
         recyclerBuscar=vista.findViewById(R.id.recyclerBuscar);
         txtNombre = vista.findViewById(R.id.txtNombre);
         txtApellido = vista.findViewById(R.id.txtApellido);
         buscar = vista.findViewById(R.id.btnBuscar);
+        btnOpcion = vista.findViewById(R.id.btnOpcion);
+        btnOpcion.setVisibility(View.INVISIBLE);
+        btnOpcion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirDialog();
+            }
+        });
         recyclerBuscar.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        //list=new ArrayList<>();
-        //list.add(new BuscarUsuarioAd("J Balvin", ""));
-        //BuscarUsuarioAdapter h = new BuscarUsuarioAdapter(getContext(),list, this);
-        //recyclerBuscar.setAdapter(h);
+
         request= Volley.newRequestQueue(getContext());
         buscar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +134,14 @@ public class BuscarUsuario extends Fragment implements BuscarUsuarioAdapter.OnBu
             }
         });
         return vista;
+
+    }
+
+    private void abrirDialog() {
+        DialogEliminarUsuario a = new DialogEliminarUsuario();
+        a.setCancelable(false);
+        a.DialogEliminarUsuario(nombre,apellido);
+        a.show(getFragmentManager(), "ejemplo");
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -170,7 +187,7 @@ public class BuscarUsuario extends Fragment implements BuscarUsuarioAdapter.OnBu
         progreso.show();
         String nombre=txtNombre.getText().toString();
         String apellidos = txtApellido.getText().toString();
-        url = "https://readandwatch.herokuapp.com/php/buscarEstudianteEliminar.php?nombre=" + txtNombre.getText().toString()+ "&apellidos="+txtApellido.getText().toString()+"";
+        url = "https://readandwatch.herokuapp.com/php/buscarEstudianteEliminar.php?nombre="+txtNombre.getText().toString()+"&apellidos="+txtApellido.getText().toString();
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this,this);
         request.add(jsonObjectRequest);
@@ -189,7 +206,7 @@ public class BuscarUsuario extends Fragment implements BuscarUsuarioAdapter.OnBu
         JSONObject jsonObject=null;
         BuscarUsuarioAd usuario;
         json = response.optJSONArray("usuario");
-        String nombre,apellido, rutaFoto;
+
         try {
             for(int i=0;i<json.length();i++){
                 jsonObject=json.getJSONObject(i);
@@ -199,14 +216,17 @@ public class BuscarUsuario extends Fragment implements BuscarUsuarioAdapter.OnBu
                 if(nombre.equals("")){
                     progreso.hide();
                     Toast.makeText(getContext(), "No se encontro", Toast.LENGTH_SHORT).show();
+                    btnOpcion.setVisibility(View.INVISIBLE);
                 }
                 else{
                 usuario=new BuscarUsuarioAd(nombre,apellido,rutaFoto);
-                usuarioAds.add(usuario);}
+                btnOpcion.setVisibility(View.VISIBLE);
+                usuarioAds.add(usuario);
+                a.DialogEliminarUsuario(nombre,apellido);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Toast.makeText(getContext(), "No se encontro", Toast.LENGTH_SHORT).show();
         }
         //list=new ArrayList<>();
         //list.add(new BuscarUsuarioAd("J Balvin", ""));
