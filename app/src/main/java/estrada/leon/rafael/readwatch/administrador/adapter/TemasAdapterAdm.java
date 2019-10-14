@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import estrada.leon.rafael.readwatch.BtnOpciones;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Subtemas;
@@ -28,7 +29,7 @@ public class TemasAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private OnTemasListener onTemasListener;
     private final int TEMA = 1;
     private final int SUBTEMA = 2;
-    Button btnOpcion, btnOpcionTema;
+
     int i;
 
     public TemasAdapterAdm(Context context, List<Item> temasList,OnTemasListener onTemasListener){
@@ -40,25 +41,38 @@ public class TemasAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     /*Por cada tipo de vista en el RecyclerView se necesita una clase con la estructura que se puede ver
      * en las siguientes clases*/
-    public class TemasViewHolder extends RecyclerView.ViewHolder {
+    public class TemasViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView nombre;
-        private TemasViewHolder(@NonNull View itemView) {
+        OnTemasListener onTemasListener;
+        Button  btnOpcionTema;
+        private TemasViewHolder(@NonNull View itemView, OnTemasListener onTemasListener) {
             super(itemView);
+            this.onTemasListener=onTemasListener;
             nombre = itemView.findViewById(R.id.nombreTema);
+            btnOpcionTema=itemView.findViewById(R.id.btnOpcionTema);
+            btnOpcionTema.setOnClickListener(this);
         }
 
 
+        @Override
+        public void onClick(View view) {
+            if(view.getId()==R.id.btnOpcionTema){
+                onTemasListener.Tema(getAdapterPosition(),temasList);
+            }
+        }
     }
     public class SubtemasViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
         TextView nombre;
         OnTemasListener onTemasListener;
+        Button btnOpcion;
         private SubtemasViewHolder(@NonNull View itemView, OnTemasListener onTemasListener) {
             super(itemView);
             this.onTemasListener=onTemasListener;
             nombre= itemView.findViewById(R.id.nombreSubtema);
+            btnOpcion=itemView.findViewById(R.id.btnOpcion);
             nombre.setOnClickListener(this);
             btnOpcion.setOnClickListener(this);
-            btnOpcionTema.setOnClickListener(this);
+
         }
         @Override
         public void onClick(View v) {
@@ -68,9 +82,7 @@ public class TemasAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if(v.getId()==R.id.btnOpcion){
                 onTemasListener.Subtema(getAdapterPosition(),temasList);
             }
-            if(v.getId()==R.id.btnOpcionTema){
-                Toast.makeText(context, "Hola", Toast.LENGTH_SHORT).show();
-            }
+
         }
 
     }
@@ -85,20 +97,16 @@ public class TemasAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHolde
         switch (viewType){
             case TEMA:{
                 view= LayoutInflater.from(context).inflate(R.layout.temas_adm,viewGroup,false);
-                btnOpcionTema = view.findViewById(R.id.btnOpcionTema);
-
-                viewHolder=new TemasViewHolder(view);
+                viewHolder=new TemasViewHolder(view,onTemasListener);
                 break;
             }
             case SUBTEMA:{
                 view=LayoutInflater.from(context).inflate(R.layout.subtemas_adm,viewGroup,false);
-                btnOpcion = view.findViewById(R.id.btnOpcion);
                 viewHolder=new SubtemasViewHolder(view,onTemasListener);
                 break;
             }
             default:
                 view=LayoutInflater.from(context).inflate(R.layout.subtemas_adm,viewGroup,false);
-                btnOpcion = view.findViewById(R.id.btnOpcion);
                 viewHolder=new SubtemasViewHolder(view,onTemasListener);
                 return viewHolder;
         }

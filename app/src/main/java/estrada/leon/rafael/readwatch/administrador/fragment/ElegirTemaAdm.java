@@ -51,6 +51,7 @@ public class ElegirTemaAdm extends Fragment implements TemasAdapterAdm.OnTemasLi
     RecyclerView temas;
     TextView lblModificar, lblEliminar;
 
+
     private OnFragmentInteractionListener mListener;
 
     public ElegirTemaAdm() {
@@ -125,22 +126,40 @@ public class ElegirTemaAdm extends Fragment implements TemasAdapterAdm.OnTemasLi
         lblModificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), String.valueOf(posicion), Toast.LENGTH_SHORT).show();
+                int idTema = (((Temas)(temasList.get(posicion))).getIdTema());
+                Toast.makeText(getContext(), String.valueOf(idTema), Toast.LENGTH_SHORT).show();
             }
         });
         lblEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences preferences =  getContext().getSharedPreferences("Tema", Context.MODE_PRIVATE);
-                tema = preferences.getInt("tema", 0);
-               // Toast.makeText(getContext(), "Eliminar", Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(), String.valueOf(tema), Toast.LENGTH_SHORT).show();
+                int idTema = (((Temas)(temasList.get(posicion))).getIdTema());
+                Toast.makeText(getContext(), String.valueOf(idTema), Toast.LENGTH_SHORT).show();
+                deleteTema(idTema);
             }
         });
         a.setView(mView);
         AlertDialog dialog = a.create();
         dialog.show();
 
+    }
+
+    private void deleteTema(int idTema) {
+        String url;
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        url = "https://readandwatch.herokuapp.com/php/deleteTema.php?" +
+                "idTema="+idTema;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                progreso.hide();
+                Toast.makeText(getContext(), "Se elimino el tema correctamente", Toast.LENGTH_SHORT).show();
+            }
+        }, this);
+        request.add(jsonObjectRequest);
     }
 
     @Override
