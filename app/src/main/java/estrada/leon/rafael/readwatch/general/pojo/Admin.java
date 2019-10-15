@@ -1,40 +1,18 @@
 package estrada.leon.rafael.readwatch.general.pojo;
 
-public class Admin {
-    private String nombre;
-    private String apellidos;
-    private String correo;
-    private String contrasena;
+import estrada.leon.rafael.readwatch.estudiante.interfaces.iSesion;
 
-    public String getNombre() {
-        return nombre;
+public class Admin extends Usuario implements iSesion {
+
+    public Admin(int id, String nombre, String apellidos, String correo, String contrasena) {
+        super(id, nombre, apellidos, correo, contrasena);
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public Admin() {
     }
 
-    public String getApellidos() {
-        return apellidos;
-    }
-
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
+    @Override
+    public char getViewType() {
+        return 'A';
     }
 }

@@ -34,6 +34,7 @@ import estrada.leon.rafael.readwatch.estudiante.adapter.TemaLibreAdapter;
 import estrada.leon.rafael.readwatch.estudiante.pojo.TemaLibre;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
 public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnTemaListener,
         Response.Listener<JSONObject>, Response.ErrorListener {
@@ -126,7 +127,7 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
     @Override
     public void comentarioClick(int position,  List<TemaLibre> temaLibreList) {
         SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
-        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idUsuario = Sesion.getSesion().getId();
         int idPregunta = preguntas.get(position).getId();
         interfaceFragments.onClickComentario(idUsuario,0,idPregunta);
     }

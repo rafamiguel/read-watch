@@ -102,7 +102,6 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
         txtContrasena= vista.findViewById(R.id.txtContrasena);
         txtEscribeCorreo = vista.findViewById(R.id.txtEscribeCorreo);
         btnModificar = vista.findViewById(R.id.btnModificar);
-        admin = new Admin();
         request= Volley.newRequestQueue(getContext());
 
         SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);

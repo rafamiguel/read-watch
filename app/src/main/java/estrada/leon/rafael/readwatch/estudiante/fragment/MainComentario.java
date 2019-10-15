@@ -39,6 +39,9 @@ import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Comentarios;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Documentos;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
+import estrada.leon.rafael.readwatch.general.pojo.Estudiante;
+import estrada.leon.rafael.readwatch.general.pojo.Sesion;
+import estrada.leon.rafael.readwatch.general.pojo.Usuario;
 
 public class MainComentario extends AppCompatActivity implements  Response.Listener<JSONObject>,
         Response.ErrorListener, AdapterComentario.OnComentariosListener, DialogModificarEliminar.IOpcionesComentario {
@@ -82,15 +85,16 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
         Bundle extras = getIntent().getExtras();
         if(extras.getInt("idVidDoc")!=0) {
             idVidDoc = extras.getInt("idVidDoc");
-            idUsuario = extras.getInt("idUsuario");
+            idUsuario = ((Usuario)Sesion.getSesion()).getId();
             request = Volley.newRequestQueue(this);
             buscarComentariosUsuario();
             cargarComentariosVidDoc();
         }
         if(extras.getInt("idVidDoc")==0){
             idPregunta = extras.getInt("idPregunta");
-            idUsuario = extras.getInt("idUsuario");
+            idUsuario = ((Usuario)Sesion.getSesion()).getId();
             request = Volley.newRequestQueue(this);
+            buscarComentariosUsuario();
             cargarComentariosPreg();
         }
     }

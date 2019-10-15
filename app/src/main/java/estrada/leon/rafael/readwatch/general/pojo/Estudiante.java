@@ -1,43 +1,19 @@
 package estrada.leon.rafael.readwatch.general.pojo;
 
-public class Estudiante {
-    private String nombre;
-    private String apellidos;
-    private String correo;
-    private String contrasena;
+import estrada.leon.rafael.readwatch.estudiante.interfaces.iSesion;
+
+public class Estudiante extends Usuario implements iSesion {
+
     private String telefono;
     private String descripcion;
 
-    public String getNombre() {
-        return nombre;
+    public Estudiante(int id, String nombre, String apellidos, String correo, String contrasena, String telefono, String descripcion) {
+        super(id, nombre, apellidos, correo, contrasena);
+        this.telefono = telefono;
+        this.descripcion = descripcion;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellidos() {
-        return apellidos;
-    }
-
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
+    public Estudiante() {
     }
 
     public String getTelefono() {
@@ -54,5 +30,10 @@ public class Estudiante {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    @Override
+    public char getViewType() {
+        return 'E';
     }
 }

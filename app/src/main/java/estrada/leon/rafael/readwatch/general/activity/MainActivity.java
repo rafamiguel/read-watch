@@ -31,9 +31,14 @@ import estrada.leon.rafael.readwatch.MainFileManager;
 import estrada.leon.rafael.readwatch.administrador.fragment.SeleccionarSemestreAdm;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogContrasenaOlvidada;
 import estrada.leon.rafael.readwatch.administrador.menu.MenuAdministrador;
+import estrada.leon.rafael.readwatch.estudiante.interfaces.iSesion;
 import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.activity.RegistrarEstudiante;
+import estrada.leon.rafael.readwatch.general.pojo.Admin;
+import estrada.leon.rafael.readwatch.general.pojo.Estudiante;
+import estrada.leon.rafael.readwatch.general.pojo.Sesion;
+import estrada.leon.rafael.readwatch.general.pojo.Usuario;
 
 public class MainActivity extends AppCompatActivity implements Response.Listener<JSONObject>, Response.ErrorListener {
  ;
@@ -130,11 +135,40 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
             if(jsonObject.optInt("idUsuario")!=-1){
                 if(jsonObject.optString("tipo").equals("A")) {
                     guardarPreferencias(jsonObject);
+                    int idUsuario = jsonObject.optInt("idUsuario");
+                    String nombre = jsonObject.optString("nombre");
+                    String apellidos = jsonObject.optString("apellidos");
+                    String correo = jsonObject.optString("correo");
+                    String contrasena = jsonObject.optString("contrasena");
+
+                    Usuario admin = (Usuario)Sesion.getSesion();
+                    admin.setId(idUsuario);
+                    admin.setNombre(nombre);
+                    admin.setApellidos(apellidos);
+                    admin.setCorreo(correo);
+                    admin.setContrasena(contrasena);
+
+
                     entrar = new Intent(MainActivity.this, MenuAdministrador.class);
                     startActivity(entrar);
 
                 }else{
                     guardarPreferencias(jsonObject);
+                    int idUsuario = jsonObject.optInt("idUsuario");
+                    String nombre = jsonObject.optString("nombre");
+                    String apellidos = jsonObject.optString("apellidos");
+                    String correo = jsonObject.optString("correo");
+                    String contrasena = jsonObject.optString("contrasena");
+                    String telefono = jsonObject.optString("telefono");
+                    String descripcion = jsonObject.optString("descripcion");
+                    Usuario estudiante = (Usuario)Sesion.getSesion();
+                    estudiante.setId(idUsuario);
+                    estudiante.setNombre(nombre);
+                    estudiante.setApellidos(apellidos);
+                    estudiante.setCorreo(correo);
+                    estudiante.setContrasena(contrasena);
+                    estudiante.setTelefono(telefono);
+                    estudiante.setDescripcion(descripcion);
                     entrar = new Intent(MainActivity.this, MenuEstudiante.class);
                     startActivity(entrar);
                 }
