@@ -88,7 +88,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
 
         request= Volley.newRequestQueue(getContext());
         buscarDoc();
-        cargarWebService();
+
         return vista;
 
 
@@ -191,14 +191,12 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
                         e.printStackTrace();
                     }
                 }
-
-
-
+                cargarWebService();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                cargarWebService();
             }
         });
         request.add(jsonObjectRequest);

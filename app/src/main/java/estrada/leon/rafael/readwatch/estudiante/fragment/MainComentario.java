@@ -82,21 +82,8 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                 (this/*SI SE DETIENE LA APLICACION Y SE CAMBIÓ ESTO A UN FRAGMENT O DIALOG (PORQUE
                 TENIA QUE SER UN DIALOG) CAMBIAR EL THIS POR GETCONTEXT.*/
                         ,LinearLayoutManager.VERTICAL,false));
-        Bundle extras = getIntent().getExtras();
-        if(extras.getInt("idVidDoc")!=0) {
-            idVidDoc = extras.getInt("idVidDoc");
-            idUsuario = ((Usuario)Sesion.getSesion()).getId();
-            request = Volley.newRequestQueue(this);
-            buscarComentariosUsuario();
-            cargarComentariosVidDoc();
-        }
-        if(extras.getInt("idVidDoc")==0){
-            idPregunta = extras.getInt("idPregunta");
-            idUsuario = ((Usuario)Sesion.getSesion()).getId();
-            request = Volley.newRequestQueue(this);
-            buscarComentariosUsuario();
-            cargarComentariosPreg();
-        }
+        idUsuario = Sesion.getSesion().getId();
+        buscarComentariosUsuario();
     }
 
     private void insertarComentario(String texto){
@@ -132,6 +119,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
     }
 
     private void cargarComentariosPreg() {
+        request = Volley.newRequestQueue(this);
         list=new ArrayList<>();
         String url;
         url = "https://readandwatch.herokuapp.com/php/cargarComentariosPreg.php?" +
@@ -191,6 +179,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
     }
 
     private void cargarComentariosVidDoc() {
+        request = Volley.newRequestQueue(this);
         list=new ArrayList<>();
         String url;
         url = "https://readandwatch.herokuapp.com/php/cargarComentarios.php?" +
@@ -202,6 +191,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
     }
 
     private void buscarComentariosUsuario(){
+        request = Volley.newRequestQueue(this);
         String url = "https://readandwatch.herokuapp.com/php/cargarComentariosUsuario.php?" +
                 "idUsuario="+idUsuario;
         url=url.replace(" ", "%20");
@@ -224,11 +214,28 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                         e.printStackTrace();
                     }
                 }
+                Bundle extras = getIntent().getExtras();
+                if(extras.getInt("idVidDoc")!=0) {
+                    idVidDoc = extras.getInt("idVidDoc");
+                    cargarComentariosVidDoc();
+                }
+                if(extras.getInt("idVidDoc")==0){
+                    idPregunta = extras.getInt("idPregunta");
+                    cargarComentariosPreg();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Bundle extras = getIntent().getExtras();
+                if(extras.getInt("idVidDoc")!=0) {
+                    idVidDoc = extras.getInt("idVidDoc");
+                    cargarComentariosVidDoc();
+                }
+                if(extras.getInt("idVidDoc")==0){
+                    idPregunta = extras.getInt("idPregunta");
+                    cargarComentariosPreg();
+                }
             }
         });
         request.add(jsonObjectRequest);

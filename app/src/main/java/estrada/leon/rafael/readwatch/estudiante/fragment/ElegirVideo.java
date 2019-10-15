@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,10 +82,9 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         recyclerVideos.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         SharedPreferences preferences = getContext().getSharedPreferences("Tema", Context.MODE_PRIVATE);
         idTema = preferences.getInt("tema", 0);
-
         request= Volley.newRequestQueue(getContext());
         buscarVideos();
-        cargarWebService();
+
 
         return vista;
     }
@@ -184,14 +184,12 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
                         e.printStackTrace();
                     }
                 }
-
-
-
+                cargarWebService();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                cargarWebService();
             }
         });
        request.add(jsonObjectRequest);
