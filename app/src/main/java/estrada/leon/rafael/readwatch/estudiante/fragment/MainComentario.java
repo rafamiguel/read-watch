@@ -1,12 +1,15 @@
 package estrada.leon.rafael.readwatch.estudiante.fragment;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -274,7 +277,62 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
 
 
     @Override
-    public void resubirCom() {
+    public void resubirCom(int idComentario) {
+        cargarAlertDialog(idComentario);
+
+
+    }
+
+    private void cargarAlertDialog(int idComentario) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainComentario.this);
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_modificar_comentario, null);
+        final EditText txtComentario = view.findViewById(R.id.txtComentario);
+        final int idComentarios = idComentario;
+        final ProgressDialog progreso;
+        progreso = new ProgressDialog(MainComentario.this);
+        builder.setView(view);
+        builder.setTitle("Modificar comentario")
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        progreso.setMessage("Cargando...");
+                        progreso.show();
+                        String comentario = txtComentario.getText().toString();
+                        JsonObjectRequest jsonObjectRequest;
+                        RequestQueue request;
+                        String url;
+                        String ip=getString(R.string.ip);
+                        url = ip+"/php/updateComentario.php?" +
+                                "idComentario="+idComentarios+"&comentario="+comentario;
+                        url=url.replace(" ", "%20");
+                        request= Volley.newRequestQueue(getApplicationContext());
+                        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                progreso.hide();
+                                Toast.makeText(MainComentario.this, "Comentario modificado con éxito", Toast.LENGTH_SHORT).show();
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                progreso.hide();
+                                Toast.makeText(MainComentario.this, "Error", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        request.add(jsonObjectRequest);
+                    }
+                }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.setCancelable(false);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
 
     }
 

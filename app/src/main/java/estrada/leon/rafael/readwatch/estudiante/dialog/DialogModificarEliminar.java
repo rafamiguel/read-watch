@@ -66,7 +66,9 @@ public class DialogModificarEliminar extends AppCompatDialogFragment {
                 }else if(opcion==2){
                     listenerVidDoc.resubirDoc();
                 }else if(opcion==3){
-                    listenerComentario.resubirCom();
+                    SharedPreferences preferences = getContext().getSharedPreferences("comentarioSeleccionado", Context.MODE_PRIVATE);
+                    int idComentario = preferences.getInt("idComentario", 0);
+                    listenerComentario.resubirCom(idComentario);
                 }
             }
         });
@@ -96,7 +98,7 @@ public class DialogModificarEliminar extends AppCompatDialogFragment {
     }
 
     public interface IOpcionesComentario{
-        void resubirCom();
+        void resubirCom(int idComentario);
         void eliminarCom(int idComentario);
     }
     public interface IOpcionesVidDoc{
