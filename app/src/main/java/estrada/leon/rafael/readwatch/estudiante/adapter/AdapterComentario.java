@@ -33,14 +33,20 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
     boolean favorito=true;
     boolean opcion=true;
     private int []idComentarioUsuario;
-
+    private int []idVideoEnComentarioUsuario;
     public AdapterComentario(Context context, List<Item> list,OnComentariosListener onComentariosListener,int []idComentarioUsuario){
         this.context = context;
         this.list=list;
         this.onComentariosListener=onComentariosListener;
         this.idComentarioUsuario=idComentarioUsuario;
     }
-
+    public AdapterComentario(Context context, List<Item> list,OnComentariosListener onComentariosListener,int []idComentarioUsuario, int []idVideoEnComentarioUsuario){
+        this.context = context;
+        this.list=list;
+        this.onComentariosListener=onComentariosListener;
+        this.idComentarioUsuario=idComentarioUsuario;
+        this.idVideoEnComentarioUsuario=idVideoEnComentarioUsuario;
+    }
     public void refresh(List<Item> list){
         this.list = list;
         notifyDataSetChanged();
@@ -86,9 +92,9 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
                 DocumentosViewHolder documentosViewHolder = (DocumentosViewHolder) viewHolder;
                 documentosViewHolder.lblPerfil.setText(documento.getPerfil());
                 documentosViewHolder.lblDescripcion.setText(documento.getDescripcion());
-                if (idComentarioUsuario!=null) {
-                    for (int j = 0; j < idComentarioUsuario.length; j++) {
-                        if (idComentarioUsuario[j] == documento.getIdVidDoc()) {
+                if (idVideoEnComentarioUsuario!=null) {
+                    for (int j = 0; j < idVideoEnComentarioUsuario.length; j++) {
+                        if (idVideoEnComentarioUsuario[j] == documento.getIdVidDoc()) {
                             ((DocumentosViewHolder) viewHolder).btnOpcion.setVisibility(View.VISIBLE);
                             break;
                         } else {
@@ -108,9 +114,9 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
                 String uri = video.getRutaImagen();
                 int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
                 videosViewHolder.btnMiniatura.setImageResource(imageResource);
-                if (idComentarioUsuario!=null) {
-                    for (int j = 0; j < idComentarioUsuario.length; j++) {
-                        if (idComentarioUsuario[j] == video.getIdVidDoc()) {
+                if (idVideoEnComentarioUsuario!=null) {
+                    for (int j = 0; j < idVideoEnComentarioUsuario.length; j++) {
+                        if (idVideoEnComentarioUsuario[j] == video.getIdVidDoc()) {
                             ((VideosViewHolder) viewHolder).btnOpcion.setVisibility(View.VISIBLE);
                             break;
                         } else {
