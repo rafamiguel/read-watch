@@ -24,13 +24,15 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private List<Videos> list;
     int[] idUsuarioVidDoc;
     Intent entrar;
+    boolean estrella;
     private OnVideoListener mOnVideoListener;
 
-    public VideosAdapter(Context context, List<Videos> list, OnVideoListener onVideoListener, int[] idUsuarioVidDoc) {
+    public VideosAdapter(Context context, List<Videos> list, OnVideoListener onVideoListener, int[] idUsuarioVidDoc, boolean estrella) {
         this.context=context;
         this.list=list;
         this.mOnVideoListener = onVideoListener;
         this.idUsuarioVidDoc=idUsuarioVidDoc;
+        this.estrella=estrella;
     }
 
     public class VideosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -46,6 +48,12 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             btnMiniatura=itemView.findViewById(R.id.btnMiniatura);
             btnAdvertencia=itemView.findViewById(R.id.btnAdvertencia);
             btnFavorito=itemView.findViewById(R.id.btnFavorito);
+            if(estrella==false){
+                btnFavorito.setBackgroundResource(R.drawable.star2);
+            }
+            else if(estrella == true){
+                btnFavorito.setBackgroundResource(R.drawable.opcio);
+            }
             btnOpcion=itemView.findViewById(R.id.btnOpcion);
             txtComentario=itemView.findViewById(R.id.txtComentario);
             lblDescripcion.setOnClickListener(this);
@@ -82,8 +90,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     onVideoListener.reportarClick();
                     break;
                 case R.id.btnFavorito:
-                    onVideoListener.onVideoClick(getAdapterPosition(),list,
-                            Toast.makeText(context, "Este es el botón de favoritos", Toast.LENGTH_SHORT));
+                    onVideoListener.agregarFavoritos(getAdapterPosition(),list);
                     break;
                 case R.id.btnOpcion:
                     onVideoListener.opcionClick(getAdapterPosition(),list);
@@ -149,6 +156,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         void perfilClick(int position,List<Videos> list);
         void comentarioClick(int position, List<Videos> list);
         void opcionClick(int position, List<Videos> list);
+        void agregarFavoritos(int position, List<Videos> list);
     }
 
 }
