@@ -124,8 +124,7 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
                     onDocumentosListener.reportarClick();
                     break;
                 case R.id.btnFavorito:
-                    onDocumentosListener.onDocumentosClick(getAdapterPosition(),documentosList,
-                            Toast.makeText(context, "Este es el botón de favoritos", Toast.LENGTH_SHORT));
+                    onDocumentosListener.agregarFavoritos(getAdapterPosition(),documentosList);
                     break;
                 case R.id.btnOpcion:
                     onDocumentosListener.opcionClick(getAdapterPosition(),documentosList);
@@ -144,5 +143,6 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
         void perfilClick(int position, List<Documentos> documentosList);
         void comentarioClick(int position, List<Documentos> list);
         void opcionClick(int position, List<Documentos> list);
+        void agregarFavoritos(int adapterPosition, List<Documentos> documentosList);
     }
 }
