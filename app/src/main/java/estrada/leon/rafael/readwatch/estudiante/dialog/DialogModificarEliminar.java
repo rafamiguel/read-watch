@@ -89,7 +89,8 @@ public class DialogModificarEliminar extends AppCompatDialogFragment {
         }
         if (context instanceof IOpcionesComentario) {
             listenerComentario = (IOpcionesComentario) context;
-        }else if(context instanceof IOpcionesVidDoc) {
+        }
+        if(context instanceof IOpcionesVidDoc) {
             listenerVidDoc = (IOpcionesVidDoc) context;
         } else {
             throw new RuntimeException(context.toString()

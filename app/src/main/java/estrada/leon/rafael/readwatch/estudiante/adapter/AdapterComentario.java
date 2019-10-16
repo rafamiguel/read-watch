@@ -214,13 +214,16 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
             txtComentario.setVisibility(View.GONE);
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
+            btnOpcion.setOnClickListener(this);
             btnMiniatura.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             switch(v.getId()){
-
+                case R.id.btnOpcion:
+                    onComentariosListener.opcionVideoClick(getAdapterPosition(),list);
+                    break;
                 default:
 
             }
@@ -249,12 +252,15 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
             btnDocumento.setOnClickListener(this);
+            btnOpcion.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             switch(view.getId()){
-
+                case R.id.btnOpcion:
+                    onComentariosListener.opcionDocClick(getAdapterPosition(),list);
+                    break;
                 default:
             }
         }
@@ -262,5 +268,7 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public interface OnComentariosListener{
         void opcionClick(int position, List<Item> list);
+        void opcionVideoClick(int position, List<Item> list);
+        void opcionDocClick(int position, List<Item> list);
     }
 }
