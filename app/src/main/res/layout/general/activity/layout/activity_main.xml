@@ -21,14 +21,14 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="195dp"
+        android:layout_width="116dp"
+        android:layout_height="197dp"
         android:src="@drawable/read"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription"
-        tools:srcCompat="@drawable/read" />
+        tools:srcCompat="@drawable/logo6" />
 
     <EditText
         android:id="@+id/txtUsuario"
