@@ -27,13 +27,15 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
     private List<Documentos> documentosList;
     private OnDocumentosListener MonDocumentosListener;
     private int[] idUsuarioVidDoc;
+    private int[] idUsuarioVidDocFav;
     Intent entrar;
 
-    public DocumentosAdapter(Context context, List<Documentos> documentosList, OnDocumentosListener MonDocumentosListener, int[] idUsuarioVidDoc){
+    public DocumentosAdapter(Context context, List<Documentos> documentosList, OnDocumentosListener MonDocumentosListener, int[] idUsuarioVidDoc, int[] idUsuarioVidDocFav){
         this.context=context;
         this.documentosList=documentosList;
         this.MonDocumentosListener= MonDocumentosListener;
         this.idUsuarioVidDoc=idUsuarioVidDoc;
+        this.idUsuarioVidDocFav = idUsuarioVidDocFav;
     }
 
     @NonNull
@@ -54,6 +56,17 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
         String uri = documento.getRutaImagen();
         int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
         viewHolder.btnDocumento.setImageResource(imageResource);
+        if(idUsuarioVidDocFav!=null){
+            for (int j = 0; j < idUsuarioVidDocFav.length; j++) {
+                if (idUsuarioVidDocFav[j] == documento.getIdVidDoc()) {
+                    viewHolder.btnFavorito.setBackgroundResource(R.drawable.favorito);
+                    break;
+                } else {
+                    viewHolder.btnFavorito.setBackgroundResource(R.drawable.star2);
+                }
+            }
+
+        }
             if (idUsuarioVidDoc!=null) {
                 for (int j = 0; j < idUsuarioVidDoc.length; j++) {
                     if (idUsuarioVidDoc[j] == documento.getIdVidDoc()) {

@@ -53,6 +53,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     DocumentosAdapter adapter;
 
     int []idUsuarioVidDoc;
+    int []idUsuarioVidDocFav;
 
     private OnFragmentInteractionListener mListener;
 
@@ -87,11 +88,50 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         idTema = preferences.getInt("tema", 0);
 
         request= Volley.newRequestQueue(getContext());
+        buscarDocFav();
         buscarDoc();
 
         return vista;
 
 
+    }
+
+    private void buscarDocFav() {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        String url = "https://readandwatch.herokuapp.com/php/buscarVideoFav.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                JSONArray json = response.optJSONArray("usuario");
+                JSONObject jsonObject=null;
+                if(json.length()<1){
+                    idUsuarioVidDocFav = new int[1];
+                    idUsuarioVidDocFav[0]=0;
+                }else {
+                    idUsuarioVidDocFav = new int[json.length()];
+                }
+
+                for(int i=0;i<json.length();i++){
+                    try {
+                        jsonObject=json.getJSONObject(i);
+                        idUsuarioVidDocFav[i]= jsonObject.getInt("idVidDoc");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
     }
 
     @Override
@@ -341,7 +381,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         }
 
         progreso.hide();
-        adapter=new DocumentosAdapter(getContext(),documentos,this,idUsuarioVidDoc);
+        adapter=new DocumentosAdapter(getContext(),documentos,this,idUsuarioVidDoc, idUsuarioVidDocFav);
         recyclerDocumentos.setAdapter(adapter);
     }
 

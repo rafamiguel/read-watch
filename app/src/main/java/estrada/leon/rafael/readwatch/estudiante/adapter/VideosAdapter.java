@@ -23,16 +23,16 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private Context context;
     private List<Videos> list;
     int[] idUsuarioVidDoc;
+    int[] idUsuarioVidDocFav;
     Intent entrar;
-    boolean estrella;
     private OnVideoListener mOnVideoListener;
 
-    public VideosAdapter(Context context, List<Videos> list, OnVideoListener onVideoListener, int[] idUsuarioVidDoc, boolean estrella) {
+    public VideosAdapter(Context context, List<Videos> list, OnVideoListener onVideoListener, int[] idUsuarioVidDoc, int[] idUsuarioVidDocFav) {
         this.context=context;
         this.list=list;
         this.mOnVideoListener = onVideoListener;
         this.idUsuarioVidDoc=idUsuarioVidDoc;
-        this.estrella=estrella;
+        this.idUsuarioVidDocFav=idUsuarioVidDocFav;
     }
 
     public class VideosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -48,13 +48,13 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             btnMiniatura=itemView.findViewById(R.id.btnMiniatura);
             btnAdvertencia=itemView.findViewById(R.id.btnAdvertencia);
             btnFavorito=itemView.findViewById(R.id.btnFavorito);
-            if(estrella==false){
+           /* if(estrella==false){
                 btnFavorito.setBackgroundResource(R.drawable.star2);
             }
             else if(estrella == true){
                 btnFavorito.setBackgroundResource(R.drawable.opcio);
             }
-            btnOpcion=itemView.findViewById(R.id.btnOpcion);
+*/            btnOpcion=itemView.findViewById(R.id.btnOpcion);
             txtComentario=itemView.findViewById(R.id.txtComentario);
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
@@ -130,6 +130,17 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         String uri = video.getRutaImagen();
         int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
         videosViewHolder.btnMiniatura.setImageResource(imageResource);
+        if(idUsuarioVidDocFav!=null){
+            for (int j = 0; j < idUsuarioVidDocFav.length; j++) {
+                if (idUsuarioVidDocFav[j] == video.getIdVidDoc()) {
+                    videosViewHolder.btnFavorito.setBackgroundResource(R.drawable.favorito);
+                    break;
+                } else {
+                    videosViewHolder.btnFavorito.setBackgroundResource(R.drawable.star2);
+                }
+            }
+
+        }
 
         if (idUsuarioVidDoc!=null) {
             for (int j = 0; j < idUsuarioVidDoc.length; j++) {

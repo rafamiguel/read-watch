@@ -51,7 +51,8 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
     VideosAdapter videosAdapter;
     RecyclerView recyclerVideos;
     int []idUsuarioVidDoc;
-    boolean estrella;
+    int []idUsuarioVidDocFav;
+
 
     private List<Videos> list;
 
@@ -84,11 +85,14 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         SharedPreferences preferences = getContext().getSharedPreferences("Tema", Context.MODE_PRIVATE);
         idTema = preferences.getInt("tema", 0);
         request= Volley.newRequestQueue(getContext());
+        buscarVideosFav();
         buscarVideos();
 
 
         return vista;
     }
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -171,11 +175,11 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
 
                         if (idFavorito==0){
                             subirFavoritos(idUsuario, idVidDoc);
-                            estrella=false;
+
                         }
                         else {
                             deleteFavoritos(idFavorito);
-                            estrella=true;
+
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -262,6 +266,44 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         }
     }
 
+    private void buscarVideosFav() {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        String url = "https://readandwatch.herokuapp.com/php/buscarVideoFav.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                JSONArray json = response.optJSONArray("usuario");
+                JSONObject jsonObject=null;
+                if(json.length()<1){
+                    idUsuarioVidDocFav = new int[1];
+                    idUsuarioVidDocFav[0]=0;
+                }else {
+                    idUsuarioVidDocFav = new int[json.length()];
+                }
+
+                for(int i=0;i<json.length();i++){
+                    try {
+                        jsonObject=json.getJSONObject(i);
+                        idUsuarioVidDocFav[i]= jsonObject.getInt("idVidDoc");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
     private void buscarVideos(){
         SharedPreferences preference = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preference.getInt("idUsuario", 0);
@@ -341,7 +383,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         }
 
         progreso.hide();
-        videosAdapter=new VideosAdapter(getContext(),videos, this,idUsuarioVidDoc, estrella);
+        videosAdapter=new VideosAdapter(getContext(),videos, this,idUsuarioVidDoc, idUsuarioVidDocFav);
         recyclerVideos.setAdapter(videosAdapter);
 
     }
