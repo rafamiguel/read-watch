@@ -35,13 +35,10 @@ import estrada.leon.rafael.readwatch.estudiante.dialog.DialogModificarEliminar;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogSubirVideo;
 import estrada.leon.rafael.readwatch.estudiante.dialog.Dialog_Subir_documento;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
-import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Comentarios;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Documentos;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
-import estrada.leon.rafael.readwatch.general.pojo.Estudiante;
 import estrada.leon.rafael.readwatch.general.pojo.Sesion;
-import estrada.leon.rafael.readwatch.general.pojo.Usuario;
 
 public class MainComentario extends AppCompatActivity implements  Response.Listener<JSONObject>,
         Response.ErrorListener, AdapterComentario.OnComentariosListener,
@@ -55,6 +52,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
     int idVidDoc=0,idUsuario,idPregunta=0;
     Context contexto=this;
     private int []idComentarioUsuario;
+    private int []idVideoEnComentarioUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,7 +168,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                             e.printStackTrace();
                         }
 
-                        adapterComentario = new AdapterComentario(contexto, list,(MainComentario)contexto,idComentarioUsuario);
+                        adapterComentario = new AdapterComentario(contexto, list,(MainComentario)contexto,idComentarioUsuario,idVideoEnComentarioUsuario);
                         recycler.setAdapter(adapterComentario);
                         adapterComentario.refresh(list);
                         recycler.invalidate();
@@ -200,19 +198,51 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
             @Override
             public void onResponse(JSONObject response) {
                 JSONArray json = response.optJSONArray("usuario");
+                JSONArray json2 = response.optJSONArray("videosUsuario");
                 JSONObject jsonObject=null;
-                if(json.length()<1){
-                    idComentarioUsuario = new int[1];
-                    idComentarioUsuario[0]=0;
-                }else {
-                    idComentarioUsuario = new int[json.length()];
+                int tamaño=0;
+                int tamaño2=0;
+                if(json!=null) {
+                    if (json.length() < 1) {
+
+                    } else {
+                        tamaño = json.length();
+                    }
                 }
-                for(int i=0;i<json.length();i++){
-                    try {
-                        jsonObject=json.getJSONObject(i);
-                        idComentarioUsuario[i]= jsonObject.getInt("idComentario");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                if(json2!=null) {
+                    if (json2.length() > 0) {
+                        tamaño2 = json2.length();
+                    }
+
+                }
+                if (tamaño == 0) {
+                    idComentarioUsuario = new int[1];
+                    idComentarioUsuario[0] = 0;
+                }
+                if(tamaño2==0){
+                    idVideoEnComentarioUsuario = new int[1];
+                    idVideoEnComentarioUsuario[0] = 0;
+                }
+                idComentarioUsuario = new int[tamaño];
+                idVideoEnComentarioUsuario = new int[tamaño2];
+                if(json!=null) {
+                    for (int i = 0; i < json.length(); i++) {
+                        try {
+                            jsonObject = json.getJSONObject(i);
+                            idComentarioUsuario[i] = jsonObject.getInt("idComentario");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                if(json2!=null) {
+                    for (int i = 0; i < tamaño2; i++) {
+                        try {
+                            jsonObject = json2.getJSONObject(i);
+                            idVideoEnComentarioUsuario[i] = jsonObject.getInt("idVidDoc");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 Bundle extras = getIntent().getExtras();
