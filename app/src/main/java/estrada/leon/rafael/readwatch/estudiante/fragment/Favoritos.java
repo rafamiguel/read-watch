@@ -1,7 +1,9 @@
 package estrada.leon.rafael.readwatch.estudiante.fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +13,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +36,13 @@ import estrada.leon.rafael.readwatch.estudiante.pojo.Documentos;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
 
 public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosListener {
-    private List<Item> list;
+    private List<Item> list =new ArrayList<>();
     private iComunicacionFragments interfaceFragments;
+    ProgressDialog progreso;
+    JsonObjectRequest jsonObjectRequest;
+    RequestQueue request;
+    RecyclerView recyclerFavoritos;
+    FavoritosAdapter favoritosAdapter;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -37,12 +55,96 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
     public Favoritos() {
     }
 
+    private void cargarDatosVid() {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        String url;
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        url = "https://readandwatch.herokuapp.com/php/videosFav.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                progreso.hide();
+                JSONArray json = response.optJSONArray("usuario");
+                JSONObject jsonObject=null;
+                int idUsuario, idVidDoc;
+                String descripcion, miniatura;
+                if (json.length()>=1) {
+                    for (int i = 0; i < json.length(); i++) {
+                        try {
+                            jsonObject = json.getJSONObject(i);
+                            idUsuario = jsonObject.optInt("idUsuario");
+                            descripcion = jsonObject.optString("descripcion");
+                            miniatura = jsonObject.optString("rutaImagen");
+                            idVidDoc = jsonObject.optInt("idVidDoc");
+                            list.add(new Videos(String.valueOf(idUsuario), descripcion, miniatura, idUsuario, idVidDoc));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    favoritosAdapter=new FavoritosAdapter(getContext(),list,Favoritos.this);
+                    recyclerFavoritos.setAdapter(favoritosAdapter);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
+
+    }
+
     public void cargarDatos(){
-        list=new ArrayList<>();
-        for(int i=1;i<11;i++){
-            list.add(new Documentos("perfil"+i,"Documento"+i,"@drawable/btnDocumento",i,1));
-            list.add(new Videos("perfil"+i,"video"+i,"@drawable/miniatura",i,1));
-        }
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/documentosFav.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                progreso.hide();
+                Toast.makeText(getContext(), "Tus videos y documentos favoritos", Toast.LENGTH_SHORT).show();
+                JSONArray json = response.optJSONArray("usuario");
+                JSONObject jsonObject=null;
+                int idUsuario, idVidDoc;
+                String descripcion, miniatura;
+                if(json.length()>0) {
+                    for (int i = 0; i < json.length(); i++) {
+                        try {
+                            jsonObject = json.getJSONObject(i);
+                            idUsuario = jsonObject.optInt("idUsuario");
+                            descripcion = jsonObject.optString("descripcion");
+                            miniatura = jsonObject.optString("rutaImagen");
+                            idVidDoc = jsonObject.optInt("idVidDoc");
+                            list.add(new Documentos(String.valueOf(idUsuario), descripcion, miniatura, idUsuario, idVidDoc));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    favoritosAdapter=new FavoritosAdapter(getContext(),list,Favoritos.this);
+                    recyclerFavoritos.setAdapter(favoritosAdapter);
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
     }
 
     public static Favoritos newInstance(String param1, String param2) {
@@ -66,18 +168,21 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RecyclerView recyclerFavoritos;
-        FavoritosAdapter favoritosAdapter;
+
+
         View vista;
         vista= inflater.inflate(R.layout.fragment_favoritos, container, false);
         recyclerFavoritos=vista.findViewById(R.id.recyclerFavoritos);
         recyclerFavoritos.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-
+        request= Volley.newRequestQueue(getContext());
+        cargarDatosVid();
         cargarDatos();
-        favoritosAdapter=new FavoritosAdapter(getContext(),list,this);
-        recyclerFavoritos.setAdapter(favoritosAdapter);
+
+
         return vista;
     }
+
+
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
