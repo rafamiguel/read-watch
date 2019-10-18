@@ -1,6 +1,7 @@
 package estrada.leon.rafael.readwatch.estudiante.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,11 +25,13 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private OnFavoritosListener onFavoritosListener;
     private final int DOCUMENTO=1;
     private final int VIDEO=2;
+    int []idUsuarioVidDocFav;
 
-    public FavoritosAdapter(Context context, List<Item> list,OnFavoritosListener onFavoritosListener) {
+    public FavoritosAdapter(Context context, List<Item> list,OnFavoritosListener onFavoritosListener,  int []idUsuarioVidDocFav) {
         this.context = context;
         this.list = list;
         this.onFavoritosListener=onFavoritosListener;
+        this.idUsuarioVidDocFav = idUsuarioVidDocFav;
     }
 
     @NonNull
@@ -65,6 +68,17 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 DocumentosViewHolder documentosViewHolder = (DocumentosViewHolder) viewHolder;
                 documentosViewHolder.lblPerfil.setText(documento.getPerfil());
                 documentosViewHolder.lblDescripcion.setText(documento.getDescripcion());
+                if(idUsuarioVidDocFav!=null){
+                    for (int j = 0; j < idUsuarioVidDocFav.length; j++) {
+                        if (idUsuarioVidDocFav[j] == documento.getIdVidDoc()) {
+                            ((DocumentosViewHolder) viewHolder).btnFavorito.setBackgroundResource(R.drawable.favorito);
+                            break;
+                        } else {
+                            ((DocumentosViewHolder) viewHolder).btnFavorito.setBackgroundResource(R.drawable.star2);
+                        }
+                    }
+
+                }
                 break;
             }
             case VIDEO:{
@@ -75,6 +89,17 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 String uri = video.getRutaImagen();
                 int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
                 videosViewHolder.btnMiniatura.setImageResource(imageResource);
+                if(idUsuarioVidDocFav!=null){
+                    for (int j = 0; j < idUsuarioVidDocFav.length; j++) {
+                        if (idUsuarioVidDocFav[j] == video.getIdVidDoc()) {
+                            videosViewHolder.btnFavorito.setBackgroundResource(R.drawable.favorito);
+                            break;
+                        } else {
+                            videosViewHolder.btnFavorito.setBackgroundResource(R.drawable.star2);
+                        }
+                    }
+
+                }
                 break;
             }
             default:
@@ -85,6 +110,17 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 String uri = video.getRutaImagen();
                 int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
                 videosViewHolder.btnMiniatura.setImageResource(imageResource);
+                if(idUsuarioVidDocFav!=null){
+                    for (int j = 0; j < idUsuarioVidDocFav.length; j++) {
+                        if (idUsuarioVidDocFav[j] == video.getIdVidDoc()) {
+                            videosViewHolder.btnFavorito.setBackgroundResource(R.drawable.favorito);
+                            break;
+                        } else {
+                            videosViewHolder.btnFavorito.setBackgroundResource(R.drawable.star2);
+                        }
+                    }
+
+                }
         }
     }
 
@@ -112,15 +148,16 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         @Override
         public void onClick(View v) {
+
             switch (v.getId()){
                 case R.id.btnMiniatura:
-                    onFavoritosListener.onFavoritoClick(getAdapterPosition(),list,Toast.makeText(context,"Miniatura",Toast.LENGTH_SHORT));
+
                 break;
                 case R.id.lblPerfil:
-                    onFavoritosListener.onFavoritoClick(getAdapterPosition(),list,Toast.makeText(context,"Perfil",Toast.LENGTH_SHORT));
+
                     break;
                 case R.id.btnFavorito:
-                    onFavoritosListener.onFavoritoClick(getAdapterPosition(),list,Toast.makeText(context,"Favorito",Toast.LENGTH_SHORT));
+                    onFavoritosListener.agregarFavoritosVid(getAdapterPosition(), list);
                     break;
             }
         }
@@ -147,13 +184,13 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.btnDocumento:
-                    onFavoritosListener.onFavoritoClick(getAdapterPosition(),list,Toast.makeText(context,"Miniatura documento",Toast.LENGTH_SHORT));
+
                     break;
                 case R.id.lblPerfil:
-                    onFavoritosListener.onFavoritoClick(getAdapterPosition(),list,Toast.makeText(context,"Perfil",Toast.LENGTH_SHORT));
+
                     break;
                 case R.id.btnFavorito:
-                    onFavoritosListener.onFavoritoClick(getAdapterPosition(),list,Toast.makeText(context,"Favorito",Toast.LENGTH_SHORT));
+                    onFavoritosListener.agregarFavoritosDoc(getAdapterPosition(), list);
                     break;
             }
         }
@@ -164,5 +201,7 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
     public interface OnFavoritosListener {
         void onFavoritoClick(int position, List<Item> lista, Toast toast);
+        void agregarFavoritosVid(int position, List<Item> list);
+        void agregarFavoritosDoc(int position, List<Item> list);
     }
 }

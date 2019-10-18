@@ -36,13 +36,14 @@ import estrada.leon.rafael.readwatch.estudiante.pojo.Documentos;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
 
 public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosListener {
-    private List<Item> list =new ArrayList<>();
+    private List<Item> list = new ArrayList<>();
     private iComunicacionFragments interfaceFragments;
     ProgressDialog progreso;
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
     RecyclerView recyclerFavoritos;
     FavoritosAdapter favoritosAdapter;
+    int []idUsuarioVidDocFav;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -87,7 +88,7 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
                             e.printStackTrace();
                         }
                     }
-                    favoritosAdapter=new FavoritosAdapter(getContext(),list,Favoritos.this);
+                    favoritosAdapter=new FavoritosAdapter(getContext(),list,Favoritos.this, idUsuarioVidDocFav);
                     recyclerFavoritos.setAdapter(favoritosAdapter);
                 }
             }
@@ -132,7 +133,7 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
                             e.printStackTrace();
                         }
                     }
-                    favoritosAdapter=new FavoritosAdapter(getContext(),list,Favoritos.this);
+                    favoritosAdapter=new FavoritosAdapter(getContext(),list,Favoritos.this, idUsuarioVidDocFav);
                     recyclerFavoritos.setAdapter(favoritosAdapter);
                 }
 
@@ -141,6 +142,44 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void buscarVideosFav() {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        String url = "https://readandwatch.herokuapp.com/php/buscarVideoFav.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                JSONArray json = response.optJSONArray("usuario");
+                JSONObject jsonObject=null;
+                if(json.length()<1){
+                    idUsuarioVidDocFav = new int[1];
+                    idUsuarioVidDocFav[0]=0;
+                }else {
+                    idUsuarioVidDocFav = new int[json.length()];
+                }
+
+                for(int i=0;i<json.length();i++){
+                    try {
+                        jsonObject=json.getJSONObject(i);
+                        idUsuarioVidDocFav[i]= jsonObject.getInt("idVidDoc");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
                 Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -175,6 +214,7 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
         recyclerFavoritos=vista.findViewById(R.id.recyclerFavoritos);
         recyclerFavoritos.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         request= Volley.newRequestQueue(getContext());
+        buscarVideosFav();
         cargarDatosVid();
         cargarDatos();
 
@@ -215,6 +255,114 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
     @Override
     public void onFavoritoClick(int position, List<Item> lista, Toast toast) {
         interfaceFragments.onClickDocFavHolder(toast);
+    }
+
+    @Override
+    public void agregarFavoritosVid(int position, List<Item> list) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idVidDoc = ((Videos) list.get(position)).getIdVidDoc();
+        verificarExistencia(idUsuario, idVidDoc);
+    }
+
+    @Override
+    public void agregarFavoritosDoc(int position, List<Item> list) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idVidDoc = ((Documentos) list.get(position)).getIdVidDoc();
+        verificarExistencia(idUsuario, idVidDoc);
+    }
+
+    private void verificarExistencia(final int idUsuario, final int idVidDoc) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/existenciaFavorito.php?" +
+                "idUsuario="+idUsuario+"&idVidDoc="+idVidDoc;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                int idFavorito;
+                JSONArray json;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+                for(int i=0;i<json.length();i++) {
+                    try {
+                        jsonObject = json.getJSONObject(i);
+                        idFavorito = jsonObject.getInt("idFavorito");
+
+                        if (idFavorito==0){
+                            subirFavoritos(idUsuario, idVidDoc);
+
+                        }
+                        else {
+                            deleteFavoritos(idFavorito);
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                progreso.hide();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void subirFavoritos(int idUsuario, int idVidDoc) {
+        String url;
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        url = "https://readandwatch.herokuapp.com/php/insertFavorito.php?" +
+                "idUsuario="+idUsuario+"&idVidDoc="+idVidDoc;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                progreso.hide();
+                Toast.makeText(getContext(), "Se agrego a favoritos", Toast.LENGTH_SHORT).show();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void deleteFavoritos(int idFavorito) {
+        String url;
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        url = "https://readandwatch.herokuapp.com/php/eliminarFavorito.php?" +
+                "idFavorito="+idFavorito;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                progreso.hide();
+                Toast.makeText(getContext(), "Se elimino de favoritos", Toast.LENGTH_SHORT).show();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
     }
 
     public interface OnFragmentInteractionListener {
