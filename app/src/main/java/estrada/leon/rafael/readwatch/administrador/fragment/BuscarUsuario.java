@@ -140,7 +140,7 @@ public class BuscarUsuario extends Fragment implements BuscarUsuarioAdapter.OnBu
     private void abrirDialog() {
         DialogEliminarUsuario a = new DialogEliminarUsuario();
         a.setCancelable(false);
-        a.DialogEliminarUsuario(nombre,apellido);
+        a.DialogEliminarUsuarioConstructor(nombre,apellido,getContext());
         a.show(getFragmentManager(), "ejemplo");
     }
 
@@ -222,7 +222,7 @@ public class BuscarUsuario extends Fragment implements BuscarUsuarioAdapter.OnBu
                 usuario=new BuscarUsuarioAd(nombre,apellido,rutaFoto);
                 btnOpcion.setVisibility(View.VISIBLE);
                 usuarioAds.add(usuario);
-                a.DialogEliminarUsuario(nombre,apellido);
+                a.DialogEliminarUsuarioConstructor(nombre,apellido,getContext());
                 }
             }
         } catch (JSONException e) {

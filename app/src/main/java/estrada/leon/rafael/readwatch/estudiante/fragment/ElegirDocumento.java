@@ -162,8 +162,8 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     }
 
     @Override
-    public void reportarClick() {
-        interfaceFragments.onClickReportar();
+    public void reportarClick(int position, List<Documentos> documentosList) {
+        interfaceFragments.onClickReportarVidDoc(documentosList.get(position).getIdVidDoc());
     }
 
     @Override

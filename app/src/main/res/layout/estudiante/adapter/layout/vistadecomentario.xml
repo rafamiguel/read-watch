@@ -8,9 +8,9 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="16dp">
 
         <TextView
             android:id="@+id/txtComentario"
@@ -56,8 +56,8 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="16dp"
-            android:src="@drawable/edit"
             android:backgroundTintMode="src_over"
+            android:src="@drawable/edit"
             app:layout_constraintStart_toEndOf="@id/lblReportar"
             app:layout_constraintTop_toTopOf="@id/txtComentario" />
 
