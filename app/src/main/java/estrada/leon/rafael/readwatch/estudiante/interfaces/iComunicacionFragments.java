@@ -17,7 +17,9 @@ public interface iComunicacionFragments {
     public void onClickProponerMateria();
     public void onClickVidPerfil(int idUsuario);
     public void onClickDocPerfil(int idUsuario);
-    public void onClickReportar();
+    public void onClickReportarVidDoc(int idVidDoc);
+    public void onClickReportarComentario(int idComentario);
+    public void onClickReportarPreg(int idPreg);
     public void onClickSubirDoc();
     public void onClickSubirVid();
     public void onClickComentario(int idUsuario, int idVidDoc,  int idPregunta);

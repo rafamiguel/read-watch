@@ -355,7 +355,17 @@ public class MenuAdministrador extends AppCompatActivity
     }
 
     @Override
-    public void onClickReportar() {
+    public void onClickReportarVidDoc(int idVidDoc) {
+
+    }
+
+    @Override
+    public void onClickReportarComentario(int idComentario) {
+
+    }
+
+    @Override
+    public void onClickReportarPreg(int idPreg) {
 
     }
 

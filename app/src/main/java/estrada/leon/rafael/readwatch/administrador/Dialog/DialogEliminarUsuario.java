@@ -1,10 +1,13 @@
 package estrada.leon.rafael.readwatch.administrador.Dialog;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,33 +23,33 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 import estrada.leon.rafael.readwatch.R;
 
-public class DialogEliminarUsuario extends AppCompatDialogFragment implements Response.ErrorListener, Response.Listener {
+public class DialogEliminarUsuario extends AppCompatDialogFragment {
     ProgressDialog progreso;
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
-    private Button btnEliminar, btnSuspender;
     String nombre;
     String apellidos;
     String url;
+    Context contexto;
 
-    public void DialogEliminarUsuario(String nombre, String apellido){
-
+    public void DialogEliminarUsuarioConstructor(String nombre, String apellido,Context contexto){
         this.nombre = nombre;
         this.apellidos= apellido;
+        this.contexto=contexto;
     }
 
     @Override
+    @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialogeliminarusuario, null);
-        request= Volley.newRequestQueue(getContext());
-
+        LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
+        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.dialogeliminarusuario, null);
+        request= Volley.newRequestQueue(contexto);
         builder.setView(view)
-
                 .setMessage("¿Que desea hacer con el usuario?")
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
@@ -54,14 +57,14 @@ public class DialogEliminarUsuario extends AppCompatDialogFragment implements Re
 
                     }
                 });
-        btnEliminar = view.findViewById(R.id.btnEliminar);
+        Button btnEliminar = view.findViewById(R.id.btnEliminar);
         btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 eliminarUsuario();
             }
         });
-        btnSuspender = view.findViewById(R.id.btnSuspender);
+        Button btnSuspender = view.findViewById(R.id.btnSuspender);
         btnSuspender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,9 +85,15 @@ public class DialogEliminarUsuario extends AppCompatDialogFragment implements Re
             @Override
             public void onResponse(JSONObject response) {
                 progreso.hide();
-                Toast.makeText(getContext(),"Se suspendio al alumno correctamente",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Se suspendio al alumno correctamente", Toast.LENGTH_SHORT).show();
             }
-        }, this);
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Toast.makeText(getContext(),error.toString(),Toast.LENGTH_SHORT).show();
+            }
+        });
         request.add(jsonObjectRequest);
     }
 
@@ -94,20 +103,19 @@ public class DialogEliminarUsuario extends AppCompatDialogFragment implements Re
         progreso.show();
         url = "https://readandwatch.herokuapp.com/php/eliminarUsuario.php?nombre="+nombre+"&apellidos="+apellidos;
         url=url.replace(" ", "%20");
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this,this);
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                progreso.hide();
+                Toast.makeText(contexto, "Se elimino correctamente", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Toast.makeText(getContext(),error.toString(),Toast.LENGTH_SHORT).show();
+            }
+        });
         request.add(jsonObjectRequest);
-    }
-
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        progreso.hide();
-        Toast.makeText(getContext(),error.toString(),Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onResponse(Object response) {
-        progreso.hide();
-        Toast.makeText(getContext(),"Se elimino correctamente",Toast.LENGTH_SHORT).show();
     }
 }

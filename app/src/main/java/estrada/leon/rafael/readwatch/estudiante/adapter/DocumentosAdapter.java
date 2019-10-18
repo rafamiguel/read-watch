@@ -127,14 +127,14 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
                     onDocumentosListener.perfilClick(getAdapterPosition(),documentosList);
                     break;
                 case R.id.lblReportar:
-                    onDocumentosListener.reportarClick();
+                    onDocumentosListener.reportarClick(getAdapterPosition(),documentosList);
                     break;
                 case R.id.btnDocumento:
                     onDocumentosListener.onDocumentosClick(getAdapterPosition(),documentosList,
                             Toast.makeText(context, "Esta es la miniatura", Toast.LENGTH_SHORT));
                     break;
                 case R.id.btnAdvertencia:
-                    onDocumentosListener.reportarClick();
+                    onDocumentosListener.reportarClick(getAdapterPosition(),documentosList);
                     break;
                 case R.id.btnFavorito:
                     onDocumentosListener.agregarFavoritos(getAdapterPosition(),documentosList);
@@ -152,7 +152,7 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
 
     public interface OnDocumentosListener{
         void onDocumentosClick(int position, List<Documentos> documentosList, Toast toast);
-        void reportarClick();
+        void reportarClick(int position, List<Documentos> documentosList);
         void perfilClick(int position, List<Documentos> documentosList);
         void comentarioClick(int position, List<Documentos> list);
         void opcionClick(int position, List<Documentos> list);

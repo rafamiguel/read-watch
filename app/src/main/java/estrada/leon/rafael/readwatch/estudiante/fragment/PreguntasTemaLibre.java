@@ -111,7 +111,7 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
 
     @Override
     public void onClickReportar() {
-        interfaceFragments.onClickReportar();
+        //interfaceFragments.onClickReportarPreg();
     }
 
     @Override

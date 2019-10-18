@@ -80,14 +80,14 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     onVideoListener.comentarioClick(getAdapterPosition(), list);
                     break;
                 case R.id.lblReportar:
-                    onVideoListener.reportarClick();
+                    onVideoListener.reportarClick(getAdapterPosition(), list);
                     break;
                 case R.id.btnMiniatura:
                     onVideoListener.onVideoClick(getAdapterPosition(),list,
                             Toast.makeText(context, "Esta es la miniatura", Toast.LENGTH_SHORT));
                     break;
                 case R.id.btnAdvertencia:
-                    onVideoListener.reportarClick();
+                    onVideoListener.reportarClick(getAdapterPosition(), list);
                     break;
                 case R.id.btnFavorito:
                     onVideoListener.agregarFavoritos(getAdapterPosition(),list);
@@ -163,7 +163,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public interface OnVideoListener{
         void onVideoClick(int position,List<Videos> list, Toast toast);
-        void reportarClick();
+        void reportarClick(int position,List<Videos> list);
         void perfilClick(int position,List<Videos> list);
         void comentarioClick(int position, List<Videos> list);
         void opcionClick(int position, List<Videos> list);

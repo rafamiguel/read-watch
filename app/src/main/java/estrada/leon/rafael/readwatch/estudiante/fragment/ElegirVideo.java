@@ -121,8 +121,8 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public void reportarClick() {
-        interfaceFragments.onClickReportar();
+    public void reportarClick(int position, List<Videos> list) {
+        interfaceFragments.onClickReportarVidDoc(list.get(position).getIdVidDoc());
     }
 
     @Override
