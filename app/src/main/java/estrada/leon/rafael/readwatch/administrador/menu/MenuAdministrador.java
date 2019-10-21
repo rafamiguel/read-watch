@@ -360,11 +360,6 @@ public class MenuAdministrador extends AppCompatActivity
     }
 
     @Override
-    public void onClickReportarComentario(int idComentario) {
-
-    }
-
-    @Override
     public void onClickReportarPreg(int idPreg) {
 
     }

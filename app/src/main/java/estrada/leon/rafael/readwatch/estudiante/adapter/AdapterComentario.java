@@ -192,6 +192,11 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
                 case R.id.btnEditar:{
                     onComentariosListener.opcionClick(getAdapterPosition(),list);
                 }
+                break;
+                case R.id.lblReportar:{
+                    onComentariosListener.reportarComentario(getAdapterPosition(),list);
+                }
+                break;
             }
         }
     }
@@ -230,6 +235,9 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
                 case R.id.btnOpcion:
                     onComentariosListener.opcionVideoClick(getAdapterPosition(),list);
                     break;
+                case R.id.btnAdvertencia:
+                    onComentariosListener.reportarVideo(getAdapterPosition(),list);
+                    break;
                 default:
 
             }
@@ -267,6 +275,9 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
                 case R.id.btnOpcion:
                     onComentariosListener.opcionDocClick(getAdapterPosition(),list);
                     break;
+                case R.id.btnAdvertencia:
+                    onComentariosListener.reportarDoc(getAdapterPosition(),list);
+                    break;
                 default:
             }
         }
@@ -276,5 +287,8 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
         void opcionClick(int position, List<Item> list);
         void opcionVideoClick(int position, List<Item> list);
         void opcionDocClick(int position, List<Item> list);
+        void reportarComentario(int position, List<Item> list);
+        void reportarVideo(int position, List<Item> list);
+        void reportarDoc(int position, List<Item> list);
     }
 }
