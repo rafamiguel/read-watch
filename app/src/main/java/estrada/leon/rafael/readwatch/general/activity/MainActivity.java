@@ -93,10 +93,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //entrar = new Intent(MainActivity.this, Notificaciones.class);
-                //startActivity(entrar);
-                entrar = new Intent(MainActivity.this, SeleccionarSemestreAdm.class);
-                startActivity(entrar);
+
             }
         });
     }
