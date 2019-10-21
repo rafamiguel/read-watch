@@ -6,6 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import java.util.Random;
 
@@ -20,12 +30,14 @@ public class MainCorreo extends AppCompatActivity implements View.OnClickListene
     private Random rand;
     //Send button
     private Button buttonSend;
+    JsonObjectRequest jsonObjectRequest;
+    RequestQueue request;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recuperar_correo);
-
+        request= Volley.newRequestQueue(getApplicationContext());
         //Initializing the views
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextSubject = (EditText) findViewById(R.id.editTextSubject);
@@ -52,7 +64,9 @@ public class MainCorreo extends AppCompatActivity implements View.OnClickListene
 
         //Executing sendmail to send email
         sm.execute();
-    }
+
+
+}
 
     @Override
     public void onClick(View view) {
