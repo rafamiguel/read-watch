@@ -1,13 +1,28 @@
 package estrada.leon.rafael.readwatch.administrador.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import estrada.leon.rafael.readwatch.R;
 
@@ -20,6 +35,10 @@ import estrada.leon.rafael.readwatch.R;
  * create an instance of this fragment.
  */
 public class CambiarContrasena extends Fragment {
+    ProgressDialog progreso;
+    JsonObjectRequest jsonObjectRequest;
+    RequestQueue request;
+    String contraseña;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -67,14 +86,91 @@ public class CambiarContrasena extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View vista;
-        EditText txtContrasenaActual, txtContrasenaNueva;
+        final EditText txtContrasenaActual, txtContrasenaNueva;
+        Button btnRegistrar;
+
 
         vista=inflater.inflate(R.layout.fragment_cambiar_contrasena, container, false);
+        request= Volley.newRequestQueue(getContext());
 
         txtContrasenaActual = vista.findViewById(R.id.txtContrasenaActual);
         txtContrasenaNueva = vista.findViewById(R.id.txtContrasenaNueva);
+        btnRegistrar = vista.findViewById(R.id.btnRegistrar);
+        btnRegistrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               verificarContraseña(txtContrasenaActual.getText().toString(), txtContrasenaNueva.getText().toString());
+            }
+        });
 
         return vista;
+    }
+
+    private void verificarContraseña(final String antigua, final String nueva) {
+
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+
+        String url;
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Modificando...");
+        progreso.show();
+        url = "https://readandwatch.herokuapp.com/php/buscarContrasena.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                JSONArray json;
+                progreso.hide();
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+                try {
+                    for(int i=0;i<json.length();i++){
+                        jsonObject=json.getJSONObject(i);
+                        contraseña = jsonObject.optString("contrasena");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                compararContrasena(contraseña,antigua,nueva);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
+
+    }
+
+    private void compararContrasena(String contraseña, String antigua, String nueva) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        if(contraseña.equals(antigua)){
+            String url;
+            url = "https://readandwatch.herokuapp.com/php/updateContrasena.php?" +
+                    "contrasena="+nueva+"&idUsuario="+idUsuario;
+            url=url.replace(" ", "%20");
+            jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                   Toast.makeText(getContext(), "Se cambio correctamente la contraseña", Toast.LENGTH_SHORT).show();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            request.add(jsonObjectRequest);
+        }
+        else {
+            Toast.makeText(getContext(), "La contraseña actual no es correcta ", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

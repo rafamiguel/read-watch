@@ -179,7 +179,7 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
         //Toast.makeText(getContext(), "Mensaje: "+response, Toast.LENGTH_SHORT).show();
         JSONArray json = response.optJSONArray("usuario");
         JSONObject jsonObject=null;
-
+        admin = new Admin();
         try {
             jsonObject=json.getJSONObject(0);
             admin.setNombre(jsonObject.optString("nombre"));
