@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +54,7 @@ public class ElegirTemaAdm extends Fragment implements TemasAdapterAdm.OnTemasLi
     int idMateria, semestre, idTema ;;
     TemasAdapterAdm temasAdapter;
     RecyclerView temas;
+    Button btnAgregarTema;
     TextView lblModificar, lblEliminar, lblAnadir;
 
 
@@ -73,6 +75,12 @@ public class ElegirTemaAdm extends Fragment implements TemasAdapterAdm.OnTemasLi
         View vista;
         vista=inflater.inflate(R.layout.fragment_elegir_tema_adm, container, false);
         temas=vista.findViewById(R.id.temas);
+        btnAgregarTema = vista.findViewById(R.id.btnAgregarTema);
+        btnAgregarTema.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {cargarDia();
+            }
+        });
         lblTemaInexistente=vista.findViewById(R.id.lblTemaInexistente);
         lblTemaInexistente.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +140,7 @@ public class ElegirTemaAdm extends Fragment implements TemasAdapterAdm.OnTemasLi
             @Override
             public void onClick(View view) {
                 int idTema = (((Temas)(temasList.get(posicion))).getIdTema());
-                Toast.makeText(getContext(), String.valueOf(idTema), Toast.LENGTH_SHORT).show();
+                cargarDialogTema(idTema);
             }
         });
         lblEliminar.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +155,8 @@ public class ElegirTemaAdm extends Fragment implements TemasAdapterAdm.OnTemasLi
         lblAnadir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "vIEJO", Toast.LENGTH_SHORT).show();
+                int idTema = (((Temas)(temasList.get(posicion))).getIdTema());
+                cargarDialog(idTema);
             }
         });
         a.setView(mView);
@@ -155,6 +164,121 @@ public class ElegirTemaAdm extends Fragment implements TemasAdapterAdm.OnTemasLi
         dialog.show();
 
     }
+
+    private void cargarDia() {
+        final EditText txtTitulo;
+        TextView title;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_modificar_tema,  null);
+        builder.setView(view);
+        txtTitulo = view.findViewById(R.id.txtTitulo);
+
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        })
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int a) {
+                        agregarTema(txtTitulo.getText().toString());
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(true);
+        alertDialog.show();
+    }
+
+    private void agregarTema(String nombre) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Semestre", Context.MODE_PRIVATE);
+        int semestre = preferences.getInt("semestre",0);
+
+        preferences = getContext().getSharedPreferences("Materia", Context.MODE_PRIVATE);
+        int materia= preferences.getInt("materia", 0);
+
+        preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+
+        String url;
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Subiendo...");
+        progreso.show();
+        url = "https://readandwatch.herokuapp.com/php/insertTema.php?" +
+                "idMateria="+materia+"&semestre="+semestre+"&idUsuario="+idUsuario+"&nombre="+nombre;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                progreso.hide();
+                Toast.makeText(getContext(),"Se agrego correctamente", Toast.LENGTH_SHORT).show();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void cargarDialogTema(final int idTema) {
+        final EditText txtTitulo;
+        TextView title;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_modificar_tema,  null);
+        builder.setView(view);
+        txtTitulo = view.findViewById(R.id.txtTitulo);
+
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        })
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int a) {
+                        modificarTema(idTema, txtTitulo.getText().toString());
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(true);
+        alertDialog.show();
+    }
+
+    private void modificarTema(int idTema, String nombre) {
+        String url;
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Modificando...");
+        progreso.show();
+        url = "https://readandwatch.herokuapp.com/php/updateTema.php?" +
+                "idTema="+idTema+"&nombre="+nombre;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                progreso.hide();
+                Toast.makeText(getContext(),"Se modifico correctamente", Toast.LENGTH_SHORT).show();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
+
+    }
+
 
     private void deleteTema(int idTema) {
         String url;
