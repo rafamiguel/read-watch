@@ -110,8 +110,8 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
     }
 
     @Override
-    public void onClickReportar() {
-        //interfaceFragments.onClickReportarPreg();
+    public void onClickReportar(int position, List<TemaLibre> temaLibreList) {
+        interfaceFragments.onClickReportarPreg((temaLibreList.get(position).getId()));
     }
 
     @Override

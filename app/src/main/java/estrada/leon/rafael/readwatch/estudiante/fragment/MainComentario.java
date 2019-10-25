@@ -5,14 +5,17 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -37,6 +40,7 @@ import estrada.leon.rafael.readwatch.estudiante.dialog.Dialog_Subir_documento;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Comentarios;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Documentos;
+import estrada.leon.rafael.readwatch.estudiante.pojo.Reportes;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
 import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
@@ -51,6 +55,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
     AdapterComentario adapterComentario;
     int idVidDoc=0,idUsuario,idPregunta=0;
     Context contexto=this;
+    ProgressDialog progreso;
     private int []idComentarioUsuario;
     private int []idVideoEnComentarioUsuario;
 
@@ -339,6 +344,261 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
         DialogModificarEliminar nuevo = new DialogModificarEliminar();
         nuevo.setOpcion(2);
         nuevo.show(getSupportFragmentManager(), "ejemplo");
+
+    }
+
+    @Override
+    public void reportarComentario(int position, List<Item> list) {
+            int idComentario = ((Comentarios)list.get(position)).getIdComentario();
+            int idUsuario= Sesion.getSesion().getId();
+            final Reportes reporte = new Reportes();
+            SharedPreferences preferences = getSharedPreferences("reporte", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt("idComentario", idComentario);
+            editor.putInt("idUsuario",idUsuario);
+            editor.commit();
+
+            final CharSequence iCharSequence [] = {"Contenido sexual u obseno", "Es spam", "No es apropiado al tema o materia", "No se puede visualizar"};
+            android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+            TextView title = new TextView(this);
+            title.setText("Reportar");
+            title.setGravity(Gravity.CENTER);
+            title.setTextSize(24 );
+            title.setTextColor(Color.BLACK);
+            builder.setCustomTitle(title);
+
+
+            builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    SharedPreferences preferences = MainComentario.this.getSharedPreferences("reporte", Context.MODE_PRIVATE);
+                    int idComentario = preferences.getInt("idComentario", 0);
+                    int idUsuario = preferences.getInt("idUsuario", 0);
+                    String tipo = reporte.getMotivo();
+                    reportarComentarioWebService(idUsuario,idComentario,tipo);
+                }
+            });
+            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+
+            builder.setSingleChoiceItems(iCharSequence, -1, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    reporte.setMotivo((iCharSequence[which]).toString());
+                }
+            });
+
+            android.support.v7.app.AlertDialog alertDialog = builder.create();
+            alertDialog.setCancelable(false);
+            alertDialog.show();
+        }
+
+    public void reportarComentarioWebService(int idUsuario,int idComentario, String tipo){//tipo==motivo
+        JsonObjectRequest jsonObjectRequest;
+        RequestQueue request;
+        String url;
+        url = getString(R.string.ip)+"/php/reportarComentario.php?"
+                +"idComentario="+idComentario+"&tipo="+tipo+"&idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                boolean exito;
+                boolean repetido;
+                JSONArray json;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+                try {
+                    jsonObject = json.getJSONObject(0);
+                    repetido = jsonObject.getBoolean("repetido");
+                    jsonObject = json.getJSONObject(1);
+                    exito = jsonObject.getBoolean("success");
+                    if(exito && !repetido){
+                        Toast.makeText(MainComentario.this, "Reporte hecho con exito",
+                                Toast.LENGTH_SHORT).show();
+                    }else if(repetido){
+                        Toast.makeText(MainComentario.this, "Ya has hecho un reporte" +
+                                        " a este video o documento.",
+                                Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(MainComentario.this, "Error al realizar el reporte.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(MainComentario.this, "Error interno.", Toast.LENGTH_SHORT).show();
+                }
+
+
+                progreso.hide();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Toast.makeText(MainComentario.this, "Error en la comunicación.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        request= Volley.newRequestQueue(this);
+        progreso = new ProgressDialog(this);
+        progreso.setMessage("Haciendo reporte...");
+        progreso.show();
+        request.add(jsonObjectRequest);
+
+    }
+
+    @Override
+    public void reportarVideo(int position, List<Item> list) {
+        int idVidDoc = ((Videos)(list.get(position))).getIdVidDoc();
+        int idUsuario= Sesion.getSesion().getId();
+        final Reportes reporte = new Reportes();
+        SharedPreferences preferences = getSharedPreferences("reporte", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("idVidDoc", idVidDoc);
+        editor.putInt("idUsuario",idUsuario);
+        editor.commit();
+
+        final CharSequence iCharSequence [] = {"Contenido sexual u obseno", "Es spam", "No es apropiado al tema o materia", "No se puede visualizar"};
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        TextView title = new TextView(this);
+        title.setText("Reportar");
+        title.setGravity(Gravity.CENTER);
+        title.setTextSize(24 );
+        title.setTextColor(Color.BLACK);
+        builder.setCustomTitle(title);
+
+
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                SharedPreferences preferences = MainComentario.this.getSharedPreferences("reporte", Context.MODE_PRIVATE);
+                int idVidDoc = preferences.getInt("idVidDoc", 0);
+                int idUsuario = preferences.getInt("idUsuario", 0);
+                String tipo = reporte.getMotivo();
+                reportarVidDoc(idUsuario,idVidDoc,tipo);
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.setSingleChoiceItems(iCharSequence, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                reporte.setMotivo((iCharSequence[which]).toString());
+            }
+        });
+
+        android.support.v7.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+    }
+
+    @Override
+    public void reportarDoc(int idVidDoc) {
+        int idUsuario= Sesion.getSesion().getId();
+        final Reportes reporte = new Reportes();
+        SharedPreferences preferences = getSharedPreferences("reporte", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("idVidDoc", idVidDoc);
+        editor.putInt("idUsuario",idUsuario);
+        editor.commit();
+
+        final CharSequence iCharSequence [] = {"Contenido sexual u obseno", "Es spam", "No es apropiado al tema o materia", "No se puede visualizar"};
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        TextView title = new TextView(this);
+        title.setText("Reportar");
+        title.setGravity(Gravity.CENTER);
+        title.setTextSize(24 );
+        title.setTextColor(Color.BLACK);
+        builder.setCustomTitle(title);
+
+
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                SharedPreferences preferences = MainComentario.this.getSharedPreferences("reporte", Context.MODE_PRIVATE);
+                int idVidDoc = preferences.getInt("idVidDoc", 0);
+                int idUsuario = preferences.getInt("idUsuario", 0);
+                String tipo = reporte.getMotivo();
+                reportarVidDoc(idUsuario,idVidDoc,tipo);
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.setSingleChoiceItems(iCharSequence, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                reporte.setMotivo((iCharSequence[which]).toString());
+            }
+        });
+
+        android.support.v7.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+    }
+
+    public void reportarVidDoc(int idUsuario,int idVidDoc, String tipo){//tipo==motivo
+        JsonObjectRequest jsonObjectRequest;
+        RequestQueue request;
+        String url;
+        url = getString(R.string.ip)+"/php/reportarVidDoc.php?"
+                +"idVidDoc="+idVidDoc+"&tipo="+tipo+"&idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                boolean exito;
+                boolean repetido;
+                JSONArray json;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+                try {
+                    jsonObject = json.getJSONObject(0);
+                    repetido = jsonObject.getBoolean("repetido");
+                    jsonObject = json.getJSONObject(1);
+                    exito = jsonObject.getBoolean("success");
+                    if(exito && !repetido){
+                        Toast.makeText(MainComentario.this, "Reporte hecho con exito",
+                                Toast.LENGTH_SHORT).show();
+                    }else if(repetido){
+                        Toast.makeText(MainComentario.this, "Ya has hecho un reporte" +
+                                        " a este video o documento.",
+                                Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(MainComentario.this, "Error al realizar el reporte.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(MainComentario.this, "Error interno.", Toast.LENGTH_SHORT).show();
+                }
+
+
+                progreso.hide();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Toast.makeText(MainComentario.this, "Error en la comunicación.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        request= Volley.newRequestQueue(this);
+        progreso = new ProgressDialog(this);
+        progreso.setMessage("Haciendo reporte...");
+        progreso.show();
+        request.add(jsonObjectRequest);
 
     }
 

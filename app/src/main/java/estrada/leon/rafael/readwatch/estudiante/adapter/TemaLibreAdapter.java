@@ -96,13 +96,13 @@ public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.View
                             Toast.makeText(context, "Esta es la descripcion", Toast.LENGTH_SHORT));
                     break;
                 case R.id.lblReportar:
-                    onTemaListener.onClickReportar();
+                    onTemaListener.onClickReportar(getAdapterPosition(),temaLibreList);
                     break;
                 case R.id.btnSubirDocumento:
                     onTemaListener.onClickSubirDoc(getAdapterPosition(),temaLibreList);
                     break;
                 case R.id.btnAdvertencia:
-                    onTemaListener.onClickReportar();
+                    onTemaListener.onClickReportar(getAdapterPosition(),temaLibreList);
                     break;
                 case R.id.btnEditar:
                     onTemaListener.onTemaClick(getAdapterPosition(),temaLibreList,
@@ -121,7 +121,7 @@ public class TemaLibreAdapter extends RecyclerView.Adapter<TemaLibreAdapter.View
     }
     public interface OnTemaListener{
         void onTemaClick(int position, List<TemaLibre> temaLibreList, Toast toast);
-        void onClickReportar();
+        void onClickReportar(int position, List<TemaLibre> temaLibreList);
         void onClickSubirVid(int position, List<TemaLibre> temaLibreList);
         void onClickSubirDoc(int position, List<TemaLibre> temaLibreList);
         void comentarioClick(int position, List<TemaLibre> temaLibreList);

@@ -182,6 +182,7 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
             txtComentario = itemView.findViewById(R.id.txtComentario);
             btnEditar=itemView.findViewById(R.id.btnEditar);
             btnEditar.setVisibility(View.GONE);
+            lblReportar.setOnClickListener(this);
             btnEditar.setOnClickListener(this);
 
         }
@@ -192,6 +193,11 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
                 case R.id.btnEditar:{
                     onComentariosListener.opcionClick(getAdapterPosition(),list);
                 }
+                break;
+                case R.id.lblReportar:{
+                    onComentariosListener.reportarComentario(getAdapterPosition(),list);
+                }
+                break;
             }
         }
     }
@@ -211,13 +217,13 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
             lblPerfil=itemView.findViewById(R.id.lblPerfil);
             btnMiniatura=itemView.findViewById(R.id.btnMiniatura);
             btnAdvertencia=itemView.findViewById(R.id.btnAdvertencia);
-            btnAdvertencia.setVisibility(View.GONE);
             btnFavorito=itemView.findViewById(R.id.btnFavorito);
             btnFavorito.setVisibility(View.GONE);
             btnOpcion=itemView.findViewById(R.id.btnOpcion);
             btnOpcion.setVisibility(View.GONE);
             txtComentario=itemView.findViewById(R.id.txtComentario);
             txtComentario.setVisibility(View.GONE);
+            btnAdvertencia.setOnClickListener(this);
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
             btnOpcion.setOnClickListener(this);
@@ -229,6 +235,9 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
             switch(v.getId()){
                 case R.id.btnOpcion:
                     onComentariosListener.opcionVideoClick(getAdapterPosition(),list);
+                    break;
+                case R.id.btnAdvertencia:
+                    onComentariosListener.reportarVideo(getAdapterPosition(),list);
                     break;
                 default:
 
@@ -248,13 +257,13 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
             lblPerfil = itemView.findViewById(R.id.lblPerfil);
             btnDocumento = itemView.findViewById(R.id.btnDocumento);
             btnAdvertencia = itemView.findViewById(R.id.btnAdvertencia);
-            btnAdvertencia.setVisibility(View.GONE);
             btnFavorito = itemView.findViewById(R.id.btnFavorito);
             btnFavorito.setVisibility(View.GONE);
             btnOpcion = itemView.findViewById(R.id.btnOpcion);
             btnOpcion.setVisibility(View.GONE);
             txtComentario = itemView.findViewById(R.id.txtComentario);
             txtComentario.setVisibility(View.GONE);
+            btnAdvertencia.setOnClickListener(this);
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
             btnDocumento.setOnClickListener(this);
@@ -267,6 +276,9 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
                 case R.id.btnOpcion:
                     onComentariosListener.opcionDocClick(getAdapterPosition(),list);
                     break;
+                case R.id.btnAdvertencia:
+                    onComentariosListener.reportarDoc(((Documentos)list.get(getAdapterPosition())).getIdVidDoc());
+                    break;
                 default:
             }
         }
@@ -276,5 +288,8 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
         void opcionClick(int position, List<Item> list);
         void opcionVideoClick(int position, List<Item> list);
         void opcionDocClick(int position, List<Item> list);
+        void reportarComentario(int position, List<Item> list);
+        void reportarVideo(int position, List<Item> list);
+        void reportarDoc(int idVidDoc);
     }
 }

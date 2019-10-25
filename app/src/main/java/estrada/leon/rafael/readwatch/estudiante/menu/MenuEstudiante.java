@@ -358,13 +358,52 @@ public class  MenuEstudiante extends AppCompatActivity
     }
 
     @Override
-    public void onClickReportarComentario(int idComentario) {
-
-    }
-
-    @Override
     public void onClickReportarPreg(int idPreg) {
+        int idUsuario= Sesion.getSesion().getId();
+        final Reportes reporte = new Reportes();
+        SharedPreferences preferences = getSharedPreferences("reporte", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("idPreg", idPreg);
+        editor.putInt("idUsuario",idUsuario);
+        editor.commit();
 
+        final CharSequence iCharSequence [] = {"Contenido sexual u obseno", "Es spam", "No es apropiado al tema o materia", "No se puede visualizar"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        TextView title = new TextView(this);
+        title.setText("Reportar");
+        title.setGravity(Gravity.CENTER);
+        title.setTextSize(24 );
+        title.setTextColor(Color.BLACK);
+        builder.setCustomTitle(title);
+
+
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                SharedPreferences preferences = MenuEstudiante.this.getSharedPreferences("reporte", Context.MODE_PRIVATE);
+                int idPreg = preferences.getInt("idPreg", 0);
+                int idUsuario = preferences.getInt("idUsuario", 0);
+                String tipo = reporte.getMotivo();
+                reportarPreg(idUsuario,idPreg,tipo);
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.setSingleChoiceItems(iCharSequence, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                reporte.setMotivo((iCharSequence[which]).toString());
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.show();
     }
 
     public void reportarVidDoc(int idUsuario,int idVidDoc, String tipo){//tipo==motivo
@@ -420,6 +459,59 @@ public class  MenuEstudiante extends AppCompatActivity
 
     }
 
+
+    public void reportarPreg(int idUsuario,int idPregunta, String tipo){//tipo==motivo
+        JsonObjectRequest jsonObjectRequest;
+        RequestQueue request;
+        String url;
+        url = getString(R.string.ip)+"/php/reportarPreg.php?"
+                +"idPregunta="+idPregunta+"&tipo="+tipo+"&idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                boolean exito;
+                boolean repetido;
+                JSONArray json;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+                try {
+                    jsonObject = json.getJSONObject(0);
+                    repetido = jsonObject.getBoolean("repetido");
+                    jsonObject = json.getJSONObject(1);
+                    exito = jsonObject.getBoolean("success");
+                    if(exito && !repetido){
+                        Toast.makeText(MenuEstudiante.this, "Reporte hecho con exito",
+                                Toast.LENGTH_SHORT).show();
+                    }else if(repetido){
+                        Toast.makeText(MenuEstudiante.this, "Ya has hecho un reporte" +
+                                        " a este video o documento.",
+                                Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(MenuEstudiante.this, "Error al realizar el reporte.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(MenuEstudiante.this, "Error interno.", Toast.LENGTH_SHORT).show();
+                }
+
+
+                progreso.hide();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Toast.makeText(MenuEstudiante.this, "Error en la comunicación.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        request= Volley.newRequestQueue(this);
+        progreso = new ProgressDialog(this);
+        progreso.setMessage("Haciendo reporte...");
+        progreso.show();
+        request.add(jsonObjectRequest);
+
+    }
     //------------------------------------------------  REPORTAR    ---------------------------------------------------------
 
     @Override
