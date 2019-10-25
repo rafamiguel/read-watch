@@ -3,12 +3,15 @@ package estrada.leon.rafael.readwatch.estudiante.fragment;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,17 +34,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.estudiante.pojo.Reportes;
 import estrada.leon.rafael.readwatch.general.pojo.Estudiante;
 import estrada.leon.rafael.readwatch.estudiante.adapter.PerfilAdapter;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Documentos;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
+import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
 public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, Response.Listener<JSONObject>, Response.ErrorListener{
     List<Item> list;
     ProgressDialog progreso;
-    TextView lblNombreApellidos,lblDescripcion,lblCelular;
+    TextView lblNombreApellidos,lblDescripcion,lblCelular,lblReportar;
     RequestQueue request;
     int idUsuarios;
     int perfilEstudiante;
@@ -120,6 +125,18 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
         lblNombreApellidos=view.findViewById(R.id.lblNombreApellidos);
         lblDescripcion=view.findViewById(R.id.lblDescripcion);
         lblCelular=view.findViewById(R.id.lblCelular);
+        lblReportar=view.findViewById(R.id.lblReportar);
+        if(idUsuarios == Sesion.getSesion().getId()){
+            lblReportar.setVisibility(View.GONE);
+        }
+        lblReportar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reportarPerfil();
+            }
+
+
+        });
         fotoPerfil.setImageResource(R.drawable.profilepic);
         recyclerPerfil=view.findViewById(R.id.recyclerPerfil);
         recyclerPerfil.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
@@ -130,7 +147,107 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
 
 
     }
+    public void reportarPerfil(){
+        int idPerfil = perfilEstudiante;
+        int idUsuario= Sesion.getSesion().getId();
+        final Reportes reporte = new Reportes();
+        SharedPreferences preferences = getContext().getSharedPreferences("reporte", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("idPerfil", idPerfil);
+        editor.putInt("idUsuario",idUsuario);
+        editor.commit();
 
+        final CharSequence iCharSequence [] = {"Contenido sexual u obseno", "Es spam"};
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getContext());
+        TextView title = new TextView(getContext());
+        title.setText("Reportar");
+        title.setGravity(Gravity.CENTER);
+        title.setTextSize(24 );
+        title.setTextColor(Color.BLACK);
+        builder.setCustomTitle(title);
+
+
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                SharedPreferences preferences = getContext().getSharedPreferences("reporte", Context.MODE_PRIVATE);
+                int idPerfil = preferences.getInt("idPerfil", 0);
+                int idUsuario = preferences.getInt("idUsuario", 0);
+                String tipo = reporte.getMotivo();
+                reportarPerfilWebService(idUsuario,idPerfil,tipo);
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.setSingleChoiceItems(iCharSequence, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                reporte.setMotivo((iCharSequence[which]).toString());
+            }
+        });
+
+        android.support.v7.app.AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+
+    }
+    public void reportarPerfilWebService(int idUsuario,int idPerfil, String tipo) {//tipo==motivo
+        JsonObjectRequest jsonObjectRequest;
+        RequestQueue request;
+        String url;
+        url = getString(R.string.ip) + "/php/reportarPerfil.php?"
+                + "idPerfil=" + idPerfil + "&tipo=" + tipo + "&idUsuario=" + idUsuario;
+        url = url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                boolean exito;
+                boolean repetido;
+                JSONArray json;
+                JSONObject jsonObject = null;
+                json = response.optJSONArray("usuario");
+                try {
+                    jsonObject = json.getJSONObject(0);
+                    repetido = jsonObject.getBoolean("repetido");
+                    jsonObject = json.getJSONObject(1);
+                    exito = jsonObject.getBoolean("success");
+                    if (exito && !repetido) {
+                        Toast.makeText(getContext(), "Reporte hecho con exito",
+                                Toast.LENGTH_SHORT).show();
+                    } else if (repetido) {
+                        Toast.makeText(getContext(), "Ya has hecho un reporte" +
+                                        " a este video o documento.",
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getContext(), "Error al realizar el reporte.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getContext(), "Error interno.", Toast.LENGTH_SHORT).show();
+                }
+
+
+                progreso.hide();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Toast.makeText(getContext(), "Error en la comunicación.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        request = Volley.newRequestQueue(getContext());
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Haciendo reporte...");
+        progreso.show();
+        request.add(jsonObjectRequest);
+
+    }
     private void cargarWebServices(int a) {
         String url;
         progreso = new ProgressDialog(getContext());
