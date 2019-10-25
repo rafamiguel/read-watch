@@ -49,7 +49,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
         super.onPostExecute(aVoid);
         progressDialog.dismiss();
         //Showing a success message
-        Toast.makeText(context,"Message Sent",Toast.LENGTH_LONG).show();
+        //Toast.makeText(context,"Message Sent",Toast.LENGTH_LONG).show();
     }
 
     @Override
