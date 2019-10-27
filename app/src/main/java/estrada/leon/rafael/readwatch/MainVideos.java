@@ -39,9 +39,11 @@ public class MainVideos extends AppCompatActivity {
         recyclerView.requestFocus();
         recyclerView.setLayoutManager( new LinearLayoutManager(this));
 
-        progreso = new ProgressDialog(getApplicationContext());
-        progreso.setMessage("Cargando...");
-        progreso.show();
+        buscarVideos();
+
+    }
+
+    private void buscarVideos() {
         String url;
         url = "https://readandwatch.herokuapp.com/php/buscarRutaVideo.php";
         url=url.replace(" ", "%20");
@@ -56,27 +58,32 @@ public class MainVideos extends AppCompatActivity {
                     try {
                         jsonObject = json.getJSONObject(i);
                         ruta = jsonObject.getString("ruta");
-                        String[] parts = ruta.split("=");
-                        ruta = parts[1];
-                        youtubeVideos.add( new YouTubeVideos("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/"+ruta+"\" frameborder=\"0\" allowfullscreen></iframe>") );
-                        VideosYouTubeAdapter videoAdapter = new VideosYouTubeAdapter(youtubeVideos);
-                        recyclerView.setAdapter(videoAdapter);
+                        for(int a=0; a<ruta.length();a++){
+
+                            if (String.valueOf(ruta.charAt(a)).equals("=")) {
+                                ruta = ruta.substring(a+1);
+                                youtubeVideos.add(new YouTubeVideos("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + ruta + "\" frameborder=\"0\" allowfullscreen></iframe>"));
+                                break;
+                            }
+                        }
+                            //String[] parts = ruta.split("=");
+                            //ruta = parts[1];
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
                 }
-                progreso.hide();
+                VideosYouTubeAdapter videoAdapter = new VideosYouTubeAdapter(youtubeVideos);
+                recyclerView.setAdapter(videoAdapter);
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                progreso.hide();
                 Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);
-
     }
 }
