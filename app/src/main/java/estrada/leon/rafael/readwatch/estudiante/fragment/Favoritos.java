@@ -73,7 +73,7 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
                 JSONArray json = response.optJSONArray("usuario");
                 JSONObject jsonObject=null;
                 int idUsuario, idVidDoc;
-                String descripcion, miniatura;
+                String descripcion, miniatura,ruta;
                 if (json.length()>=1) {
                     for (int i = 0; i < json.length(); i++) {
                         try {
@@ -82,7 +82,8 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
                             descripcion = jsonObject.optString("descripcion");
                             miniatura = jsonObject.optString("rutaImagen");
                             idVidDoc = jsonObject.optInt("idVidDoc");
-                            list.add(new Videos(String.valueOf(idUsuario), descripcion, miniatura, idUsuario, idVidDoc));
+                            ruta = jsonObject.optString("ruta");
+                            list.add(new Videos(String.valueOf(idUsuario), descripcion, miniatura, idUsuario, idVidDoc,ruta));
 
                         } catch (JSONException e) {
                             e.printStackTrace();

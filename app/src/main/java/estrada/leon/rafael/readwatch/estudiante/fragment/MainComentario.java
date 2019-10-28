@@ -139,7 +139,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                         Videos video;
                         Documentos documento;
                         json = response.optJSONArray("comentario");
-                        String nombre,comentarioString,descripcion,rutaImagen;
+                        String nombre,comentarioString,descripcion,rutaImagen,ruta;
                         int idVidDoc,idUsuario,idComentario;
                         try {
                             if(json!=null) {
@@ -160,8 +160,9 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                                     descripcion = jsonObject.optString("descripcion");
                                     rutaImagen = jsonObject.optString("rutaImagen");
                                     idUsuario = jsonObject.optInt("idUsuario");
+                                    ruta = jsonObject.optString("ruta");
                                     if (jsonObject.optString("tipo").equals("v")) {
-                                        video = new Videos(Integer.toString(idUsuario), descripcion, rutaImagen, idUsuario, idVidDoc);
+                                        video = new Videos(Integer.toString(idUsuario), descripcion, rutaImagen, idUsuario, idVidDoc,ruta);
                                         list.add(video);
                                     } else {
                                         documento = new Documentos(Integer.toString(idUsuario), descripcion, rutaImagen, idUsuario, idVidDoc);

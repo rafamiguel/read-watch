@@ -365,7 +365,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         JSONObject jsonObject=null;
         Videos video;
         json = response.optJSONArray("usuario");
-        String descripcion,miniatura;
+        String descripcion,miniatura,ruta;
         int idUsuario,idVidDoc;
         try {
             for(int i=0;i<json.length();i++){
@@ -374,7 +374,8 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
             descripcion=jsonObject.optString("descripcion");
             miniatura=jsonObject.optString("rutaImagen");
             idVidDoc=jsonObject.optInt("idVidDoc");
-            video=new Videos(Integer.toString(idUsuario),descripcion,miniatura,idUsuario,idVidDoc);
+            ruta = jsonObject.optString("ruta");
+            video=new Videos(Integer.toString(idUsuario),descripcion,miniatura,idUsuario,idVidDoc,ruta);
 
             videos.add(video);
             }
