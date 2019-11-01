@@ -25,7 +25,7 @@ public class MainCorreo extends AppCompatActivity implements View.OnClickListene
     private EditText editTextEmail;
     private EditText editTextSubject;
     private EditText editTextMessage;
-    private final String caracteres = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890!#$%&/()=?¡¿'|°";
+    private final String caracteres = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890!}$%&/()=?¡¿~|°";
     private String nuevaContraseña="";
     private Random rand;
     //Send button

@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -113,7 +115,9 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
                 videosViewHolder.lblDescripcion.setText(video.getDescripcion());
                 String uri = video.getRutaImagen();
                 int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
-                videosViewHolder.btnMiniatura.setImageResource(imageResource);
+                String url= video.getVideoUrl();
+                videosViewHolder.btnMiniatura.loadData(url, "text/html" , "utf-8" );
+
                 if (idVideoEnComentarioUsuario!=null) {
                     for (int j = 0; j < idVideoEnComentarioUsuario.length; j++) {
                         if (idVideoEnComentarioUsuario[j] == video.getIdVidDoc()) {
@@ -209,13 +213,17 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
     public class VideosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView lblDescripcion,lblPerfil;
         Button btnAdvertencia,btnFavorito,btnOpcion;
-        ImageView btnMiniatura;
+        WebView btnMiniatura;
         EditText txtComentario;
         private VideosViewHolder(@NonNull View itemView) {
             super(itemView);
             lblDescripcion=itemView.findViewById(R.id.lblDescripcion);
             lblPerfil=itemView.findViewById(R.id.lblPerfil);
             btnMiniatura=itemView.findViewById(R.id.btnMiniatura);
+            btnMiniatura.getSettings().setJavaScriptEnabled(true);
+            btnMiniatura.setWebChromeClient(new WebChromeClient() {
+
+            } );
             btnAdvertencia=itemView.findViewById(R.id.btnAdvertencia);
             btnFavorito=itemView.findViewById(R.id.btnFavorito);
             btnFavorito.setVisibility(View.GONE);
