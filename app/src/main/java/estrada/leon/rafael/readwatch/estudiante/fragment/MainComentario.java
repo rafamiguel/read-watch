@@ -453,7 +453,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                                 Toast.LENGTH_SHORT).show();
                     }else if(repetido){
                         Toast.makeText(MainComentario.this, "Ya has hecho un reporte" +
-                                        " a este video o documento.",
+                                        " a este comentario.",
                                 Toast.LENGTH_LONG).show();
                     }else{
                         Toast.makeText(MainComentario.this, "Error al realizar el reporte.",

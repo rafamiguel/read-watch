@@ -431,7 +431,7 @@ public class  MenuEstudiante extends AppCompatActivity
                                 Toast.LENGTH_SHORT).show();
                     }else if(repetido){
                         Toast.makeText(MenuEstudiante.this, "Ya has hecho un reporte" +
-                                        " a este video o documento.",
+                                        " a esta pregunta.",
                                 Toast.LENGTH_LONG).show();
                     }else{
                         Toast.makeText(MenuEstudiante.this, "Error al realizar el reporte.",
@@ -485,7 +485,7 @@ public class  MenuEstudiante extends AppCompatActivity
                                 Toast.LENGTH_SHORT).show();
                     }else if(repetido){
                         Toast.makeText(MenuEstudiante.this, "Ya has hecho un reporte" +
-                                        " a este video o documento.",
+                                        " a esta pregunta.",
                                 Toast.LENGTH_LONG).show();
                     }else{
                         Toast.makeText(MenuEstudiante.this, "Error al realizar el reporte.",
