@@ -168,7 +168,7 @@ public class ElegirDocumentoAdm extends Fragment implements
         DocumentosAdm documento;
         json = response.optJSONArray("usuario");
         String idUsuario,descripcion,miniatura;
-        int idVidDoc;
+        int idVidDoc, idusuario;
         try {
             for(int i=0;i<json.length();i++){
                 jsonObject=json.getJSONObject(i);
@@ -176,7 +176,8 @@ public class ElegirDocumentoAdm extends Fragment implements
                 descripcion=jsonObject.optString("descripcion");
                 miniatura=jsonObject.optString("rutaImagen");
                 idVidDoc=jsonObject.optInt("idVidDoc");
-                documento=new DocumentosAdm(idUsuario,descripcion,miniatura,idVidDoc);
+                idusuario=jsonObject.optInt("idUsuario");
+                documento=new DocumentosAdm(idUsuario,descripcion,miniatura,idVidDoc, idusuario);
                 documentos.add(documento);
             }
         } catch (JSONException e) {
@@ -204,6 +205,11 @@ public class ElegirDocumentoAdm extends Fragment implements
         int idUsuario = preferences.getInt("idUsuario", 0);
         int idVidDoc =list.get(position).getIdVidDoc();
         comunicacionFragmentsAdm.onClickOpcion(idUsuario,idVidDoc,2);
+    }
+
+    @Override
+    public void perfilClick(int position, List<DocumentosAdm> list) {
+        ((iComunicacionFragmentsAdm)comunicacionFragmentsAdm).onClickVidPerfil(list.get(position).getIdUsuario());
     }
 
 

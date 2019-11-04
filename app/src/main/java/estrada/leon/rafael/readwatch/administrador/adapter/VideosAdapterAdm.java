@@ -7,10 +7,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -23,7 +36,10 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
     private Context context;
     private List<VideosAdm> list;
     private OnVideoAdmListener onVideoAdmListener;
-
+    JsonObjectRequest jsonObjectRequest;
+    RequestQueue request;
+    Intent entrar;
+    String nombre;
 
     public VideosAdapterAdm(Context context, List<VideosAdm> list, OnVideoAdmListener onVideoAdmListener) {
         this.context = context;
@@ -34,7 +50,7 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
     public class VideosAdmViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView lblDescripcion, lblPerfil, txtComentario;
         OnVideoAdmListener onVideoAdmListener;
-        ImageView btnMiniatura;
+        WebView btnMiniatura;
         Button btnOpcion;
 
 
@@ -48,6 +64,10 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
             btnMiniatura.setOnClickListener(this);
+            btnMiniatura.getSettings().setJavaScriptEnabled(true);
+            btnMiniatura.setWebChromeClient(new WebChromeClient() {
+
+            } );
             btnOpcion.setOnClickListener(this);
             txtComentario.setOnClickListener(this);
             this.onVideoAdmListener = onVideoAdmListener;
@@ -70,8 +90,8 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
                     onVideoAdmListener.opcionClick(getAdapterPosition(),list);
                     break;
                 case R.id.btnMiniatura:
-                    onVideoAdmListener.onVideoClick(getAdapterPosition(), list,
-                            Toast.makeText(context, "Esta es la miniatura", Toast.LENGTH_SHORT));
+                   // onVideoAdmListener.onVideoClick(getAdapterPosition(), list,
+                     //       Toast.makeText(context, "Esta es la miniatura", Toast.LENGTH_SHORT));
                     break;
                 default:
                     onVideoAdmListener.onVideoClick(getAdapterPosition(), list,
@@ -84,6 +104,7 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         RecyclerView.ViewHolder viewHolder;
+        request = Volley.newRequestQueue(context);
         View view;
         view= LayoutInflater.from(context).inflate(R.layout.videos_adm,viewGroup,false);
         viewHolder= new VideosAdmViewHolder(view, onVideoAdmListener);
@@ -97,14 +118,48 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
         VideosAdm video = list.get(position);
         VideosAdmViewHolder videosViewHolder = (VideosAdmViewHolder) viewHolder;
         videosViewHolder.lblDescripcion.setText(video.getDescripcion());
-        videosViewHolder.lblPerfil.setText(video.getPerfil());
+        obtenerNombre(video.getPerfil(), videosViewHolder);
+        //videosViewHolder.lblPerfil.setText(video.getPerfil());
 
         String uri = video.getRutaImagen();
         int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
-        videosViewHolder.btnMiniatura.setImageResource(imageResource);
+        String url= video.getVideoUrl();
+        videosViewHolder.btnMiniatura.loadData(url, "text/html" , "utf-8" );
 
         videosViewHolder.btnOpcion.setVisibility(View.VISIBLE);
 
+
+    }
+
+    private void obtenerNombre(String idUsuario, final VideosAdmViewHolder viewHolder) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/obtenerNombre.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                JSONArray json;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+
+                try {
+                    jsonObject = json.getJSONObject(0);
+                    nombre = jsonObject.getString("nombre");
+                    viewHolder.lblPerfil.setText(nombre);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
 
     }
 
