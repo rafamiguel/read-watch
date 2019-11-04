@@ -383,9 +383,9 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
             e.printStackTrace();
         }
 
-        progreso.hide();
         videosAdapter=new VideosAdapter(getContext(),videos, this,idUsuarioVidDoc, idUsuarioVidDocFav);
         recyclerVideos.setAdapter(videosAdapter);
+        progreso.hide();
 
     }
 

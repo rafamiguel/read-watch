@@ -56,6 +56,7 @@ import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragment
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.fragment.SeleccionarSemestre;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Reportes;
+import estrada.leon.rafael.readwatch.general.fragments.leerDocumentos;
 import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
 public class  MenuEstudiante extends AppCompatActivity
@@ -68,7 +69,8 @@ public class  MenuEstudiante extends AppCompatActivity
         lista_materias.OnFragmentInteractionListener,
         MateriasPropuestas.OnFragmentInteractionListener,
         ModificarEstudiante.OnFragmentInteractionListener,
-        DialogModificarEliminar.IOpcionesVidDoc{
+        DialogModificarEliminar.IOpcionesVidDoc,
+        leerDocumentos.OnFragmentInteractionListener {
     Fragment fragment;
     TextView titulo;
     ProgressDialog progreso;
@@ -568,6 +570,13 @@ public class  MenuEstudiante extends AppCompatActivity
         DialogModificarEliminar nuevo = new DialogModificarEliminar();
         nuevo.setOpcion(opcion);
         nuevo.show(getSupportFragmentManager(), "ejemplo");
+    }
+
+    @Override
+    public void leerDocumento() {
+        fragment =new leerDocumentos();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
+        titulo.setText("Doc");
     }
 
     @Override

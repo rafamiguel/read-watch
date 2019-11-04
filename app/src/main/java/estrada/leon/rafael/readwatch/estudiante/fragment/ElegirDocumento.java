@@ -1,5 +1,6 @@
 package estrada.leon.rafael.readwatch.estudiante.fragment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -24,6 +25,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.BaseMultiplePermissionsListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +46,7 @@ import estrada.leon.rafael.readwatch.R;
 
 
 public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDocumentosListener,
-        View.OnClickListener, Response.Listener<JSONObject>, Response.ErrorListener {
+        View.OnClickListener, Response.Listener<JSONObject>, Response.ErrorListener{
 
     private iComunicacionFragments interfaceFragments;
     private List<Documentos> documentos;
@@ -67,6 +73,20 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Dexter.withActivity(getActivity()).withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(
+                        new BaseMultiplePermissionsListener(){
+                            @Override
+                            public void onPermissionsChecked(MultiplePermissionsReport report) {
+                                super.onPermissionsChecked(report);
+                            }
+
+                            @Override
+                            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                                super.onPermissionRationaleShouldBeShown(permissions, token);
+                            }
+                        }
+        ).check();
         TextView lblElegirDocumento;
         Button btnVideo,btnDocumento,btnSubirDocumento;
         View vista;
@@ -193,6 +213,11 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         int idUsuario = preferences.getInt("idUsuario", 0);
         int idVidDoc =documentosList.get(adapterPosition).getIdVidDoc();
         verificarExistencia(idUsuario, idVidDoc);
+    }
+
+    @Override
+    public void leerDocumento() {
+        interfaceFragments.leerDocumento();
     }
 
     private void verificarExistencia(final int idUsuario, final int idVidDoc) {
