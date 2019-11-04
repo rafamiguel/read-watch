@@ -70,7 +70,8 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
             @Override
             public void onClick(View v) {
                 if(idVidDoc!=0) {
-                    insertarComentario(txtNuevoComentario.getText().toString());
+                    soloUnComentario(txtNuevoComentario.getText().toString());
+                    //insertarComentario(txtNuevoComentario.getText().toString());
                     request = Volley.newRequestQueue(getApplicationContext());
                     cargarComentariosVidDoc();
                 }else {
@@ -88,6 +89,35 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                         ,LinearLayoutManager.VERTICAL,false));
         idUsuario = Sesion.getSesion().getId();
         buscarComentariosUsuario();
+    }
+
+    private void soloUnComentario(final String texto) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/soloUnComentario.php?" +
+                "idUsuario="+idUsuario+"&idVidDoc="+idVidDoc;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONArray json;
+                        JSONObject jsonObject=null;
+                        json = response.optJSONArray("usuario");
+                        int numeroComentario;
+                        try {
+                            jsonObject = json.getJSONObject(0);
+                            numeroComentario = jsonObject.getInt("idComentario");
+                            if(numeroComentario==0){
+                                insertarComentario(texto);
+                            }
+                            else {Toast.makeText(getApplicationContext(),"Ya cuentas con un comentario",Toast.LENGTH_LONG).show();}
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, this);
+        request.add(jsonObjectRequest);
     }
 
     private void insertarComentario(String texto){
@@ -423,7 +453,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                                 Toast.LENGTH_SHORT).show();
                     }else if(repetido){
                         Toast.makeText(MainComentario.this, "Ya has hecho un reporte" +
-                                        " a este video o documento.",
+                                        " a este comentario.",
                                 Toast.LENGTH_LONG).show();
                     }else{
                         Toast.makeText(MainComentario.this, "Error al realizar el reporte.",

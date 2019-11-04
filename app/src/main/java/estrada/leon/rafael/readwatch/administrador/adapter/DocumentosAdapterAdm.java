@@ -12,11 +12,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.administrador.fragment.MainComentarios;
 import estrada.leon.rafael.readwatch.administrador.pojo.DocumentosAdm;
+import estrada.leon.rafael.readwatch.estudiante.pojo.Documentos;
 
 public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapterAdm.ViewHolder> {
 
@@ -24,6 +36,9 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
     private List<DocumentosAdm> list;
     private OnDocumentosAdmListener onDocumentosAdmListener;
     Intent entrar;
+    JsonObjectRequest jsonObjectRequest;
+    RequestQueue request;;
+    String nombre;
 
     public DocumentosAdapterAdm(Context context, List<DocumentosAdm> list, OnDocumentosAdmListener onDocumentosAdmListener) {
         this.context = context;
@@ -38,17 +53,52 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
         ViewHolder viewHolder = new ViewHolder(itemView, onDocumentosAdmListener);
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         itemView.setLayoutParams(lp);
+        request = Volley.newRequestQueue(context);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.lblPerfil.setText(list.get(i).getPerfil());
+        DocumentosAdm documento= list.get(i);
+        obtenerNombre(documento.getPerfil(), viewHolder);
+        // viewHolder.lblPerfil.setText(list.get(i).getPerfil());
         viewHolder.lblDescripcion.setText(list.get(i).getDescripcion());
         String uri = list.get(i).getRutaImagen();
         int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
         viewHolder.btnDocumento.setImageResource(imageResource);
         viewHolder.btnOpcion.setVisibility(View.VISIBLE);
+    }
+
+    private void obtenerNombre(String idUsuario, final ViewHolder viewHolder) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/obtenerNombre.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                JSONArray json;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+
+
+                try {
+                    jsonObject = json.getJSONObject(0);
+                    nombre = jsonObject.getString("nombre");
+                    viewHolder.lblPerfil.setText(nombre);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+
     }
 
     @Override
@@ -88,8 +138,7 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
                     onDocumentosAdmListener.comentarioClick(getAdapterPosition(),list);
                     break;
                 case R.id.lblPerfil:
-                    onDocumentosAdmListener.onDocumentosClick(getAdapterPosition(),list,
-                            Toast.makeText(context, "Este es el perfil", Toast.LENGTH_SHORT));
+                    onDocumentosAdmListener.perfilClick(getAdapterPosition(),list);
                     break;
                 case R.id.btnOpcion:
                     onDocumentosAdmListener.opcionClick(getAdapterPosition(),list);
@@ -112,5 +161,7 @@ public class DocumentosAdapterAdm extends RecyclerView.Adapter<DocumentosAdapter
         void comentarioClick(int adapterPosition, List<DocumentosAdm> list);
 
         void opcionClick(int adapterPosition, List<DocumentosAdm> list);
+
+        void perfilClick(int adapterPosition, List<DocumentosAdm> list);
     }
 }

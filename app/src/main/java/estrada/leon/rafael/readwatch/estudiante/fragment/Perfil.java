@@ -221,7 +221,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
                                 Toast.LENGTH_SHORT).show();
                     } else if (repetido) {
                         Toast.makeText(getContext(), "Ya has hecho un reporte" +
-                                        " a este video o documento.",
+                                        " a este perfil.",
                                 Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getContext(), "Error al realizar el reporte.",

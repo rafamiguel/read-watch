@@ -190,7 +190,7 @@ public class ElegirVideoAdm extends Fragment implements View.OnClickListener,
         JSONObject jsonObject=null;
         VideosAdm video;
         json = response.optJSONArray("usuario");
-        String descripcion,miniatura;
+        String descripcion,miniatura, ruta;
         int idVidDoc,idUsuario;
         try {
             for(int i=0;i<json.length();i++){
@@ -199,7 +199,8 @@ public class ElegirVideoAdm extends Fragment implements View.OnClickListener,
                 descripcion=jsonObject.optString("descripcion");
                 miniatura=jsonObject.optString("rutaImagen");
                 idVidDoc=jsonObject.optInt("idVidDoc");
-                video=new VideosAdm(descripcion,Integer.toString(idUsuario),miniatura,idVidDoc,idUsuario);
+                ruta = jsonObject.optString("ruta");
+                video=new VideosAdm(descripcion,Integer.toString(idUsuario),miniatura,idVidDoc,idUsuario, ruta);
 
                 videos.add(video);
             }

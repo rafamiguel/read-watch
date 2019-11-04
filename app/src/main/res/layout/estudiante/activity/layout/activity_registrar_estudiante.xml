@@ -38,12 +38,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="@string/nombres"
             android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:maxLength="20"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblTitulo"/>
+            app:layout_constraintTop_toBottomOf="@id/lblTitulo" />
 
         <EditText
             android:id="@+id/txtApellido"
@@ -51,12 +52,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="@string/apellidos"
             android:importantForAutofill="no"
-            app:layout_constraintStart_toStartOf="parent"
+            android:inputType="textPersonName"
+            android:maxLength="30"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtNombre"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtNombre" />
 
         <EditText
             android:id="@+id/txtCorreo"
@@ -78,8 +80,9 @@
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="@string/contrasena"
-            android:inputType="textPassword"
             android:importantForAutofill="no"
+            android:inputType="textPassword"
+            android:maxLength="40"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtCorreo" />
@@ -92,6 +95,7 @@
             android:ems="10"
             android:hint="@string/numero_telefonico"
             android:inputType="phone"
+            android:maxLength="12"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtContrasena" />
@@ -104,9 +108,10 @@
             android:ems="10"
             android:hint="@string/descripcion"
             android:inputType="textMultiLine"
+            android:maxLength="200"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtTelefono"/>
+            app:layout_constraintTop_toBottomOf="@id/txtTelefono" />
 
         <ImageView
             android:id="@+id/btnFoto"
