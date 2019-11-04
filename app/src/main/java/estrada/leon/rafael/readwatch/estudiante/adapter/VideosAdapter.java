@@ -188,7 +188,6 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 JSONObject jsonObject=null;
                 json = response.optJSONArray("usuario");
 
-
                 try {
                     jsonObject = json.getJSONObject(0);
                     nombre = jsonObject.getString("nombre");
@@ -196,10 +195,6 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
-
-
 
             }
         }, new Response.ErrorListener() {
