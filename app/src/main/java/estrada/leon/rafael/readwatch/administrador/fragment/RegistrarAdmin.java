@@ -146,7 +146,7 @@ public class RegistrarAdmin extends Fragment implements Response.Listener<JSONOb
     @Override
     public void onErrorResponse(VolleyError error) {
         progreso.hide();
-        Toast.makeText(getContext(), "No se pudo registrar"+error.toString(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(), "No se pudo registrar"+error.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override

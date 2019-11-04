@@ -1,6 +1,7 @@
 package estrada.leon.rafael.readwatch.estudiante.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -36,6 +48,10 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
     boolean opcion=true;
     private int []idComentarioUsuario;
     private int []idVideoEnComentarioUsuario;
+    JsonObjectRequest jsonObjectRequest;
+    RequestQueue request;
+    String nombre;
+
     public AdapterComentario(Context context, List<Item> list,OnComentariosListener onComentariosListener,int []idComentarioUsuario){
         this.context = context;
         this.list=list;
@@ -60,6 +76,7 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         RecyclerView.ViewHolder viewHolder;
         View view;
+        request = Volley.newRequestQueue(context);
         switch (viewType){
             case DOCUMENTO:{
                 view=LayoutInflater.from(context).inflate(R.layout.documentos,viewGroup,false);
@@ -92,7 +109,8 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
             case DOCUMENTO: {
                 Documentos documento = (Documentos) list.get(position);
                 DocumentosViewHolder documentosViewHolder = (DocumentosViewHolder) viewHolder;
-                documentosViewHolder.lblPerfil.setText(documento.getPerfil());
+                obtenerNombreDoc(documento.getPerfil(), documentosViewHolder);
+                //documentosViewHolder.lblPerfil.setText(documento.getPerfil());
                 documentosViewHolder.lblDescripcion.setText(documento.getDescripcion());
                 if (idVideoEnComentarioUsuario!=null) {
                     for (int j = 0; j < idVideoEnComentarioUsuario.length; j++) {
@@ -111,7 +129,8 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
             case VIDEO:{
                 Videos video=(Videos)list.get(position);
                 VideosViewHolder videosViewHolder=(VideosViewHolder) viewHolder;
-                videosViewHolder.lblPerfil.setText(video.getPerfil());
+                obtenerNombreVid(video.getPerfil(), videosViewHolder);
+               // videosViewHolder.lblPerfil.setText(video.getPerfil());
                 videosViewHolder.lblDescripcion.setText(video.getDescripcion());
                 String uri = video.getRutaImagen();
                 int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
@@ -136,7 +155,8 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
                 Comentarios comentario = (Comentarios) list.get(position);
                 ViewHolderComentario viewHolderComentario=(ViewHolderComentario) viewHolder;
                 viewHolderComentario.txtComentario.setText(comentario.getComentario());
-                viewHolderComentario.lblPerfil.setText(comentario.getPerfil());
+                obtenerNombreCom(comentario.getPerfil(), viewHolderComentario);
+                //viewHolderComentario.lblPerfil.setText(comentario.getPerfil());
                 if (idComentarioUsuario!=null) {
                     for (int j = 0; j < idComentarioUsuario.length; j++) {
                         if (idComentarioUsuario[j] == comentario.getIdComentario()) {
@@ -155,7 +175,8 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
                 Comentarios comentario = (Comentarios) list.get(position);
                 ViewHolderComentario viewHolderComentario=(ViewHolderComentario) viewHolder;
                 viewHolderComentario.txtComentario.setText(comentario.getComentario());
-                viewHolderComentario.lblPerfil.setText(comentario.getPerfil());
+                obtenerNombreCom(comentario.getPerfil(), viewHolderComentario);
+                //viewHolderComentario.lblPerfil.setText(comentario.getPerfil());
                 if (idComentarioUsuario!=null) {
                     for (int j = 0; j < idComentarioUsuario.length; j++) {
                         if (idComentarioUsuario[j] == comentario.getIdComentario()) {
@@ -169,6 +190,99 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
                     ((ViewHolderComentario) viewHolder).btnEditar.setVisibility(View.GONE);
                 }
         }
+    }
+
+    private void obtenerNombreCom(String idUsuario, final ViewHolderComentario viewHolderComentario) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/obtenerNombre.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                JSONArray json;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+
+
+                try {
+                    jsonObject = json.getJSONObject(0);
+                    nombre = jsonObject.getString("nombre");
+                    viewHolderComentario.lblPerfil.setText(nombre);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void obtenerNombreVid(String idUsuario, final VideosViewHolder videosViewHolder) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/obtenerNombre.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                JSONArray json;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+
+
+                try {
+                    jsonObject = json.getJSONObject(0);
+                    nombre = jsonObject.getString("nombre");
+                    videosViewHolder.lblPerfil.setText(nombre);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void obtenerNombreDoc(String idUsuario, final DocumentosViewHolder documentosViewHolder) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/obtenerNombre.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                JSONArray json;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+
+
+                try {
+                    jsonObject = json.getJSONObject(0);
+                    nombre = jsonObject.getString("nombre");
+                    documentosViewHolder.lblPerfil.setText(nombre);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
     }
 
     @Override

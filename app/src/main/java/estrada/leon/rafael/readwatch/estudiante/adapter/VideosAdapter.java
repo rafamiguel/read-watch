@@ -1,5 +1,6 @@
 package estrada.leon.rafael.readwatch.estudiante.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -15,6 +16,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.estudiante.fragment.MainComentario;
@@ -26,7 +38,10 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private List<Videos> list;
     int[] idUsuarioVidDoc;
     int[] idUsuarioVidDocFav;
+    JsonObjectRequest jsonObjectRequest;
+    RequestQueue request;
     Intent entrar;
+    String nombre;
     private OnVideoListener mOnVideoListener;
 
     public VideosAdapter(Context context, List<Videos> list, OnVideoListener onVideoListener, int[] idUsuarioVidDoc, int[] idUsuarioVidDocFav) {
@@ -54,13 +69,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } );
             btnAdvertencia=itemView.findViewById(R.id.btnAdvertencia);
             btnFavorito=itemView.findViewById(R.id.btnFavorito);
-           /* if(estrella==false){
-                btnFavorito.setBackgroundResource(R.drawable.star2);
-            }
-            else if(estrella == true){
-                btnFavorito.setBackgroundResource(R.drawable.opcio);
-            }
-*/            btnOpcion=itemView.findViewById(R.id.btnOpcion);
+            btnOpcion=itemView.findViewById(R.id.btnOpcion);
             txtComentario=itemView.findViewById(R.id.txtComentario);
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
@@ -119,6 +128,7 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         RecyclerView.ViewHolder viewHolder;
+        request = Volley.newRequestQueue(context);
         View view;
         view= LayoutInflater.from(context).inflate(R.layout.videos,viewGroup,false);
         viewHolder=new VideosViewHolder(view, mOnVideoListener);
@@ -132,7 +142,8 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         Videos video = list.get(i);
         VideosViewHolder videosViewHolder = (VideosViewHolder) viewHolder;
         videosViewHolder.lblDescripcion.setText(video.getDescripcion());
-        videosViewHolder.lblPerfil.setText(video.getPerfil());
+        obtenerNombre(video.getPerfil(), videosViewHolder);
+        //videosViewHolder.lblPerfil.setText(nombre);
         String uri = video.getRutaImagen();
         int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
         String url= video.getVideoUrl();
@@ -162,6 +173,43 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }else{
             videosViewHolder.btnOpcion.setVisibility(View.GONE);
         }
+    }
+
+    private void obtenerNombre(String idUsuario, final VideosViewHolder viewHolder) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/obtenerNombre.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                JSONArray json;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+
+
+                try {
+                    jsonObject = json.getJSONObject(0);
+                    nombre = jsonObject.getString("nombre");
+                    viewHolder.lblPerfil.setText(nombre);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+
     }
 
     @Override

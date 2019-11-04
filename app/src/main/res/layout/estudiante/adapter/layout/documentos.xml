@@ -76,7 +76,6 @@
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_marginStart="16dp"
-            android:text="@string/perfil"
             android:textColor="#131212"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/btnDocumento"

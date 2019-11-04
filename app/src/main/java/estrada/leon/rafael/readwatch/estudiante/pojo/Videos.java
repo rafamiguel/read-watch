@@ -62,7 +62,7 @@ public class Videos implements Item {
         for(int a=0; a<videoUrl.length();a++){
             if (String.valueOf(videoUrl.charAt(a)).equals("=")) {
                 videoUrl = videoUrl.substring(a+1);
-                videoUrl="<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + videoUrl + "\" frameborder=\"0\" allowfullscreen></iframe>";
+                videoUrl="<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + videoUrl + "\" frameborder=\"0\" allowfullscreen=\"allowfullscreen\"></iframe>";
                 break;
             }
         }
