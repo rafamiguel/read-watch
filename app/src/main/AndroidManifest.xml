@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="estrada.leon.rafael.readwatch">
 
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
@@ -16,7 +17,8 @@
         android:label="Read and Watch"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:label">
         <activity android:name=".MainVideos"></activity>
         <activity android:name=".DialogModificarEliminarAdm" />
         <activity android:name=".administrador.adapter.TemasAdapterAdm" />
