@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.estudiante.adapter.VideosAdapter;
+import estrada.leon.rafael.readwatch.estudiante.pojo.Comentarios;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
@@ -127,6 +128,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
 
     @Override
     public void perfilClick(int position,List<Videos> list) {
+
         ((iComunicacionFragments)interfaceFragments).onClickVidPerfil(list.get(position).getIdUsuario());
     }
 
