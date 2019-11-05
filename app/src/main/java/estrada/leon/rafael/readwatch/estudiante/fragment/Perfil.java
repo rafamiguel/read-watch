@@ -112,8 +112,8 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this,nuevo, idUsuarioVidDocFav);
-                recyclerPerfil.setAdapter(perfilAdapter);
+               // perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this,nuevo, idUsuarioVidDocFav);
+               // recyclerPerfil.setAdapter(perfilAdapter);
                 idUsuarios=sesion;
                 cargarDoc();
 
@@ -222,8 +222,8 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this,idUsuarios,idUsuarioVidDocFav);
-                recyclerPerfil.setAdapter(perfilAdapter);
+               // perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this,idUsuarios,idUsuarioVidDocFav);
+                //recyclerPerfil.setAdapter(perfilAdapter);
                 cargarDocPerfil();
 
 
