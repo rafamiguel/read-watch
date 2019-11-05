@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -88,7 +90,8 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 videosViewHolder.lblDescripcion.setText(video.getDescripcion());
                 String uri = video.getRutaImagen();
                 int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
-                videosViewHolder.btnMiniatura.setImageResource(imageResource);
+                String url= video.getVideoUrl();
+                videosViewHolder.btnMiniatura.loadData(url, "text/html" , "utf-8" );
                 if(idUsuarioVidDocFav!=null){
                     for (int j = 0; j < idUsuarioVidDocFav.length; j++) {
                         if (idUsuarioVidDocFav[j] == video.getIdVidDoc()) {
@@ -109,7 +112,8 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 videosViewHolder.lblDescripcion.setText(video.getDescripcion());
                 String uri = video.getRutaImagen();
                 int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
-                videosViewHolder.btnMiniatura.setImageResource(imageResource);
+                String url= video.getVideoUrl();
+                videosViewHolder.btnMiniatura.loadData(url, "text/html" , "utf-8" );
                 if(idUsuarioVidDocFav!=null){
                     for (int j = 0; j < idUsuarioVidDocFav.length; j++) {
                         if (idUsuarioVidDocFav[j] == video.getIdVidDoc()) {
@@ -129,7 +133,7 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return list.size();
     }
     public class VideosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private ImageView btnMiniatura;
+        private WebView btnMiniatura;
         private Button btnFavorito;
         private TextView lblPerfil,lblDescripcion;
         private OnFavoritosListener onFavoritosListener;
@@ -137,6 +141,10 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public VideosViewHolder(@NonNull View itemView,OnFavoritosListener onFavoritosListener) {
             super(itemView);
             btnMiniatura=itemView.findViewById(R.id.btnMiniatura);
+            btnMiniatura.getSettings().setJavaScriptEnabled(true);
+            btnMiniatura.setWebChromeClient(new WebChromeClient() {
+
+            } );
             lblPerfil=itemView.findViewById(R.id.lblPerfil);
             lblDescripcion=itemView.findViewById(R.id.lblDescripcion);
             btnFavorito=itemView.findViewById(R.id.btnFavorito);

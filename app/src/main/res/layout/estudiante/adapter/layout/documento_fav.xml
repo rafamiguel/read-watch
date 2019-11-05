@@ -5,48 +5,57 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/btnDocumento"
-        android:layout_width="100dp"
-        android:layout_height="98dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:src="@drawable/doc"
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="234dp"
+        android:layout_height="123dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/lblPerfil"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_marginStart="16dp"
-        android:text="@string/perfil"
-        android:textColor="#131212"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@id/btnDocumento"
-        app:layout_constraintTop_toTopOf="@id/btnDocumento" />
+        <ImageView
+            android:id="@+id/btnDocumento"
+            android:layout_width="100dp"
+            android:layout_height="98dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/doc"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/lblDescripcion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="44dp"
-        android:text="@string/descripcion"
-        android:textColor="#0A0A0A"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@id/btnDocumento"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/lblPerfil"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/perfil"
+            android:textColor="#131212"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/btnDocumento"
+            app:layout_constraintTop_toTopOf="@id/btnDocumento" />
 
-    <Button
-        android:id="@+id/btnFavorito"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="10dp"
-        android:background="@drawable/star2"
-        android:backgroundTintMode="src_over"
-        app:layout_constraintBottom_toBottomOf="@id/lblPerfil"
-        app:layout_constraintStart_toEndOf="@id/lblPerfil"
-        app:layout_constraintTop_toTopOf="@id/lblPerfil" />
+        <TextView
+            android:id="@+id/lblDescripcion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="44dp"
+            android:text="@string/descripcion"
+            android:textColor="#0A0A0A"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/btnDocumento"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnFavorito"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/star2"
+            android:backgroundTintMode="src_over"
+            app:layout_constraintBottom_toBottomOf="@id/lblPerfil"
+            app:layout_constraintStart_toEndOf="@id/lblPerfil"
+            app:layout_constraintTop_toTopOf="@id/lblPerfil" />
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
