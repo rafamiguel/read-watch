@@ -68,6 +68,7 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
             btnMiniatura.setWebChromeClient(new WebChromeClient() {
 
             } );
+
             btnOpcion.setOnClickListener(this);
             txtComentario.setOnClickListener(this);
             this.onVideoAdmListener = onVideoAdmListener;
@@ -77,8 +78,6 @@ public class VideosAdapterAdm extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void onClick(View v) {
             switch(v.getId()) {
                 case R.id.lblDescripcion:
-                    onVideoAdmListener.onVideoClick(getAdapterPosition(), list,
-                            Toast.makeText(context, "Esta es la descripcion", Toast.LENGTH_SHORT));
                     break;
                 case R.id.lblPerfil:
                     onVideoAdmListener.perfilClick(getAdapterPosition(),list);

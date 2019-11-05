@@ -29,7 +29,7 @@ public class PerfilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private OnPerfilListener onPerfilListener;
     private final int documento=1;
     private final int video=2;
-    int nuevo;
+    int nuevo, opcion;
     int []idUsuarioVidDocFav;
 
     public PerfilAdapter(Context context,List<Item> list,OnPerfilListener onPerfilListener, int nuevo,  int []idUsuarioVidDocFav){
@@ -157,12 +157,15 @@ public class PerfilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             btnFavorito=itemView.findViewById(R.id.btnFavorito);
             txtComentario=itemView.findViewById(R.id.txtComentario);
 
-            if(nuevo == Sesion.getSesion().getId()){
-                btnAdvertencia.setVisibility(View.GONE);
-                btnFavorito.setVisibility(View.GONE);
-            }
-            if(nuevo != Sesion.getSesion().getId()){
-                btnOpcion.setVisibility(View.GONE);}
+
+                if (nuevo == Sesion.getSesion().getId()) {
+                    btnAdvertencia.setVisibility(View.GONE);
+                    btnFavorito.setVisibility(View.GONE);
+                }
+                if (nuevo != Sesion.getSesion().getId()) {
+                    btnOpcion.setVisibility(View.GONE);
+                }
+
             this.onPerfilListener=onPerfilListener;
             btnFavorito.setOnClickListener(this);
             btnAdvertencia.setOnClickListener(this);
@@ -184,10 +187,10 @@ public class PerfilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     onPerfilListener.agregarFavoritos(getAdapterPosition(),list);
                     break;
                 case R.id.btnAdvertencia:
-                    onPerfilListener.onPerfilClick(getAdapterPosition(),list,Toast.makeText(context,"Boton Advertencia",Toast.LENGTH_SHORT));
+                    onPerfilListener.reportarClick(getAdapterPosition(), list);
                     break;
                 case R.id.btnOpcion:
-                    onPerfilListener.onPerfilClick(getAdapterPosition(),list,Toast.makeText(context,"Boton Opcion",Toast.LENGTH_SHORT));
+                    onPerfilListener.opcionClick(getAdapterPosition(),list);
                     break;
             }
         }
@@ -214,13 +217,23 @@ public class PerfilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 btnOpcion = itemView.findViewById(R.id.btnOpcion);
                 txtComentario = itemView.findViewById(R.id.txtComentario);
 
-                 if(nuevo == Sesion.getSesion().getId()){
+            if(opcion==2){btnOpcion.setVisibility(View.VISIBLE);
                 btnAdvertencia.setVisibility(View.GONE);
                 btnFavorito.setVisibility(View.GONE);
-                 }else{btnAdvertencia.setVisibility(View.VISIBLE);btnFavorito.setVisibility(View.VISIBLE);}
-               if(nuevo != Sesion.getSesion().getId()){btnOpcion.setVisibility(View.GONE);}
-               else{btnOpcion.setVisibility(View.VISIBLE);}
-
+            }else {
+                if (nuevo == Sesion.getSesion().getId()) {
+                    btnAdvertencia.setVisibility(View.GONE);
+                    btnFavorito.setVisibility(View.GONE);
+                } else {
+                    btnAdvertencia.setVisibility(View.VISIBLE);
+                    btnFavorito.setVisibility(View.VISIBLE);
+                }
+                if (nuevo != Sesion.getSesion().getId()) {
+                    btnOpcion.setVisibility(View.GONE);
+                } else {
+                    btnOpcion.setVisibility(View.VISIBLE);
+                }
+            }
                 this.onPerfilListener = onPerfilListener;
                 btnDocumento.setOnClickListener(this);
                 btnFavorito.setOnClickListener(this);
@@ -241,10 +254,10 @@ public class PerfilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     onPerfilListener.agregarFavoritosDoc(getAdapterPosition(),list);
                     break;
                 case R.id.btnAdvertencia:
-                    onPerfilListener.onPerfilClick(getAdapterPosition(),list,Toast.makeText(context,"Advertencia",Toast.LENGTH_SHORT));
+                    onPerfilListener.reportarClickDoc(getAdapterPosition(), list);
                     break;
                 case R.id.btnOpcion:
-                    onPerfilListener.onPerfilClick(getAdapterPosition(),list,Toast.makeText(context,"Opcion",Toast.LENGTH_SHORT));
+                    onPerfilListener.opcionClickDoc(getAdapterPosition(),list);
                     break;
                 case R.id.txtComentario:
                     onPerfilListener.comentarioClickVidDoc(getAdapterPosition(), list);
@@ -267,6 +280,14 @@ public class PerfilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         void agregarFavoritosDoc(int adapterPosition, List<Item> list);
 
         void comentarioClickVidDoc(int adapterPosition, List<Item> list);
+
+        void reportarClick(int adapterPosition, List<Item> list);
+
+        void reportarClickDoc(int adapterPosition, List<Item> list);
+
+        void opcionClickDoc(int adapterPosition, List<Item> list);
+
+        void opcionClick(int adapterPosition, List<Item> list);
     }
 
 }

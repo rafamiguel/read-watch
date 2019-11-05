@@ -51,7 +51,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
     RequestQueue request;
     int idUsuarios;
     int perfilEstudiante;
-    int nuevo, sesion;
+    int nuevo, sesion, opcion;
     String dato;
     RecyclerView recyclerPerfil;
     PerfilAdapter perfilAdapter;
@@ -70,9 +70,10 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
     public Perfil(){}
 
     @SuppressLint("ValidFragment")
-    public Perfil(int nuevo, int sesion) {
+    public Perfil(int nuevo, int sesion, int opcion) {
         this.nuevo=nuevo;
         this.sesion=sesion;
+        this.opcion = opcion;
 
     }
 
@@ -335,6 +336,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
         lblDescripcion=view.findViewById(R.id.lblDescripcion);
         lblCelular=view.findViewById(R.id.lblCelular);
         lblReportar=view.findViewById(R.id.lblReportar);
+
         if(idUsuarios == Sesion.getSesion().getId()){
             lblReportar.setVisibility(View.GONE);
         }
@@ -586,6 +588,32 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
         int idVidDoc =((Documentos)(list.get(position))).getIdVidDoc();
         interfaceFragments.onClickComentario(idUsuario,idVidDoc,0);
 
+    }
+
+    @Override
+    public void reportarClick(int position, List<Item> list) {
+        interfaceFragments.onClickReportarVidDoc(((Videos)(list.get(position))).getIdVidDoc());
+    }
+
+    @Override
+    public void reportarClickDoc(int position, List<Item> list) {
+        interfaceFragments.onClickReportarVidDoc(((Documentos)(list.get(position))).getIdVidDoc());
+    }
+
+    @Override
+    public void opcionClickDoc(int position, List<Item> list) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idVidDoc = ((Documentos)(list.get(position))).getIdVidDoc();
+        interfaceFragments.onClickOpcion(idUsuario,idVidDoc,2);
+    }
+
+    @Override
+    public void opcionClick(int position, List<Item> list) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idVidDoc = ((Videos)(list.get(position))).getIdVidDoc();
+        interfaceFragments.onClickOpcion(idUsuario,idVidDoc,1);
     }
 
     private void verificarExistencia(final int idUsuario, final int idVidDoc) {

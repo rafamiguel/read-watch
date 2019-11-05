@@ -332,7 +332,10 @@ public class MenuAdministrador extends AppCompatActivity
 
     @Override
     public void onClickVidPerfil(int idUsuario) {
-        SharedPreferences preferences = getSharedPreferences("Perfil Estudiante", Context.MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario2 = preferences.getInt("idUsuario", 0);
+
+        preferences = getSharedPreferences("Perfil Estudiante", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("perfilEstudiante", idUsuario);
         Toast.makeText(this, "El id del perfil es: "+idUsuario, Toast.LENGTH_SHORT).show();
@@ -344,7 +347,7 @@ public class MenuAdministrador extends AppCompatActivity
         edito.commit();
 
 
-        fragment= new Perfil();
+        fragment= new Perfil(idUsuario, idUsuario2, 2);
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipalAdm,fragment).addToBackStack(null).commit();
         titulo.setText("Perfil");
     }

@@ -288,7 +288,7 @@ public class  MenuEstudiante extends AppCompatActivity
         edito.commit();
 
 
-       fragment= new Perfil(idUsuario, idUsuario2);
+       fragment= new Perfil(idUsuario, idUsuario2, 1);
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
         titulo.setText("Perfil");
 
@@ -312,7 +312,7 @@ public class  MenuEstudiante extends AppCompatActivity
         edito.commit();
 
 
-        fragment= new Perfil(idUsuario,idUsuario2);
+        fragment= new Perfil(idUsuario,idUsuario2,1);
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
         titulo.setText("Perfil");
 
