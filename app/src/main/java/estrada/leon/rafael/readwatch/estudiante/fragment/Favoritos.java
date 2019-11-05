@@ -89,9 +89,9 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
                             e.printStackTrace();
                         }
                     }
-                    favoritosAdapter=new FavoritosAdapter(getContext(),list,Favoritos.this, idUsuarioVidDocFav);
-                    recyclerFavoritos.setAdapter(favoritosAdapter);
+
                 }
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -134,10 +134,10 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
                             e.printStackTrace();
                         }
                     }
-                    favoritosAdapter=new FavoritosAdapter(getContext(),list,Favoritos.this, idUsuarioVidDocFav);
-                    recyclerFavoritos.setAdapter(favoritosAdapter);
-                }
 
+                }
+                favoritosAdapter=new FavoritosAdapter(getContext(),list,Favoritos.this, idUsuarioVidDocFav);
+                recyclerFavoritos.setAdapter(favoritosAdapter);
             }
         }, new Response.ErrorListener() {
             @Override

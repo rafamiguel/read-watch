@@ -1,5 +1,6 @@
 package estrada.leon.rafael.readwatch.estudiante.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -50,7 +51,12 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
     RequestQueue request;
     int idUsuarios;
     int perfilEstudiante;
+    int nuevo, sesion, opcion;
     String dato;
+    RecyclerView recyclerPerfil;
+    PerfilAdapter perfilAdapter;
+    int []idUsuarioVidDocFav;
+
     private final boolean BUSCAR=true;
     JsonObjectRequest jsonObjectRequest;
     private iComunicacionFragments interfaceFragments;
@@ -61,19 +67,224 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    public Perfil(){}
 
-    public Perfil() {
+    @SuppressLint("ValidFragment")
+    public Perfil(int nuevo, int sesion, int opcion) {
+        this.nuevo=nuevo;
+        this.sesion=sesion;
+        this.opcion = opcion;
+
     }
+
     public void setIdUsuario(int idUsuario){
         this.idUsuarios = idUsuario;
     }
     void cargarDatos(){
-        list=new ArrayList<>();
+        idUsuarios = nuevo;
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/cargarVidDocPerfil.php?" +
+                "idUsuario="+idUsuarios+"&tipo=v";
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                JSONArray json;
+                JSONObject jsonObject=null;
+                Videos video;
+                json = response.optJSONArray("usuario");
+                String descripcion,miniatura,ruta;
+                int idUsuario,idVidDoc;
+                list=new ArrayList<>();
+                try {
+                    for(int i=0;i<json.length();i++){
+                        jsonObject=json.getJSONObject(i);
+                        idUsuario=jsonObject.optInt("idUsuario");
+                        descripcion=jsonObject.optString("descripcion");
+                        miniatura=jsonObject.optString("rutaImagen");
+                        idVidDoc=jsonObject.optInt("idVidDoc");
+                        ruta = jsonObject.optString("ruta");
+                        list.add(new Videos(String.valueOf(idUsuario),descripcion,"",idUsuario,idVidDoc,ruta));
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+               // perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this,nuevo, idUsuarioVidDocFav);
+               // recyclerPerfil.setAdapter(perfilAdapter);
+                idUsuarios=sesion;
+                cargarDoc();
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+
+
+
+   /*     list=new ArrayList<>();
         for(int i=1;i<11;i++){
             list.add(new Documentos("perfil"+i,"Documento"+i,"@drawable/btnDocumento",i,1));
             list.add(new Videos("perfil"+i,"video"+i,"@drawable/miniatura",i,1,"gyy"));
         }
+
+    */
     }
+
+    private void cargarDoc() {
+        idUsuarios = nuevo;
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/cargarVidDocPerfil.php?" +
+                "idUsuario="+idUsuarios+"&tipo=d";
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                JSONArray json;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+                String descripcion,miniatura,ruta;
+                int idUsuario,idVidDoc;
+                if(list==null) {
+                    list = new ArrayList<>();
+                }
+                try {
+                    for(int i=0;i<json.length();i++){
+                        jsonObject=json.getJSONObject(i);
+                        idUsuario=jsonObject.optInt("idUsuario");
+                        descripcion=jsonObject.optString("descripcion");
+                        miniatura=jsonObject.optString("rutaImagen");
+                        idVidDoc=jsonObject.optInt("idVidDoc");
+                        ruta = jsonObject.optString("ruta");
+                        list.add(new Documentos(String.valueOf(idUsuario), descripcion, miniatura, idUsuario, idVidDoc));
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                idUsuarios=sesion;
+                perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this,nuevo,idUsuarioVidDocFav);
+                recyclerPerfil.setAdapter(perfilAdapter);
+
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+
+    }
+
+
+    private void cargarDatosPerfil() {
+
+        final int idUsuarios = Sesion.getSesion().getId();
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/cargarVidDocPerfil.php?" +
+                "idUsuario="+idUsuarios+"&tipo=v";
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                JSONArray json;
+                JSONObject jsonObject=null;
+                Videos video;
+                json = response.optJSONArray("usuario");
+                String descripcion,miniatura,ruta;
+                int idUsuario,idVidDoc;
+                list=new ArrayList<>();
+                try {
+                    for(int i=0;i<json.length();i++){
+                        jsonObject=json.getJSONObject(i);
+                        idUsuario=jsonObject.optInt("idUsuario");
+                        descripcion=jsonObject.optString("descripcion");
+                        miniatura=jsonObject.optString("rutaImagen");
+                        idVidDoc=jsonObject.optInt("idVidDoc");
+                        ruta = jsonObject.optString("ruta");
+                        list.add(new Videos(String.valueOf(idUsuario),descripcion,"",idUsuario,idVidDoc,ruta));
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+               // perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this,idUsuarios,idUsuarioVidDocFav);
+                //recyclerPerfil.setAdapter(perfilAdapter);
+                cargarDocPerfil();
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+
+    }
+
+    private void cargarDocPerfil() {
+        final int idUsuarios = Sesion.getSesion().getId();
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/cargarVidDocPerfil.php?" +
+                "idUsuario="+idUsuarios+"&tipo=d";
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                JSONArray json;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+                String descripcion,miniatura,ruta;
+                int idUsuario,idVidDoc;
+                if(list==null) {
+                    list = new ArrayList<>();
+                }
+                try {
+                    for(int i=0;i<json.length();i++){
+                        jsonObject=json.getJSONObject(i);
+                        idUsuario=jsonObject.optInt("idUsuario");
+                        descripcion=jsonObject.optString("descripcion");
+                        miniatura=jsonObject.optString("rutaImagen");
+                        idVidDoc=jsonObject.optInt("idVidDoc");
+                        ruta = jsonObject.optString("ruta");
+                        list.add(new Documentos(String.valueOf(idUsuario), descripcion, miniatura, idUsuario, idVidDoc));
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this, idUsuarios,idUsuarioVidDocFav);
+                recyclerPerfil.setAdapter(perfilAdapter);
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
     public static Perfil newInstance(String param1, String param2) {
         Perfil fragment = new Perfil();
         Bundle args = new Bundle();
@@ -117,8 +328,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
         edit.putString("dato", "PP");
         edit.commit();
 
-        RecyclerView recyclerPerfil;
-        PerfilAdapter perfilAdapter;
+
         View view;
         view = inflater.inflate(R.layout.fragment_perfil, container, false);
         fotoPerfil=view.findViewById(R.id.fotoPerfil);
@@ -126,6 +336,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
         lblDescripcion=view.findViewById(R.id.lblDescripcion);
         lblCelular=view.findViewById(R.id.lblCelular);
         lblReportar=view.findViewById(R.id.lblReportar);
+
         if(idUsuarios == Sesion.getSesion().getId()){
             lblReportar.setVisibility(View.GONE);
         }
@@ -140,13 +351,58 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
         fotoPerfil.setImageResource(R.drawable.profilepic);
         recyclerPerfil=view.findViewById(R.id.recyclerPerfil);
         recyclerPerfil.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        cargarDatos();
-        perfilAdapter=new PerfilAdapter(getContext(),list,this);
-        recyclerPerfil.setAdapter(perfilAdapter);
+
+        buscarVideosFav();
+        if(idUsuarios!= Sesion.getSesion().getId()) {
+            cargarDatos();
+        }else{
+            cargarDatosPerfil();
+        }
+
+
         return view;
 
 
     }
+
+    private void buscarVideosFav() {
+        int idUsuario = Sesion.getSesion().getId();
+        String url = "https://readandwatch.herokuapp.com/php/buscarVideoFav.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                JSONArray json = response.optJSONArray("usuario");
+                JSONObject jsonObject=null;
+                if(json.length()<1){
+                    idUsuarioVidDocFav = new int[1];
+                    idUsuarioVidDocFav[0]=0;
+                }else {
+                    idUsuarioVidDocFav = new int[json.length()];
+                }
+
+                for(int i=0;i<json.length();i++){
+                    try {
+                        jsonObject=json.getJSONObject(i);
+                        idUsuarioVidDocFav[i]= jsonObject.getInt("idVidDoc");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+
     public void reportarPerfil(){
         int idPerfil = perfilEstudiante;
         int idUsuario= Sesion.getSesion().getId();
@@ -299,6 +555,157 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
     @Override
     public void onPerfilClick(int position, List<Item> lista, Toast toast) {
         interfaceFragments.onClickDocFavHolder(toast);
+    }
+
+    @Override
+    public void comentarioClickVid(int position, List<Item> list) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idVidDoc =((Videos)(list.get(position))).getIdVidDoc();
+        interfaceFragments.onClickComentario(idUsuario,idVidDoc,0);
+    }
+
+    @Override
+    public void agregarFavoritos(int position, List<Item> list) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idVidDoc = ((Videos)(list.get(position))).getIdVidDoc();
+        verificarExistencia(idUsuario, idVidDoc);
+    }
+
+    @Override
+    public void agregarFavoritosDoc(int position, List<Item> list) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idVidDoc = ((Documentos)(list.get(position))).getIdVidDoc();
+        verificarExistencia(idUsuario, idVidDoc);
+    }
+
+    @Override
+    public void comentarioClickVidDoc(int position, List<Item> list) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idVidDoc =((Documentos)(list.get(position))).getIdVidDoc();
+        interfaceFragments.onClickComentario(idUsuario,idVidDoc,0);
+
+    }
+
+    @Override
+    public void reportarClick(int position, List<Item> list) {
+        interfaceFragments.onClickReportarVidDoc(((Videos)(list.get(position))).getIdVidDoc());
+    }
+
+    @Override
+    public void reportarClickDoc(int position, List<Item> list) {
+        interfaceFragments.onClickReportarVidDoc(((Documentos)(list.get(position))).getIdVidDoc());
+    }
+
+    @Override
+    public void opcionClickDoc(int position, List<Item> list) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idVidDoc = ((Documentos)(list.get(position))).getIdVidDoc();
+        interfaceFragments.onClickOpcion(idUsuario,idVidDoc,2);
+    }
+
+    @Override
+    public void opcionClick(int position, List<Item> list) {
+        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = preferences.getInt("idUsuario", 0);
+        int idVidDoc = ((Videos)(list.get(position))).getIdVidDoc();
+        interfaceFragments.onClickOpcion(idUsuario,idVidDoc,1);
+    }
+
+    private void verificarExistencia(final int idUsuario, final int idVidDoc) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/existenciaFavorito.php?" +
+                "idUsuario="+idUsuario+"&idVidDoc="+idVidDoc;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                int idFavorito;
+                JSONArray json;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+                for(int i=0;i<json.length();i++) {
+                    try {
+                        jsonObject = json.getJSONObject(i);
+                        idFavorito = jsonObject.getInt("idFavorito");
+
+                        if (idFavorito==0){
+                            subirFavoritos(idUsuario, idVidDoc);
+
+                        }
+                        else {
+                            deleteFavoritos(idFavorito);
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                progreso.hide();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void deleteFavoritos(int idFavorito) {
+        String url;
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        url = "https://readandwatch.herokuapp.com/php/eliminarFavorito.php?" +
+                "idFavorito="+idFavorito;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                progreso.hide();
+                Toast.makeText(getContext(), "Se elimino de favoritos", Toast.LENGTH_SHORT).show();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void subirFavoritos(int idUsuario, int idVidDoc) {
+        String url;
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        url = "https://readandwatch.herokuapp.com/php/insertFavorito.php?" +
+                "idUsuario="+idUsuario+"&idVidDoc="+idVidDoc;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                progreso.hide();
+                Toast.makeText(getContext(), "Se agrego a favoritos", Toast.LENGTH_SHORT).show();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
     }
 
     @Override
