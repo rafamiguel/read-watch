@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -55,6 +57,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
     String dato;
     RecyclerView recyclerPerfil;
     PerfilAdapter perfilAdapter;
+    ImageView fotoPerfil;
     int []idUsuarioVidDocFav;
 
     private final boolean BUSCAR=true;
@@ -306,7 +309,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ImageView fotoPerfil;
+
         request= Volley.newRequestQueue(getContext());
 
         SharedPreferences preferenc = getContext().getSharedPreferences("Dato perfil", Context.MODE_PRIVATE);
@@ -507,7 +510,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
     private void cargarWebServices(int a) {
         String url;
         progreso = new ProgressDialog(getContext());
-        progreso.setMessage("Cargando...");
+        progreso.setMessage("Cargando Datos...");
         progreso.show();
         if(a==2) {
             url = "https://readandwatch.herokuapp.com/php/buscarEstudiante.php?idUsuario=" + perfilEstudiante;
@@ -730,10 +733,39 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        String foto="";
+
+                try {
+                    jsonObject = json.getJSONObject(0);
+                    foto = jsonObject.optString("rutaFoto");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
         lblNombreApellidos.setText(estudiante.getNombre()+" "+estudiante.getApellidos());
         lblDescripcion.setText(estudiante.getDescripcion());
         lblCelular.setText(estudiante.getTelefono());
-        progreso.hide();
+        cargarFoto(foto);
+    }
+
+    private void cargarFoto(String foto) {
+            request= Volley.newRequestQueue(getContext());
+            ImageRequest imageRequest= new ImageRequest(foto, new Response.Listener<Bitmap>() {
+                @Override
+                public void onResponse(Bitmap response) {
+                    progreso.hide();
+                    fotoPerfil.setImageBitmap(response);
+                }
+
+            },0,0,ImageView.ScaleType.CENTER,null, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    progreso.hide();
+                    Toast.makeText(getContext(), "Error al cargar las imagenes", Toast.LENGTH_SHORT).show();
+                }});
+            request.add(imageRequest);
     }
 
     public interface OnFragmentInteractionListener {
