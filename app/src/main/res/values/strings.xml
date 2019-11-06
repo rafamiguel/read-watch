@@ -79,6 +79,7 @@
     <string name="materia">Materia</string>
     <string name="ip">https://readandwatch.herokuapp.com</string>
     <string name="ip_server_archivos_imagenes">https://readandwatch.000webhostapp.com/imagenes/</string>
+    <string name="ip_server_archivos_imagenes_perfil">https://readandwatch.000webhostapp.com/perfil/</string>
     <string name="ip_server_archivos_php">https://readandwatch.000webhostapp.com/php/</string>
 </resources>
 

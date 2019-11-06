@@ -7,7 +7,7 @@ public class Estudiante extends Usuario implements iSesion {
     private String telefono;
     private String descripcion;
 
-    public Estudiante(int id, String nombre, String apellidos, String correo, String contrasena, String telefono, String descripcion) {
+    public Estudiante(int id, String nombre, String apellidos, String correo, String contrasena, String telefono, String descripcion, String foto) {
         super(id, nombre, apellidos, correo, contrasena);
         this.telefono = telefono;
         this.descripcion = descripcion;
