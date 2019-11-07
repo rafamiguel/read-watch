@@ -31,7 +31,6 @@ import okhttp3.Response;
 public class MainFileManager extends AppCompatActivity {
 
     Button btnfilePicker;
-    Intent myFileIntent;
     TextView messageText;
     ProgressDialog dialog = null;
     Intent data;

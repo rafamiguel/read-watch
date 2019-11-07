@@ -95,7 +95,7 @@ public class leerDocumentos extends Fragment {
                     }
                 }
         ).check();
-        FileLoader.with(getContext()).load("https://readandwatch.000webhostapp.com/archivos/Mi_sistema_Nimzovith.pdf").fromDirectory("PDFFiles",FileLoader.DIR_EXTERNAL_PUBLIC).asFile(new FileRequestListener<File>() {
+        FileLoader.with(getContext()).load("https://readandwatch.000webhostapp.com/archivos/"+getArguments().getInt("idVidDoc")+".pdf").fromDirectory("PDFFiles",FileLoader.DIR_EXTERNAL_PUBLIC).asFile(new FileRequestListener<File>() {
             @Override
             public void onLoad(FileLoadRequest request, FileResponse<File> response) {
                 File pdf = response.getBody();

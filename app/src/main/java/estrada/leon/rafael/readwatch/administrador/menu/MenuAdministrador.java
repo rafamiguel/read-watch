@@ -406,9 +406,10 @@ public class MenuAdministrador extends AppCompatActivity
     }
 
     @Override
-    public void leerDocumento() {
+    public void leerDocumento(int idVidDoc) {
 
     }
+
 
     @Override
     public void mostrarGaleria() {

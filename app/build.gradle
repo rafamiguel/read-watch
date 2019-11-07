@@ -39,6 +39,7 @@ dependencies {
     implementation files('libs/mail.jar')
 
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    implementation 'com.github.barteksc:pdfium-android:1.9.0'
     implementation 'com.github.kk121:File-Loader:1.2'
     implementation 'com.karumi:dexter:5.0.0'
 

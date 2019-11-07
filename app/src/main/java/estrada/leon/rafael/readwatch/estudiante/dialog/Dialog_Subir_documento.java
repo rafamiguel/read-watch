@@ -1,12 +1,17 @@
 package estrada.leon.rafael.readwatch.estudiante.dialog;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
@@ -23,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.nbsp.materialfilepicker.MaterialFilePicker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,8 +39,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import estrada.leon.rafael.readwatch.MainFileManager;
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
 
 public class Dialog_Subir_documento extends AppCompatDialogFragment implements
         Response.Listener<JSONObject>, Response.ErrorListener{
@@ -46,9 +52,17 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
     Spinner spinner_tema,spinner_materia;
     public static final int PREGUNTAR=1,RESUBIR=2, MATERIA=3;
     int modo;
+    int idVidDocAInsertar=0;
+
+    MenuEstudiante actividad;
+    ProgressDialog dialog = null;
 
     public void setModo(int modo){
         this.modo = modo;
+    }
+
+    public void setActividad(MenuEstudiante actividad) {
+        this.actividad = actividad;
     }
 
     @Override
@@ -80,30 +94,33 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
         });
         request= Volley.newRequestQueue(getContext());
         cargarListaMateriasWebService();
-        builder.setView(view)
-                .setTitle("Subir documento")
-                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+        if(modo==MATERIA) {
+            builder.setView(view)
+                    .setTitle("Subir documento")
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
 
-                    }
-                })
-                .setPositiveButton("Subir", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        subirDocWebService(txtDescripcion.getText().toString(),txtTitulo.getText().toString());
-                    }
-                });
+                        }
+                    })
+                    .setPositiveButton("Subir", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialog = ProgressDialog.show(getContext(), "Subiendo archivo", "Por favor espere.", true);
+                            subirDocWebService(txtDescripcion.getText().toString(), txtTitulo.getText().toString());
 
-        lblElegirDocumento = view.findViewById(R.id.lblElegirDocumento);
-        lblElegirDocumento.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                entrar = new Intent(getContext(), MainFileManager.class);
-                startActivity(entrar);
-            }
-        });
-        if(modo==RESUBIR){
+                        }
+                    });
+
+            lblElegirDocumento = view.findViewById(R.id.lblElegirDocumento);
+            lblElegirDocumento.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new MaterialFilePicker().withActivity(getActivity()).withRequestCode(10).start();
+                }
+            });
+        }
+        else if(modo==RESUBIR){
             builder.setView(view)
                     .setTitle("Modificar")
                     .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -115,12 +132,14 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
                     .setPositiveButton("Modificar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            dialog = ProgressDialog.show(getContext(), "Subiendo archivo", "Por favor espere.", true);
                             subirDocWebService(txtDescripcion.getText().toString(),txtTitulo.getText().toString());
+
                         }
                     });
         }else{
             builder.setView(view)
-                    .setTitle("Subir Video")
+                    .setTitle("Subir Documento")
                     .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -130,9 +149,15 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
                     .setPositiveButton("Subir", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            dialog = ProgressDialog.show(getContext(), "Subiendo archivo", "Por favor espere.", true);
                             subirDocWebService(txtDescripcion.getText().toString(),txtTitulo.getText().toString());
                         }
                     });
+        }
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
+            }
         }
         return builder.create();
     }
@@ -248,28 +273,36 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
         }
 
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
-                null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                progreso.hide();
-                // Toast.makeText(getContext(),"Video insertado con éxito",Toast.LENGTH_SHORT).show();
-            }
-        }, new Response.ErrorListener() {
+                null,this, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
             }
         });
         request.add(jsonObjectRequest);
-
     }
+
     @Override
     public void onErrorResponse(VolleyError error) {
-
+        progreso.hide();
     }
 
     @Override
     public void onResponse(JSONObject response) {
-
+        JSONArray json = response.optJSONArray("vidDoc");
+        JSONObject jsonObject=null;
+        for(int i=0;i<json.length();i++){
+            try {
+                jsonObject=json.getJSONObject(i);
+                idVidDocAInsertar= jsonObject.getInt("idVidDoc");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        actividad.nombreArchivo = Integer.toString(idVidDocAInsertar);
+        actividad.hilo.start();
+        dialog.dismiss();
+        progreso.hide();
     }
+
 }

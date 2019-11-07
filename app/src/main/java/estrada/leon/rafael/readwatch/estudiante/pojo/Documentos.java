@@ -1,5 +1,7 @@
 package estrada.leon.rafael.readwatch.estudiante.pojo;
 
+import android.graphics.Bitmap;
+
 import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
 
 public class Documentos implements Item {
@@ -7,6 +9,7 @@ public class Documentos implements Item {
     private String descripcion;
     private String rutaImagen;
     private int idVidDoc,idUsuario;
+    private Bitmap imagen;
     public Documentos(String perfil,String descripcion, String rutaImagen, int idUsuario, int idVidDoc){
         this.perfil=perfil;
         this.descripcion=descripcion;
@@ -43,6 +46,14 @@ public class Documentos implements Item {
 
     public void setRutaImagen(String rutaImagen) {
         this.rutaImagen = rutaImagen;
+    }
+
+    public Bitmap getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Bitmap imagen) {
+        this.imagen = imagen;
     }
 
     @Override
