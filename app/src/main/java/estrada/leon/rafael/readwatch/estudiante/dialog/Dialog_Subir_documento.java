@@ -38,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
@@ -272,6 +273,23 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
 
         }
 
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
+                null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                obtenerUltimoVidDoc();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    public void obtenerUltimoVidDoc(){
+        String url = "https://readandwatch.herokuapp.com/php/obtenerUltimoVidDoc.php";
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
                 null,this, new Response.ErrorListener() {
             @Override

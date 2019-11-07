@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -779,13 +780,21 @@ public class  MenuEstudiante extends AppCompatActivity
     private void subirArchivo(){
         File f;
         String nombre="";
-        if(nombreArchivo!=null){
-            f= new File(data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH));
-            nombre=nombreArchivo+".pdf";
-        }else{
-            f= new File(data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH));
-        }
+        String path = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
 
+        String currentFileName = path.substring(path.lastIndexOf("/"));
+        currentFileName = currentFileName.substring(1);
+        String nombreSinEspacios = currentFileName.replace(" ", "");
+
+        String rutaSinArchivo = path.substring(0, path.lastIndexOf("/"));
+
+        File from      = new File(rutaSinArchivo, currentFileName);
+        File to        = new File(rutaSinArchivo, nombreSinEspacios);
+        from.renameTo(to);
+        f= to;
+        if(nombreArchivo!=null) {
+            nombre = nombreArchivo + ".pdf";
+        }
         String content_type  = getMimeType(f.getPath());
 
         String file_path = f.getAbsolutePath();
