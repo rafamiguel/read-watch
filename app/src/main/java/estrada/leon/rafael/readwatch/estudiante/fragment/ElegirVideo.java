@@ -347,7 +347,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
 
     private void cargarWebService() {
         String url;
-        progreso = new ProgressDialog(getActivity());
+        progreso = new ProgressDialog(getContext());
         progreso.setMessage("Cargando...");
         progreso.show();
         url = "https://readandwatch.herokuapp.com/php/cargarVidDoc.php?" +
@@ -367,7 +367,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         JSONObject jsonObject=null;
         Videos video;
         json = response.optJSONArray("usuario");
-        String descripcion,miniatura,ruta;
+        String descripcion,miniatura,ruta, eliminado;
         int idUsuario,idVidDoc;
         try {
             for(int i=0;i<json.length();i++){
@@ -377,9 +377,11 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
             miniatura=jsonObject.optString("rutaImagen");
             idVidDoc=jsonObject.optInt("idVidDoc");
             ruta = jsonObject.optString("ruta");
-            video=new Videos(Integer.toString(idUsuario),descripcion,miniatura,idUsuario,idVidDoc,ruta);
-
-            videos.add(video);
+            eliminado = jsonObject.optString("eliminado");
+            if(eliminado.equals("N")) {
+                video = new Videos(Integer.toString(idUsuario), descripcion, miniatura, idUsuario, idVidDoc, ruta);
+                videos.add(video);
+            }
             }
         } catch (JSONException e) {
             e.printStackTrace();

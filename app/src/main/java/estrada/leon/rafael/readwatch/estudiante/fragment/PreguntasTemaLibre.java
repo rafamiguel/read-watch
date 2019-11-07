@@ -155,6 +155,7 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
         TemaLibre temaLibre;
         json = response.optJSONArray("usuario");
         String descripcion,titulo;
+        String eliminado;
         int id;
         try {
             for(int i=0;i<json.length();i++){
@@ -162,9 +163,11 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
                 descripcion=jsonObject.optString("descripcion");
                 titulo=jsonObject.optString("titulo");
                 id=jsonObject.optInt("idPregunta");
-                temaLibre=new TemaLibre(descripcion,titulo,id);
-
-                preguntas.add(temaLibre);
+                eliminado=jsonObject.optString("eliminado");
+                if(eliminado.equals("N")) {
+                    temaLibre = new TemaLibre(descripcion, titulo, id);
+                    preguntas.add(temaLibre);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
