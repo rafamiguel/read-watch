@@ -1,36 +1,41 @@
 package estrada.leon.rafael.readwatch;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.DataOutputStream;
+import com.nbsp.materialfilepicker.MaterialFilePicker;
+import com.nbsp.materialfilepicker.ui.FilePickerActivity;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.IOException;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MainFileManager extends AppCompatActivity {
 
     Button btnfilePicker;
     Intent myFileIntent;
     TextView messageText;
-    int serverResponseCode = 0;
     ProgressDialog dialog = null;
+    Intent data;
 
-    String upLoadServerUri = null;
-
-    /**********  File Path *************/
-    String uploadFilePath = "";
-    final String uploadFileName = "x.pdf";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,178 +47,64 @@ public class MainFileManager extends AppCompatActivity {
         btnfilePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                myFileIntent=new Intent(Intent.ACTION_GET_CONTENT);
-                myFileIntent.setType("*/*");
-                startActivityForResult(myFileIntent, 10);
+                new MaterialFilePicker().withActivity(MainFileManager.this).withRequestCode(10).start();
             }
         });
-        upLoadServerUri = getString(R.string.ip_server_archivos_php)+"guardarArchivos.php";
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
+                return;
+            }
+        }
+
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        switch (requestCode){
-            case 10:
-                if(resultCode==RESULT_OK){
-                    String path = data.getData().getPath();
-                    uploadFilePath=path;
-                    messageText.setText(path);
-                    dialog = ProgressDialog.show(MainFileManager.this, "", "Uploading file...", true);
-
-                    new Thread(new Runnable() {
-                        public void run() {
-                            runOnUiThread(new Runnable() {
-                                public void run() {
-                                    messageText.setText("uploading started.....");
-                                }
-                            });
-
-                            uploadFile(uploadFilePath + "" + uploadFileName);
-
-                        }
-                    }).start();
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable  Intent data) {
+        if (requestCode == 10 && resultCode == RESULT_OK && data != null) {
+            dialog = ProgressDialog.show(MainFileManager.this, "Subiendo archivo", "Por favor espere.", true);
+            this.data = data;
+            Thread hilo = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    subirArchivo();
                 }
-                break;
+            });
+            hilo.start();
         }
     }
-    public int uploadFile(String sourceFileUri) {
 
+    private void subirArchivo(){
+        File f  = new File(data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH));
+        String content_type  = getMimeType(f.getPath());
 
-        String fileName = sourceFileUri;
+        String file_path = f.getAbsolutePath();
+        OkHttpClient client = new OkHttpClient();
+        RequestBody file_body = RequestBody.create(MediaType.parse(content_type),f);
 
-        HttpURLConnection conn = null;
-        DataOutputStream dos = null;
-        String lineEnd = "\r\n";
-        String twoHyphens = "--";
-        String boundary = "*****";
-        int bytesRead, bytesAvailable, bufferSize;
-        byte[] buffer;
-        int maxBufferSize = 1 * 1024 * 1024;
-        File sourceFile = new File(sourceFileUri);
-
-        if (!sourceFile.isFile()) {
-
-            dialog.dismiss();
-
-            Log.e("uploadFile", "Source File not exist :"
-                    +uploadFilePath + "" + uploadFileName);
-
-
-
-            return 0;
-
-        }
-        else
-        {
-            try {
-
-                // open a URL connection to the Servlet
-                FileInputStream fileInputStream = new FileInputStream(sourceFile);
-                URL url = new URL(upLoadServerUri);
-
-                // Open a HTTP  connection to  the URL
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setDoInput(true); // Allow Inputs
-                conn.setDoOutput(true); // Allow Outputs
-                conn.setUseCaches(false); // Don't use a Cached Copy
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Connection", "Keep-Alive");
-                conn.setRequestProperty("ENCTYPE", "multipart/form-data");
-                conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-                conn.setRequestProperty("uploaded_file", fileName);
-
-                dos = new DataOutputStream(conn.getOutputStream());
-
-                dos.writeBytes(twoHyphens + boundary + lineEnd);
-                dos.writeBytes("Content-Disposition: form-data; name='uploaded_file';filename="
-                                + fileName + lineEnd);
-
-                        dos.writeBytes(lineEnd);
-
-                // create a buffer of  maximum size
-                bytesAvailable = fileInputStream.available();
-
-                bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                buffer = new byte[bufferSize];
-
-                // read file and write it into form...
-                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
-                while (bytesRead > 0) {
-
-                    dos.write(buffer, 0, bufferSize);
-                    bytesAvailable = fileInputStream.available();
-                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
-                }
-
-                // send multipart form data necesssary after file data...
-                dos.writeBytes(lineEnd);
-                dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-
-                // Responses from the server (code and message)
-                serverResponseCode = conn.getResponseCode();
-                String serverResponseMessage = conn.getResponseMessage();
-
-                Log.i("uploadFile", "HTTP Response is : "
-                        + serverResponseMessage + ": " + serverResponseCode);
-
-                if(serverResponseCode == 200){
-
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-
-                            String msg = "File Upload Completed.\n\n See uploaded file here : \n\n"
-                                    +" http://www.androidexample.com/media/uploads/"
-                                    +uploadFileName;
-
-                            messageText.setText(msg);
-                            Toast.makeText(MainFileManager.this, "File Upload Complete.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-
-                //close the streams //
-                fileInputStream.close();
-                dos.flush();
-                dos.close();
-
-            } catch (MalformedURLException ex) {
-
-                dialog.dismiss();
-                ex.printStackTrace();
-
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        messageText.setText("MalformedURLException Exception : check script url.");
-                        Toast.makeText(MainFileManager.this, "MalformedURLException",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                Log.e("Upload file to server", "error: " + ex.getMessage(), ex);
-            } catch (Exception e) {
-
-                dialog.dismiss();
-                e.printStackTrace();
-
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        messageText.setText("Got Exception : see logcat ");
-                        Toast.makeText(MainFileManager.this, "Got Exception : see logcat ",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-                Log.e("Server exceoption", "Exception : "
-                        + e.getMessage(), e);
+        RequestBody request_body = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("type",content_type)
+                .addFormDataPart("uploaded_file",file_path.substring(file_path.lastIndexOf("/")+1), file_body)
+                .build();
+        Request request = new Request.Builder().url(getString(R.string.ip_server_archivos_php) + "guardarArchivos.php").post(request_body).build();
+        try {
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) {
+                Toast.makeText(MainFileManager.this, "Error de peticion", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(MainFileManager.this, "Se subio correctamente el archivo", Toast.LENGTH_SHORT).show();
             }
-            dialog.dismiss();
-            return serverResponseCode;
+        } catch (IOException e) {
+            Toast.makeText(MainFileManager.this, "Error de peticion", Toast.LENGTH_SHORT).show();
+        }
+        dialog.dismiss();
 
-        } // End else block
+    }
+
+    private String getMimeType(String path) {
+        String extension = MimeTypeMap.getFileExtensionFromUrl(path);
+        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
     }
 }
 
