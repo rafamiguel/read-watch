@@ -1,19 +1,28 @@
 package estrada.leon.rafael.readwatch.estudiante.menu;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -21,19 +30,31 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogModificarEliminar;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogHacerPregunta;
@@ -73,13 +94,20 @@ public class  MenuEstudiante extends AppCompatActivity
         leerDocumentos.OnFragmentInteractionListener {
     Fragment fragment;
     TextView titulo;
+    ImageView imgFoto2;
+    RequestQueue request;
+    Button btnEditarFoto;
+    ImageView imgCambioFoto;
     ProgressDialog progreso;
     int []idComentarioUsuario;
+    Bitmap bitmap;
+    JsonObjectRequest jsonObjectRequest;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        request = Volley.newRequestQueue(getApplicationContext());
         setContentView(R.layout.activity_menu_estudiante);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -586,6 +614,147 @@ public class  MenuEstudiante extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
         titulo.setText("Doc");
     }
+
+    @Override
+    public void mostrarGaleria() {
+        View view;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = MenuEstudiante.this.getLayoutInflater();
+        view = inflater.inflate(R.layout.cambiar_foto, null);
+        builder.setView(view);
+        builder.setTitle("      Cambiar foto de perfil");
+
+        btnEditarFoto = view.findViewById(R.id.btnEditarFoto);
+        imgCambioFoto = view.findViewById(R.id.imgCambioFoto);
+
+
+        btnEditarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ActivityCompat.requestPermissions(MenuEstudiante.this,
+                       new String[]{
+                             Manifest.permission.READ_EXTERNAL_STORAGE},999);
+            }
+        });
+
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String link = getString(R.string.ip_server_archivos_php)+"guardarImagenesPerfil.php";
+                StringRequest request1 = new StringRequest(Request.Method.POST, link, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(getApplicationContext(), "Imagen subida correctamente.", Toast.LENGTH_LONG).show();
+                    }
+                }
+                        , new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        if (volleyError != null && volleyError.getMessage() != null) {
+                            Toast.makeText(getApplicationContext(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                }) {
+
+                    @Override
+                    protected Map<String, String> getParams() {
+                        String nombre = String.valueOf(Sesion.getSesion().getId());
+                        String rutaImagen = convertirImgString(bitmap);
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("imagename", nombre);
+                        params.put("imagecode", rutaImagen);
+                        return params;
+                    }
+                };
+
+                RetryPolicy mRetryPolicy = new DefaultRetryPolicy(
+                        0,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+
+                 request1.setRetryPolicy(mRetryPolicy);
+                request.add(request1);
+                request= Volley.newRequestQueue(MenuEstudiante.this);
+
+                String url = "https://readandwatch.herokuapp.com/php/updateUsuarioFoto.php?" +
+                        "idUsuario="+Sesion.getSesion().getId()+
+                        "&txtRutaFoto="+ getString(R.string.ip_server_archivos_imagenes_perfil)+(Sesion.getSesion().getId())+".jpeg"+"";
+                url=url.replace(" ", "%20");
+                jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Toast.makeText(MenuEstudiante.this, "Un momento porfavor...", Toast.LENGTH_LONG).show();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(MenuEstudiante.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+                request.add(jsonObjectRequest);
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+
+    }
+
+    private String convertirImgString(Bitmap bitmap) {
+        ByteArrayOutputStream array = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,array);
+        byte[] imageByte = array.toByteArray();
+        String imagenString = Base64.encodeToString(imageByte,Base64.DEFAULT);
+        return imagenString;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode==999){
+            if(grantResults.length>0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent.createChooser(intent, "Seleccione la aplicación"),999);
+            }else{
+                Toast.makeText(MenuEstudiante.this, "No tienes permisos", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 999 && resultCode==RESULT_OK && data!=null){
+            Uri path = data.getData();
+            imgCambioFoto.setImageURI(path);
+            try {
+                InputStream inputStream = MenuEstudiante.this.getContentResolver().openInputStream(path);
+
+                bitmap = BitmapFactory.decodeStream(inputStream);
+                imgCambioFoto.setImageBitmap(bitmap);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
 
     @Override
     public void onClickVideosHolder(Toast toast) {

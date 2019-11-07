@@ -78,6 +78,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblCelular" />
 
+            <Button
+                android:id="@+id/btnEditar"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="28dp"
+                android:background="@android:drawable/ic_menu_camera"
+                android:backgroundTint="#045BA7"
+                android:backgroundTintMode="screen"
+                app:layout_constraintStart_toEndOf="@+id/fotoPerfil"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </android.support.constraint.ConstraintLayout>
 
     </ScrollView>

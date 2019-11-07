@@ -1,6 +1,10 @@
 package estrada.leon.rafael.readwatch.estudiante.interfaces;
 
+import android.graphics.Bitmap;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.util.Map;
 
 public interface iComunicacionFragments {
     public void seleccionarSemestre(int idMateria);
@@ -26,4 +30,6 @@ public interface iComunicacionFragments {
     public void onClickSubirDocPreg(int idPregunta);
     public void onClickOpcion(int idUsuario,int idVidDoc, int opcion);
     public void leerDocumento();
+    public void mostrarGaleria();
+
 }
