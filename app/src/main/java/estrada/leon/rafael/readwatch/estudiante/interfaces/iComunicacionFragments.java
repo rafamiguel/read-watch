@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.Map;
+
 public interface iComunicacionFragments {
     public void seleccionarSemestre(int idMateria);
     public void seleccionarTema(int semestre);
@@ -28,5 +30,6 @@ public interface iComunicacionFragments {
     public void onClickSubirDocPreg(int idPregunta);
     public void onClickOpcion(int idUsuario,int idVidDoc, int opcion);
     public void leerDocumento();
-    public void mostrarGaleria(ImageView imgFoto, Bitmap bitmap);
+    public void mostrarGaleria();
+
 }

@@ -79,7 +79,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
     PerfilAdapter perfilAdapter;
     ImageView fotoPerfil, imgCambioFoto;
     Button btnEditar, btnEditarFoto;
-    Bitmap bitmap;
+    Bitmap  bitmap2;
     int []idUsuarioVidDocFav;
     Activity actividad;
     private final boolean BUSCAR=true;
@@ -101,6 +101,9 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
         this.opcion = opcion;
 
     }
+
+
+
 
     public void setIdUsuario(int idUsuario){
         this.idUsuarios = idUsuario;
@@ -137,8 +140,8 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-               // perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this,nuevo, idUsuarioVidDocFav);
-               // recyclerPerfil.setAdapter(perfilAdapter);
+                perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this,nuevo, idUsuarioVidDocFav);
+               recyclerPerfil.setAdapter(perfilAdapter);
                 idUsuarios=sesion;
                 cargarDoc();
 
@@ -238,8 +241,8 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-               // perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this,idUsuarios,idUsuarioVidDocFav);
-                //recyclerPerfil.setAdapter(perfilAdapter);
+                perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this,idUsuarios,idUsuarioVidDocFav);
+                recyclerPerfil.setAdapter(perfilAdapter);
                 cargarDocPerfil();
 
 
@@ -356,83 +359,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
         btnEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // ActivityCompat.requestPermissions(getActivity(),
-                 //       new String[]{
-                   //             Manifest.permission.READ_EXTERNAL_STORAGE},999);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-                view = inflater.inflate(R.layout.cambiar_foto, null);
-                builder.setView(view);
-                builder.setTitle("      Cambiar foto de perfil");
-
-                btnEditarFoto = view.findViewById(R.id.btnEditarFoto);
-                imgCambioFoto = view.findViewById(R.id.imgCambioFoto);
-
-
-
-                btnEditarFoto.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                       // Toast.makeText(getContext(),"Hola", Toast.LENGTH_LONG).show();
-                        interfaceFragments.mostrarGaleria(imgCambioFoto, bitmap);
-                        //int a = 0;
-                }
-                });
-
-                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String link = getString(R.string.ip_server_archivos_php)+"guardarImagenesPerfil.php";
-
-                        StringRequest request1 = new StringRequest(Request.Method.POST, link, new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                Toast.makeText(getContext(), "Imagen subida correctamente.", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                                , new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError volleyError) {
-                                if (volleyError != null && volleyError.getMessage() != null) {
-                                    Toast.makeText(getContext(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
-                                } else {
-                                    Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_LONG).show();
-
-                                }
-                            }
-                        }) {
-                            @Override
-                            protected Map<String, String> getParams() {
-                                String nombre = String.valueOf(Sesion.getSesion().getId());
-                                String rutaImagen = convertirImgString(bitmap);
-                                Map<String, String> params = new HashMap<String, String>();
-                                params.put("imagename", nombre);
-                                params.put("imagecode", rutaImagen);
-                                return params;
-                            }
-                        };
-
-                        RetryPolicy mRetryPolicy = new DefaultRetryPolicy(
-                                0,
-                                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-
-                        request1.setRetryPolicy(mRetryPolicy);
-                        request.add(request1);
-
-                    }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.setCancelable(false);
-                alertDialog.show();
+                interfaceFragments.mostrarGaleria();
             }
         });
 
@@ -465,6 +392,11 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
 
 
     }
+
+    public void obtenerMap(Bitmap mapa) {
+        bitmap2 = mapa;
+    }
+
 
     private String convertirImgString(Bitmap bitmap) {
         ByteArrayOutputStream array = new ByteArrayOutputStream();

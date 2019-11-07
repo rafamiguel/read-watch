@@ -411,7 +411,7 @@ public class MenuAdministrador extends AppCompatActivity
     }
 
     @Override
-    public void mostrarGaleria(ImageView imgFoto, Bitmap bitmap) {
+    public void mostrarGaleria() {
 
     }
 
@@ -699,6 +699,7 @@ public class MenuAdministrador extends AppCompatActivity
 
                 bitmap = BitmapFactory.decodeStream(inputStream);
                 imagen.setImageBitmap(bitmap);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
