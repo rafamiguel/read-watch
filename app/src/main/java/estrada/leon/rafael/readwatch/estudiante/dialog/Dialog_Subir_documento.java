@@ -1,6 +1,7 @@
 package estrada.leon.rafael.readwatch.estudiante.dialog;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,7 +15,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -54,10 +54,15 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
     int modo;
     int idVidDocAInsertar=0;
 
+    MenuEstudiante actividad;
     ProgressDialog dialog = null;
 
     public void setModo(int modo){
         this.modo = modo;
+    }
+
+    public void setActividad(MenuEstudiante actividad) {
+        this.actividad = actividad;
     }
 
     @Override
@@ -89,32 +94,33 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
         });
         request= Volley.newRequestQueue(getContext());
         cargarListaMateriasWebService();
-        builder.setView(view)
-                .setTitle("Subir documento")
-                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+        if(modo==MATERIA) {
+            builder.setView(view)
+                    .setTitle("Subir documento")
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
 
-                    }
-                })
-                .setPositiveButton("Subir", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialog = ProgressDialog.show(getContext(), "Subiendo archivo", "Por favor espere.", true);
-                        subirDocWebService(txtDescripcion.getText().toString(),txtTitulo.getText().toString());
-                        ((MenuEstudiante)getActivity()).hilo.start();
-                        dialog.dismiss();
-                    }
-                });
+                        }
+                    })
+                    .setPositiveButton("Subir", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialog = ProgressDialog.show(getContext(), "Subiendo archivo", "Por favor espere.", true);
+                            subirDocWebService(txtDescripcion.getText().toString(), txtTitulo.getText().toString());
 
-        lblElegirDocumento = view.findViewById(R.id.lblElegirDocumento);
-        lblElegirDocumento.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new MaterialFilePicker().withActivity(getActivity()).withRequestCode(10).start();
-            }
-        });
-        if(modo==RESUBIR){
+                        }
+                    });
+
+            lblElegirDocumento = view.findViewById(R.id.lblElegirDocumento);
+            lblElegirDocumento.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new MaterialFilePicker().withActivity(getActivity()).withRequestCode(10).start();
+                }
+            });
+        }
+        else if(modo==RESUBIR){
             builder.setView(view)
                     .setTitle("Modificar")
                     .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -128,9 +134,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialog = ProgressDialog.show(getContext(), "Subiendo archivo", "Por favor espere.", true);
                             subirDocWebService(txtDescripcion.getText().toString(),txtTitulo.getText().toString());
-                            ((MenuEstudiante)getActivity()).hilo.start();
-                            ((MenuEstudiante)getActivity()).nombreArchivo = Integer.toString(idVidDocAInsertar);
-                            dialog.dismiss();
+
                         }
                     });
         }else{
@@ -145,6 +149,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
                     .setPositiveButton("Subir", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            dialog = ProgressDialog.show(getContext(), "Subiendo archivo", "Por favor espere.", true);
                             subirDocWebService(txtDescripcion.getText().toString(),txtTitulo.getText().toString());
                         }
                     });
@@ -268,12 +273,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
         }
 
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
-                null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                progreso.hide();
-            }
-        }, new Response.ErrorListener() {
+                null,this, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
@@ -284,12 +284,12 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
 
     @Override
     public void onErrorResponse(VolleyError error) {
-
+        progreso.hide();
     }
 
     @Override
     public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("idVidDoc");
+        JSONArray json = response.optJSONArray("vidDoc");
         JSONObject jsonObject=null;
         for(int i=0;i<json.length();i++){
             try {
@@ -299,6 +299,10 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
                 e.printStackTrace();
             }
         }
+        actividad.nombreArchivo = Integer.toString(idVidDocAInsertar);
+        actividad.hilo.start();
+        dialog.dismiss();
+        progreso.hide();
     }
 
 }

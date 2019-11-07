@@ -29,7 +29,7 @@ public interface iComunicacionFragments {
     public void onClickSubirVidPreg(int idPregunta);
     public void onClickSubirDocPreg(int idPregunta);
     public void onClickOpcion(int idUsuario,int idVidDoc, int opcion);
-    public void leerDocumento();
+    public void leerDocumento(int idVidDoc);
     public void mostrarGaleria();
 
 }

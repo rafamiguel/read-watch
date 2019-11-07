@@ -225,8 +225,8 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     }
 
     @Override
-    public void leerDocumento() {
-        interfaceFragments.leerDocumento();
+    public void leerDocumento(int idVidDoc) {
+        interfaceFragments.leerDocumento(idVidDoc);
     }
 
     private void verificarExistencia(final int idUsuario, final int idVidDoc) {
@@ -416,7 +416,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         adapter=new DocumentosAdapter(getContext(),documentos,this,idUsuarioVidDoc, idUsuarioVidDocFav);
         contador=0;
         for (int i=0;i<documentos.size();i++) {
-            FileLoader.with(getContext()).load("https://readandwatch.000webhostapp.com/archivos/Mi_sistema_Nimzovith.pdf").fromDirectory("PDFFiles", FileLoader.DIR_EXTERNAL_PUBLIC).asFile(new FileRequestListener<File>() {
+            FileLoader.with(getContext()).load("https://readandwatch.000webhostapp.com/archivos/"+documentos.get(i).getIdVidDoc()+".pdf").fromDirectory("PDFFiles", FileLoader.DIR_EXTERNAL_PUBLIC).asFile(new FileRequestListener<File>() {
                 @Override
                 public void onLoad(FileLoadRequest request, FileResponse<File> response) {
                     File pdf = response.getBody();

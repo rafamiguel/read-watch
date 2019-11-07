@@ -564,6 +564,7 @@ public class  MenuEstudiante extends AppCompatActivity
     public void onClickSubirDoc() {
         Dialog_Subir_documento nuevo = new Dialog_Subir_documento();
         nuevo.setModo(Dialog_Subir_documento.MATERIA);
+        nuevo.setActividad(this);
         nuevo.show(getSupportFragmentManager() , "ejemplo");
     }
 
@@ -617,8 +618,13 @@ public class  MenuEstudiante extends AppCompatActivity
     }
 
     @Override
-    public void leerDocumento() {
+    public void leerDocumento(int idVidDoc) {
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("idVidDoc",idVidDoc);
+
         fragment =new leerDocumentos();
+        fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
         titulo.setText("Doc");
     }
@@ -772,8 +778,10 @@ public class  MenuEstudiante extends AppCompatActivity
 
     private void subirArchivo(){
         File f;
+        String nombre="";
         if(nombreArchivo!=null){
-        f= new File(data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH),nombreArchivo);
+            f= new File(data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH));
+            nombre=nombreArchivo+".pdf";
         }else{
             f= new File(data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH));
         }
@@ -788,6 +796,7 @@ public class  MenuEstudiante extends AppCompatActivity
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("type",content_type)
                 .addFormDataPart("uploaded_file",file_path.substring(file_path.lastIndexOf("/")+1), file_body)
+                .addFormDataPart("nombre",nombre)
                 .build();
         okhttp3.Request request = new okhttp3.Request.Builder().url(getString(R.string.ip_server_archivos_php) + "guardarArchivos.php").post(request_body).build();
         try {
