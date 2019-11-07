@@ -1,40 +1,58 @@
 package estrada.leon.rafael.readwatch.estudiante.fragment;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Reportes;
@@ -45,6 +63,8 @@ import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragment
 import estrada.leon.rafael.readwatch.estudiante.pojo.Documentos;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
 import estrada.leon.rafael.readwatch.general.pojo.Sesion;
+
+import static android.app.Activity.RESULT_OK;
 
 public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, Response.Listener<JSONObject>, Response.ErrorListener{
     List<Item> list;
@@ -57,9 +77,11 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
     String dato;
     RecyclerView recyclerPerfil;
     PerfilAdapter perfilAdapter;
-    ImageView fotoPerfil;
+    ImageView fotoPerfil, imgCambioFoto;
+    Button btnEditar, btnEditarFoto;
+    Bitmap bitmap;
     int []idUsuarioVidDocFav;
-
+    Activity actividad;
     private final boolean BUSCAR=true;
     JsonObjectRequest jsonObjectRequest;
     private iComunicacionFragments interfaceFragments;
@@ -130,15 +152,6 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
         });
         request.add(jsonObjectRequest);
 
-
-
-   /*     list=new ArrayList<>();
-        for(int i=1;i<11;i++){
-            list.add(new Documentos("perfil"+i,"Documento"+i,"@drawable/btnDocumento",i,1));
-            list.add(new Videos("perfil"+i,"video"+i,"@drawable/miniatura",i,1,"gyy"));
-        }
-
-    */
     }
 
     private void cargarDoc() {
@@ -339,10 +352,95 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
         lblDescripcion=view.findViewById(R.id.lblDescripcion);
         lblCelular=view.findViewById(R.id.lblCelular);
         lblReportar=view.findViewById(R.id.lblReportar);
+        btnEditar = view.findViewById(R.id.btnEditar);
+        btnEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // ActivityCompat.requestPermissions(getActivity(),
+                 //       new String[]{
+                   //             Manifest.permission.READ_EXTERNAL_STORAGE},999);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                view = inflater.inflate(R.layout.cambiar_foto, null);
+                builder.setView(view);
+                builder.setTitle("      Cambiar foto de perfil");
+
+                btnEditarFoto = view.findViewById(R.id.btnEditarFoto);
+                imgCambioFoto = view.findViewById(R.id.imgCambioFoto);
+
+
+
+                btnEditarFoto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                       // Toast.makeText(getContext(),"Hola", Toast.LENGTH_LONG).show();
+                        interfaceFragments.mostrarGaleria(imgCambioFoto, bitmap);
+                        //int a = 0;
+                }
+                });
+
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String link = getString(R.string.ip_server_archivos_php)+"guardarImagenesPerfil.php";
+
+                        StringRequest request1 = new StringRequest(Request.Method.POST, link, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Toast.makeText(getContext(), "Imagen subida correctamente.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                                , new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError volleyError) {
+                                if (volleyError != null && volleyError.getMessage() != null) {
+                                    Toast.makeText(getContext(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_LONG).show();
+
+                                }
+                            }
+                        }) {
+                            @Override
+                            protected Map<String, String> getParams() {
+                                String nombre = String.valueOf(Sesion.getSesion().getId());
+                                String rutaImagen = convertirImgString(bitmap);
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("imagename", nombre);
+                                params.put("imagecode", rutaImagen);
+                                return params;
+                            }
+                        };
+
+                        RetryPolicy mRetryPolicy = new DefaultRetryPolicy(
+                                0,
+                                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+
+                        request1.setRetryPolicy(mRetryPolicy);
+                        request.add(request1);
+
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.setCancelable(false);
+                alertDialog.show();
+            }
+        });
+
 
         if(idUsuarios == Sesion.getSesion().getId()){
             lblReportar.setVisibility(View.GONE);
-        }
+            btnEditar.setVisibility(View.VISIBLE);
+        }else{btnEditar.setVisibility(View.GONE);}
         lblReportar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -367,6 +465,15 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
 
 
     }
+
+    private String convertirImgString(Bitmap bitmap) {
+        ByteArrayOutputStream array = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,array);
+        byte[] imageByte = array.toByteArray();
+        String imagenString = Base64.encodeToString(imageByte,Base64.DEFAULT);
+        return imagenString;
+    }
+
 
     private void buscarVideosFav() {
         int idUsuario = Sesion.getSesion().getId();
@@ -538,6 +645,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
         super.onAttach(context);
         if (context instanceof Activity) {
             activity= (Activity) context;
+            actividad = (Activity) context;
             interfaceFragments=(iComunicacionFragments)activity;
         }
 

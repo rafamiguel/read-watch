@@ -411,6 +411,11 @@ public class MenuAdministrador extends AppCompatActivity
     }
 
     @Override
+    public void mostrarGaleria(ImageView imgFoto, Bitmap bitmap) {
+
+    }
+
+    @Override
     public void onClickComentario(int idVidDoc) {
 
         entrar = new Intent(this, MainComentarios.class);
