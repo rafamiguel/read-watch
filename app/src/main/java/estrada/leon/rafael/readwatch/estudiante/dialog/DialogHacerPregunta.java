@@ -66,7 +66,7 @@ public class DialogHacerPregunta extends AppCompatDialogFragment implements
         int idUsuario = preferences.getInt("idUsuario", 0);
 
         url = "https://readandwatch.herokuapp.com/php/insertarPregunta.php?" +
-                "idPregunta="+null+"&titulo="+titulo+"&descripcion="+descripcion+"&eliminado="+'N'+"&idUsuario="+idUsuario;
+                "idPregunta="+null+"&titulo="+titulo+"&descripcion="+descripcion+"&idUsuario="+idUsuario;
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
                 null, new Response.Listener<JSONObject>(){

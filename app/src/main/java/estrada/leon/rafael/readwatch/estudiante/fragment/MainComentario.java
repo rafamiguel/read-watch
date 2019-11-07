@@ -169,7 +169,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                         Videos video;
                         Documentos documento;
                         json = response.optJSONArray("comentario");
-                        String nombre,comentarioString,descripcion,rutaImagen,ruta;
+                        String nombre,comentarioString,descripcion,rutaImagen,ruta, eliminado;
                         int idVidDoc,idUsuario,idComentario;
                         try {
                             if(json!=null) {
@@ -178,8 +178,11 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                                     nombre = jsonObject.optString("idUsuario");
                                     comentarioString = jsonObject.optString("texto");
                                     idComentario=jsonObject.optInt("idComentario");
-                                    comentario = new Comentarios(nombre, comentarioString,idComentario);
-                                    list.add(comentario);
+                                    eliminado= jsonObject.optString("eliminado");
+                                    if (eliminado.equals("N")) {
+                                        comentario = new Comentarios(nombre, comentarioString, idComentario);
+                                        list.add(comentario);
+                                    }
                                 }
                             }
                             json = response.optJSONArray("vidDoc");
@@ -191,12 +194,15 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                                     rutaImagen = jsonObject.optString("rutaImagen");
                                     idUsuario = jsonObject.optInt("idUsuario");
                                     ruta = jsonObject.optString("ruta");
-                                    if (jsonObject.optString("tipo").equals("v")) {
-                                        video = new Videos(Integer.toString(idUsuario), descripcion, rutaImagen, idUsuario, idVidDoc,ruta);
-                                        list.add(video);
-                                    } else {
-                                        documento = new Documentos(Integer.toString(idUsuario), descripcion, rutaImagen, idUsuario, idVidDoc);
-                                        list.add(documento);
+                                    eliminado = jsonObject.optString("eliminado");
+                                    if(eliminado.equals("N")) {
+                                        if (jsonObject.optString("tipo").equals("v")) {
+                                            video = new Videos(Integer.toString(idUsuario), descripcion, rutaImagen, idUsuario, idVidDoc, ruta);
+                                            list.add(video);
+                                        } else {
+                                            documento = new Documentos(Integer.toString(idUsuario), descripcion, rutaImagen, idUsuario, idVidDoc);
+                                            list.add(documento);
+                                        }
                                     }
                                 }
                             }
@@ -319,17 +325,21 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
         JSONObject jsonObject=null;
         Comentarios comentario;
         json = response.optJSONArray("usuario");
-        String nombre,comentarioString;
+        String nombre,comentarioString, eliminado;
         int idComentario;
         try {
-            for(int i=0;i<json.length();i++){
-                jsonObject=json.getJSONObject(i);
-                nombre=jsonObject.optString("idUsuario");
-                comentarioString=jsonObject.optString("texto");
-                idComentario=jsonObject.optInt("idComentario");
-                comentario=new Comentarios(nombre,comentarioString,idComentario);
-                list.add(comentario);
+            for(int i=0;i<json.length();i++) {
+                jsonObject = json.getJSONObject(i);
+                nombre = jsonObject.optString("idUsuario");
+                comentarioString = jsonObject.optString("texto");
+                eliminado = jsonObject.optString("eliminado");
+                idComentario = jsonObject.optInt("idComentario");
+                if(eliminado.equals("N")) {
+                    comentario = new Comentarios(nombre, comentarioString, idComentario);
+                    list.add(comentario);
+                }
             }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

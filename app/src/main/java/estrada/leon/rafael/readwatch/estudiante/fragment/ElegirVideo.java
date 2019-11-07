@@ -347,7 +347,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
 
     private void cargarWebService() {
         String url;
-        progreso = new ProgressDialog(getActivity());
+        progreso = new ProgressDialog(getContext());
         progreso.setMessage("Cargando...");
         progreso.show();
         url = "https://readandwatch.herokuapp.com/php/cargarVidDoc.php?" +
