@@ -31,6 +31,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,12 +46,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -79,6 +82,10 @@ import estrada.leon.rafael.readwatch.estudiante.fragment.SeleccionarSemestre;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Reportes;
 import estrada.leon.rafael.readwatch.general.fragments.leerDocumentos;
 import estrada.leon.rafael.readwatch.general.pojo.Sesion;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 public class  MenuEstudiante extends AppCompatActivity
         implements iComunicacionFragments,NavigationView.OnNavigationItemSelectedListener,
@@ -94,15 +101,16 @@ public class  MenuEstudiante extends AppCompatActivity
         leerDocumentos.OnFragmentInteractionListener {
     Fragment fragment;
     TextView titulo;
-    ImageView imgFoto2;
     RequestQueue request;
     Button btnEditarFoto;
     ImageView imgCambioFoto;
     ProgressDialog progreso;
-    int []idComentarioUsuario;
     Bitmap bitmap;
     JsonObjectRequest jsonObjectRequest;
 
+    Intent data;
+    public Thread hilo;
+    public String nombreArchivo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -751,10 +759,54 @@ public class  MenuEstudiante extends AppCompatActivity
                 e.printStackTrace();
             }
         }
+        if (requestCode == 10 && resultCode == RESULT_OK && data != null) {
+            this.data = data;
+            hilo = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    subirArchivo();
+                }
+            });
+        }
+    }
+
+    private void subirArchivo(){
+        File f;
+        if(nombreArchivo!=null){
+        f= new File(data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH),nombreArchivo);
+        }else{
+            f= new File(data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH));
+        }
+
+        String content_type  = getMimeType(f.getPath());
+
+        String file_path = f.getAbsolutePath();
+        OkHttpClient client = new OkHttpClient();
+        RequestBody file_body = RequestBody.create(MediaType.parse(content_type),f);
+
+        RequestBody request_body = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("type",content_type)
+                .addFormDataPart("uploaded_file",file_path.substring(file_path.lastIndexOf("/")+1), file_body)
+                .build();
+        okhttp3.Request request = new okhttp3.Request.Builder().url(getString(R.string.ip_server_archivos_php) + "guardarArchivos.php").post(request_body).build();
+        try {
+            okhttp3.Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) {
+                Toast.makeText(MenuEstudiante.this, "Error de peticion", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(MenuEstudiante.this, "Se subio correctamente el archivo", Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException e) {
+            Toast.makeText(MenuEstudiante.this, "Error de peticion", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
-
+    private String getMimeType(String path) {
+        String extension = MimeTypeMap.getFileExtensionFromUrl(path);
+        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+    }
 
     @Override
     public void onClickVideosHolder(Toast toast) {
@@ -775,10 +827,7 @@ public class  MenuEstudiante extends AppCompatActivity
 
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
 
-    }
 
     @Override
     public void resubirVideo() {
@@ -827,4 +876,9 @@ public class  MenuEstudiante extends AppCompatActivity
         request.add(jsonObjectRequest);
         progreso.hide();
     }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
+}

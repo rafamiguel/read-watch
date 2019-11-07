@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -30,11 +31,20 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.BaseMultiplePermissionsListener;
+import com.krishna.fileloader.FileLoader;
+import com.krishna.fileloader.listener.FileRequestListener;
+import com.krishna.fileloader.pojo.FileResponse;
+import com.krishna.fileloader.request.FileLoadRequest;
+import com.shockwave.pdfium.PdfDocument;
+import com.shockwave.pdfium.PdfiumCore;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +70,8 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
 
     int []idUsuarioVidDoc;
     int []idUsuarioVidDocFav;
+    int contador=0;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -110,10 +122,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         request= Volley.newRequestQueue(getContext());
         buscarDocFav();
         buscarDoc();
-
         return vista;
-
-
     }
 
     private void buscarDocFav() {
@@ -364,8 +373,8 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
             }
         });
         request.add(jsonObjectRequest);
-
     }
+
     private void cargarWebService() {
         String url;
         String ip=getString(R.string.ip);
@@ -404,10 +413,49 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        progreso.hide();
         adapter=new DocumentosAdapter(getContext(),documentos,this,idUsuarioVidDoc, idUsuarioVidDocFav);
-        recyclerDocumentos.setAdapter(adapter);
+        contador=0;
+        for (int i=0;i<documentos.size();i++) {
+            FileLoader.with(getContext()).load("https://readandwatch.000webhostapp.com/archivos/Mi_sistema_Nimzovith.pdf").fromDirectory("PDFFiles", FileLoader.DIR_EXTERNAL_PUBLIC).asFile(new FileRequestListener<File>() {
+                @Override
+                public void onLoad(FileLoadRequest request, FileResponse<File> response) {
+                    File pdf = response.getBody();
+
+                    FileInputStream fileInputStream = null;
+                    byte[] bytesArray = null;
+                    bytesArray = new byte[(int) pdf.length()];
+
+                    //read file into bytes[]
+                    try {
+                        fileInputStream = new FileInputStream(pdf);
+                        fileInputStream.read(bytesArray);
+                        int pageNumber = 0;
+                        PdfiumCore pdfiumCore = new PdfiumCore(getContext());
+                        PdfDocument pdfDocument = null;
+                        pdfDocument = pdfiumCore.newDocument(bytesArray);
+                        pdfiumCore.openPage(pdfDocument, pageNumber);
+                        int width = pdfiumCore.getPageWidthPoint(pdfDocument, pageNumber);
+                        int height = pdfiumCore.getPageHeightPoint(pdfDocument, pageNumber);
+                        Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                        pdfiumCore.renderPageBitmap(pdfDocument, bmp, pageNumber, 0, 0, width, height);
+                        pdfiumCore.closeDocument(pdfDocument); // important!
+                        documentos.get(contador).setImagen(bmp);
+                        contador++;
+                        if(contador==documentos.size()){
+                            progreso.hide();
+                            recyclerDocumentos.setAdapter(adapter);
+                        }
+                    } catch (IOException e) {
+                        e.getMessage();
+                    }
+                }
+
+                @Override
+                public void onError(FileLoadRequest request, Throwable t) {
+                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     public interface OnFragmentInteractionListener {

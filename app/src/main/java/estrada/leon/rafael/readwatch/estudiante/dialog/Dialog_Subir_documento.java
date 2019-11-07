@@ -10,19 +10,17 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,25 +29,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
-import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import estrada.leon.rafael.readwatch.MainFileManager;
 import estrada.leon.rafael.readwatch.R;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
+import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
 
 public class Dialog_Subir_documento extends AppCompatDialogFragment implements
         Response.Listener<JSONObject>, Response.ErrorListener{
@@ -61,9 +52,9 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
     Spinner spinner_tema,spinner_materia;
     public static final int PREGUNTAR=1,RESUBIR=2, MATERIA=3;
     int modo;
+    int idVidDocAInsertar=0;
 
     ProgressDialog dialog = null;
-    Intent data;
 
     public void setModo(int modo){
         this.modo = modo;
@@ -109,7 +100,10 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
                 .setPositiveButton("Subir", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        dialog = ProgressDialog.show(getContext(), "Subiendo archivo", "Por favor espere.", true);
                         subirDocWebService(txtDescripcion.getText().toString(),txtTitulo.getText().toString());
+                        ((MenuEstudiante)getActivity()).hilo.start();
+                        dialog.dismiss();
                     }
                 });
 
@@ -132,7 +126,11 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
                     .setPositiveButton("Modificar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            dialog = ProgressDialog.show(getContext(), "Subiendo archivo", "Por favor espere.", true);
                             subirDocWebService(txtDescripcion.getText().toString(),txtTitulo.getText().toString());
+                            ((MenuEstudiante)getActivity()).hilo.start();
+                            ((MenuEstudiante)getActivity()).nombreArchivo = Integer.toString(idVidDocAInsertar);
+                            dialog.dismiss();
                         }
                     });
         }else{
@@ -274,7 +272,6 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
             @Override
             public void onResponse(JSONObject response) {
                 progreso.hide();
-                // Toast.makeText(getContext(),"Video insertado con éxito",Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -283,8 +280,8 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
             }
         });
         request.add(jsonObjectRequest);
-
     }
+
     @Override
     public void onErrorResponse(VolleyError error) {
 
@@ -292,53 +289,16 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
 
     @Override
     public void onResponse(JSONObject response) {
-
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == 10 && resultCode == -1 && data != null) {
-            dialog = ProgressDialog.show(getContext(), "Subiendo archivo", "Por favor espere.", true);
-            this.data = data;
-            Thread hilo = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    subirArchivo();
-                }
-            });
-            hilo.start();
-        }
-    }
-    private void subirArchivo(){
-        File f  = new File(data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH));
-        String content_type  = getMimeType(f.getPath());
-
-        String file_path = f.getAbsolutePath();
-        OkHttpClient client = new OkHttpClient();
-        RequestBody file_body = RequestBody.create(MediaType.parse(content_type),f);
-
-        RequestBody request_body = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("type",content_type)
-                .addFormDataPart("uploaded_file",file_path.substring(file_path.lastIndexOf("/")+1), file_body)
-                .build();
-        okhttp3.Request request = new okhttp3.Request.Builder().url(getString(R.string.ip_server_archivos_php) + "guardarArchivos.php").post(request_body).build();
-        try {
-            okhttp3.Response response = client.newCall(request).execute();
-            if (!response.isSuccessful()) {
-                Toast.makeText(getContext(), "Error de peticion", Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(getContext(), "Se subio correctamente el archivo", Toast.LENGTH_SHORT).show();
+        JSONArray json = response.optJSONArray("idVidDoc");
+        JSONObject jsonObject=null;
+        for(int i=0;i<json.length();i++){
+            try {
+                jsonObject=json.getJSONObject(i);
+                idVidDocAInsertar= jsonObject.getInt("idVidDoc");
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            Toast.makeText(getContext(), "Error de peticion", Toast.LENGTH_SHORT).show();
         }
-        dialog.dismiss();
-
     }
 
-    private String getMimeType(String path) {
-        String extension = MimeTypeMap.getFileExtensionFromUrl(path);
-        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-    }
 }
