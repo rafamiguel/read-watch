@@ -50,6 +50,7 @@ public class RegistrarEstudiante extends AppCompatActivity implements Response.L
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+
     Bitmap bitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
