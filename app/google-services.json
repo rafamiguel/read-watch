@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "263212718013",
+    "firebase_url": "https://readandwatch-23c38.firebaseio.com",
+    "project_id": "readandwatch-23c38",
+    "storage_bucket": "readandwatch-23c38.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263212718013:android:a4bb1e7863b2a2c335e4d4",
+        "android_client_info": {
+          "package_name": "estrada.leon.rafael.readwatch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "263212718013-1ophqhkgquk0ecpe836mevse0mg1qgpo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5b-p1UfPHektSS2HxHQrUFRXMQoEFmLo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "263212718013-1ophqhkgquk0ecpe836mevse0mg1qgpo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
