@@ -3,67 +3,146 @@ package estrada.leon.rafael.readwatch.estudiante.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogInsertarMateria;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.adapter.MateriasPropuestasAdapter;
+import estrada.leon.rafael.readwatch.estudiante.pojo.Votos;
+import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
 public class MateriasPropuestas extends Fragment {
     estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas[] materiasPropuestas;
+    private List<estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas> listMaterias;
     ListView lvMateriasPropuestas;
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
+    FloatingActionButton btnSubirPropuesta;
+    DatabaseReference rootReference;
+    Button btnVotarQuitar;
+    CheckBox cbSeleccionado;
+    TextView lblSeleccionado;
+    MateriasPropuestasAdapter materiasPropuestasAdapter;
     private OnFragmentInteractionListener mListener;
-
+    Context contexto;
     public MateriasPropuestas() {
     }
     public void cargarDatos(){
-        materiasPropuestas=new estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas[]{
-                new estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas(0,1,"Química"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas(1,10,"Electrónica"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas(2,2,"Bases de datos"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas(3,6,"Geografía"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas(4,7,"Historia"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas(5,2,"Biología"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas(6,4,"Física"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas(8,2,"Literatura"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas(7,8,"Astronomía"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas(9,3,"Robótica"),
-                new estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas(10,5,"Arte")
-        };
+        int votos=0;
+        materiasPropuestas=new estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas[listMaterias.size()];
+        for(int i=0;i<listMaterias.size();i++){
+            votos+=listMaterias.get(i).getVotos();
+            materiasPropuestas[i]  = new estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas(listMaterias.get(i).getVotos(),listMaterias.get(i).getNombre(),listMaterias.get(i).getIdUsuario());
+        }
+        materiasPropuestasAdapter =new MateriasPropuestasAdapter(contexto,R.layout.materia_propuesta,materiasPropuestas,votos);
+        lvMateriasPropuestas.setAdapter(materiasPropuestasAdapter);
+
+        rootReference.child("votoMateria").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Votos voto;
+                CheckBox cb;
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    voto = snapshot.getValue(Votos.class);
+                    if(voto.getIdUsuario() == Sesion.getSesion().getId()) {
+                        for (int x = 0; x < lvMateriasPropuestas.getChildCount(); x++) {
+                            cb = lvMateriasPropuestas.getChildAt(x).findViewById(R.id.cbMateriaPropuesta);
+                            cb.setEnabled(false);
+                        }
+                        btnVotarQuitar.setEnabled(false);
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
+        rootReference = FirebaseDatabase.getInstance().getReference();
         View view;
-        int votos=0;
+
         view= inflater.inflate(R.layout.fragment_materias_propuestas, container, false);
+        btnVotarQuitar = view.findViewById(R.id.btnVotarQuitar);
+        btnVotarQuitar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int x = 0; x<lvMateriasPropuestas.getChildCount();x++){
+                    cbSeleccionado = lvMateriasPropuestas.getChildAt(x).findViewById(R.id.cbMateriaPropuesta);
+                    if(cbSeleccionado.isChecked()){
+                        lblSeleccionado = lvMateriasPropuestas.getChildAt(x).findViewById(R.id.lblMateriaPropuesta);
+                        votar(lblSeleccionado.getText().toString());
+                    }
+                }
+            }
+        });
+        btnSubirPropuesta = view.findViewById(R.id.fabNuevaPregunta);
+        btnSubirPropuesta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogInsertarMateria nuevo = new DialogInsertarMateria();
+                nuevo.show(getActivity().getSupportFragmentManager(), "ejemplo");
+            }
+        });
         lvMateriasPropuestas=view.findViewById(R.id.lvMateriasPropuestas);
-        cargarDatos();
-        for(int i=0;i<materiasPropuestas.length;i++){
-            votos+=materiasPropuestas[i].getVotos();
-        }
-        MateriasPropuestasAdapter materiasPropuestasAdapter=new MateriasPropuestasAdapter(getContext(),R.layout.materia_propuesta,materiasPropuestas,votos);
-        lvMateriasPropuestas.setAdapter(materiasPropuestasAdapter);
+        lvMateriasPropuestas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                cbSeleccionado = view.findViewById(R.id.cbMateriaPropuesta);
+                lblSeleccionado = view.findViewById(R.id.lblMateriaPropuesta);
+
+            }
+        });
+        rootReference.child("materia").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listMaterias=new ArrayList<>();
+                estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas materia;
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    materia = snapshot.getValue(estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas.class);
+                    listMaterias.add(materia);
+                }
+                cargarDatos();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
         return view;
     }
 
@@ -76,6 +155,7 @@ public class MateriasPropuestas extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        contexto=context;
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -93,5 +173,49 @@ public class MateriasPropuestas extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void votar(final String nombre){
+        rootReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference votosRef = rootReference.child("votoMateria");
+        int idUsuario = Sesion.getSesion().getId();
+        Votos vote = new Votos(idUsuario,nombre);
+        Map<String, Object> voto = new HashMap<>();
+        voto.put("idUsuario",vote.getIdUsuario());
+        voto.put("nombre",vote.getNombre());
+        votosRef.push().setValue(voto);
+
+        rootReference.child("materia").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas materia = null;
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    materia = snapshot.getValue(estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas.class);
+                    if(materia.getNombre().equals(nombre)){
+                        materia.setVotos(materia.getVotos()+1);
+                        DatabaseReference votoNuevoRef = rootReference.child("materia");
+                        Map<String, Object> nuevoVoto = new HashMap<>();
+                        nuevoVoto.put(snapshot.getKey(),materia);
+                        votoNuevoRef.updateChildren(nuevoVoto);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    public void quitarVoto(){
+        String idUsuario = String.valueOf(Sesion.getSesion().getId());
+        rootReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference votosRef = rootReference.child("votoMateria");
+        DatabaseReference votoRef = rootReference.child(idUsuario);
+        votosRef.setValue(null);
     }
 }
