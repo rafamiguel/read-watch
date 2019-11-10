@@ -90,18 +90,24 @@ public class RegistrarEstudiante extends AppCompatActivity implements Response.L
 
                         Toast.makeText(getApplicationContext(), "La contraseña debe ser mayor a 8 caracteres", Toast.LENGTH_SHORT).show();
                     }else {
+                                char clave;
+                                int a=0,b=0,c=0;
+                                for(int i=0; i<txtContrasena.getText().length(); i++){
+                                    clave = txtContrasena.getText().charAt(i);
+                                    String passValue = String.valueOf(clave);
+                                    if (passValue.matches("[A-Z]")) {
+                                        a=1;
+                                    } else if (passValue.matches("[a-z]")) {
+                                        b=1;
+                                    } else if (passValue.matches("[0-9]")) {
+                                        c=1;
+                                    }
+                                }
+                                if(a==1 && b==1 && c==1){
+                                    cargarWebService();
+                                }
+                                else{ Toast.makeText(getApplicationContext(),"La contraseña debe contener mayúsculas, minúsculas y números", Toast.LENGTH_SHORT).show();}
 
-                        if(txtContrasena.getText().toString().contains("[a-zA-Z]+") == false){
-                            Toast.makeText(getApplicationContext(), "Debe contener mayúsculas y minúsculas", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            if(txtContrasena.getText().toString().contains("[0-9]+") == false){
-                                Toast.makeText(getApplicationContext(), "Debe contener números", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                cargarWebService();
-                            }
-                        }
                     }
                 }
 
