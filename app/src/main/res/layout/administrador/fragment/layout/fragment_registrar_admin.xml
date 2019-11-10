@@ -26,6 +26,7 @@
         android:ems="10"
         android:hint="@string/contrasena"
         android:inputType="textPersonName"
+        android:maxLength="40"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCorreo" />
@@ -38,6 +39,7 @@
         android:ems="10"
         android:hint="@string/apellidos"
         android:inputType="textPersonName"
+        android:maxLength="30"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNombre" />
@@ -50,6 +52,7 @@
         android:ems="10"
         android:hint="Nombre(s)"
         android:inputType="textPersonName"
+        android:maxLength="20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
