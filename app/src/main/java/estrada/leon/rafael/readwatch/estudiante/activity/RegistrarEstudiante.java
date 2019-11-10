@@ -80,7 +80,32 @@ public class RegistrarEstudiante extends AppCompatActivity implements Response.L
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cargarWebService();
+
+                if(txtNombre.getText().toString().equals("")|| txtApellido.getText().toString().equals("")
+                || txtCorreo.getText().toString().equals("") || txtCorreo.getText().toString().equals("")
+                || txtDescripcion.getText().toString().equals("") || txtTelefono.getText().toString().equals("")){
+                    Toast.makeText(getApplicationContext(),"Llena todos los campos", Toast.LENGTH_LONG).show();
+                }else{
+                    if(txtContrasena.getText().length()< 9){
+
+                        Toast.makeText(getApplicationContext(), "La contraseña debe ser mayor a 8 caracteres", Toast.LENGTH_SHORT).show();
+                    }else {
+
+                        if(txtContrasena.getText().toString().contains("[a-zA-Z]+") == false){
+                            Toast.makeText(getApplicationContext(), "Debe contener mayúsculas y minúsculas", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            if(txtContrasena.getText().toString().contains("[0-9]+") == false){
+                                Toast.makeText(getApplicationContext(), "Debe contener números", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                cargarWebService();
+                            }
+                        }
+                    }
+                }
+
+
             }
         });
     }
