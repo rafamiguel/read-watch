@@ -98,7 +98,36 @@ public class RegistrarAdmin extends Fragment implements Response.Listener<JSONOb
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cargarWebService();
+                if (txtNombre.getText().toString().equals("") || txtApellidos.getText().toString().equals("")
+                        || txtCorreo.getText().toString().equals("") || txtContrasena.getText().toString().equals("")) {
+                    Toast.makeText(getContext(), "Llena todos los datos", Toast.LENGTH_LONG).show();
+
+                } else {
+                    if (txtContrasena.getText().length() < 9) {
+
+                        Toast.makeText(getContext(), "La contraseña debe ser mayor a 8 caracteres", Toast.LENGTH_SHORT).show();
+                    } else {
+                        char clave;
+                        int a = 0, b = 0, c = 0;
+                        for (int i = 0; i < txtContrasena.getText().length(); i++) {
+                            clave = txtContrasena.getText().charAt(i);
+                            String passValue = String.valueOf(clave);
+                            if (passValue.matches("[A-Z]")) {
+                                a = 1;
+                            } else if (passValue.matches("[a-z]")) {
+                                b = 1;
+                            } else if (passValue.matches("[0-9]")) {
+                                c = 1;
+                            }
+                        }
+                        if (a == 1 && b == 1 && c == 1) {
+                            cargarWebService();
+                        } else {
+                            Toast.makeText(getContext(), "La contraseña debe contener mayúsculas, minúsculas y números", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }
             }
         });
         request = Volley.newRequestQueue(getContext());
@@ -146,6 +175,7 @@ public class RegistrarAdmin extends Fragment implements Response.Listener<JSONOb
     @Override
     public void onErrorResponse(VolleyError error) {
         progreso.hide();
+        Toast.makeText(getContext(), "Se ha registrado exitosamente", Toast.LENGTH_SHORT).show();
         //Toast.makeText(getContext(), "No se pudo registrar"+error.toString(), Toast.LENGTH_LONG).show();
     }
 

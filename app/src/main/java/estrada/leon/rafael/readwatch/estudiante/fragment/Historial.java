@@ -11,26 +11,41 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.estudiante.adapter.HistorialAdapter;
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
 
 public class Historial extends Fragment {
-    private List<estrada.leon.rafael.readwatch.estudiante.pojo.Historial> list;
-
+    private List<estrada.leon.rafael.readwatch.estudiante.pojo.Historial> list =new ArrayList<>();
+    JsonObjectRequest jsonObjectRequest;
+    RequestQueue request;
+    HistorialAdapter historialAdapter;
+    RecyclerView recyclerHistorial;
     private OnFragmentInteractionListener mListener;
 
     public void cargarDatos(){
-        list=new ArrayList<>();
+
         for(int i=0;i<11;i++){
-            list.add(new estrada.leon.rafael.readwatch.estudiante.pojo.Historial(i,"comentario","Es spam","El comentario ha sido eliminado"));
+          //  list.add(new estrada.leon.rafael.readwatch.estudiante.pojo.Historial(i,"comentario","Es spam","El comentario ha sido eliminado"));
             int imageResource = getContext().getResources().getIdentifier("drawable/doc",null,getContext().getPackageName());
-            list.add(new estrada.leon.rafael.readwatch.estudiante.pojo.Historial(imageResource,"documento","No es apropiado al tema o materia","El documento ha sido eliminado"));
+          //  list.add(new estrada.leon.rafael.readwatch.estudiante.pojo.Historial(imageResource,"documento","No es apropiado al tema o materia","El documento ha sido eliminado"));
             imageResource = getContext().getResources().getIdentifier("drawable/miniatura",null,getContext().getPackageName());
-            list.add(new estrada.leon.rafael.readwatch.estudiante.pojo.Historial(imageResource,"video","No es apropiado al tema o materia","El video ha sido eliminado"));
+          //  list.add(new estrada.leon.rafael.readwatch.estudiante.pojo.Historial(imageResource,"video","No es apropiado al tema o materia","El video ha sido eliminado"));
         }
     }
     public Historial() {
@@ -44,18 +59,57 @@ public class Historial extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        HistorialAdapter historialAdapter;
-        RecyclerView recyclerHistorial;
+
+        request = Volley.newRequestQueue(getContext());
         View vista;
         vista = inflater.inflate(R.layout.fragment_historial, container, false);
         recyclerHistorial=vista.findViewById(R.id.recyclerHistorial);
         recyclerHistorial.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-
-        cargarDatos();
-        historialAdapter=new HistorialAdapter(getContext(),list);
-        recyclerHistorial.setAdapter(historialAdapter);
+        buscarHistorial();
+        //cargarDatos();
 
         return vista;
+    }
+
+    private void buscarHistorial() {
+        String url;
+        int idUsuario = Sesion.getSesion().getId();
+        url = "https://readandwatch.herokuapp.com/php/historialContenido.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                String ruta="", rutaImagen="";
+                JSONArray json;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+                estrada.leon.rafael.readwatch.estudiante.pojo.Historial hostorial;
+                for(int i=0;i<json.length();i++) {
+                    try {
+                        jsonObject = json.getJSONObject(i);
+                        ruta = jsonObject.getString("ruta");
+                        rutaImagen = jsonObject.getString("rutaImagen");
+
+                        hostorial = new estrada.leon.rafael.readwatch.estudiante.pojo.Historial(rutaImagen,ruta,"No lo se", "Te mueres perro", "Video");
+                        list.add(hostorial);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                historialAdapter=new HistorialAdapter(getContext(),list);
+                recyclerHistorial.setAdapter(historialAdapter);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+
     }
 
     @Override

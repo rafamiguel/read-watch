@@ -80,7 +80,38 @@ public class RegistrarEstudiante extends AppCompatActivity implements Response.L
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cargarWebService();
+
+                if(txtNombre.getText().toString().equals("")|| txtApellido.getText().toString().equals("")
+                || txtCorreo.getText().toString().equals("") || txtCorreo.getText().toString().equals("")
+                || txtDescripcion.getText().toString().equals("") || txtTelefono.getText().toString().equals("")){
+                    Toast.makeText(getApplicationContext(),"Llena todos los campos", Toast.LENGTH_LONG).show();
+                }else{
+                    if(txtContrasena.getText().length()< 9){
+
+                        Toast.makeText(getApplicationContext(), "La contraseña debe ser mayor a 8 caracteres", Toast.LENGTH_SHORT).show();
+                    }else {
+                                char clave;
+                                int a=0,b=0,c=0;
+                                for(int i=0; i<txtContrasena.getText().length(); i++){
+                                    clave = txtContrasena.getText().charAt(i);
+                                    String passValue = String.valueOf(clave);
+                                    if (passValue.matches("[A-Z]")) {
+                                        a=1;
+                                    } else if (passValue.matches("[a-z]")) {
+                                        b=1;
+                                    } else if (passValue.matches("[0-9]")) {
+                                        c=1;
+                                    }
+                                }
+                                if(a==1 && b==1 && c==1){
+                                    cargarWebService();
+                                }
+                                else{ Toast.makeText(getApplicationContext(),"La contraseña debe contener mayúsculas, minúsculas y números", Toast.LENGTH_SHORT).show();}
+
+                    }
+                }
+
+
             }
         });
     }

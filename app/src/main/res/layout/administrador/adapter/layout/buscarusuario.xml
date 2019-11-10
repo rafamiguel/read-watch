@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+    <ImageView
         android:id="@+id/btnPerfil"
         android:layout_width="125dp"
         android:layout_height="125dp"

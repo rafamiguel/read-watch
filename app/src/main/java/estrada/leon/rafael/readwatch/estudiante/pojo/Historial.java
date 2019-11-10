@@ -3,24 +3,34 @@ package estrada.leon.rafael.readwatch.estudiante.pojo;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
 
 public class Historial implements Item {
-    private int id;
-    private String tipo;
+    private  String rutaImagen;
+    private String ruta;
     private String motivo;
     private String castigo;
+    private String tipo;
 
-    public Historial(int id,String tipo,String motivo,String castigo){
-        this.id=id;
-        this.tipo=tipo;
+    public Historial(String rutaImagen,String ruta,String motivo,String castigo, String tipo){
+
+        this.rutaImagen = rutaImagen;
+        this.ruta = ruta;
         this.motivo=motivo;
         this.castigo=castigo;
     }
 
-    public int getId() {
-        return id;
+    public String getRutaImagen() {
+        return rutaImagen;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
+    }
+
+    public String getRuta() {
+        return ruta;
+    }
+
+    public void setRuta(String ruta) {
+        this.ruta = ruta;
     }
 
     public String getTipo() {
@@ -49,10 +59,10 @@ public class Historial implements Item {
 
     @Override
     public int getViewType() {
-        if(tipo.equals("comentario")){
-            return 1;
-        }else
+     //   if(tipo.equals("comentario")){
+       //     return 1;
+        //}else
             return 2;
-    }
+   }
 }
 

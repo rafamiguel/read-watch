@@ -113,8 +113,37 @@ public class ModificarAdmin extends Fragment implements Response.Listener<JSONOb
         btnModificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cargarWebService(MODIFICAR);
-                Toast.makeText(getContext(),"Datos actualizados con éxito",Toast.LENGTH_SHORT).show();
+                if(txtNombre.getText().toString().equals("")|| txtApellidos.getText().toString().equals("")
+                || txtContrasena.getText().toString().equals("")){Toast.makeText(getContext(),"Llena todos los datos",Toast.LENGTH_LONG).show();}
+                else {
+                    if (txtContrasena.getText().length() < 9) {
+
+                        Toast.makeText(getContext(), "La contraseña debe ser mayor a 8 caracteres", Toast.LENGTH_SHORT).show();
+                    } else {
+                        char clave;
+                        int a = 0, b = 0, c = 0;
+                        for (int i = 0; i < txtContrasena.getText().length(); i++) {
+                            clave = txtContrasena.getText().charAt(i);
+                            String passValue = String.valueOf(clave);
+                            if (passValue.matches("[A-Z]")) {
+                                a = 1;
+                            } else if (passValue.matches("[a-z]")) {
+                                b = 1;
+                            } else if (passValue.matches("[0-9]")) {
+                                c = 1;
+                            }
+                        }
+                        if (a == 1 && b == 1 && c == 1) {
+                            cargarWebService(MODIFICAR);
+                            Toast.makeText(getContext(), "Datos actualizados con éxito", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            Toast.makeText(getContext(), "La contraseña debe contener mayúsculas, minúsculas y números", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }
+
             }
         });
         return vista;

@@ -99,7 +99,31 @@ public class CambiarContrasena extends Fragment {
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               verificarContraseña(txtContrasenaActual.getText().toString(), txtContrasenaNueva.getText().toString());
+                if (txtContrasenaNueva.getText().length() < 9) {
+
+                    Toast.makeText(getContext(), "La contraseña debe ser mayor a 8 caracteres", Toast.LENGTH_SHORT).show();
+                } else {
+                    char clave;
+                    int a = 0, b = 0, c = 0;
+                    for (int i = 0; i < txtContrasenaNueva.getText().length(); i++) {
+                        clave = txtContrasenaNueva.getText().charAt(i);
+                        String passValue = String.valueOf(clave);
+                        if (passValue.matches("[A-Z]")) {
+                            a = 1;
+                        } else if (passValue.matches("[a-z]")) {
+                            b = 1;
+                        } else if (passValue.matches("[0-9]")) {
+                            c = 1;
+                        }
+                    }
+                    if (a == 1 && b == 1 && c == 1) {
+                        verificarContraseña(txtContrasenaActual.getText().toString(), txtContrasenaNueva.getText().toString());
+                    } else {
+                        Toast.makeText(getContext(), "La contraseña debe contener mayúsculas, minúsculas y números", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
             }
         });
 

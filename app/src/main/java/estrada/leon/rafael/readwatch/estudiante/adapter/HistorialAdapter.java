@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -55,36 +56,26 @@ public class HistorialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ComentarioViewHolder comentarioViewHolder=(ComentarioViewHolder)viewHolder;
             comentarioViewHolder.lblCastigo.setText("Castigo:\n"+list.get(position).getCastigo());
             comentarioViewHolder.lblMotivo.setText("Motivo:\n"+list.get(position).getMotivo());
-            comentarioViewHolder.lblComentario.setText("Comentario con id:"+list.get(position).getId());
             break;
         case videoOdocumento:
             vidDocViewHolder=(VidDocViewHolder)viewHolder;
-            vidDocViewHolder.img.setImageResource(list.get(position).getId());
+            //vidDocViewHolder.img.setImageResource(list.get(position).getRutaImagen());
             vidDocViewHolder.lblCastigo.setText("Castigo:\n"+list.get(position).getCastigo());
             vidDocViewHolder.lblMotivo.setText("Motivo:\n"+list.get(position).getMotivo());
-            if(list.get(position).getTipo().equals("video")){
-                vidDocViewHolder.lblLinkNombre.setText("https://www.youtube.com/watch?v="+list.get(position).getId());
-            }else {
-                String cadena=".pdf";
-                String cadena2=Integer.toString(list.get(position).getId());
-                cadena2=cadena2.concat(cadena);
-                vidDocViewHolder.lblLinkNombre.setText(cadena2);
-            }
+            vidDocViewHolder.lblLinkNombre.setText(list.get(position).getRuta());
+            if (list.get(position).getRutaImagen().equals("@drawable/miniatura")) {
+                vidDocViewHolder.img.setImageResource(R.drawable.miniatura);
+            }else{vidDocViewHolder.img.setImageResource(R.drawable.doc);}
+
 
             break;
             default:
                 vidDocViewHolder=(VidDocViewHolder)viewHolder;
-                vidDocViewHolder.img.setBackgroundResource(list.get(position).getId());
+                // vidDocViewHolder.img.setBackgroundResource(list.get(position).getId());
                 vidDocViewHolder.lblCastigo.setText(list.get(position).getCastigo());
                 vidDocViewHolder.lblMotivo.setText(list.get(position).getMotivo());
-                if(list.get(position).getTipo().equals("video")){
-                    vidDocViewHolder.lblLinkNombre.setText("https://www.youtube.com/watch?v="+list.get(position).getId());
-                }else {
-                    String cadena=".pdf";
-                    String cadena2=Integer.toString(list.get(position).getId());
-                    cadena2=cadena2.concat(cadena);
-                    vidDocViewHolder.lblLinkNombre.setText(cadena2);
-                }
+                vidDocViewHolder.lblLinkNombre.setText(list.get(position).getRuta());
+
     }
     }
 
