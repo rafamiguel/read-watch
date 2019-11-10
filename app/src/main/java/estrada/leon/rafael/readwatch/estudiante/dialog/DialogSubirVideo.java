@@ -43,6 +43,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
     Spinner spinner_tema,spinner_materia;
     public static final int PREGUNTAR=1,RESUBIR=2, MATERIA=3;
     int modo;
+    char clave;
 
     public void setModo(int modo){
         this.modo = modo;
@@ -202,6 +203,8 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String datetime = dateformat.format(c.getTime());
         switch(modo){
+
+
             case PREGUNTAR:
                 preferences = getContext().getSharedPreferences("pregunta", Context.MODE_PRIVATE);
                 idPregunta = preferences.getInt("idPregunta",0);
