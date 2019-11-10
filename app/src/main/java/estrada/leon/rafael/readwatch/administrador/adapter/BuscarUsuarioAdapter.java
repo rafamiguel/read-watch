@@ -1,16 +1,22 @@
 package estrada.leon.rafael.readwatch.administrador.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
@@ -25,6 +31,7 @@ public class BuscarUsuarioAdapter extends RecyclerView.Adapter<BuscarUsuarioAdap
     List<BuscarUsuarioAd> list;
     OnBuscarListener onBuscarListener;
     Response.Listener<JSONObject> a;
+    RequestQueue request;
     public BuscarUsuarioAdapter(Context context, List<BuscarUsuarioAd>list, OnBuscarListener onBuscarListener){
         this.context = context;
         this.list = list;
@@ -37,14 +44,28 @@ public class BuscarUsuarioAdapter extends RecyclerView.Adapter<BuscarUsuarioAdap
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View item = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.buscarusuario ,viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(item, onBuscarListener);
+        request= Volley.newRequestQueue(context);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         viewHolder.lblPerfil.setText(list.get(i).getPerfil());
-       viewHolder.btnPerfil.setText(list.get(i).getRutaImagen());
        viewHolder.lblApellido.setText(list.get(i).getApellido());
+
+        request= Volley.newRequestQueue(context);
+        ImageRequest imageRequest= new ImageRequest(list.get(i).getRutaImagen(), new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                viewHolder.btnPerfil.setImageBitmap(response);
+            }
+
+        },0,0, ImageView.ScaleType.CENTER,null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(context, "Error al cargar las imagenes", Toast.LENGTH_SHORT).show();
+            }});
+        request.add(imageRequest);
 
 
     }
@@ -55,7 +76,7 @@ public class BuscarUsuarioAdapter extends RecyclerView.Adapter<BuscarUsuarioAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        Button btnPerfil,btnEliminar;
+        ImageView btnPerfil,btnEliminar;
         TextView lblPerfil, lblApellido;
         OnBuscarListener onBuscarListener;
         public ViewHolder (View item, OnBuscarListener onBuscarListener){
@@ -66,10 +87,12 @@ public class BuscarUsuarioAdapter extends RecyclerView.Adapter<BuscarUsuarioAdap
             lblApellido = item.findViewById(R.id.lblApellido);
 
             btnPerfil.setOnClickListener(this);
+
             lblPerfil.setOnClickListener(this);
 
             item.setOnClickListener(this);
         }
+
 
         @Override
         public void onClick(View view) {
@@ -85,6 +108,9 @@ public class BuscarUsuarioAdapter extends RecyclerView.Adapter<BuscarUsuarioAdap
             }
         }
 
+        public void cargarFoto(String foto) {
+
+        }
 
 
     }
