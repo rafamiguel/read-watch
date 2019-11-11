@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -62,6 +63,7 @@ import java.util.Map;
 
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogModificarEliminar;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogHacerPregunta;
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogOpcTemaSubtema;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogSubirVideo;
 import estrada.leon.rafael.readwatch.estudiante.dialog.Dialog_Subir_documento;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirDocumento;
@@ -101,7 +103,7 @@ public class  MenuEstudiante extends AppCompatActivity
         DialogModificarEliminar.IOpcionesVidDoc,
         leerDocumentos.OnFragmentInteractionListener {
     Fragment fragment;
-    TextView titulo;
+    TextView titulo , title;
     RequestQueue request;
     Button btnEditarFoto;
     ImageView imgCambioFoto;
@@ -293,10 +295,31 @@ public class  MenuEstudiante extends AppCompatActivity
 
     @Override
     public void onClickProponerTema() {
-        fragment =new TemasPropuestos();
-        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
-        titulo.setText("Temas propuestos");
-        Toast.makeText(this,"Vote por una propuesta",Toast.LENGTH_LONG).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        TextView title = new TextView(this);
+        title.setText("¿Deseas proponer un tema o un subtema?");
+        title.setGravity(Gravity.CENTER);
+        title.setTextSize(24 );
+        title.setTextColor(Color.BLACK);
+        builder.setCustomTitle(title);
+        builder.setPositiveButton("Temas", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                fragment =new TemasPropuestos();
+                getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
+                titulo.setText("Temas propuestos");
+                Toast.makeText(getApplicationContext(),"Vote por una propuesta",Toast.LENGTH_LONG).show();
+            }
+        });
+        builder.setNegativeButton("Subtemas", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+//                fragment =new Subtema();
+//                getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
+//                titulo.setText("Subtemas propuestos");
+//                Toast.makeText(getApplicationContext(),"Vote por una propuesta",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
