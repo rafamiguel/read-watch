@@ -38,7 +38,7 @@ public class Historial extends Fragment {
     RecyclerView recyclerHistorial;
     private OnFragmentInteractionListener mListener;
     private String Castigo;
-
+    int contador =0;
     public void cargarDatos(){
 
         for(int i=0;i<11;i++){
@@ -67,11 +67,33 @@ public class Historial extends Fragment {
         recyclerHistorial=vista.findViewById(R.id.recyclerHistorial);
         recyclerHistorial.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         buscarHistorial();
-        buscarComentarios();
-        buscarPreguntas();
+
+
+
+
         //cargarDatos();
 
         return vista;
+    }
+
+    private void suspenderUsuario() {
+        String url;
+        int idUsuario = Sesion.getSesion().getId();
+        url = "https://readandwatch.herokuapp.com/php/suspenderUsuario.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
     }
 
     private void buscarPreguntas() {
@@ -97,6 +119,10 @@ public class Historial extends Fragment {
                         idCastigo = jsonObject.getInt("idCastigo");
                         castigo = jsonObject.getString("castigo");
 
+                        if(tipo.equals("Contenido sexual u obseno") || tipo.equals("Es spam")){
+                            contador = contador + 1;
+                        }
+
                         hostorial = new estrada.leon.rafael.readwatch.estudiante.pojo.Historial("pregunta",titulo,tipo, castigo, "Video");
                         list.add(hostorial);
 
@@ -105,12 +131,21 @@ public class Historial extends Fragment {
                     }
                 }
 
+
                 historialAdapter=new HistorialAdapter(getContext(),list);
                 recyclerHistorial.setAdapter(historialAdapter);
+                if (contador >=3){
+                    suspenderUsuario();
+                }
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
+                if (contador >=3){
+                    suspenderUsuario();
+                }
 
             }
         });
@@ -142,6 +177,10 @@ public class Historial extends Fragment {
                         idCastigo = jsonObject.getInt("idCastigo");
                         castigo = jsonObject.getString("castigo");
 
+                        if(tipo.equals("Contenido sexual u obseno") || tipo.equals("Es spam")){
+                            contador = contador + 1;
+                        }
+
                         hostorial = new estrada.leon.rafael.readwatch.estudiante.pojo.Historial("comentario",texto,tipo, castigo, "Video");
                         list.add(hostorial);
 
@@ -152,11 +191,12 @@ public class Historial extends Fragment {
 
                 historialAdapter=new HistorialAdapter(getContext(),list);
                 recyclerHistorial.setAdapter(historialAdapter);
+                buscarPreguntas();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                buscarPreguntas();
             }
         });
         request.add(jsonObjectRequest);
@@ -187,6 +227,9 @@ public class Historial extends Fragment {
                         tipo = jsonObject.getString("tipo");
                         idCastigo = jsonObject.getInt("idCastigo");
                         castigo = jsonObject.getString("castigo");
+                        if(tipo.equals("Contenido sexual u obseno") || tipo.equals("Es spam")){
+                            contador = contador + 1;
+                        }
 
                         hostorial = new estrada.leon.rafael.readwatch.estudiante.pojo.Historial(rutaImagen,ruta,tipo, castigo, "Video");
                         list.add(hostorial);
@@ -196,13 +239,15 @@ public class Historial extends Fragment {
                     }
                 }
 
+
                 historialAdapter=new HistorialAdapter(getContext(),list);
                 recyclerHistorial.setAdapter(historialAdapter);
+                buscarComentarios();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                buscarComentarios();
             }
         });
         request.add(jsonObjectRequest);
