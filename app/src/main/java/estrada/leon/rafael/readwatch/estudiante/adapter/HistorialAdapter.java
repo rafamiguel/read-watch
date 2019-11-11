@@ -67,6 +67,8 @@ public class HistorialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 vidDocViewHolder.img.setImageResource(R.drawable.miniatura);
             }else if(list.get(position).getRutaImagen().equals("comentario")){
                 vidDocViewHolder.img.setImageResource(R.drawable.coment);
+            }else if(list.get(position).getRutaImagen().equals("pregunta")){
+                vidDocViewHolder.img.setImageResource(R.drawable.pregunta);
             } else{vidDocViewHolder.img.setImageResource(R.drawable.doc);
                 vidDocViewHolder.lblLinkNombre.setText(list.get(position).getRuta()+".pdf");
             }

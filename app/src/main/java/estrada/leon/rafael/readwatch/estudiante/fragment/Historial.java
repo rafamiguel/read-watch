@@ -68,9 +68,55 @@ public class Historial extends Fragment {
         recyclerHistorial.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         buscarHistorial();
         buscarComentarios();
+        buscarPreguntas();
         //cargarDatos();
 
         return vista;
+    }
+
+    private void buscarPreguntas() {
+        String url;
+        int idUsuario = Sesion.getSesion().getId();
+        url = "https://readandwatch.herokuapp.com/php/historialPreguntas.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                String titulo="", rutaImagen="", tipo="", castigo="";
+                JSONArray json;
+                int idCastigo=0;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+                estrada.leon.rafael.readwatch.estudiante.pojo.Historial hostorial;
+                for(int i=0;i<json.length();i++) {
+                    try {
+                        jsonObject = json.getJSONObject(i);
+                        titulo = jsonObject.getString("titulo");
+                        tipo = jsonObject.getString("tipo");
+                        idCastigo = jsonObject.getInt("idCastigo");
+                        castigo = jsonObject.getString("castigo");
+
+                        hostorial = new estrada.leon.rafael.readwatch.estudiante.pojo.Historial("pregunta",titulo,tipo, castigo, "Video");
+                        list.add(hostorial);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                historialAdapter=new HistorialAdapter(getContext(),list);
+                recyclerHistorial.setAdapter(historialAdapter);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+
+
     }
 
     private void buscarComentarios() {
