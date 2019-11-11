@@ -438,7 +438,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
             alertDialog.show();
         }
 
-    public void reportarComentarioWebService(int idUsuario,int idComentario, String tipo){//tipo==motivo
+    public void reportarComentarioWebService(int idUsuario, final int idComentario, String tipo){//tipo==motivo
         JsonObjectRequest jsonObjectRequest;
         RequestQueue request;
         String url;
@@ -475,6 +475,11 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
 
 
                 progreso.hide();
+                reporteSexual(idComentario);
+                reporteSpam(idComentario);
+                reporteNoApropiado(idComentario);
+                reporteNoSeVe(idComentario);
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -489,6 +494,78 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
         progreso.show();
         request.add(jsonObjectRequest);
 
+    }
+
+    private void reporteNoSeVe(int idComentario) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/reporteComentarioNoSeVe.php?idComentario="+idComentario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void reporteNoApropiado(int idComentario) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/reporteComentarioNoApropiado.php?idComentario="+idComentario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void reporteSpam(int idComentario) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/reporteComentarioSpam.php?idComentario="+idComentario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void reporteSexual(int idComentario) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/reporteComentarioSexual.php?idComentario="+idComentario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
     }
 
     @Override

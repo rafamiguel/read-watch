@@ -79,7 +79,7 @@ public class MainComentarios extends AppCompatActivity implements  Response.List
         JSONObject jsonObject=null;
         Comentarios comentario;
         json = response.optJSONArray("usuario");
-        String nombre,comentarioString;
+        String nombre,comentarioString, eliminado;
         int id;
         try {
             for(int i=0;i<json.length();i++){
@@ -87,8 +87,11 @@ public class MainComentarios extends AppCompatActivity implements  Response.List
                 nombre=jsonObject.optString("idUsuario");
                 comentarioString=jsonObject.optString("texto");
                 id = jsonObject.getInt("idComentario");
-                comentario=new Comentarios(nombre,comentarioString,id);
-                list.add(comentario);
+                eliminado = jsonObject.optString("eliminado");
+                if(eliminado.equals("N")) {
+                    comentario = new Comentarios(nombre, comentarioString, id);
+                    list.add(comentario);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
