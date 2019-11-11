@@ -1,14 +1,22 @@
 package estrada.leon.rafael.readwatch.administrador.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.util.List;
 
@@ -20,6 +28,7 @@ public class UsuarioInactivoAdapter extends RecyclerView.Adapter<UsuarioInactivo
     Context context;
     List<InactivoAdm> list;
     OnInactivoListener onInactivoListener;
+    RequestQueue request;
 
     public UsuarioInactivoAdapter (Context context, List<InactivoAdm> list, OnInactivoListener onInactivoListener){
         this.onInactivoListener=onInactivoListener;
@@ -35,8 +44,21 @@ public class UsuarioInactivoAdapter extends RecyclerView.Adapter<UsuarioInactivo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.btnPerfil.setText(list.get(i).getFotoperfil());
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
+        request= Volley.newRequestQueue(context);
+        ImageRequest imageRequest= new ImageRequest(list.get(i).getFotoperfil(), new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                viewHolder.btnPerfil.setImageBitmap(response);
+            }
+
+        },0,0, ImageView.ScaleType.CENTER,null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(context, "Error al cargar las imagenes", Toast.LENGTH_SHORT).show();
+            }});
+        request.add(imageRequest);
+
         viewHolder.lblPerfil.setText(list.get(i).getPerfil());
     }
 
@@ -46,7 +68,8 @@ public class UsuarioInactivoAdapter extends RecyclerView.Adapter<UsuarioInactivo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        Button btnPerfil,btnEliminar;
+        Button btnEliminar;
+        ImageView btnPerfil;
         TextView lblPerfil;
         OnInactivoListener onInactivoListener;
         public ViewHolder (View item, OnInactivoListener onInactivoListener){

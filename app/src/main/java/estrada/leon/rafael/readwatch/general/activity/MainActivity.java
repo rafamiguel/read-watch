@@ -27,6 +27,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import estrada.leon.rafael.readwatch.MainFileManager;
 import estrada.leon.rafael.readwatch.MainVideos;
 import estrada.leon.rafael.readwatch.administrador.fragment.SeleccionarSemestreAdm;
@@ -169,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
                     estudiante.setTelefono(telefono);
                     estudiante.setDescripcion(descripcion);
                     entrar = new Intent(MainActivity.this, MenuEstudiante.class);
+                    updateEstudiante();
                     startActivity(entrar);
                 }
                 progreso.hide();
@@ -179,6 +183,29 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void updateEstudiante() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String datetime = dateformat.format(c.getTime());
+        String url;
+        int idUsuario = Sesion.getSesion().getId();
+        url = "https://readandwatch.herokuapp.com/php/updateHoraUsuario.php?" +
+                "idUsuario="+idUsuario+"&datetime="+datetime;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
     }
 
     private void guardarPreferencias(JSONObject jsonObject) {

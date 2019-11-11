@@ -12,13 +12,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.administrador.adapter.UsuarioInactivoAdapter;
 import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
 import estrada.leon.rafael.readwatch.administrador.pojo.InactivoAdm;
+import estrada.leon.rafael.readwatch.estudiante.adapter.HistorialAdapter;
+import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +50,9 @@ public class UsuariosInactivos extends Fragment implements UsuarioInactivoAdapte
     View vista;
     List<InactivoAdm> list;
     Activity actividad;
+    JsonObjectRequest jsonObjectRequest;
+    RecyclerView recyclerInactivos;
+    RequestQueue request;
     private iComunicacionFragmentsAdm interfaceFragments;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -79,16 +100,75 @@ public class UsuariosInactivos extends Fragment implements UsuarioInactivoAdapte
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        RecyclerView recyclerInactivos;
+
         vista = inflater.inflate(R.layout.fragment_usuarios_inactivos, container, false);
         recyclerInactivos=vista.findViewById(R.id.recyclerInactivos);
-
+        request = Volley.newRequestQueue(getContext());
         recyclerInactivos.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        list=new ArrayList<>();
-        list.add(new InactivoAdm("Bad Bunny", ""));
-        UsuarioInactivoAdapter h = new UsuarioInactivoAdapter(getContext(),list, this);
-        recyclerInactivos.setAdapter(h);
+
+
+        hora();
         return vista;
+    }
+
+    private void hora() {
+        final Calendar c = Calendar.getInstance();
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String datetime = dateformat.format(c.getTime());
+
+        String url;
+        int idUsuario = Sesion.getSesion().getId();
+        url = "https://readandwatch.herokuapp.com/php/buscarTiempoUsuario.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                String nombre="", rutaFoto="", ultimoInicio="";
+                JSONArray json;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+                for(int i=0;i<json.length();i++) {
+                    try {
+                        jsonObject = json.getJSONObject(i);
+                        nombre= jsonObject.getString("nombre");
+                        rutaFoto = jsonObject.getString("rutaFoto");
+                        ultimoInicio = jsonObject.getString("ultimoInicio");
+
+                        Calendar cal = Calendar.getInstance();
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
+                        try {
+                            cal.setTime(sdf.parse(ultimoInicio));// all done
+                            cal.add(Calendar.MONTH,12);
+                            if(cal.before(c)){
+                                list=new ArrayList<>();
+                                list.add(new InactivoAdm(nombre, rutaFoto));
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                UsuarioInactivoAdapter h = new UsuarioInactivoAdapter(getContext(),list, UsuariosInactivos.this);
+                recyclerInactivos.setAdapter(h);
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+
+    }
+
+    private void pasoAno() {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
