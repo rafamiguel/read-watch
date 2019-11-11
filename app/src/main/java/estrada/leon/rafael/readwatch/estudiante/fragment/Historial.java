@@ -67,9 +67,55 @@ public class Historial extends Fragment {
         recyclerHistorial=vista.findViewById(R.id.recyclerHistorial);
         recyclerHistorial.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         buscarHistorial();
+        buscarComentarios();
         //cargarDatos();
 
         return vista;
+    }
+
+    private void buscarComentarios() {
+        String url;
+        int idUsuario = Sesion.getSesion().getId();
+        url = "https://readandwatch.herokuapp.com/php/historialComentario.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                String texto="", rutaImagen="", tipo="", castigo="";
+                JSONArray json;
+                int idCastigo=0;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+                estrada.leon.rafael.readwatch.estudiante.pojo.Historial hostorial;
+                for(int i=0;i<json.length();i++) {
+                    try {
+                        jsonObject = json.getJSONObject(i);
+                        texto = jsonObject.getString("texto");
+                        tipo = jsonObject.getString("tipo");
+                        idCastigo = jsonObject.getInt("idCastigo");
+                        castigo = jsonObject.getString("castigo");
+
+                        hostorial = new estrada.leon.rafael.readwatch.estudiante.pojo.Historial("comentario",texto,tipo, castigo, "Video");
+                        list.add(hostorial);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                historialAdapter=new HistorialAdapter(getContext(),list);
+                recyclerHistorial.setAdapter(historialAdapter);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+
+
     }
 
     private void buscarHistorial() {
