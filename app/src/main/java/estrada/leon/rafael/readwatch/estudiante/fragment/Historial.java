@@ -37,6 +37,7 @@ public class Historial extends Fragment {
     HistorialAdapter historialAdapter;
     RecyclerView recyclerHistorial;
     private OnFragmentInteractionListener mListener;
+    private String Castigo;
 
     public void cargarDatos(){
 
@@ -93,7 +94,7 @@ public class Historial extends Fragment {
                         rutaImagen = jsonObject.getString("rutaImagen");
                         tipo = jsonObject.getString("tipo");
                         idCastigo = jsonObject.getInt("idCastigo");
-                        castigo = castigos(idCastigo);
+                        castigo = jsonObject.getString("castigo");
 
                         hostorial = new estrada.leon.rafael.readwatch.estudiante.pojo.Historial(rutaImagen,ruta,tipo, castigo, "Video");
                         list.add(hostorial);
@@ -116,39 +117,6 @@ public class Historial extends Fragment {
 
     }
 
-    private String castigos(int idCastigo) {
-        String url;
-        final String[] Castigo = {""};
-        url = "https://readandwatch.herokuapp.com/php/buscarCastigo.php?idCastigo="+idCastigo;
-        url=url.replace(" ", "%20");
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                JSONArray json;
-
-                JSONObject jsonObject = null;
-                json = response.optJSONArray("usuario");
-
-
-                try {
-                    jsonObject = json.getJSONObject(0);
-
-                    Castigo[0] = jsonObject.getString("castigo");
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        request.add(jsonObjectRequest);
-        return Castigo[0];
-    }
 
     @Override
     public void onAttach(Context context) {
