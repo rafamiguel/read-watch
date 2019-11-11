@@ -8,16 +8,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas;
+import estrada.leon.rafael.readwatch.estudiante.pojo.Votos;
+import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
 public class MateriasPropuestasAdapter extends ArrayAdapter<MateriasPropuestas> {
     Context context;
     int layoutResourceId,votos;
-    float porcentaje;
+    Double porcentaje;
     MateriasPropuestas[] datos;
+    DatabaseReference rootReference;
 
     public MateriasPropuestasAdapter(@NonNull Context context, int resource, MateriasPropuestas[] objects, int votos) {
         super(context, resource, objects);
@@ -30,7 +43,7 @@ public class MateriasPropuestasAdapter extends ArrayAdapter<MateriasPropuestas> 
 
     public View getView(int position, View convertView, ViewGroup parent){
         View row= convertView;
-        MateriasPropuestasHolder materiasPropuestasHolder;
+        final MateriasPropuestasHolder materiasPropuestasHolder;
         if(row==null){
             LayoutInflater inflater;
             inflater=((Activity)context).getLayoutInflater();
@@ -46,14 +59,20 @@ public class MateriasPropuestasAdapter extends ArrayAdapter<MateriasPropuestas> 
 
         MateriasPropuestas materiasPropuestas=datos[position];
         materiasPropuestasHolder.lblMateriaPropuesta.setText(materiasPropuestas.getNombre());
-        porcentaje=materiasPropuestas.getVotos()*100/(float)votos;
-        materiasPropuestasHolder.lblPorcentajeVotos.setText(Float.toString(porcentaje)+"% de los votos");
+        if(votos>0){
+            porcentaje  =  ((double)(materiasPropuestas.getVotos()))*100;
+            porcentaje= porcentaje/votos;
+        }else{
+            porcentaje=0.0;
+        }
+        materiasPropuestasHolder.lblPorcentajeVotos.setText(((float)Math.round(porcentaje * 100) / 100)+"% de los votos");
         return row;
     }
+
+
 
     static class MateriasPropuestasHolder{
         TextView lblMateriaPropuesta,lblPorcentajeVotos;
         CheckBox cbMateriaPropuesta;
-
     }
 }
