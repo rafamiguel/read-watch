@@ -2,7 +2,9 @@ package estrada.leon.rafael.readwatch.estudiante.dialog;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -12,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -29,17 +33,27 @@ import java.util.List;
 import estrada.leon.rafael.readwatch.R;
 public class DialogElegirTema extends AppCompatDialogFragment implements
             Response.Listener<JSONObject>, Response.ErrorListener  {
-        EditText txtNombre;
         Spinner spinner_tema,spinner_materia;
         ProgressDialog progreso;
         JsonObjectRequest jsonObjectRequest;
         RequestQueue request;
-        @Override
+        Context contexto;
+        OnElegirTema onElegirTema;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        contexto = context;
+        if(context instanceof  OnElegirTema){
+            onElegirTema = (OnElegirTema)context;
+        }
+    }
+
+    @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             LayoutInflater inflater = getActivity().getLayoutInflater();
-            View view = inflater.inflate(R.layout.dialog_boton_hacer_propuesta, null);
-            txtNombre=view.findViewById(R.id.txtNombreSubtema);
+            View view = inflater.inflate(R.layout.dialog_elegir_tema, null);
             spinner_tema=view.findViewById(R.id.spinner_tema);
             spinner_materia=view.findViewById(R.id.spinner_materia);
             request= Volley.newRequestQueue(getContext());
@@ -60,7 +74,7 @@ public class DialogElegirTema extends AppCompatDialogFragment implements
                             if(tema.equals("Selecciona un tema") || tema.equals("Seleccionar tema")){
 
                             }else{
-
+                                onElegirTema.mostrarTemasPropuestos(spinner_materia.getSelectedItem().toString(),spinner_tema.getSelectedItem().toString());
                             }
                         }
                     });
@@ -161,5 +175,9 @@ public class DialogElegirTema extends AppCompatDialogFragment implements
         @Override
         public void onResponse(JSONObject response) {
 
+        }
+
+        public interface OnElegirTema{
+            public void mostrarTemasPropuestos(String nombreMateria, String nombreTema);
         }
     }

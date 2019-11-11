@@ -61,9 +61,10 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogElegirTema;
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogIngresarPropuesta;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogModificarEliminar;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogHacerPregunta;
-import estrada.leon.rafael.readwatch.estudiante.dialog.DialogOpcTemaSubtema;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogSubirVideo;
 import estrada.leon.rafael.readwatch.estudiante.dialog.Dialog_Subir_documento;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirDocumento;
@@ -77,6 +78,7 @@ import estrada.leon.rafael.readwatch.estudiante.fragment.MateriasPropuestas;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ModificarEstudiante;
 import estrada.leon.rafael.readwatch.estudiante.fragment.Perfil;
 import estrada.leon.rafael.readwatch.estudiante.fragment.PreguntasTemaLibre;
+import estrada.leon.rafael.readwatch.estudiante.fragment.SubtemasPropuestos;
 import estrada.leon.rafael.readwatch.estudiante.fragment.TemasPropuestos;
 import estrada.leon.rafael.readwatch.estudiante.fragment.lista_materias;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
@@ -100,8 +102,8 @@ public class  MenuEstudiante extends AppCompatActivity
         lista_materias.OnFragmentInteractionListener,
         MateriasPropuestas.OnFragmentInteractionListener,
         ModificarEstudiante.OnFragmentInteractionListener,
-        DialogModificarEliminar.IOpcionesVidDoc,
-        leerDocumentos.OnFragmentInteractionListener {
+        DialogModificarEliminar.IOpcionesVidDoc, SubtemasPropuestos.OnFragmentInteractionListener,
+        leerDocumentos.OnFragmentInteractionListener, DialogElegirTema.OnElegirTema {
     Fragment fragment;
     TextView titulo , title;
     RequestQueue request;
@@ -314,20 +316,19 @@ public class  MenuEstudiante extends AppCompatActivity
         builder.setNegativeButton("Subtemas", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-//                fragment =new Subtema();
-//                getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
-//                titulo.setText("Subtemas propuestos");
-//                Toast.makeText(getApplicationContext(),"Vote por una propuesta",Toast.LENGTH_LONG).show();
+            DialogElegirTema nuevo = new DialogElegirTema();
+            nuevo.show(getSupportFragmentManager(), "ejemplo");
             }
         });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.show();
     }
 
     @Override
     public void onClickProponerMateria() {
-        fragment =new MateriasPropuestas();
-        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
-        titulo.setText("Materias propuestas");
-        Toast.makeText(this,"Vote por una propuesta",Toast.LENGTH_LONG).show();
+        DialogFragment builder = new DialogElegirTema();
+        builder.show(getSupportFragmentManager(),"Ejemplo");
     }
 
     @Override
@@ -1078,5 +1079,25 @@ public class  MenuEstudiante extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+
+    @Override
+    public void mostrarTemasPropuestos(String nombreMateria, String nombreTema) {
+        SharedPreferences preferences = getSharedPreferences("materia", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("nombre", nombreMateria);
+        editor.commit();
+
+        getSharedPreferences("tema", Context.MODE_PRIVATE);
+        editor = preferences.edit();
+        editor.putString("nombre", nombreTema);
+        editor.commit();
+
+
+        fragment =new SubtemasPropuestos();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
+        titulo.setText("Temas propuestas");
+        Toast.makeText(this,"Vote por una propuesta",Toast.LENGTH_LONG).show();
     }
 }

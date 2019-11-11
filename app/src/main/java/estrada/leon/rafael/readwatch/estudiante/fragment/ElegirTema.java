@@ -36,6 +36,7 @@ import estrada.leon.rafael.readwatch.estudiante.pojo.Temas;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
 
 public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener,
@@ -110,8 +111,13 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
 
     @Override
     public void onTemaClick(int position, List<Item> lista) {
-        SharedPreferences preferences = contexto.getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
-        int idUsuario = preferences.getInt("idUsuario", 0);
+
+        SharedPreferences preferences = contexto.getSharedPreferences("tema", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("nombre", (((Subtemas)temasList.get(position)).getNombre()));
+        editor.commit();
+
+        int idUsuario = Sesion.getSesion().getId();
         interfaceFragments.seleccionarVideo(((Subtemas) (temasList.get(position))).getIdSubtema(),idUsuario);
     }
 

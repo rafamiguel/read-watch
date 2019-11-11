@@ -21,7 +21,7 @@ public class TemasPropuestosAdapter extends ArrayAdapter<TemasPropuestos> {
     float porcentaje;
     List<TemasPropuestos> datos;
 
-    public TemasPropuestosAdapter(@NonNull Context context, int resource, List<TemasPropuestos> objects,int votos) {
+    public TemasPropuestosAdapter(Context context, int resource, List<TemasPropuestos> objects,int votos) {
         super(context, resource, objects);
             this.context=context;
             this.layoutResourceId=resource;
