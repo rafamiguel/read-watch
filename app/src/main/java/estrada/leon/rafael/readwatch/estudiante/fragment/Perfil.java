@@ -82,6 +82,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
     Bitmap  bitmap2;
     int []idUsuarioVidDocFav;
     Activity actividad;
+    Context contexto;
     private final boolean BUSCAR=true;
     JsonObjectRequest jsonObjectRequest;
     private iComunicacionFragments interfaceFragments;
@@ -548,7 +549,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
     }
     private void cargarWebServices(int a) {
         String url;
-        progreso = new ProgressDialog(getContext());
+        progreso = new ProgressDialog(contexto);
         progreso.setMessage("Cargando Datos...");
         progreso.show();
         if(a==2) {
@@ -575,6 +576,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
     public void onAttach(Context context) {
         Activity activity;
         super.onAttach(context);
+        contexto = context;
         if (context instanceof Activity) {
             activity= (Activity) context;
             actividad = (Activity) context;

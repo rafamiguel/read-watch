@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +24,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import estrada.leon.rafael.readwatch.R;
-import estrada.leon.rafael.readwatch.estudiante.pojo.Materias;
 import estrada.leon.rafael.readwatch.estudiante.pojo.MateriasPropuestas;
 import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
@@ -52,7 +50,6 @@ public class DialogInsertarMateria extends AppCompatDialogFragment {
         txtNombre = view.findViewById(R.id.txtNombre);
         txtFoto = view.findViewById(R.id.txtFoto);
         rootReference = FirebaseDatabase.getInstance().getReference();
-
 
         builder.setView(view)
                 .setTitle("Nueva Materia")

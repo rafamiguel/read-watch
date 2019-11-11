@@ -43,8 +43,6 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
     Spinner spinner_tema,spinner_materia;
     public static final int PREGUNTAR=1,RESUBIR=2, MATERIA=3;
     int modo;
-    char clave;
-
     public void setModo(int modo){
         this.modo = modo;
     }
@@ -249,7 +247,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        //Toast.makeText(getContext(),"Error:\n"+error.getMessage(),Toast.LENGTH_LONG);
+        Toast.makeText(getContext(),"Error:\n"+error.getMessage(),Toast.LENGTH_LONG);
     }
 
     @Override

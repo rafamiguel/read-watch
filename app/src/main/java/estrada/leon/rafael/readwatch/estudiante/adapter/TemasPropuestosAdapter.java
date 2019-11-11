@@ -48,8 +48,12 @@ public class TemasPropuestosAdapter extends ArrayAdapter<TemasPropuestos> {
 
         TemasPropuestos temasPropuestos=datos.get(position);
         temasPropuestosHolder.lblTemaPropuesto.setText(temasPropuestos.getNombre());
+        if(votos>0){
         porcentaje=temasPropuestos.getVotos()*100/(float)votos;
-        temasPropuestosHolder.lblPorcentajeVotos.setText(Float.toString(porcentaje)+"% de los votos");
+        }else{
+            porcentaje=0;
+        }
+        temasPropuestosHolder.lblPorcentajeVotos.setText(((float)Math.round(porcentaje * 100) / 100)+"% de los votos");
         return row;
     }
 

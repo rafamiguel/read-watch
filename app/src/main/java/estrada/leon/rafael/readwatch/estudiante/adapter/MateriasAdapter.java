@@ -86,6 +86,7 @@ public class MateriasAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             materiasViewHolder.btnMateria.setEnabled(false);
             materiasViewHolder.btnMateria.setVisibility(View.GONE);
             materiasViewHolder.lblMateria.setText(materia.getNombre());
+            materiasViewHolder.lblMateria.setVisibility(View.VISIBLE);
         }
     }
     public void cargarImagenWebService(String rutaImagen, final MateriasAdapter.MateriasViewHolder materiasViewHolder){

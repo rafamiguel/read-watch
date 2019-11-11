@@ -1,34 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/subirVideo"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/txtDescripcion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:id="@+id/txtNombreSubtema"
+        android:layout_width="281dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="Descripcion"
-        android:inputType="textPersonName"
-        android:textAlignment="inherit"
-        android:textColor="#0A0A0A"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtLink" />
-
-    <EditText
-        android:id="@+id/txtLink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="https://www.youtube.com/watch?v=b-WbKJJjetQ"
-        android:inputType="textMultiLine|textPersonName"
-        android:textAlignment="gravity"
-        android:textColor="#0A0A0A"
+        android:hint="Tema"
+        android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -51,6 +34,6 @@
         android:entries="@array/seleccionar_materia"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtDescripcion" />
+        app:layout_constraintTop_toBottomOf="@id/txtNombreSubtema" />
 
 </android.support.constraint.ConstraintLayout>

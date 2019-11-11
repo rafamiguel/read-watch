@@ -11,17 +11,18 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical">
-        <android.support.constraint.ConstraintLayout
+        <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/temas"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/lblTemaInexistente"
@@ -31,13 +32,9 @@
                 android:layout_marginBottom="10dp"
                 android:text="@string/temaInexistente"
                 android:textAlignment="center"
-                android:textColor="#3F51B5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/temas"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                android:textColor="#3F51B5" />
 
-        </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.LinearLayoutCompat>
 
     </ScrollView>
 

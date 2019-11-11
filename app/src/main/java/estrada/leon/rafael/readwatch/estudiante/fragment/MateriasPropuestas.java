@@ -68,10 +68,11 @@ public class MateriasPropuestas extends Fragment {
                             cb = lvMateriasPropuestas.getChildAt(x).findViewById(R.id.cbMateriaPropuesta);
                             cb.setEnabled(false);
                         }
-                        btnVotarQuitar.setEnabled(false);
+                        btnVotarQuitar.setVisibility(View.GONE);
                         return;
                     }
                 }
+                btnVotarQuitar.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -120,7 +121,6 @@ public class MateriasPropuestas extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 cbSeleccionado = view.findViewById(R.id.cbMateriaPropuesta);
                 lblSeleccionado = view.findViewById(R.id.lblMateriaPropuesta);
-
             }
         });
         rootReference.child("materia").addValueEventListener(new ValueEventListener() {

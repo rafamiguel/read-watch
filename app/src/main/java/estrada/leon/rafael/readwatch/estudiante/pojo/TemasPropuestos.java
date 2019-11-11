@@ -1,22 +1,27 @@
 package estrada.leon.rafael.readwatch.estudiante.pojo;
 
 public class TemasPropuestos {
-    private int id;
+    private int idUsuario;
     private int votos;
     private String nombre;
+    private String materia;
 
-    public TemasPropuestos(int id, int votos, java.lang.String nombre) {
-        this.id = id;
+    public TemasPropuestos() {
+    }
+
+    public TemasPropuestos(int idUsuario, int votos, String nombre, String materia) {
+        this.idUsuario = idUsuario;
         this.votos = votos;
         this.nombre = nombre;
+        this.materia = materia;
     }
 
-    public int getId() {
-        return id;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public int getVotos() {
@@ -33,5 +38,13 @@ public class TemasPropuestos {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getMateria() {
+        return materia;
+    }
+
+    public void setMateria(String materia) {
+        this.materia = materia;
     }
 }
