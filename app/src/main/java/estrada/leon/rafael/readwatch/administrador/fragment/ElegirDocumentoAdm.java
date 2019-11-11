@@ -167,18 +167,21 @@ public class ElegirDocumentoAdm extends Fragment implements
         JSONObject jsonObject=null;
         DocumentosAdm documento;
         json = response.optJSONArray("usuario");
-        String idUsuario,descripcion,miniatura;
+        String idUsuario,descripcion,miniatura, eliminado;
         int idVidDoc, idusuario;
         try {
-            for(int i=0;i<json.length();i++){
-                jsonObject=json.getJSONObject(i);
-                idUsuario=jsonObject.optString("idUsuario");
-                descripcion=jsonObject.optString("descripcion");
-                miniatura=jsonObject.optString("rutaImagen");
-                idVidDoc=jsonObject.optInt("idVidDoc");
-                idusuario=jsonObject.optInt("idUsuario");
-                documento=new DocumentosAdm(idUsuario,descripcion,miniatura,idVidDoc, idusuario);
+            for(int i=0;i<json.length();i++) {
+                jsonObject = json.getJSONObject(i);
+                idUsuario = jsonObject.optString("idUsuario");
+                descripcion = jsonObject.optString("descripcion");
+                miniatura = jsonObject.optString("rutaImagen");
+                idVidDoc = jsonObject.optInt("idVidDoc");
+                idusuario = jsonObject.optInt("idUsuario");
+                eliminado = jsonObject.optString("eliminado");
+                if (eliminado.equals("N")){
+                    documento = new DocumentosAdm(idUsuario, descripcion, miniatura, idVidDoc, idusuario);
                 documentos.add(documento);
+            }
             }
         } catch (JSONException e) {
             e.printStackTrace();
