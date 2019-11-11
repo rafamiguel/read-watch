@@ -398,7 +398,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         JSONObject jsonObject=null;
         Documentos documento;
         json = response.optJSONArray("usuario");
-        String descripcion,miniatura;
+        String descripcion,miniatura, eliminado;
         int idUsuario,idVidDoc;
         try {
             for(int i=0;i<json.length();i++){
@@ -407,8 +407,11 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
                 descripcion=jsonObject.optString("descripcion");
                 miniatura=jsonObject.optString("rutaImagen");
                 idVidDoc=jsonObject.optInt("idVidDoc");
-                documento=new Documentos(Integer.toString(idUsuario),descripcion,miniatura,idUsuario,idVidDoc);
-                documentos.add(documento);
+                eliminado = jsonObject.optString("eliminado");
+                if(eliminado.equals("N")) {
+                    documento = new Documentos(Integer.toString(idUsuario), descripcion, miniatura, idUsuario, idVidDoc);
+                    documentos.add(documento);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
