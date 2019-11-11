@@ -40,40 +40,41 @@ package estrada.leon.rafael.readwatch.estudiante.fragment;
         import java.util.Map;
 
         import estrada.leon.rafael.readwatch.R;
+        import estrada.leon.rafael.readwatch.estudiante.adapter.MateriasPropuestasAdapter;
+        import estrada.leon.rafael.readwatch.estudiante.adapter.SubtemasPropuestosAdapter;
+        import estrada.leon.rafael.readwatch.estudiante.adapter.TemasAdapter;
         import estrada.leon.rafael.readwatch.estudiante.adapter.TemasPropuestosAdapter;
         import estrada.leon.rafael.readwatch.estudiante.dialog.DialogIngresarPropuesta;
+        import estrada.leon.rafael.readwatch.estudiante.dialog.DialogInsertarMateria;
+        import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
         import estrada.leon.rafael.readwatch.estudiante.pojo.Materias;
+        import estrada.leon.rafael.readwatch.estudiante.pojo.Subtemas;
         import estrada.leon.rafael.readwatch.estudiante.pojo.Votos;
         import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
-public class SubtemasPropuestos extends Fragment {
-    List<estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos> datos;
-    ListView lvTemasPropuestos;
-    FloatingActionButton fabTemaNuevo;
-    Button btnVotarQuitar;
+public class SubtemasPropuestos extends Fragment implements TemasAdapter.OnTemasListener {
+    Subtemas[] subtemasPropuestos;
+    private List<Subtemas> listaSubtemas;
+    ListView lvSubtemasPropuestos;
+    FloatingActionButton btnSubirPropuesta;
     DatabaseReference rootReference;
+    Button btnVotarQuitar;
     CheckBox cbSeleccionado;
     TextView lblSeleccionado;
-    ProgressDialog progreso;
+    SubtemasPropuestosAdapter subtemasPropuestosAdapter;
+    private MateriasPropuestas.OnFragmentInteractionListener mListener;
     Context contexto;
-    private List<Materias> listMaterias;
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
     public SubtemasPropuestos() {
     }
     public void cargarDatos(){
         int votos=0;
-        for(int i=0;i<datos.size();i++){
-            votos+=datos.get(i).getVotos();
+        subtemasPropuestos=new Subtemas[listaSubtemas.size()];
+        for(int i=0;i<listaSubtemas.size();i++){
+            votos+=listaSubtemas.get(i).getVotos();
+            subtemasPropuestos[i]  = new Subtemas(listaSubtemas.get(i).getNombre(),listaSubtemas.get(i).getIdSubtema(),listaSubtemas.get(i).getTema());
         }
-        TemasPropuestosAdapter temasPropuestosAdapter=new TemasPropuestosAdapter(contexto,R.layout.tema_propuesto,datos,votos);
-        lvTemasPropuestos.setAdapter(temasPropuestosAdapter);
+        subtemasPropuestosAdapter =new SubtemasPropuestosAdapter(contexto,R.layout.fragment_subtemas_propuestos,subtemasPropuestos,votos);
+        lvSubtemasPropuestos.setAdapter(subtemasPropuestosAdapter);
 
         rootReference.child("votoSubtema").addValueEventListener(new ValueEventListener() {
             @Override
@@ -83,8 +84,8 @@ public class SubtemasPropuestos extends Fragment {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     voto = snapshot.getValue(Votos.class);
                     if(voto.getIdUsuario() == Sesion.getSesion().getId()) {
-                        for (int x = 0; x < lvTemasPropuestos.getChildCount(); x++) {
-                            cb = lvTemasPropuestos.getChildAt(x).findViewById(R.id.cbTemaPropuesto);
+                        for (int x = 0; x < lvSubtemasPropuestos.getChildCount(); x++) {
+                            cb = lvSubtemasPropuestos.getChildAt(x).findViewById(R.id.cbTemaPropuesto);
                             cb.setEnabled(false);
                         }
                         btnVotarQuitar.setVisibility(View.GONE);
@@ -92,7 +93,6 @@ public class SubtemasPropuestos extends Fragment {
                     }
                 }
                 btnVotarQuitar.setVisibility(View.VISIBLE);
-
             }
 
             @Override
@@ -101,22 +101,10 @@ public class SubtemasPropuestos extends Fragment {
             }
         });
     }
-    public static TemasPropuestos newInstance(String param1, String param2) {
-        TemasPropuestos fragment = new TemasPropuestos();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -124,37 +112,57 @@ public class SubtemasPropuestos extends Fragment {
                              Bundle savedInstanceState) {
         rootReference = FirebaseDatabase.getInstance().getReference();
         View view;
-        view= inflater.inflate(R.layout.fragment_temas_propuestos, container, false);
-        lvTemasPropuestos=view.findViewById(R.id.lvTemasPropuestos);
-        lvTemasPropuestos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                cbSeleccionado = view.findViewById(R.id.cbMateriaPropuesta);
-                lblSeleccionado = view.findViewById(R.id.lblMateriaPropuesta);
-            }
-        });
+
+        view= inflater.inflate(R.layout.fragment_subtemas_propuestos, container, false);
         btnVotarQuitar = view.findViewById(R.id.btnVotarQuitar);
         btnVotarQuitar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int x = 0; x<lvTemasPropuestos.getChildCount();x++){
-                    cbSeleccionado = lvTemasPropuestos.getChildAt(x).findViewById(R.id.cbTemaPropuesto);
+                for (int x = 0; x<lvSubtemasPropuestos.getChildCount();x++){
+                    cbSeleccionado = lvSubtemasPropuestos.getChildAt(x).findViewById(R.id.cbTemaPropuesto);
                     if(cbSeleccionado.isChecked()){
-                        lblSeleccionado = lvTemasPropuestos.getChildAt(x).findViewById(R.id.lblTemaPropuesto);
+                        lblSeleccionado = lvSubtemasPropuestos.getChildAt(x).findViewById(R.id.lblTemaPropuesto);
                         votar(lblSeleccionado.getText().toString());
                     }
                 }
             }
         });
-        fabTemaNuevo = view.findViewById(R.id.fabTemaNuevo);
-        fabTemaNuevo.setOnClickListener(new View.OnClickListener() {
+        btnSubirPropuesta = view.findViewById(R.id.fabTemaNuevo);
+        btnSubirPropuesta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogIngresarPropuesta nuevo = new DialogIngresarPropuesta();
                 nuevo.show(getActivity().getSupportFragmentManager(), "ejemplo");
             }
         });
-        cargarMaterias();
+        lvSubtemasPropuestos=view.findViewById(R.id.lvTemasPropuestos);
+        lvSubtemasPropuestos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                cbSeleccionado = view.findViewById(R.id.cbTemaPropuesto);
+                lblSeleccionado = view.findViewById(R.id.lblTemaPropuesto);
+            }
+        });
+        rootReference.child("subtema").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listaSubtemas=new ArrayList<>();
+                Subtemas materia;
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    materia = snapshot.getValue(Subtemas.class);
+                    listaSubtemas.add(materia);
+                }
+                cargarDatos();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
         return view;
     }
 
@@ -167,9 +175,9 @@ public class SubtemasPropuestos extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        contexto = context;
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        contexto=context;
+        if (context instanceof MateriasPropuestas.OnFragmentInteractionListener) {
+            mListener = (MateriasPropuestas.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -182,31 +190,45 @@ public class SubtemasPropuestos extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onTemaClick(int position, List<Item> lista) {
+
+    }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
     public void votar(final String nombre){
         rootReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference votosRef = rootReference.child("votoSubtema");
         int idUsuario = Sesion.getSesion().getId();
+        SharedPreferences preferences = contexto.getSharedPreferences("materia", Context.MODE_PRIVATE);
+        String nombreMateria = preferences.getString("nombre", "NaN");
+
+        SharedPreferences preference2s = contexto.getSharedPreferences("tema", Context.MODE_PRIVATE);
+        String nombreTema = preference2s.getString("nombre", "NaN");
+
         Votos vote = new Votos(idUsuario,nombre);
         Map<String, Object> voto = new HashMap<>();
         voto.put("idUsuario",vote.getIdUsuario());
         voto.put("nombre",vote.getNombre());
+        voto.put("materia",nombreMateria);
+        voto.put("tema",nombreTema);
         votosRef.push().setValue(voto);
 
-        rootReference.child("Subtema").addListenerForSingleValueEvent(new ValueEventListener() {
+        rootReference.child("subtema").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos tema = null;
+                Subtemas subtema = null;
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    tema = snapshot.getValue(estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos.class);
-                    if(tema.getNombre().equals(nombre)){
-                        tema.setVotos(tema.getVotos()+1);
-                        DatabaseReference votoNuevoRef = rootReference.child("Subtema");
+                    subtema = snapshot.getValue(Subtemas.class);
+                    if(subtema.getNombre().equals(nombre)){
+                        subtema.setVotos(subtema.getVotos()+1);
+                        DatabaseReference votoNuevoRef = rootReference.child("subtema");
                         Map<String, Object> nuevoVoto = new HashMap<>();
-                        nuevoVoto.put(snapshot.getKey(),tema);
+                        nuevoVoto.put(snapshot.getKey(),subtema);
                         votoNuevoRef.updateChildren(nuevoVoto);
                     }
                 }
@@ -218,86 +240,7 @@ public class SubtemasPropuestos extends Fragment {
 
             }
         });
-    }
 
-    private void cargarMaterias(){
-        JsonObjectRequest jsonObjectRequest;
-        RequestQueue request;
-        request= Volley.newRequestQueue(getContext());
-        progreso = new ProgressDialog(getContext());
-        progreso.setMessage("Cargando...");
-        progreso.show();
-        String url;
-        url = "https://readandwatch.herokuapp.com/php/cargarMaterias.php";
-        url=url.replace(" ", "%20");
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                listMaterias = new ArrayList<>();
-                JSONArray json;
-                JSONObject jsonObject=null;
-                Materias materia;
-                json = response.optJSONArray("usuario");
-                String nombre,rutaImagen;
-                int idMateria, votos,idUsuario;
-                try {
-                    for(int i=0;i<json.length();i++){
-                        jsonObject=json.getJSONObject(i);
-                        idMateria=jsonObject.optInt("idMateria");
-                        nombre=jsonObject.optString("nombre");
-                        rutaImagen=jsonObject.optString("rutaImagen");
-                        votos=jsonObject.optInt("votos");
-                        idUsuario=jsonObject.optInt("idUsuario");
-                        materia=new Materias(idMateria,rutaImagen,nombre);
 
-                        if(idUsuario!=1) {
-                            listMaterias.add(materia);
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                progreso.hide();
-                cargarTemas();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-                progreso.hide();
-            }
-        });
-        request.add(jsonObjectRequest);
-    }
-
-    public void cargarTemas(){
-        rootReference.child("tema").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                SharedPreferences preferences = contexto.getSharedPreferences("Materia", Context.MODE_PRIVATE);
-                int idMateria = preferences.getInt("materia", 0);
-                String materia = "";
-                for(int i=0;i<listMaterias.size();i++){
-                    if(listMaterias.get(i).getIdMateria()==idMateria){
-                        materia = listMaterias.get(i).getNombre();
-                        break;
-                    }
-                }
-                datos=new ArrayList<>();
-                estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos tema;
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    tema = snapshot.getValue(estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos.class);
-                    if(tema.getMateria().equals(materia)) {
-                        datos.add(tema);
-                    }
-                }
-                cargarDatos();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 }

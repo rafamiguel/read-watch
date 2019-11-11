@@ -120,7 +120,7 @@ public class DialogIngresarPropuesta extends AppCompatDialogFragment implements
             datosMateria.put("votos", 0);
             datosMateria.put("materia",materia);
             datosMateria.put("tema",tema);
-            rootReference.child("subTema").push().setValue(datosMateria);
+            rootReference.child("subtema").push().setValue(datosMateria);
         }else if(existente){
             Toast.makeText(context, "Ya hay una propuesta con este nombre", Toast.LENGTH_LONG).show();
         }else if(mismoUsuario){
