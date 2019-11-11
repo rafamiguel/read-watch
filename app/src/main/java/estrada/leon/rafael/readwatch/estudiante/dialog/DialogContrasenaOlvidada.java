@@ -29,7 +29,7 @@ import estrada.leon.rafael.readwatch.CorreoElectronico.SendMail;
 import estrada.leon.rafael.readwatch.R;
 
 public class DialogContrasenaOlvidada extends AppCompatDialogFragment {
-    private final String caracteres = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890!#$%&/()=?¡¿'|°";
+    private final String caracteres = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890.,!$%&/()=?¡¿|°";
     private String nuevaContraseña="", correo="";
     private Random rand;
     private Context context;

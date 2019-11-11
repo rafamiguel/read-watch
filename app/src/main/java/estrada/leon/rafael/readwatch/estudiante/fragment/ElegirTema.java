@@ -48,6 +48,7 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
     int idMateria, semestre;
     TemasAdapter temasAdapter;
     RecyclerView temas;
+    Context contexto;
 
     private OnFragmentInteractionListener mListener;
 
@@ -75,9 +76,9 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
             });
             temas.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
 
-            SharedPreferences preferences = getContext().getSharedPreferences("Materia", Context.MODE_PRIVATE);
+            SharedPreferences preferences = contexto.getSharedPreferences("Materia", Context.MODE_PRIVATE);
             idMateria = preferences.getInt("materia", 0);
-            preferences =  getContext().getSharedPreferences("Semestre", Context.MODE_PRIVATE);
+            preferences =  contexto.getSharedPreferences("Semestre", Context.MODE_PRIVATE);
             semestre = preferences.getInt("semestre", 0);
             request= Volley.newRequestQueue(getContext());
             cargarWebService();
@@ -88,6 +89,7 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
         public void onAttach(Context context) {
             Activity actividad;
             super.onAttach(context);
+            contexto = context;
             if (context instanceof Activity) {
                 actividad= (Activity) context;
                 interfaceFragments=(iComunicacionFragments)actividad;
@@ -108,7 +110,7 @@ public class ElegirTema extends Fragment implements TemasAdapter.OnTemasListener
 
     @Override
     public void onTemaClick(int position, List<Item> lista) {
-        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        SharedPreferences preferences = contexto.getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preferences.getInt("idUsuario", 0);
         interfaceFragments.seleccionarVideo(((Subtemas) (temasList.get(position))).getIdSubtema(),idUsuario);
     }
