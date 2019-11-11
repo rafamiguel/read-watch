@@ -65,10 +65,11 @@ public class HistorialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             vidDocViewHolder.lblLinkNombre.setText(list.get(position).getRuta());
             if (list.get(position).getRutaImagen().equals("@drawable/miniatura")) {
                 vidDocViewHolder.img.setImageResource(R.drawable.miniatura);
-            }else{vidDocViewHolder.img.setImageResource(R.drawable.doc);}
-
-
+            }else{vidDocViewHolder.img.setImageResource(R.drawable.doc);
+                vidDocViewHolder.lblLinkNombre.setText(list.get(position).getRuta()+".pdf");
+            }
             break;
+
             default:
                 vidDocViewHolder=(VidDocViewHolder)viewHolder;
                 // vidDocViewHolder.img.setBackgroundResource(list.get(position).getId());

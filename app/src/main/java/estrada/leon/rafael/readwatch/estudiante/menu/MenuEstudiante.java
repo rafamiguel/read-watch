@@ -453,7 +453,7 @@ public class  MenuEstudiante extends AppCompatActivity
         alertDialog.show();
     }
 
-    public void reportarVidDoc(int idUsuario,int idVidDoc, String tipo){//tipo==motivo
+    public void reportarVidDoc(final int idUsuario, final int idVidDoc, String tipo){//tipo==motivo
         JsonObjectRequest jsonObjectRequest;
         RequestQueue request;
         String url;
@@ -478,7 +478,7 @@ public class  MenuEstudiante extends AppCompatActivity
                                 Toast.LENGTH_SHORT).show();
                     }else if(repetido){
                         Toast.makeText(MenuEstudiante.this, "Ya has hecho un reporte" +
-                                        " a esta pregunta.",
+                                        " a este vídeo.",
                                 Toast.LENGTH_LONG).show();
                     }else{
                         Toast.makeText(MenuEstudiante.this, "Error al realizar el reporte.",
@@ -487,9 +487,11 @@ public class  MenuEstudiante extends AppCompatActivity
                 } catch (JSONException e) {
                     Toast.makeText(MenuEstudiante.this, "Error interno.", Toast.LENGTH_SHORT).show();
                 }
-
-
                 progreso.hide();
+                verificarReportes(idVidDoc);
+                verificarSpam(idVidDoc);
+                verificarNoApropiado(idVidDoc);
+                verificarNoSeVe(idVidDoc);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -506,8 +508,84 @@ public class  MenuEstudiante extends AppCompatActivity
 
     }
 
+    private void verificarNoSeVe(int idVidDoc) {
+        String url;
+        int idUsuario = Sesion.getSesion().getId();
+        url = "https://readandwatch.herokuapp.com/php/reporteNoSeVe.php?idVidDoc="+idVidDoc;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
 
-    public void reportarPreg(int idUsuario,int idPregunta, String tipo){//tipo==motivo
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void verificarNoApropiado(int idVidDoc) {
+        String url;
+        int idUsuario = Sesion.getSesion().getId();
+        url = "https://readandwatch.herokuapp.com/php/reporteNoApropiado.php?idVidDoc="+idVidDoc;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void verificarSpam(int idVidDoc) {
+        String url;
+        int idUsuario = Sesion.getSesion().getId();
+        url = "https://readandwatch.herokuapp.com/php/reporteSpam.php?idVidDoc="+idVidDoc;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void verificarReportes(int idVidDoc) {
+        String url;
+        int idUsuario = Sesion.getSesion().getId();
+        url = "https://readandwatch.herokuapp.com/php/reporteArribaVidDoc.php?idVidDoc="+idVidDoc;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+
+    public void reportarPreg(int idUsuario, final int idPregunta, String tipo){//tipo==motivo
         JsonObjectRequest jsonObjectRequest;
         RequestQueue request;
         String url;
@@ -544,6 +622,11 @@ public class  MenuEstudiante extends AppCompatActivity
 
 
                 progreso.hide();
+                verificarReportesTemaLibre(idPregunta);
+                verificarSpamTemaLibre(idPregunta);
+                verificarNoApropiadoTemaLibre(idPregunta);
+                verificarNoSeVeTemaLibre(idPregunta);
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -556,6 +639,80 @@ public class  MenuEstudiante extends AppCompatActivity
         progreso = new ProgressDialog(this);
         progreso.setMessage("Haciendo reporte...");
         progreso.show();
+        request.add(jsonObjectRequest);
+
+    }
+
+    private void verificarNoSeVeTemaLibre(int idPregunta) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/reporteNoSeVeTemaLibre.php?idPregunta="+idPregunta;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+
+    }
+
+    private void verificarNoApropiadoTemaLibre(int idPregunta) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/reporteNoApropiadoTemaLibre.php?idPregunta="+idPregunta;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void verificarSpamTemaLibre(int idPregunta) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/reporteSpamTemaLibre.php?idPregunta="+idPregunta;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void verificarReportesTemaLibre(int idPregunta) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/reporteSexualTemaLibre.php?idPregunta="+idPregunta;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
         request.add(jsonObjectRequest);
 
     }
