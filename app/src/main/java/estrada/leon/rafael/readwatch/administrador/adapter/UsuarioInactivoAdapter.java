@@ -96,8 +96,7 @@ public class UsuarioInactivoAdapter extends RecyclerView.Adapter<UsuarioInactivo
                             Toast.makeText(context, "Esta es la foto del perfil", Toast.LENGTH_SHORT));
                     break;
                 case R.id.btnEliminar:
-                    onInactivoListener.OnInactivoClick(getAdapterPosition(), list,
-                            Toast.makeText(context, "Botón para eliminar usuario", Toast.LENGTH_SHORT));
+                  onInactivoListener.eliminar(getAdapterPosition(), list);
                     break;
                 case R.id.lblPerfil:
                     onInactivoListener.OnInactivoClick(getAdapterPosition(), list,
@@ -108,5 +107,7 @@ public class UsuarioInactivoAdapter extends RecyclerView.Adapter<UsuarioInactivo
     }
     public interface OnInactivoListener{
         void OnInactivoClick (int posicion, List<InactivoAdm> list, Toast toast);
+
+        void eliminar(int adapterPosition, List<InactivoAdm> list);
     }
 }

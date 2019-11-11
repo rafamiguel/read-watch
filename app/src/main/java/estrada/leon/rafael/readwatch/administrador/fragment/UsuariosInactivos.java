@@ -2,6 +2,7 @@ package estrada.leon.rafael.readwatch.administrador.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import estrada.leon.rafael.readwatch.DialogModificarEliminarAdm;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.administrador.adapter.UsuarioInactivoAdapter;
 import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
@@ -128,6 +130,7 @@ public class UsuariosInactivos extends Fragment implements UsuarioInactivoAdapte
                 JSONArray json;
                 JSONObject jsonObject=null;
                 json = response.optJSONArray("usuario");
+                list=new ArrayList<>();
                 for(int i=0;i<json.length();i++) {
                     try {
                         jsonObject = json.getJSONObject(i);
@@ -141,7 +144,6 @@ public class UsuariosInactivos extends Fragment implements UsuarioInactivoAdapte
                             cal.setTime(sdf.parse(ultimoInicio));// all done
                             cal.add(Calendar.MONTH,12);
                             if(cal.before(c)){
-                                list=new ArrayList<>();
                                 list.add(new InactivoAdm(nombre, rutaFoto));
                             }
                         } catch (ParseException e) {
@@ -203,6 +205,20 @@ public class UsuariosInactivos extends Fragment implements UsuarioInactivoAdapte
     public void OnInactivoClick(int posicion, List<InactivoAdm> list, Toast toast) {
         interfaceFragments.onClickInactivo(toast);
     }
+
+    @Override
+    public void eliminar(int adapterPosition, List<InactivoAdm> list) {
+        String nombre= list.get(adapterPosition).getPerfil();
+        SharedPreferences preferences = getContext().getSharedPreferences("Perfil", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("nombre", nombre);
+        editor.commit();
+        DialogModificarEliminarAdm nuevo = new DialogModificarEliminarAdm();
+        nuevo.setOpcion(5);
+        nuevo.show(getFragmentManager(), "ejemplo");
+    }
+
+
 
     /**
      * This interface must be implemented by activities that contain this

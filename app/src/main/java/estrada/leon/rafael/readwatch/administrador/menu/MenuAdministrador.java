@@ -831,4 +831,25 @@ public class MenuAdministrador extends AppCompatActivity
     public void eliminarCom(int idComentario) {
     }
 
+    @Override
+    public void eliminarUsuario(String nombre) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/eliminarUsuarioAntiguo.php?" +
+                "nombre="+nombre;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Toast.makeText(getApplicationContext(),"Se elimino correctamente", Toast.LENGTH_LONG).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+
+    }
+
 }

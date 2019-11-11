@@ -34,7 +34,7 @@ public class DialogModificarEliminarAdm extends AppCompatDialogFragment {
         builder.setView(view)
                 .setTitle("OPCIONES");
         lblModificar = view.findViewById(R.id.lblAnadir);
-        if (opcion==4){ lblModificar.setVisibility(View.INVISIBLE);}
+        if (opcion==4 || opcion==5){ lblModificar.setVisibility(View.INVISIBLE);}
         lblEliminar = view.findViewById(R.id.lblEliminar);
 
         lblEliminar.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +61,11 @@ public class DialogModificarEliminarAdm extends AppCompatDialogFragment {
                     SharedPreferences preferences = getContext().getSharedPreferences("comentarioSeleccionado", Context.MODE_PRIVATE);
                     int idComentario = preferences.getInt("idComentario", 0);
                     listenerVidDoc.eliminarCom(idComentario);
+                }
+                if(opcion==5){
+                    SharedPreferences preferences = getContext().getSharedPreferences("Perfil", Context.MODE_PRIVATE);
+                    String nombre = preferences.getString("nombre", "");
+                    listenerVidDoc.eliminarUsuario(nombre);
                 }
             }
         });
@@ -101,5 +106,7 @@ public class DialogModificarEliminarAdm extends AppCompatDialogFragment {
         void resubirDoc();
         void eliminarVidDoc(int idVidDoc, int opc);
         void eliminarCom(int idComentario);
+
+        void eliminarUsuario(String nombre);
     }
 }

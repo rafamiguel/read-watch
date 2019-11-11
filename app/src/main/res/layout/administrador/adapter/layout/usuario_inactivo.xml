@@ -5,34 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/btnPerfil"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:background="@mipmap/ic_galery"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/lblPerfil"
-        android:layout_width="wrap_content"
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="25dp"
-        android:text="Perfil"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/btnPerfil"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="55dp"
+        tools:layout_editor_absoluteY="3dp">
 
-    <Button
-        android:id="@+id/btnEliminar"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="270dp"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/bote"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-   </android.support.constraint.ConstraintLayout>
+        <ImageView
+            android:id="@+id/btnPerfil"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@mipmap/ic_galery"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lblPerfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="25dp"
+            android:text="Perfil"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/btnPerfil"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnEliminar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="270dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/bote"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>
