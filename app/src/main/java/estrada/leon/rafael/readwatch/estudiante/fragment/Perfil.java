@@ -144,7 +144,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
                 perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this,nuevo, idUsuarioVidDocFav);
                recyclerPerfil.setAdapter(perfilAdapter);
                 idUsuarios=sesion;
-                cargarDoc();
+
 
 
             }
@@ -155,7 +155,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
             }
         });
         request.add(jsonObjectRequest);
-
+        cargarDoc();
     }
 
     private void cargarDoc() {
@@ -244,7 +244,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
                 }
                 perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this,idUsuarios,idUsuarioVidDocFav);
                 recyclerPerfil.setAdapter(perfilAdapter);
-                cargarDocPerfil();
+
 
 
             }
@@ -255,6 +255,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
             }
         });
         request.add(jsonObjectRequest);
+        cargarDocPerfil();
 
     }
 
@@ -495,7 +496,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
         alertDialog.show();
 
     }
-    public void reportarPerfilWebService(int idUsuario,int idPerfil, String tipo) {//tipo==motivo
+    public void reportarPerfilWebService(int idUsuario, final int idPerfil, String tipo) {//tipo==motivo
         JsonObjectRequest jsonObjectRequest;
         RequestQueue request;
         String url;
@@ -532,6 +533,9 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
 
 
                 progreso.hide();
+                verificarPerfilSexual(idPerfil);
+                verificarPerfilSpam(idPerfil);
+               // verificarSpamTemaLibre(idPerfil);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -547,6 +551,44 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
         request.add(jsonObjectRequest);
 
     }
+
+    private void verificarPerfilSpam(int idPerfil) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/eliminarPerfilSpam.php?idPerfil="+idPerfil;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void verificarPerfilSexual(int idPerfil) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/eliminarPerfilReporte.php?idPerfil="+idPerfil;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+
+    }
+
     private void cargarWebServices(int a) {
         String url;
         progreso = new ProgressDialog(contexto);

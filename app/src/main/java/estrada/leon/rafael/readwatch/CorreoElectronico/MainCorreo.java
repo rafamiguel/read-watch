@@ -25,7 +25,7 @@ public class MainCorreo extends AppCompatActivity implements View.OnClickListene
     private EditText editTextEmail;
     private EditText editTextSubject;
     private EditText editTextMessage;
-    private final String caracteres = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890!}$%&/()=?¡¿~|°";
+    private final String caracteres = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890";
     private String nuevaContraseña="";
     private Random rand;
     //Send button
@@ -56,7 +56,7 @@ public class MainCorreo extends AppCompatActivity implements View.OnClickListene
         nuevaContraseña="";
         rand = new Random();
         for(int i=0;i<15;i++){
-        nuevaContraseña+=caracteres.charAt(rand.nextInt(79));
+        nuevaContraseña+=caracteres.charAt(rand.nextInt(30));
         }
 
         //Creating SendMail object
