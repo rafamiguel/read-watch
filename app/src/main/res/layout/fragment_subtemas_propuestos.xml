@@ -15,7 +15,7 @@
         app:layout_constraintBottom_toTopOf="@id/btnVotarQuitar">
 
         <ListView
-            android:id="@+id/lvTemasPropuestos"
+            android:id="@+id/lvSubtemasPropuestos"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />

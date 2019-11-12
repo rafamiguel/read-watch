@@ -1,6 +1,5 @@
 package estrada.leon.rafael.readwatch.estudiante.fragment;
 
-        import android.app.ProgressDialog;
         import android.content.Context;
         import android.content.SharedPreferences;
         import android.net.Uri;
@@ -16,23 +15,12 @@ package estrada.leon.rafael.readwatch.estudiante.fragment;
         import android.widget.CheckBox;
         import android.widget.ListView;
         import android.widget.TextView;
-        import android.widget.Toast;
 
-        import com.android.volley.Request;
-        import com.android.volley.RequestQueue;
-        import com.android.volley.Response;
-        import com.android.volley.VolleyError;
-        import com.android.volley.toolbox.JsonObjectRequest;
-        import com.android.volley.toolbox.Volley;
         import com.google.firebase.database.DataSnapshot;
         import com.google.firebase.database.DatabaseError;
         import com.google.firebase.database.DatabaseReference;
         import com.google.firebase.database.FirebaseDatabase;
         import com.google.firebase.database.ValueEventListener;
-
-        import org.json.JSONArray;
-        import org.json.JSONException;
-        import org.json.JSONObject;
 
         import java.util.ArrayList;
         import java.util.HashMap;
@@ -40,19 +28,13 @@ package estrada.leon.rafael.readwatch.estudiante.fragment;
         import java.util.Map;
 
         import estrada.leon.rafael.readwatch.R;
-        import estrada.leon.rafael.readwatch.estudiante.adapter.MateriasPropuestasAdapter;
         import estrada.leon.rafael.readwatch.estudiante.adapter.SubtemasPropuestosAdapter;
-        import estrada.leon.rafael.readwatch.estudiante.adapter.TemasAdapter;
-        import estrada.leon.rafael.readwatch.estudiante.adapter.TemasPropuestosAdapter;
-        import estrada.leon.rafael.readwatch.estudiante.dialog.DialogIngresarPropuesta;
-        import estrada.leon.rafael.readwatch.estudiante.dialog.DialogInsertarMateria;
-        import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
-        import estrada.leon.rafael.readwatch.estudiante.pojo.Materias;
+        import estrada.leon.rafael.readwatch.estudiante.dialog.DialogIngresarPropuestaSubtema;
         import estrada.leon.rafael.readwatch.estudiante.pojo.Subtemas;
         import estrada.leon.rafael.readwatch.estudiante.pojo.Votos;
         import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
-public class SubtemasPropuestos extends Fragment implements TemasAdapter.OnTemasListener {
+public class SubtemasPropuestos extends Fragment {
     Subtemas[] subtemasPropuestos;
     private List<Subtemas> listaSubtemas;
     ListView lvSubtemasPropuestos;
@@ -62,8 +44,13 @@ public class SubtemasPropuestos extends Fragment implements TemasAdapter.OnTemas
     CheckBox cbSeleccionado;
     TextView lblSeleccionado;
     SubtemasPropuestosAdapter subtemasPropuestosAdapter;
-    private MateriasPropuestas.OnFragmentInteractionListener mListener;
+    private SubtemasPropuestos.OnFragmentInteractionListener mListener;
     Context contexto;
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    private String mParam1;
+    private String mParam2;
     public SubtemasPropuestos() {
     }
     public void cargarDatos(){
@@ -73,7 +60,7 @@ public class SubtemasPropuestos extends Fragment implements TemasAdapter.OnTemas
             votos+=listaSubtemas.get(i).getVotos();
             subtemasPropuestos[i]  = new Subtemas(listaSubtemas.get(i).getNombre(),listaSubtemas.get(i).getIdSubtema(),listaSubtemas.get(i).getTema());
         }
-        subtemasPropuestosAdapter =new SubtemasPropuestosAdapter(contexto,R.layout.fragment_subtemas_propuestos,subtemasPropuestos,votos);
+        subtemasPropuestosAdapter =new SubtemasPropuestosAdapter(contexto,R.layout.subtema_propuesto,listaSubtemas ,votos);
         lvSubtemasPropuestos.setAdapter(subtemasPropuestosAdapter);
 
         rootReference.child("votoSubtema").addValueEventListener(new ValueEventListener() {
@@ -85,7 +72,7 @@ public class SubtemasPropuestos extends Fragment implements TemasAdapter.OnTemas
                     voto = snapshot.getValue(Votos.class);
                     if(voto.getIdUsuario() == Sesion.getSesion().getId()) {
                         for (int x = 0; x < lvSubtemasPropuestos.getChildCount(); x++) {
-                            cb = lvSubtemasPropuestos.getChildAt(x).findViewById(R.id.cbTemaPropuesto);
+                            cb = lvSubtemasPropuestos.getChildAt(x).findViewById(R.id.cbSubtemaPropuesto);
                             cb.setEnabled(false);
                         }
                         btnVotarQuitar.setVisibility(View.GONE);
@@ -102,6 +89,15 @@ public class SubtemasPropuestos extends Fragment implements TemasAdapter.OnTemas
         });
     }
 
+    public static TemasPropuestos newInstance(String param1, String param2) {
+        TemasPropuestos fragment = new TemasPropuestos();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,43 +110,30 @@ public class SubtemasPropuestos extends Fragment implements TemasAdapter.OnTemas
         View view;
 
         view= inflater.inflate(R.layout.fragment_subtemas_propuestos, container, false);
-        btnVotarQuitar = view.findViewById(R.id.btnVotarQuitar);
-        btnVotarQuitar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (int x = 0; x<lvSubtemasPropuestos.getChildCount();x++){
-                    cbSeleccionado = lvSubtemasPropuestos.getChildAt(x).findViewById(R.id.cbTemaPropuesto);
-                    if(cbSeleccionado.isChecked()){
-                        lblSeleccionado = lvSubtemasPropuestos.getChildAt(x).findViewById(R.id.lblTemaPropuesto);
-                        votar(lblSeleccionado.getText().toString());
-                    }
-                }
-            }
-        });
         btnSubirPropuesta = view.findViewById(R.id.fabTemaNuevo);
         btnSubirPropuesta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogIngresarPropuesta nuevo = new DialogIngresarPropuesta();
+                DialogIngresarPropuestaSubtema nuevo = new DialogIngresarPropuestaSubtema();
                 nuevo.show(getActivity().getSupportFragmentManager(), "ejemplo");
             }
         });
-        lvSubtemasPropuestos=view.findViewById(R.id.lvTemasPropuestos);
+        lvSubtemasPropuestos=view.findViewById(R.id.lvSubtemasPropuestos);
         lvSubtemasPropuestos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                cbSeleccionado = view.findViewById(R.id.cbTemaPropuesto);
-                lblSeleccionado = view.findViewById(R.id.lblTemaPropuesto);
+                cbSeleccionado = view.findViewById(R.id.cbSubtemaPropuesto);
+                lblSeleccionado = view.findViewById(R.id.lblSubtemaPropuesto);
             }
         });
         rootReference.child("subtema").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaSubtemas=new ArrayList<>();
-                Subtemas materia;
+                Subtemas subtema;
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    materia = snapshot.getValue(Subtemas.class);
-                    listaSubtemas.add(materia);
+                    subtema = snapshot.getValue(Subtemas.class);
+                    listaSubtemas.add(subtema);
                 }
                 cargarDatos();
             }
@@ -161,7 +144,19 @@ public class SubtemasPropuestos extends Fragment implements TemasAdapter.OnTemas
             }
         });
 
-
+        btnVotarQuitar = view.findViewById(R.id.btnVotarQuitar);
+        btnVotarQuitar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int x = 0; x<lvSubtemasPropuestos.getChildCount();x++){
+                    cbSeleccionado = lvSubtemasPropuestos.getChildAt(x).findViewById(R.id.cbSubtemaPropuesto);
+                    lblSeleccionado = lvSubtemasPropuestos.getChildAt(x).findViewById(R.id.lblSubtemaPropuesto);
+                    if(cbSeleccionado.isChecked()){
+                        votar(lblSeleccionado.getText().toString());
+                    }
+                }
+            }
+        });
 
         return view;
     }
@@ -175,24 +170,20 @@ public class SubtemasPropuestos extends Fragment implements TemasAdapter.OnTemas
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        contexto=context;
-        if (context instanceof MateriasPropuestas.OnFragmentInteractionListener) {
-            mListener = (MateriasPropuestas.OnFragmentInteractionListener) context;
+        contexto = context;
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
     }
 
+
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onTemaClick(int position, List<Item> lista) {
-
     }
 
     public interface OnFragmentInteractionListener {

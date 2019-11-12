@@ -2,7 +2,6 @@ package estrada.leon.rafael.readwatch.estudiante.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,17 +9,19 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import java.util.List;
+
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Subtemas;
 
-    public class SubtemasPropuestosAdapter extends ArrayAdapter<SubtemasPropuestosAdapter> {
+public class SubtemasPropuestosAdapter extends ArrayAdapter<Subtemas> {
     Context context;
     int layoutResourceId, votos;
     float porcentaje;
-    Subtemas[] datos;
+    List<Subtemas> datos;
     
-        public SubtemasPropuestosAdapter(@NonNull Context context, int resource, Subtemas[] objects, int votos) {
-            super(context, resource);
+        public SubtemasPropuestosAdapter(Context context, int resource, List<Subtemas> objects, int votos) {
+            super(context, resource, objects);
             this.datos = objects;
             this.votos = votos;
             this.layoutResourceId = resource;
@@ -36,16 +37,16 @@ import estrada.leon.rafael.readwatch.estudiante.pojo.Subtemas;
             inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
             subTemasPropuestosHolder = new SubTemasPropuestosHolder();
-            subTemasPropuestosHolder.lblTemaPropuesto = row.findViewById(R.id.lblTemaPropuesto);
+            subTemasPropuestosHolder.lblSubtemaPropuesto = row.findViewById(R.id.lblSubtemaPropuesto);
             subTemasPropuestosHolder.lblPorcentajeVotos = row.findViewById(R.id.lblPorcentajeVotos);
-            subTemasPropuestosHolder.cbTemaPropuesto = row.findViewById(R.id.cbTemaPropuesto);
+            subTemasPropuestosHolder.cbSubtemaPropuesto = row.findViewById(R.id.cbSubtemaPropuesto);
             row.setTag(subTemasPropuestosHolder);
         } else {
             subTemasPropuestosHolder = (SubTemasPropuestosHolder) row.getTag();
         }
 
-        Subtemas subtema = datos[position];
-            subTemasPropuestosHolder.lblTemaPropuesto.setText(subtema.getNombre());
+        Subtemas subtema = datos.get(position);
+            subTemasPropuestosHolder.lblSubtemaPropuesto.setText(subtema.getNombre());
         if (votos > 0) {
             porcentaje = subtema.getVotos() * 100 / (float) votos;
         } else {
@@ -57,8 +58,8 @@ import estrada.leon.rafael.readwatch.estudiante.pojo.Subtemas;
 
 
     static class SubTemasPropuestosHolder {
-        TextView lblTemaPropuesto, lblPorcentajeVotos;
-        CheckBox cbTemaPropuesto;
+        TextView lblSubtemaPropuesto, lblPorcentajeVotos;
+        CheckBox cbSubtemaPropuesto;
 
     }
 }

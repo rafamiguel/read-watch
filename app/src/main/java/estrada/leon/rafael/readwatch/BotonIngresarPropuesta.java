@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import estrada.leon.rafael.readwatch.estudiante.dialog.DialogIngresarPropuesta;
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogIngresarPropuestaTema;
 
 public class BotonIngresarPropuesta extends AppCompatActivity {
 
@@ -24,7 +24,7 @@ public class BotonIngresarPropuesta extends AppCompatActivity {
         });
     }
     public void openDialog(){
-        DialogIngresarPropuesta nuevo = new DialogIngresarPropuesta();
+        DialogIngresarPropuestaTema nuevo = new DialogIngresarPropuestaTema();
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
 }
