@@ -9,8 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:id="@+id/btnDocumento"
@@ -24,15 +23,18 @@
 
         <TextView
             android:id="@+id/lblDescripcion"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="44dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/descripcion"
             android:textColor="#0A0A0A"
             android:textSize="14sp"
+            android:singleLine="false"
             app:layout_constraintStart_toEndOf="@id/btnDocumento"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <Button
             android:id="@+id/btnFavorito"
@@ -54,9 +56,8 @@
             android:background="@drawable/opcio"
             android:backgroundTintMode="src_over"
             app:layout_constraintBottom_toBottomOf="@+id/btnFavorito"
-            app:layout_constraintStart_toEndOf="@id/btnFavorito"
-            app:layout_constraintTop_toTopOf="@id/btnFavorito"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnFavorito" />
 
         <Button
             android:id="@+id/btnAdvertencia"

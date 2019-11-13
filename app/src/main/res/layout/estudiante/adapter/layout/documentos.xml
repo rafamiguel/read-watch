@@ -43,7 +43,9 @@
             android:background="@drawable/warverde"
             android:backgroundTintMode="src_over"
             android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
             app:layout_constraintEnd_toStartOf="@+id/btnFavorito"
+            app:layout_constraintStart_toEndOf="@id/lblPerfil"
             app:layout_constraintTop_toTopOf="@id/lblPerfil" />
 
         <EditText
@@ -77,20 +79,23 @@
             android:layout_marginStart="16dp"
             android:textColor="#131212"
             android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@id/btnAdvertencia"
             app:layout_constraintStart_toEndOf="@+id/btnDocumento"
             app:layout_constraintTop_toTopOf="@+id/btnDocumento" />
 
         <TextView
             android:id="@+id/lblDescripcion"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/descripcion"
             android:textColor="#0A0A0A"
             android:textSize="14sp"
+            android:singleLine="false"
             android:layout_marginStart="16dp"
             app:layout_constraintBottom_toTopOf="@+id/txtComentario"
             app:layout_constraintStart_toEndOf="@+id/btnDocumento"
-            app:layout_constraintTop_toTopOf="@+id/btnDocumento" />
+            app:layout_constraintTop_toTopOf="@+id/btnDocumento"
+            app:layout_constraintEnd_toStartOf="@id/btnOpcion"/>
 
     </android.support.constraint.ConstraintLayout>
 
