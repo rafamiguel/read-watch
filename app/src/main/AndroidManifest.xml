@@ -26,7 +26,7 @@
         <activity android:name=".estudiante.fragment.MainComentario" />
         <activity android:name=".Notificaciones" />
         <activity android:name=".NotificacionPropuestaAceptada" />
-        <activity android:name=".CorreoElectronico.MainCorreo" />
+        <activity android:name=".correoElectronico.MainCorreo" />
         <activity android:name=".NotificacionPublicacionEliminada" />
         <activity android:name=".BtnOpciones" />
         <activity

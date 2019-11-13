@@ -11,4 +11,12 @@
     <string-array name="seleccionar_tema">
         <item>Seleccionar tema</item>
     </string-array>
+    <string-array name="seleccionar_semestre">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
 </resources>
