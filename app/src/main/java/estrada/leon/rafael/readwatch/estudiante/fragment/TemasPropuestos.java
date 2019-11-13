@@ -3,6 +3,7 @@ package estrada.leon.rafael.readwatch.estudiante.fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -75,7 +76,7 @@ public class TemasPropuestos extends Fragment {
         TemasPropuestosAdapter temasPropuestosAdapter=new TemasPropuestosAdapter(contexto,R.layout.tema_propuesto,datos,votos);
         lvTemasPropuestos.setAdapter(temasPropuestosAdapter);
 
-        rootReference.child("votoTema").addListenerForSingleValueEvent(new ValueEventListener() {
+        rootReference.child("votoTema").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Votos voto;
@@ -88,10 +89,12 @@ public class TemasPropuestos extends Fragment {
                             cb.setEnabled(false);
                         }
                         btnVotarQuitar.setVisibility(View.GONE);
+                        Toast.makeText(contexto, "Ya has votado por un tema esta semana.", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
                 btnVotarQuitar.setVisibility(View.VISIBLE);
+                Toast.makeText(contexto, "Puedes votar por un tema a la semana.", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -210,32 +213,6 @@ public class TemasPropuestos extends Fragment {
                         votoNuevoRef.updateChildren(nuevoVoto);
                     }
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        rootReference.child("votoTema").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Votos voto;
-                CheckBox cb;
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    voto = snapshot.getValue(Votos.class);
-                    if(voto.getIdUsuario() == Sesion.getSesion().getId()) {
-                        for (int x = 0; x < lvTemasPropuestos.getChildCount(); x++) {
-                            cb = lvTemasPropuestos.getChildAt(x).findViewById(R.id.cbTemaPropuesto);
-                            cb.setEnabled(false);
-                        }
-                        btnVotarQuitar.setVisibility(View.GONE);
-                        return;
-                    }
-                }
-                btnVotarQuitar.setVisibility(View.VISIBLE);
-
             }
 
             @Override

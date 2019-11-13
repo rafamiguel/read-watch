@@ -1,10 +1,12 @@
 package estrada.leon.rafael.readwatch.estudiante.dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
@@ -21,8 +23,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos;
 import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
 public class DialogIngresarPropuestaTema extends AppCompatDialogFragment implements
@@ -47,6 +53,12 @@ public class DialogIngresarPropuestaTema extends AppCompatDialogFragment impleme
     boolean  mismoUsuario = false;
     boolean existente = false;
     Context context;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        context=activity;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -70,14 +82,38 @@ public class DialogIngresarPropuestaTema extends AppCompatDialogFragment impleme
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        int semestre = 1;
-                        String materia = spinner_materia.getSelectedItem().toString();
-                        try {
-                            semestre = Integer.parseInt(spinner_semestre.getSelectedItem().toString());
-                            subirPropuestaTema(materia,semestre);
-                        }catch(Exception e){
-                            Toast.makeText(context, "seleccione un semestre", Toast.LENGTH_SHORT).show();
-                        }
+                        rootReference.child("tema").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                TemasPropuestos tema;
+                                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                                    tema = snapshot.getValue(TemasPropuestos.class);
+                                    if(tema.getIdUsuario() == Sesion.getSesion().getId()){
+                                        mismoUsuario = true;
+                                        break;
+                                    }
+                                    if(tema.getNombre().equals((txtNombre.getText().toString()).toLowerCase())){
+                                        existente = true;
+                                        break;
+                                    }
+                                }
+
+                                int semestre = 1;
+                                String materia = spinner_materia.getSelectedItem().toString();
+                                try {
+                                    semestre = Integer.parseInt(spinner_semestre.getSelectedItem().toString());
+                                    subirPropuestaTema(materia,semestre);
+                                }catch(Exception e){
+                                    Toast.makeText(context, "seleccione un semestre", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
                     }
                 });
         return builder.create();

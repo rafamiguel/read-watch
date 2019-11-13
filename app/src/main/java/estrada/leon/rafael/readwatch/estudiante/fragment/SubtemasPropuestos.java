@@ -2,6 +2,7 @@ package estrada.leon.rafael.readwatch.estudiante.fragment;
 
         import android.content.Context;
         import android.content.SharedPreferences;
+        import android.graphics.Color;
         import android.net.Uri;
         import android.os.Bundle;
         import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ package estrada.leon.rafael.readwatch.estudiante.fragment;
         import android.widget.CheckBox;
         import android.widget.ListView;
         import android.widget.TextView;
+        import android.widget.Toast;
 
         import com.google.firebase.database.DataSnapshot;
         import com.google.firebase.database.DatabaseError;
@@ -68,18 +70,19 @@ public class SubtemasPropuestos extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Votos voto;
                 CheckBox cb;
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     voto = snapshot.getValue(Votos.class);
-                    if(voto.getIdUsuario() == Sesion.getSesion().getId()) {
+                    if (voto.getIdUsuario() == Sesion.getSesion().getId()) {
                         for (int x = 0; x < lvSubtemasPropuestos.getChildCount(); x++) {
                             cb = lvSubtemasPropuestos.getChildAt(x).findViewById(R.id.cbSubtemaPropuesto);
-                            cb.setEnabled(false);
+                            btnVotarQuitar.setVisibility(View.GONE);
+                            Toast.makeText(contexto, "Ya has votado por un subtema esta semana.", Toast.LENGTH_SHORT).show();
+                            return;
                         }
-                        btnVotarQuitar.setVisibility(View.GONE);
-                        return;
                     }
                 }
                 btnVotarQuitar.setVisibility(View.VISIBLE);
+                Toast.makeText(contexto, "Puedes votar por un subtema a la semana.", Toast.LENGTH_SHORT).show();
             }
 
             @Override

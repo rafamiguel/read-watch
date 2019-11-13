@@ -1,6 +1,7 @@
 package estrada.leon.rafael.readwatch.estudiante.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -61,18 +63,19 @@ public class MateriasPropuestas extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Votos voto;
                 CheckBox cb;
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     voto = snapshot.getValue(Votos.class);
-                    if(voto.getIdUsuario() == Sesion.getSesion().getId()) {
+                    if (voto.getIdUsuario() == Sesion.getSesion().getId()) {
                         for (int x = 0; x < lvMateriasPropuestas.getChildCount(); x++) {
                             cb = lvMateriasPropuestas.getChildAt(x).findViewById(R.id.cbMateriaPropuesta);
-                            cb.setEnabled(false);
+                            btnVotarQuitar.setVisibility(View.GONE);
+                            Toast.makeText(contexto, "Ya has votado por una materia esta semana.", Toast.LENGTH_SHORT).show();
+                            return;
                         }
-                        btnVotarQuitar.setVisibility(View.GONE);
-                        return;
                     }
                 }
                 btnVotarQuitar.setVisibility(View.VISIBLE);
+                Toast.makeText(contexto, "Puedes votar por una materia a la semana.", Toast.LENGTH_SHORT).show();
             }
 
             @Override
