@@ -1,10 +1,12 @@
 package estrada.leon.rafael.readwatch.estudiante.dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
@@ -21,8 +23,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.estudiante.pojo.Subtemas;
 import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
 public class DialogIngresarPropuestaSubtema extends AppCompatDialogFragment implements
@@ -47,6 +53,12 @@ public class DialogIngresarPropuestaSubtema extends AppCompatDialogFragment impl
     boolean  mismoUsuario = false;
     boolean existente = false;
     Context context;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        context=activity;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -70,13 +82,37 @@ public class DialogIngresarPropuestaSubtema extends AppCompatDialogFragment impl
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String materia = spinner_materia.getSelectedItem().toString();
-                        String tema = spinner_tema.getSelectedItem().toString();
-                        if(tema.equals("Selecciona un tema") || tema.equals("Seleccionar tema")){
-                        subirPropuestaTema(materia);
-                        }else{
-                            subirPropuestaSubTema(materia,tema);
-                        }
+
+                        rootReference.child("subtema").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Subtemas subtema;
+                                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                    subtema = snapshot.getValue(Subtemas.class);
+                                    if(subtema.getIdUsuario() == Sesion.getSesion().getId()){
+                                        mismoUsuario = true;
+                                        break;
+                                    }
+                                    if(subtema.getNombre().equals((txtNombre.getText().toString()).toLowerCase())){
+                                        existente = true;
+                                        break;
+                                    }
+                                }
+                                String materia = spinner_materia.getSelectedItem().toString();
+                                String tema = spinner_tema.getSelectedItem().toString();
+                                if(tema.equals("Selecciona un tema") || tema.equals("Seleccionar tema")){
+                                    subirPropuestaTema(materia);
+                                }else{
+                                    subirPropuestaSubTema(materia,tema);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
                     }
                 });
             spinner_materia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
