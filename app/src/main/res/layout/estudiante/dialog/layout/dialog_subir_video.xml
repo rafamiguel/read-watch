@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="Descripcion"
+        android:hint="Descripción"
         android:inputType="textPersonName"
         android:textAlignment="inherit"
         android:textColor="#0A0A0A"
