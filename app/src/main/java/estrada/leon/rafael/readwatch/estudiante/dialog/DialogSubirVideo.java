@@ -40,7 +40,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
     EditText txtDescripcion,txtLink;
-    Spinner spinner_tema,spinner_materia;
+    Spinner spinner_tema,spinner_materia, spinner_subtema;
     public static final int PREGUNTAR=1,RESUBIR=2, MATERIA=3;
     int modo;
     public void setModo(int modo){
@@ -56,9 +56,11 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
         txtLink=view.findViewById(R.id.txtLink);
         spinner_tema=view.findViewById(R.id.spinner_tema);
         spinner_materia=view.findViewById(R.id.spinner_materia);
+        spinner_subtema = view.findViewById(R.id.spinner_subtema);
         if(modo==PREGUNTAR || modo==RESUBIR || modo==MATERIA){
             spinner_materia.setVisibility(View.GONE);
             spinner_tema.setVisibility(View.GONE);
+            spinner_subtema.setVisibility(View.GONE);
         }
         spinner_materia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -70,6 +72,19 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinner_tema.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i!=0){
+                    cargarListaSubtemasWebService(adapterView.getSelectedItem().toString());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
@@ -181,6 +196,44 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
                 }, this);
         request.add(jsonObjectRequest);
     }
+
+    public void cargarListaSubtemasWebService(String tema){
+        String url;
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Cargando...");
+        progreso.show();
+        url = "https://readandwatch.herokuapp.com/php/listaSubtema.php?tema="+tema;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONArray json;
+                        JSONObject jsonObject=null;
+                        json = response.optJSONArray("usuario");
+                        List<String> materias = new ArrayList<String>();
+                        materias.add("Selecciona un subtema");
+                        ArrayAdapter<String> adapter;
+                        try {
+                            for(int i=0;i<json.length();i++){
+                                jsonObject=json.getJSONObject(i);
+                                materias.add(jsonObject.optString("nombre"));
+                            }
+                            adapter = new ArrayAdapter<String>(getContext(),
+                                    android.R.layout.simple_spinner_item, materias);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinner_subtema.setAdapter(adapter);
+                            progreso.hide();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, this);
+        request.add(jsonObjectRequest);
+    }
+
+
 
     public void subirVidWebService(String descripcion,String ruta){
         request= Volley.newRequestQueue(getContext());
