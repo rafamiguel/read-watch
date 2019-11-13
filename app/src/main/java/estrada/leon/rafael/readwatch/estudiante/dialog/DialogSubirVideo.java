@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -33,6 +34,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
 public class DialogSubirVideo  extends AppCompatDialogFragment implements
         Response.Listener<JSONObject>, Response.ErrorListener {
@@ -46,6 +48,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
     public void setModo(int modo){
         this.modo = modo;
     }
+
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -118,7 +121,12 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
                     .setPositiveButton("Subir", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            subirVidWebService(txtDescripcion.getText().toString(),txtLink.getText().toString());
+                            TextView textView = (TextView)spinner_subtema.getSelectedView();
+                            String result = textView.getText().toString();
+                            if(result.equals("")) {
+                                subirVidWebService(txtDescripcion.getText().toString(), txtLink.getText().toString());
+                            }
+                            else{buscarIdSubtema(txtDescripcion.getText().toString(), txtLink.getText().toString(),result);}
                         }
                     });
         }
@@ -126,6 +134,71 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
 
 
     }
+
+    private void buscarIdSubtema(final String toString, final String toString1, String result) {
+        String url;
+
+        url = "https://readandwatch.herokuapp.com/php/buscarIdSubtema.php?" +
+                "nombre="+result ;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                JSONArray json;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+                int idSubtema=0;
+                try {
+                    for(int i=0;i<json.length();i++){
+                        jsonObject=json.getJSONObject(i);
+                        idSubtema= jsonObject.optInt("idSubtema");
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                subirVideoFragment(toString,toString1,idSubtema);
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "No se pudo subir el vídeo", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
+    private void subirVideoFragment(String txtDescripcion, String link, int idSubtema) {
+        String url;
+
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String datetime = dateformat.format(c.getTime());
+
+        int idUsuario = Sesion.getSesion().getId();
+        url = "https://readandwatch.herokuapp.com/php/subirVideoFragment.php?" +
+                "idSubtema=" + idSubtema + "&tipo=v&descripcion=" + txtDescripcion + "&ruta=" + link + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+         //      Toast.makeText(null, "Vídeo subido con éxito", Toast.LENGTH_LONG).show();
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            //    Toast.makeText(null, "No se pudo subir el vídeo", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.add(jsonObjectRequest);
+    }
+
     public void cargarListaMateriasWebService(){
         String url;
         progreso = new ProgressDialog(getContext());
@@ -277,7 +350,6 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
                 url=url.replace(" ", "%20");
                 break;
             default:
-
         }
 
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,

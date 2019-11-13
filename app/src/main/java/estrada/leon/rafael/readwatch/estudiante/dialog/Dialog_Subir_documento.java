@@ -50,6 +50,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
     EditText txtDescripcion,txtTitulo;
+    TextView lblElegirDocumento;
     Spinner spinner_tema,spinner_materia, spinner_subtema;
     public static final int PREGUNTAR=1,RESUBIR=2, MATERIA=3;
     int modo;
@@ -68,7 +69,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        TextView lblElegirDocumento;
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_subir_documento, null);
@@ -77,6 +78,16 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
         spinner_tema=view.findViewById(R.id.spinner_tema);
         spinner_materia=view.findViewById(R.id.spinner_materia);
         spinner_subtema= view.findViewById(R.id.spinner_subtema);
+        lblElegirDocumento = view.findViewById(R.id.lblElegirDocumento);
+        lblElegirDocumento = view.findViewById(R.id.lblElegirDocumento);
+        lblElegirDocumento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new MaterialFilePicker().withActivity(getActivity()).withRequestCode(10).start();
+            }
+        });
+
+
         if(modo==PREGUNTAR || modo==RESUBIR || modo==MATERIA){
             spinner_materia.setVisibility(View.GONE);
             spinner_tema.setVisibility(View.GONE);
