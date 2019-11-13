@@ -65,7 +65,7 @@ public class DialogModificarEliminarAdm extends AppCompatDialogFragment {
                 if(opcion==5){
                     SharedPreferences preferences = getContext().getSharedPreferences("Perfil", Context.MODE_PRIVATE);
                     String nombre = preferences.getString("nombre", "");
-                    listenerVidDoc.eliminarUsuario(nombre);
+                     listenerVidDoc.eliminarUsuario(nombre);
                 }
             }
         });
