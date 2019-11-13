@@ -6,6 +6,7 @@ public class Temas implements Item {
    private String nombre;
    private int idTema;
    private String materia;
+   private int semestre;
 
     public Temas() {
     }
@@ -43,6 +44,14 @@ public class Temas implements Item {
 
     public void setIdTema(int idTema) {
         this.idTema = idTema;
+    }
+
+    public int getSemestre() {
+        return semestre;
+    }
+
+    public void setSemestre(int semestre) {
+        this.semestre = semestre;
     }
 
     @Override

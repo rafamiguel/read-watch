@@ -5,6 +5,7 @@ public class TemasPropuestos {
     private int votos;
     private String nombre;
     private String materia;
+    private int semestre;
 
     public TemasPropuestos() {
     }
@@ -46,5 +47,13 @@ public class TemasPropuestos {
 
     public void setMateria(String materia) {
         this.materia = materia;
+    }
+
+    public int getSemestre() {
+        return semestre;
+    }
+
+    public void setSemestre(int semestre) {
+        this.semestre = semestre;
     }
 }
