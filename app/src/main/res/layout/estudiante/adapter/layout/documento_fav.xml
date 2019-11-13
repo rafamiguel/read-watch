@@ -35,13 +35,14 @@
 
         <TextView
             android:id="@+id/lblDescripcion"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="44dp"
             android:text="@string/descripcion"
             android:textColor="#0A0A0A"
             android:textSize="14sp"
+            android:singleLine="false"
             app:layout_constraintStart_toEndOf="@id/btnDocumento"
             app:layout_constraintTop_toTopOf="parent" />
 
