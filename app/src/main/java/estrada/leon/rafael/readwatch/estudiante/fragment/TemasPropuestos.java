@@ -298,7 +298,11 @@ public class TemasPropuestos extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 SharedPreferences preferences = contexto.getSharedPreferences("Materia", Context.MODE_PRIVATE);
-                int idMateria = preferences.getInt("materia", 0);
+                int idMateria = preferences.getInt("materia", 1);
+
+                preferences = contexto.getSharedPreferences("Semestre", Context.MODE_PRIVATE);
+                int semestre = preferences.getInt("semestre", 1);
+
                 String materia = "";
                 for(int i=0;i<listMaterias.size();i++){
                     if(listMaterias.get(i).getIdMateria()==idMateria){
@@ -310,7 +314,7 @@ public class TemasPropuestos extends Fragment {
                 estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos tema;
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     tema = snapshot.getValue(estrada.leon.rafael.readwatch.estudiante.pojo.TemasPropuestos.class);
-                    if(tema.getMateria().equals(materia)) {
+                    if(tema.getMateria().equals(materia) && semestre == tema.getSemestre()) {
                         datos.add(tema);
                     }
                 }

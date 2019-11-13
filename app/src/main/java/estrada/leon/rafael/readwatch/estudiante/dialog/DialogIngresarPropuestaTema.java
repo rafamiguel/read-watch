@@ -39,7 +39,7 @@ import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 public class DialogIngresarPropuestaTema extends AppCompatDialogFragment implements
         Response.Listener<JSONObject>, Response.ErrorListener  {
     EditText txtNombre;
-    Spinner spinner_materia;
+    Spinner spinner_materia, spinner_semestre;
     ProgressDialog progreso;
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
@@ -55,6 +55,7 @@ public class DialogIngresarPropuestaTema extends AppCompatDialogFragment impleme
         View view = inflater.inflate(R.layout.dialog_hacer_propuesta_tema, null);
         txtNombre=view.findViewById(R.id.txtNombreSubtema);
         spinner_materia=view.findViewById(R.id.spinner_materia);
+        spinner_semestre = view.findViewById(R.id.spinner_semestre);
         request= Volley.newRequestQueue(getContext());
         rootReference = FirebaseDatabase.getInstance().getReference();
         cargarListaMateriasWebService();
@@ -69,14 +70,20 @@ public class DialogIngresarPropuestaTema extends AppCompatDialogFragment impleme
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        int semestre = 1;
                         String materia = spinner_materia.getSelectedItem().toString();
-                        subirPropuestaTema(materia);
+                        try {
+                            semestre = Integer.parseInt(spinner_semestre.getSelectedItem().toString());
+                            subirPropuestaTema(materia,semestre);
+                        }catch(Exception e){
+                            Toast.makeText(context, "seleccione un semestre", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
         return builder.create();
     }
 
-    private void subirPropuestaTema(String materia) {
+    private void subirPropuestaTema(String materia, int semestre) {
         if(!mismoUsuario && !existente) {
             String nombre = txtNombre.getText().toString().toLowerCase();
             Map<String, Object> datosMateria = new HashMap<>();
@@ -84,6 +91,7 @@ public class DialogIngresarPropuestaTema extends AppCompatDialogFragment impleme
             datosMateria.put("nombre", nombre);
             datosMateria.put("votos", 0);
             datosMateria.put("materia",materia);
+            datosMateria.put("semestre",semestre);
             rootReference.child("tema").push().setValue(datosMateria);
         }else if(existente){
             Toast.makeText(context, "Ya hay una propuesta con este nombre", Toast.LENGTH_LONG).show();

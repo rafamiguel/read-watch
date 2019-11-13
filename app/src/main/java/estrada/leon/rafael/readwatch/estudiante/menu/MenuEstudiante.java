@@ -321,7 +321,7 @@ public class  MenuEstudiante extends AppCompatActivity
         alertDialogBuilder.setCustomTitle(tv);
 
         // alertDialogBuilder.setMessage(message);
-        alertDialogBuilder.setCancelable(true);
+        alertDialogBuilder.setCancelable(false);
 
         alertDialogBuilder.setPositiveButton("Tema", new DialogInterface.OnClickListener() {
             @Override

@@ -49,7 +49,7 @@ public class DialogContrasenaOlvidada extends AppCompatDialogFragment {
         builder.setView(view)
                 .setMessage("Ingresa tu correo electrónico y presiona enviar")
                 .setTitle("Reestablecer contraseña")
-                .setCancelable(true)
+                .setCancelable(false)
                 .setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
