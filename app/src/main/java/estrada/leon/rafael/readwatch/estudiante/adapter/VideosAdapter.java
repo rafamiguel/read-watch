@@ -144,8 +144,6 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         videosViewHolder.lblDescripcion.setText(video.getDescripcion());
         obtenerNombre(video.getPerfil(), videosViewHolder);
         //videosViewHolder.lblPerfil.setText(nombre);
-        String uri = video.getRutaImagen();
-        int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
         String url= video.getVideoUrl();
         videosViewHolder.btnMiniatura.loadData(url, "text/html" , "utf-8" );
 
