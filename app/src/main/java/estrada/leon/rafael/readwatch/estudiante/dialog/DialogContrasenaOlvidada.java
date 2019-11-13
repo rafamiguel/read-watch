@@ -25,7 +25,7 @@ import org.json.JSONObject;
 
 import java.util.Random;
 
-import estrada.leon.rafael.readwatch.CorreoElectronico.SendMail;
+import estrada.leon.rafael.readwatch.correoElectronico.SendMail;
 import estrada.leon.rafael.readwatch.R;
 
 public class DialogContrasenaOlvidada extends AppCompatDialogFragment {

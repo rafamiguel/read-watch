@@ -1,4 +1,4 @@
-package estrada.leon.rafael.readwatch.administrador.Dialog;
+package estrada.leon.rafael.readwatch.administrador.dialog;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;

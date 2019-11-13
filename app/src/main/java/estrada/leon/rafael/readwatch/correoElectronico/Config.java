@@ -1,4 +1,4 @@
-package estrada.leon.rafael.readwatch.CorreoElectronico;
+package estrada.leon.rafael.readwatch.correoElectronico;
 
 public class Config {
     public static final String EMAIL ="readandwatchcontact@gmail.com"; //your-gmail-username

@@ -29,7 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import estrada.leon.rafael.readwatch.administrador.Dialog.DialogEliminarUsuario;
+import estrada.leon.rafael.readwatch.administrador.dialog.DialogEliminarUsuario;
 import estrada.leon.rafael.readwatch.administrador.adapter.BuscarUsuarioAdapter;
 import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
 import estrada.leon.rafael.readwatch.administrador.pojo.BuscarUsuarioAd;
