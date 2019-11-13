@@ -67,7 +67,7 @@ import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 import static android.app.Activity.RESULT_OK;
 
 public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, Response.Listener<JSONObject>, Response.ErrorListener{
-    List<Item> list;
+    List<Item> list= new ArrayList<>();
     ProgressDialog progreso;
     TextView lblNombreApellidos,lblDescripcion,lblCelular,lblReportar;
     RequestQueue request;
@@ -141,21 +141,21 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this,nuevo, idUsuarioVidDocFav);
-               recyclerPerfil.setAdapter(perfilAdapter);
+            //    perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this,nuevo, idUsuarioVidDocFav);
+             //  recyclerPerfil.setAdapter(perfilAdapter);
                 idUsuarios=sesion;
-
+                cargarDoc();
 
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                cargarDoc();
             }
         });
         request.add(jsonObjectRequest);
-        cargarDoc();
+
     }
 
     private void cargarDoc() {
@@ -173,9 +173,6 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
                 json = response.optJSONArray("usuario");
                 String descripcion,miniatura,ruta;
                 int idUsuario,idVidDoc;
-                if(list==null) {
-                    list = new ArrayList<>();
-                }
                 try {
                     for(int i=0;i<json.length();i++){
                         jsonObject=json.getJSONObject(i);
@@ -201,7 +198,8 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this,nuevo,idUsuarioVidDocFav);
+                recyclerPerfil.setAdapter(perfilAdapter);
             }
         });
         request.add(jsonObjectRequest);
@@ -226,7 +224,6 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
                 json = response.optJSONArray("usuario");
                 String descripcion,miniatura,ruta;
                 int idUsuario,idVidDoc;
-                list=new ArrayList<>();
                 try {
                     for(int i=0;i<json.length();i++){
                         jsonObject=json.getJSONObject(i);
@@ -242,20 +239,20 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this,idUsuarios,idUsuarioVidDocFav);
-                recyclerPerfil.setAdapter(perfilAdapter);
 
+             //   perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this,idUsuarios,idUsuarioVidDocFav);
+              //  recyclerPerfil.setAdapter(perfilAdapter);
+                cargarDocPerfil();
 
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                cargarDocPerfil();
             }
         });
         request.add(jsonObjectRequest);
-        cargarDocPerfil();
 
     }
 
@@ -274,9 +271,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
                 json = response.optJSONArray("usuario");
                 String descripcion,miniatura,ruta;
                 int idUsuario,idVidDoc;
-                if(list==null) {
-                    list = new ArrayList<>();
-                }
+
                 try {
                     for(int i=0;i<json.length();i++){
                         jsonObject=json.getJSONObject(i);
@@ -292,15 +287,16 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                perfilAdapter=new PerfilAdapter(getContext(),list,Perfil.this, idUsuarios,idUsuarioVidDocFav);
-                recyclerPerfil.setAdapter(perfilAdapter);
 
+                perfilAdapter= new PerfilAdapter(getContext(),list, Perfil.this, idUsuarios,idUsuarioVidDocFav);
+                recyclerPerfil.setAdapter(perfilAdapter);
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                perfilAdapter= new PerfilAdapter(getContext(),list, Perfil.this, idUsuarios,idUsuarioVidDocFav);
+                recyclerPerfil.setAdapter(perfilAdapter);
             }
         });
         request.add(jsonObjectRequest);
