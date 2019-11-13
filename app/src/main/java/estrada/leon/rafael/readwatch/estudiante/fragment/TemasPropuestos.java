@@ -41,7 +41,7 @@ import java.util.Map;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.adapter.TemasPropuestosAdapter;
-import estrada.leon.rafael.readwatch.estudiante.dialog.DialogIngresarPropuesta;
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogIngresarPropuestaTema;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Materias;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Votos;
 import estrada.leon.rafael.readwatch.general.pojo.Sesion;
@@ -75,7 +75,7 @@ public class TemasPropuestos extends Fragment {
         TemasPropuestosAdapter temasPropuestosAdapter=new TemasPropuestosAdapter(contexto,R.layout.tema_propuesto,datos,votos);
         lvTemasPropuestos.setAdapter(temasPropuestosAdapter);
 
-        rootReference.child("votoTema").addValueEventListener(new ValueEventListener() {
+        rootReference.child("votoTema").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Votos voto;
@@ -150,7 +150,7 @@ public class TemasPropuestos extends Fragment {
         fabTemaNuevo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogIngresarPropuesta nuevo = new DialogIngresarPropuesta();
+                DialogIngresarPropuestaTema nuevo = new DialogIngresarPropuestaTema();
                 nuevo.show(getActivity().getSupportFragmentManager(), "ejemplo");
             }
         });
@@ -210,6 +210,31 @@ public class TemasPropuestos extends Fragment {
                         votoNuevoRef.updateChildren(nuevoVoto);
                     }
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        rootReference.child("votoTema").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Votos voto;
+                CheckBox cb;
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    voto = snapshot.getValue(Votos.class);
+                    if(voto.getIdUsuario() == Sesion.getSesion().getId()) {
+                        for (int x = 0; x < lvTemasPropuestos.getChildCount(); x++) {
+                            cb = lvTemasPropuestos.getChildAt(x).findViewById(R.id.cbTemaPropuesto);
+                            cb.setEnabled(false);
+                        }
+                        btnVotarQuitar.setVisibility(View.GONE);
+                        return;
+                    }
+                }
+                btnVotarQuitar.setVisibility(View.VISIBLE);
 
             }
 
@@ -218,12 +243,13 @@ public class TemasPropuestos extends Fragment {
 
             }
         });
+
     }
 
     private void cargarMaterias(){
         JsonObjectRequest jsonObjectRequest;
         RequestQueue request;
-        request= Volley.newRequestQueue(getContext());
+        request= Volley.newRequestQueue(contexto);
         progreso = new ProgressDialog(getContext());
         progreso.setMessage("Cargando...");
         progreso.show();
@@ -249,10 +275,7 @@ public class TemasPropuestos extends Fragment {
                         votos=jsonObject.optInt("votos");
                         idUsuario=jsonObject.optInt("idUsuario");
                         materia=new Materias(idMateria,rutaImagen,nombre);
-
-                        if(idUsuario!=1) {
-                            listMaterias.add(materia);
-                        }
+                        listMaterias.add(materia);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -12,11 +12,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -36,6 +34,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,8 +60,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import estrada.leon.rafael.readwatch.estudiante.dialog.DialogElegirSubtema;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogElegirTema;
-import estrada.leon.rafael.readwatch.estudiante.dialog.DialogIngresarPropuesta;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogModificarEliminar;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogHacerPregunta;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogSubirVideo;
@@ -103,7 +102,8 @@ public class  MenuEstudiante extends AppCompatActivity
         MateriasPropuestas.OnFragmentInteractionListener,
         ModificarEstudiante.OnFragmentInteractionListener,
         DialogModificarEliminar.IOpcionesVidDoc, SubtemasPropuestos.OnFragmentInteractionListener,
-        leerDocumentos.OnFragmentInteractionListener, DialogElegirTema.OnElegirTema {
+        leerDocumentos.OnFragmentInteractionListener, DialogElegirTema.OnElegirTema,
+        DialogElegirSubtema.OnElegirSubtema{
     Fragment fragment;
     TextView titulo , title;
     RequestQueue request;
@@ -182,7 +182,7 @@ public class  MenuEstudiante extends AppCompatActivity
         if (id == R.id.nav_videosArchivos) {
             FragmentManager fragmentManager=getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new ElegirMateria()).addToBackStack(null).commit();
-            titulo.setText("VideosAdm");
+            titulo.setText("Videos");
         } else if (id == R.id.nav_temasLibres) {
             FragmentManager fragmentManager=getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new PreguntasTemaLibre()).addToBackStack(null).commit();
@@ -194,7 +194,7 @@ public class  MenuEstudiante extends AppCompatActivity
         } else if (id == R.id.nav_Perfil) {
             fragment =new Perfil();
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
-            titulo.setText("");
+            titulo.setText("Perfil");
         } else if (id == R.id.nav_editarPerfil) {
             fragment =new ModificarEstudiante();
             getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
@@ -297,38 +297,65 @@ public class  MenuEstudiante extends AppCompatActivity
 
     @Override
     public void onClickProponerTema() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        TextView title = new TextView(this);
-        title.setText("¿Deseas proponer un tema o un subtema?");
-        title.setGravity(Gravity.CENTER);
-        title.setTextSize(24 );
-        title.setTextColor(Color.BLACK);
-        builder.setCustomTitle(title);
-        builder.setPositiveButton("Temas", new DialogInterface.OnClickListener() {
+
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        LinearLayout layout = new LinearLayout(this);
+        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setLayoutParams(parms);
+
+        layout.setGravity(Gravity.CLIP_VERTICAL);
+        layout.setPadding(2, 2, 2, 2);
+
+        TextView tv = new TextView(this);
+        tv.setText("¿Deseas proponer un tema o un subtema?");
+        tv.setPadding(40, 40, 40, 0);
+        tv.setGravity(Gravity.CENTER);
+        tv.setTextColor(Color.BLACK);
+        tv.setTextSize(20);
+
+        alertDialogBuilder.setView(layout);
+        alertDialogBuilder.setTitle("Elegir");
+        alertDialogBuilder.setCustomTitle(tv);
+
+        // alertDialogBuilder.setMessage(message);
+        alertDialogBuilder.setCancelable(true);
+
+        alertDialogBuilder.setPositiveButton("Tema", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 fragment =new TemasPropuestos();
                 getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
                 titulo.setText("Temas propuestos");
-                Toast.makeText(getApplicationContext(),"Vote por una propuesta",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Vote por una propuesta o añada una.",Toast.LENGTH_LONG).show();
             }
         });
-        builder.setNegativeButton("Subtemas", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNegativeButton("Subtema", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-            DialogElegirTema nuevo = new DialogElegirTema();
-            nuevo.show(getSupportFragmentManager(), "ejemplo");
+                DialogElegirSubtema nuevo = new DialogElegirSubtema();
+                nuevo.show(getSupportFragmentManager(), "ejemplo");
+                Toast.makeText(getApplicationContext(),"Vote por una propuesta o añada una.",Toast.LENGTH_LONG).show();
             }
         });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.setCancelable(false);
-        alertDialog.show();
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        try {
+            alertDialog.show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Error al seleccionar un tema o subtema.", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onClickProponerMateria() {
-        DialogFragment builder = new DialogElegirTema();
-        builder.show(getSupportFragmentManager(),"Ejemplo");
+        fragment =new MateriasPropuestas();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
+        titulo.setText("Materias propuestas");
     }
 
     @Override
@@ -808,7 +835,7 @@ public class  MenuEstudiante extends AppCompatActivity
         fragment =new leerDocumentos();
         fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
-        titulo.setText("Doc");
+        titulo.setText("Documento");
     }
 
     @Override
@@ -1095,9 +1122,28 @@ public class  MenuEstudiante extends AppCompatActivity
         editor.commit();
 
 
+        fragment =new TemasPropuestos();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
+        titulo.setText("Subtemas propuestas");
+        Toast.makeText(this,"Vote por una propuesta",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void mostrarSubtemasPropuestos(String nombreMateria, String nombreTema) {
+        SharedPreferences preferences = getSharedPreferences("materia", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("nombre", nombreMateria);
+        editor.commit();
+
+        getSharedPreferences("tema", Context.MODE_PRIVATE);
+        editor = preferences.edit();
+        editor.putString("nombre", nombreTema);
+        editor.commit();
+
+
         fragment =new SubtemasPropuestos();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
-        titulo.setText("Temas propuestas");
+        titulo.setText("Subtemas propuestas");
         Toast.makeText(this,"Vote por una propuesta",Toast.LENGTH_LONG).show();
     }
 }

@@ -28,21 +28,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.R;
-public class DialogElegirTema extends AppCompatDialogFragment implements
+
+public class DialogElegirSubtema extends AppCompatDialogFragment implements
             Response.Listener<JSONObject>, Response.ErrorListener  {
         Spinner spinner_tema,spinner_materia;
         ProgressDialog progreso;
         JsonObjectRequest jsonObjectRequest;
         RequestQueue request;
         Context contexto;
-        OnElegirTema onElegirTema;
+        OnElegirSubtema onElegirSubtema;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         contexto = context;
-        if(context instanceof  OnElegirTema){
-            onElegirTema = (OnElegirTema)context;
+        if(context instanceof  OnElegirSubtema){
+            onElegirSubtema = (OnElegirSubtema)context;
         }
     }
 
@@ -50,7 +51,7 @@ public class DialogElegirTema extends AppCompatDialogFragment implements
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
             LayoutInflater inflater = getActivity().getLayoutInflater();
-            View view = inflater.inflate(R.layout.dialog_elegir_tema, null);
+            View view = inflater.inflate(R.layout.dialog_elegir_subtema, null);
             spinner_tema=view.findViewById(R.id.spinner_tema);
             spinner_materia=view.findViewById(R.id.spinner_materia);
             request= Volley.newRequestQueue(contexto);
@@ -68,7 +69,11 @@ public class DialogElegirTema extends AppCompatDialogFragment implements
                         public void onClick(DialogInterface dialogInterface, int i) {
                             String materia = spinner_materia.getSelectedItem().toString();
                             String tema = spinner_tema.getSelectedItem().toString();
-                            onElegirTema.mostrarTemasPropuestos(materia,tema);
+                            if(tema.equals("Selecciona un tema") || tema.equals("Seleccionar tema")){
+
+                            }else{
+                                onElegirSubtema.mostrarSubtemasPropuestos(materia,tema);
+                            }
                         }
                     });
             spinner_materia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -170,7 +175,7 @@ public class DialogElegirTema extends AppCompatDialogFragment implements
 
         }
 
-        public interface OnElegirTema{
-            public void mostrarTemasPropuestos(String nombreMateria, String nombreTema);
+        public interface OnElegirSubtema{
+            public void mostrarSubtemasPropuestos(String nombreMateria, String nombreTema);
         }
     }

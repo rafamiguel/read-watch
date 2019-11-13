@@ -36,7 +36,7 @@ import java.util.Map;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
-public class DialogIngresarPropuesta extends AppCompatDialogFragment implements
+public class DialogIngresarPropuestaSubtema extends AppCompatDialogFragment implements
         Response.Listener<JSONObject>, Response.ErrorListener  {
     EditText txtNombre;
     Spinner spinner_tema,spinner_materia;
@@ -52,7 +52,7 @@ public class DialogIngresarPropuesta extends AppCompatDialogFragment implements
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_boton_hacer_propuesta, null);
+        View view = inflater.inflate(R.layout.dialog_hacer_propuesta_subtema, null);
         txtNombre=view.findViewById(R.id.txtNombreSubtema);
         spinner_tema=view.findViewById(R.id.spinner_tema);
         spinner_materia=view.findViewById(R.id.spinner_materia);
