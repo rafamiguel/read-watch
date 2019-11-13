@@ -89,8 +89,8 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
                             e.printStackTrace();
                         }
                     }
-                    favoritosAdapter=new FavoritosAdapter(getContext(),list,Favoritos.this, idUsuarioVidDocFav);
-                    recyclerFavoritos.setAdapter(favoritosAdapter);
+                    cargarDatos();
+
                 }
 
             }
@@ -98,7 +98,8 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                cargarDatos();
+                //Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);
@@ -144,7 +145,9 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                favoritosAdapter=new FavoritosAdapter(getContext(),list,Favoritos.this, idUsuarioVidDocFav);
+                recyclerFavoritos.setAdapter(favoritosAdapter);
+                //Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);
@@ -218,7 +221,7 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
         request= Volley.newRequestQueue(getContext());
         buscarVideosFav();
         cargarDatosVid();
-        cargarDatos();
+
 
 
         return vista;
