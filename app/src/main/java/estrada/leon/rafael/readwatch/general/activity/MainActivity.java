@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    fecha = snapshot.getValue(Fecha.class);
+                    fecha = (snapshot.getValue(Fecha.class));
 
                     if(ObtenerTiempo.reiniciarVotaciones(fecha)){
 
