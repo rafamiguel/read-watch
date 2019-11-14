@@ -242,6 +242,9 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
 
     private void subirDocFragment(String toString, String toString1, int idSubtema) {
         String url;
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Subiendo...");
+        progreso.show();
 
         Calendar c = Calendar.getInstance();
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
