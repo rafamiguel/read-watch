@@ -74,7 +74,11 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
     public void onAttach(Context context) {
         super.onAttach(context);
         contexto = context;
+        if(context instanceof  MenuEstudiante){
+            contexto = (MenuEstudiante)context;
+        }
     }
+
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
