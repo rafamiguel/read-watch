@@ -48,15 +48,16 @@
     </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/lbl1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ordenado\nPor"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutBotones" />
+            <TextView
+                android:id="@+id/lbl1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ordenado\nPor"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layoutBotones" />
 
     <LinearLayout
         android:id="@+id/layoutSpinner"
@@ -72,20 +73,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:entries="@array/modos_ordenamiento" />
+            android:entries="@array/modos_ordenamiento"
+            android:visibility="invisible" />
 
     </LinearLayout>
 
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerDocumentos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layoutSpinner">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerDocumentos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutSpinner">
-
-    </android.support.v7.widget.RecyclerView>
+            </android.support.v7.widget.RecyclerView>
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

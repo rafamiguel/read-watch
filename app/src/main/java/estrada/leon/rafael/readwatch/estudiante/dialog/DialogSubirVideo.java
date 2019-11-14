@@ -122,7 +122,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
                     });
         }else{
             builder.setView(view)
-                    .setTitle("Subir Video")
+                    .setTitle("Subir vídeo")
                     .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {

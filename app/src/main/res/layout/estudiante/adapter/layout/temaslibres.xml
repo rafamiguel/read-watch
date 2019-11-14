@@ -30,6 +30,7 @@
             android:layout_height="30dp"
             android:background="@drawable/editar"
             android:backgroundTintMode="src_over"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="@+id/btnAdvertencia"
             app:layout_constraintTop_toTopOf="@+id/lblReportar" />
 
@@ -42,6 +43,7 @@
             android:text="@string/reportar"
             android:textColor="#1976D2"
             android:textSize="14sp"
+            android:visibility="invisible"
             app:layout_constraintEnd_toStartOf="@+id/btnEditar"
             app:layout_constraintTop_toTopOf="@+id/txtComentario" />
 

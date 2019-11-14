@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     }
 
     private void cargarWebService() {
-        progreso = new ProgressDialog(this);
+        progreso = new ProgressDialog(MainActivity.this);
         progreso.setMessage("Cargando...");
         progreso.show();
         String url = "https://readandwatch.herokuapp.com/php/inicioSesion.php?" +
@@ -202,7 +202,6 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
 
                     entrar = new Intent(MainActivity.this, MenuAdministrador.class);
                     startActivity(entrar);
-                    finish();
 
                 }else{
                     guardarPreferencias(jsonObject);

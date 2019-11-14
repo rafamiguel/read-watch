@@ -50,7 +50,7 @@ public class DialogEliminarUsuario extends AppCompatDialogFragment {
         @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.dialogeliminarusuario, null);
         request= Volley.newRequestQueue(contexto);
         builder.setView(view)
-                .setMessage("¿Que desea hacer con el usuario?")
+                .setMessage("¿Qué desea hacer con el usuario?")
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -85,7 +85,7 @@ public class DialogEliminarUsuario extends AppCompatDialogFragment {
             @Override
             public void onResponse(JSONObject response) {
                 progreso.hide();
-                Toast.makeText(getContext(), "Se suspendio al alumno correctamente", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Se suspendió al alumno correctamente", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -107,7 +107,7 @@ public class DialogEliminarUsuario extends AppCompatDialogFragment {
             @Override
             public void onResponse(JSONObject response) {
                 progreso.hide();
-                Toast.makeText(contexto, "Se elimino correctamente", Toast.LENGTH_SHORT).show();
+                Toast.makeText(contexto, "Se eliminó correctamente", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
