@@ -179,7 +179,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
 
     private void subirVideoFragment(String txtDescripcion, String link, int idSubtema) {
         String url;
-        progreso = new ProgressDialog(getContext());
+        progreso = new ProgressDialog(contexto);
         progreso.setMessage("Subiendo...");
         progreso.show();
         Calendar c = Calendar.getInstance();
