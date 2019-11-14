@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
                             Map<String, Object> actualizacion = new HashMap<>();
                             actualizacion.put("fecha", fechaVotacion);
                             actualizacionFecha.setValue(actualizacion);
+
                         }
                     } catch (Exception e) {
                         Toast.makeText(MainActivity.this,"Algo salió mal\n"+e.getMessage(), Toast.LENGTH_SHORT).show();
