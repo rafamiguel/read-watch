@@ -47,6 +47,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
     Context contexto;
     public static final int PREGUNTAR=1,RESUBIR=2, MATERIA=3;
     int modo;
+    Boolean spinner = true;
     public void setModo(int modo){
         this.modo = modo;
     }
@@ -61,7 +62,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_subir_video, null);
+        final View view = inflater.inflate(R.layout.dialog_subir_video, null);
         txtDescripcion=view.findViewById(R.id.txtDescripcion);
         txtLink=view.findViewById(R.id.txtLink);
         spinner_tema=view.findViewById(R.id.spinner_tema);
@@ -71,6 +72,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
             spinner_materia.setVisibility(View.GONE);
             spinner_tema.setVisibility(View.GONE);
             spinner_subtema.setVisibility(View.GONE);
+            spinner = false;
         }
         spinner_materia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -128,12 +130,16 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
                     .setPositiveButton("Subir", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            TextView textView = (TextView)spinner_subtema.getSelectedView();
-                            String result = textView.getText().toString();
-                            if(result.equals("")) {
+
+
+                            if(spinner == false) {
                                 subirVidWebService(txtDescripcion.getText().toString(), txtLink.getText().toString());
                             }
-                            else{buscarIdSubtema(txtDescripcion.getText().toString(), txtLink.getText().toString(),result);}
+                            else{
+                                TextView textView = (TextView) spinner_subtema.getSelectedView();
+                                String result = textView.getText().toString();
+                                buscarIdSubtema(txtDescripcion.getText().toString(), txtLink.getText().toString(),result);
+                            }
                         }
                     });
         }

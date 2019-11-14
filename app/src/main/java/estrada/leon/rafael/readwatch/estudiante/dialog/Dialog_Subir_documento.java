@@ -55,6 +55,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
     TextView lblElegirDocumento;
     Spinner spinner_tema,spinner_materia, spinner_subtema;
     Context contexto;
+    Boolean spinner = true;
     public static final int PREGUNTAR=1,RESUBIR=2, MATERIA=3, MENU=4;
     int modo;
     int idVidDocAInsertar=0;
@@ -105,6 +106,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
             spinner_materia.setVisibility(View.GONE);
             spinner_tema.setVisibility(View.GONE);
             spinner_subtema.setVisibility(View.GONE);
+            spinner = false;
         }
         spinner_materia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -191,11 +193,12 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialog = ProgressDialog.show(contexto, "Subiendo archivo", "Por favor espere.", true);
-                            TextView textView = (TextView)spinner_subtema.getSelectedView();
-                            String result = textView.getText().toString();
-                            if(result.equals("")) {
+
+                            if(spinner == false) {
                                 subirDocWebService(txtDescripcion.getText().toString(), txtTitulo.getText().toString());
                             }else{
+                                TextView textView = (TextView)spinner_subtema.getSelectedView();
+                                String result = textView.getText().toString();
                                 buscarIdSubtema(txtDescripcion.getText().toString(), txtTitulo.getText().toString(),result);
                             }
                         }
@@ -430,11 +433,13 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
             @Override
             public void onResponse(JSONObject response) {
                 obtenerUltimoVidDoc();
+                Toast.makeText(contexto, "Documento subido con éxito, espere un momento...", Toast.LENGTH_LONG).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
+                Toast.makeText(contexto, "No se pudo subir el documento", Toast.LENGTH_LONG).show();
             }
         });
         request.add(jsonObjectRequest);
