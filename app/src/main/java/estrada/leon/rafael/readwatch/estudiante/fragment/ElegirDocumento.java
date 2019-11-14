@@ -71,6 +71,8 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     int []idUsuarioVidDoc;
     int []idUsuarioVidDocFav;
     int contador=0;
+    
+    Context contexto;
 
 
     private OnFragmentInteractionListener mListener;
@@ -113,20 +115,20 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         btnDocumento.setOnClickListener(this);
         btnSubirDocumento.setOnClickListener(this);
 
-        recyclerDocumentos.setLayoutManager(new LinearLayoutManager(getContext(),
+        recyclerDocumentos.setLayoutManager(new LinearLayoutManager(contexto,
                 LinearLayoutManager.VERTICAL,false));
 
-        SharedPreferences preferences = getContext().getSharedPreferences("Tema", Context.MODE_PRIVATE);
+        SharedPreferences preferences = contexto.getSharedPreferences("Tema", Context.MODE_PRIVATE);
         idTema = preferences.getInt("tema", 0);
 
-        request= Volley.newRequestQueue(getContext());
+        request= Volley.newRequestQueue(contexto);
         buscarDocFav();
         buscarDoc();
         return vista;
     }
 
     private void buscarDocFav() {
-        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        SharedPreferences preferences = contexto.getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preferences.getInt("idUsuario", 0);
         String url = "https://readandwatch.herokuapp.com/php/buscarVideoFav.php?" +
                 "idUsuario="+idUsuario;
@@ -157,7 +159,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(contexto, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);
@@ -167,6 +169,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     public void onAttach(Context context) {
         Activity actividad;
         super.onAttach(context);
+        contexto = context;
         if (context instanceof Activity) {
             actividad= (Activity) context;
             interfaceFragments=(iComunicacionFragments)actividad;
@@ -202,7 +205,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
 
     @Override
     public void comentarioClick(int position, List<Documentos> list) {
-        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        SharedPreferences preferences = contexto.getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preferences.getInt("idUsuario", 0);
         int idVidDoc =list.get(position).getIdVidDoc();
         interfaceFragments.onClickComentario(idUsuario,idVidDoc,0);
@@ -210,7 +213,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
 
     @Override
     public void opcionClick(int position, List<Documentos> list) {
-        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        SharedPreferences preferences = contexto.getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preferences.getInt("idUsuario", 0);
         int idVidDoc =list.get(position).getIdVidDoc();
         interfaceFragments.onClickOpcion(idUsuario,idVidDoc,2);
@@ -218,7 +221,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
 
     @Override
     public void agregarFavoritos(int adapterPosition, List<Documentos> documentosList) {
-        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        SharedPreferences preferences = contexto.getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preferences.getInt("idUsuario", 0);
         int idVidDoc =documentosList.get(adapterPosition).getIdVidDoc();
         verificarExistencia(idUsuario, idVidDoc);
@@ -264,7 +267,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(contexto, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);
@@ -272,7 +275,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
 
     private void deleteFavoritos(int idFavorito) {
         String url;
-        progreso = new ProgressDialog(getContext());
+        progreso = new ProgressDialog(contexto);
         progreso.setMessage("Cargando...");
         progreso.show();
         url = "https://readandwatch.herokuapp.com/php/eliminarFavorito.php?" +
@@ -282,14 +285,14 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
             @Override
             public void onResponse(JSONObject response) {
                 progreso.hide();
-                Toast.makeText(getContext(), "Se elimino de favoritos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(contexto, "Se elimino de favoritos", Toast.LENGTH_SHORT).show();
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(contexto, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);
@@ -297,7 +300,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
 
     private void subirFavoritos(int idUsuario, int idVidDoc) {
         String url;
-        progreso = new ProgressDialog(getContext());
+        progreso = new ProgressDialog(contexto);
         progreso.setMessage("Cargando...");
         progreso.show();
         url = "https://readandwatch.herokuapp.com/php/insertFavorito.php?" +
@@ -307,14 +310,14 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
             @Override
             public void onResponse(JSONObject response) {
                 progreso.hide();
-                Toast.makeText(getContext(), "Se agrego a favoritos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(contexto, "Se agrego a favoritos", Toast.LENGTH_SHORT).show();
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(contexto, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);
@@ -323,7 +326,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
 
     @Override
     public void onClick(View v) {
-        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        SharedPreferences preferences = contexto.getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preferences.getInt("idUsuario", 0);
         switch(v.getId()){
             case R.id.btnVideo:
@@ -339,7 +342,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         }
     }
     private void buscarDoc(){
-        SharedPreferences preference = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        SharedPreferences preference = contexto.getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preference.getInt("idUsuario", 0);
 
         String url = "https://readandwatch.herokuapp.com/php/cargarVidDocUsuario.php?" +
@@ -378,7 +381,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
     private void cargarWebService() {
         String url;
         String ip=getString(R.string.ip);
-        progreso = new ProgressDialog(getContext());
+        progreso = new ProgressDialog(contexto);
         progreso.setMessage("Cargando...");
         progreso.show();
         url = ip+"/php/cargarVidDoc.php?" +
@@ -416,10 +419,10 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        adapter=new DocumentosAdapter(getContext(),documentos,this,idUsuarioVidDoc, idUsuarioVidDocFav);
+        adapter=new DocumentosAdapter(contexto,documentos,this,idUsuarioVidDoc, idUsuarioVidDocFav);
         contador=0;
         for (int i=0;i<documentos.size();i++) {
-            FileLoader.with(getContext()).load("https://readandwatch.000webhostapp.com/archivos/"+documentos.get(i).getIdVidDoc()+".pdf").fromDirectory("PDFFiles", FileLoader.DIR_EXTERNAL_PUBLIC).asFile(new FileRequestListener<File>() {
+            FileLoader.with(contexto).load("https://readandwatch.000webhostapp.com/archivos/"+documentos.get(i).getIdVidDoc()+".pdf").fromDirectory("PDFFiles", FileLoader.DIR_EXTERNAL_PUBLIC).asFile(new FileRequestListener<File>() {
                 @Override
                 public void onLoad(FileLoadRequest request, FileResponse<File> response) {
                     File pdf = response.getBody();
@@ -433,7 +436,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
                         fileInputStream = new FileInputStream(pdf);
                         fileInputStream.read(bytesArray);
                         int pageNumber = 0;
-                        PdfiumCore pdfiumCore = new PdfiumCore(getContext());
+                        PdfiumCore pdfiumCore = new PdfiumCore(contexto);
                         PdfDocument pdfDocument = null;
                         pdfDocument = pdfiumCore.newDocument(bytesArray);
                         pdfiumCore.openPage(pdfDocument, pageNumber);
@@ -455,7 +458,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
 
                 @Override
                 public void onError(FileLoadRequest request, Throwable t) {
-                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(contexto, t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
