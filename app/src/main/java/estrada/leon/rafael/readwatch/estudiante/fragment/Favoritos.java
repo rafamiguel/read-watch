@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -358,6 +359,8 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
             public void onResponse(JSONObject response) {
                 progreso.hide();
                 Toast.makeText(getContext(), "Se elimino de favoritos", Toast.LENGTH_SHORT).show();
+                FragmentManager fragmentManager= getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new Favoritos()).addToBackStack(null).commit();
 
             }
         }, new Response.ErrorListener() {

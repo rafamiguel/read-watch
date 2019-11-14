@@ -286,7 +286,9 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
             public void onResponse(JSONObject response) {
                 progreso.hide();
                 Toast.makeText(contexto, "Se elimino de favoritos", Toast.LENGTH_SHORT).show();
-
+                SharedPreferences preferences = contexto.getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+                int idUsuario = preferences.getInt("idUsuario", 0);
+                interfaceFragments.vistaVideosDoc(false,idUsuario);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -311,7 +313,9 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
             public void onResponse(JSONObject response) {
                 progreso.hide();
                 Toast.makeText(contexto, "Se agrego a favoritos", Toast.LENGTH_SHORT).show();
-
+                SharedPreferences preferences = contexto.getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+                int idUsuario = preferences.getInt("idUsuario", 0);
+                interfaceFragments.vistaVideosDoc(false,idUsuario);
             }
         }, new Response.ErrorListener() {
             @Override

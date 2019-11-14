@@ -29,6 +29,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirVideo;
 import estrada.leon.rafael.readwatch.estudiante.fragment.MainComentario;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
 import estrada.leon.rafael.readwatch.R;
@@ -121,7 +122,6 @@ public class VideosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         }
     }
-
 
 
     @NonNull

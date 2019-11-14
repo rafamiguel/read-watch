@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -51,6 +53,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
     List<Videos> videos;
     VideosAdapter videosAdapter;
     RecyclerView recyclerVideos;
+    SwipeRefreshLayout recargar;
     int []idUsuarioVidDoc;
     int []idUsuarioVidDocFav;
 
@@ -68,8 +71,8 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         Button btnVideo,btnDocumento,btnSubirVideo;
         videos=new ArrayList<>();
 
@@ -158,6 +161,8 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
 
     }
 
+
+
     private void verificarExistencia(final int idUsuario, final int idVidDoc) {
         String url;
         url = "https://readandwatch.herokuapp.com/php/existenciaFavorito.php?" +
@@ -181,7 +186,6 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
                         }
                         else {
                             deleteFavoritos(idFavorito);
-
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -213,7 +217,9 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
             public void onResponse(JSONObject response) {
                 progreso.hide();
                 Toast.makeText(getContext(), "Se elimino de favoritos", Toast.LENGTH_SHORT).show();
-
+                SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+                int idUsuario = preferences.getInt("idUsuario", 0);
+                interfaceFragments.vistaVideosDoc(true,idUsuario);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -238,7 +244,9 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
             public void onResponse(JSONObject response) {
                 progreso.hide();
                 Toast.makeText(getContext(), "Se agrego a favoritos", Toast.LENGTH_SHORT).show();
-
+                SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+                int idUsuario = preferences.getInt("idUsuario", 0);
+                interfaceFragments.vistaVideosDoc(true,idUsuario);
             }
         }, new Response.ErrorListener() {
             @Override

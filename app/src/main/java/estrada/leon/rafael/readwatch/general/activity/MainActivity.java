@@ -202,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
 
                     entrar = new Intent(MainActivity.this, MenuAdministrador.class);
                     startActivity(entrar);
+                    finish();
 
                 }else{
                     guardarPreferencias(jsonObject);
