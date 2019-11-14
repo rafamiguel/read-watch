@@ -54,6 +54,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
     EditText txtDescripcion,txtTitulo;
     TextView lblElegirDocumento;
     Spinner spinner_tema,spinner_materia, spinner_subtema;
+    Context contexto;
     public static final int PREGUNTAR=1,RESUBIR=2, MATERIA=3;
     int modo;
     int idVidDocAInsertar=0;
@@ -70,9 +71,15 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        contexto = context;
+    }
+
+    @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_subir_documento, null);
         txtDescripcion=view.findViewById(R.id.txtDescripcion);
@@ -136,7 +143,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
                     .setPositiveButton("Subir", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            dialog = ProgressDialog.show(getContext(), "Subiendo archivo", "Por favor espere.", true);
+                            dialog = ProgressDialog.show(contexto, "Subiendo archivo", "Por favor espere.", true);
                             subirDocWebService(txtDescripcion.getText().toString(), txtTitulo.getText().toString());
 
                         }
@@ -162,7 +169,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
                     .setPositiveButton("Modificar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            dialog = ProgressDialog.show(getContext(), "Subiendo archivo", "Por favor espere.", true);
+                            dialog = ProgressDialog.show(contexto, "Subiendo archivo", "Por favor espere.", true);
                             subirDocWebService(txtDescripcion.getText().toString(),txtTitulo.getText().toString());
 
                         }
@@ -179,7 +186,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
                     .setPositiveButton("Subir", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            dialog = ProgressDialog.show(getContext(), "Subiendo archivo", "Por favor espere.", true);
+                            dialog = ProgressDialog.show(contexto, "Subiendo archivo", "Por favor espere.", true);
                             TextView textView = (TextView)spinner_subtema.getSelectedView();
                             String result = textView.getText().toString();
                             if(result.equals("")) {
@@ -226,7 +233,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "No se pudo subir el vídeo", Toast.LENGTH_LONG).show();
+                Toast.makeText(contexto, "No se pudo subir el vídeo", Toast.LENGTH_LONG).show();
                 //Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -247,15 +254,16 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                obtenerUltimoVidDoc();
                 progreso.hide();
-                //      Toast.makeText(null, "Vídeo subido con éxito", Toast.LENGTH_LONG).show();
+                Toast.makeText(contexto, "Vídeo subido con éxito", Toast.LENGTH_LONG).show();
             }
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
-                //    Toast.makeText(null, "No se pudo subir el vídeo", Toast.LENGTH_LONG).show();
+                Toast.makeText(contexto, "No se pudo subir el vídeo", Toast.LENGTH_LONG).show();
                 //Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -264,7 +272,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
 
     public void cargarListaMateriasWebService(){
         String url;
-        progreso = new ProgressDialog(getContext());
+        progreso = new ProgressDialog(contexto);
         progreso.setMessage("Cargando...");
         progreso.show();
         url = "https://readandwatch.herokuapp.com/php/listaMaterias.php";
@@ -299,7 +307,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
     }
     public void cargarListaTemasWebService(String materia){
         String url;
-        progreso = new ProgressDialog(getContext());
+        progreso = new ProgressDialog(contexto);
         progreso.setMessage("Cargando...");
         progreso.show();
         url = "https://readandwatch.herokuapp.com/php/listaTemas.php?materia="+materia;
@@ -334,7 +342,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
     }
     public void cargarListaSubtemasWebService(String tema){
         String url;
-        progreso = new ProgressDialog(getContext());
+        progreso = new ProgressDialog(contexto);
         progreso.setMessage("Cargando...");
         progreso.show();
         url = "https://readandwatch.herokuapp.com/php/listaSubtema.php?tema="+tema;
@@ -354,7 +362,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
                                 jsonObject=json.getJSONObject(i);
                                 materias.add(jsonObject.optString("nombre"));
                             }
-                            adapter = new ArrayAdapter<String>(getContext(),
+                            adapter = new ArrayAdapter<String>(contexto,
                                     android.R.layout.simple_spinner_item, materias);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spinner_subtema.setAdapter(adapter);

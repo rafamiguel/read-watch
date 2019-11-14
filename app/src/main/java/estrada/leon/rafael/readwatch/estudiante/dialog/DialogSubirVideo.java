@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.general.pojo.Sesion;
@@ -43,12 +44,18 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
     RequestQueue request;
     EditText txtDescripcion,txtLink;
     Spinner spinner_tema,spinner_materia, spinner_subtema;
+    Context contexto;
     public static final int PREGUNTAR=1,RESUBIR=2, MATERIA=3;
     int modo;
     public void setModo(int modo){
         this.modo = modo;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        contexto = context;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -91,7 +98,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
 
             }
         });
-        request= Volley.newRequestQueue(getContext());
+        request= Volley.newRequestQueue(contexto);
         cargarListaMateriasWebService();
 
         if(modo==RESUBIR){
@@ -163,8 +170,8 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "No se pudo subir el vídeo", Toast.LENGTH_LONG).show();
-                //Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(contexto, "No se pudo subir el vídeo", Toast.LENGTH_LONG).show();
+                //Toast.makeText(contexto, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);
@@ -174,7 +181,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
         String url;
 
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
         String datetime = dateformat.format(c.getTime());
 
         int idUsuario = Sesion.getSesion().getId();
@@ -185,15 +192,15 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
             @Override
             public void onResponse(JSONObject response) {
 
-         //      Toast.makeText(null, "Vídeo subido con éxito", Toast.LENGTH_LONG).show();
+                Toast.makeText(contexto, "Vídeo subido con éxito", Toast.LENGTH_LONG).show();
             }
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-            //    Toast.makeText(null, "No se pudo subir el vídeo", Toast.LENGTH_LONG).show();
-                //Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(contexto, "No se pudo subir el vídeo", Toast.LENGTH_LONG).show();
+                //Toast.makeText(contexto, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);
@@ -201,7 +208,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
 
     public void cargarListaMateriasWebService(){
         String url;
-        progreso = new ProgressDialog(getContext());
+        progreso = new ProgressDialog(contexto);
         progreso.setMessage("Cargando...");
         progreso.show();
         url = "https://readandwatch.herokuapp.com/php/listaMaterias.php";
@@ -221,7 +228,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
                         jsonObject=json.getJSONObject(i);
                         materias.add(jsonObject.optString("nombre"));
                     }
-                    adapter = new ArrayAdapter<String>(getContext(),
+                    adapter = new ArrayAdapter<String>(contexto,
                             android.R.layout.simple_spinner_item, materias);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_materia.setAdapter(adapter);
@@ -236,7 +243,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
     }
     public void cargarListaTemasWebService(String materia){
         String url;
-        progreso = new ProgressDialog(getContext());
+        progreso = new ProgressDialog(contexto);
         progreso.setMessage("Cargando...");
         progreso.show();
         url = "https://readandwatch.herokuapp.com/php/listaTemas.php?materia="+materia;
@@ -256,7 +263,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
                                 jsonObject=json.getJSONObject(i);
                                 materias.add(jsonObject.optString("nombre"));
                             }
-                            adapter = new ArrayAdapter<String>(getContext(),
+                            adapter = new ArrayAdapter<String>(contexto,
                                     android.R.layout.simple_spinner_item, materias);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spinner_tema.setAdapter(adapter);
@@ -272,7 +279,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
 
     public void cargarListaSubtemasWebService(String tema){
         String url;
-        progreso = new ProgressDialog(getContext());
+        progreso = new ProgressDialog(contexto);
         progreso.setMessage("Cargando...");
         progreso.show();
         url = "https://readandwatch.herokuapp.com/php/listaSubtema.php?tema="+tema;
@@ -292,7 +299,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
                                 jsonObject=json.getJSONObject(i);
                                 materias.add(jsonObject.optString("nombre"));
                             }
-                            adapter = new ArrayAdapter<String>(getContext(),
+                            adapter = new ArrayAdapter<String>(contexto,
                                     android.R.layout.simple_spinner_item, materias);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spinner_subtema.setAdapter(adapter);
@@ -309,16 +316,16 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
 
 
     public void subirVidWebService(String descripcion,String ruta){
-        request= Volley.newRequestQueue(getContext());
+        request= Volley.newRequestQueue(contexto);
         String url="";
-        progreso = new ProgressDialog(getContext());
+        progreso = new ProgressDialog(contexto);
         progreso.setMessage("Cargando...");
         progreso.show();
-        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        SharedPreferences preferences = contexto.getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preferences.getInt("idUsuario", 0);
         int idTema, idPregunta, idVidDoc;
 
-        preferences = getContext().getSharedPreferences("Tema", Context.MODE_PRIVATE);
+        preferences = contexto.getSharedPreferences("Tema", Context.MODE_PRIVATE);
         idTema = preferences.getInt("tema", 0);
 
 
@@ -330,7 +337,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
 
 
             case PREGUNTAR:
-                preferences = getContext().getSharedPreferences("pregunta", Context.MODE_PRIVATE);
+                preferences = contexto.getSharedPreferences("pregunta", Context.MODE_PRIVATE);
                 idPregunta = preferences.getInt("idPregunta",0);
                 //Opción del video en Temas Libres
                 url = "https://readandwatch.herokuapp.com/php/insertarVidPreg.php?" +
@@ -338,7 +345,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
                 url=url.replace(" ", "%20");
                 break;
             case RESUBIR:
-                preferences = getContext().getSharedPreferences("VidDocSeleccionado", Context.MODE_PRIVATE);
+                preferences = contexto.getSharedPreferences("VidDocSeleccionado", Context.MODE_PRIVATE);
                 idVidDoc = preferences.getInt("idVidDoc",0);
                 url = "https://readandwatch.herokuapp.com/php/updateVidDoc.php?" +
                         "idVidDoc=" + idVidDoc+"&idTema="+idTema + "&tipo=v&descripcion=" + descripcion + "&ruta=" + ruta + "&fechaSubida=" + datetime + "&idUsuario=" + idUsuario;
@@ -357,7 +364,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
             @Override
             public void onResponse(JSONObject response) {
                 progreso.hide();
-                // Toast.makeText(getContext(),"Video insertado con éxito",Toast.LENGTH_SHORT).show();
+                Toast.makeText(contexto,"Video insertado con éxito",Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -372,7 +379,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(),"Error:\n"+error.getMessage(),Toast.LENGTH_LONG);
+        Toast.makeText(contexto,"Error:\n"+error.getMessage(),Toast.LENGTH_LONG).show();
     }
 
     @Override
