@@ -12,6 +12,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -117,9 +119,14 @@ public class  MenuEstudiante extends AppCompatActivity
     public Thread hilo;
     public String nombreArchivo;
 
+    Context contexto;
+    Handler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        contexto = this;
+        handler = new Handler(Looper.getMainLooper());
         request = Volley.newRequestQueue(getApplicationContext());
         setContentView(R.layout.activity_menu_estudiante);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -204,6 +211,8 @@ public class  MenuEstudiante extends AppCompatActivity
             nuevo.show(getSupportFragmentManager(), "ejemplo");
         } else if (id == R.id.nav_subirArchivo) {
             Dialog_Subir_documento nuevo = new Dialog_Subir_documento();
+            nuevo.setModo(4);
+            nuevo.setActividad(this);
             nuevo.show(getSupportFragmentManager(), "ejemplo");
         }else if(id==R.id.nav_historial) {
             FragmentManager fragmentManager=getSupportFragmentManager();
@@ -1019,12 +1028,34 @@ public class  MenuEstudiante extends AppCompatActivity
         try {
             okhttp3.Response response = client.newCall(request).execute();
             if (!response.isSuccessful()) {
-                Toast.makeText(MenuEstudiante.this, "Error de peticion", Toast.LENGTH_SHORT).show();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(contexto, "Error de peticion al servidor.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }else{
-                Toast.makeText(MenuEstudiante.this, "Se subio correctamente el archivo", Toast.LENGTH_SHORT).show();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(contexto, "Se subio correctamente el archivo", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         } catch (IOException e) {
-            Toast.makeText(MenuEstudiante.this, "Error de peticion", Toast.LENGTH_SHORT).show();
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(contexto, "Error de peticion.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }catch (final Exception e){
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(contexto, "Error al subir el archivo\n"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 

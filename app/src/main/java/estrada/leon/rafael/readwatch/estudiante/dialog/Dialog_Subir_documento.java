@@ -55,7 +55,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
     TextView lblElegirDocumento;
     Spinner spinner_tema,spinner_materia, spinner_subtema;
     Context contexto;
-    public static final int PREGUNTAR=1,RESUBIR=2, MATERIA=3;
+    public static final int PREGUNTAR=1,RESUBIR=2, MATERIA=3, MENU=4;
     int modo;
     int idVidDocAInsertar=0;
 
@@ -75,7 +75,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
         super.onAttach(context);
         contexto = context;
         if(context instanceof  MenuEstudiante){
-            contexto = (MenuEstudiante)context;
+            actividad = (MenuEstudiante)context;
         }
     }
 
