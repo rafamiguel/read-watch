@@ -33,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
     DatabaseReference rootReference = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference actualizacionFecha = rootReference.child("actualizacion");
+    DatabaseReference actualizacionFecha = rootReference.child("actualizacion/materia");
     Fecha fecha;
 
     private String contra="",usuario="",user="";
@@ -119,19 +120,24 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         rootReference.child("actualizacion/materia").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    fecha = (snapshot.getValue(Fecha.class));
-
-                    if(ObtenerTiempo.reiniciarVotaciones(fecha)){
-                        Calendar c = Calendar.getInstance();
-                        //while(c.get(Calendar.DAY_OF_WEEK)!=Calendar.MONDAY && c.get(Calendar.HOUR))
-                        c.add(Calendar.WEEK_OF_MONTH, 1);
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    try {
                         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
-                        String fechaActual = dateformat.format(c.getTime());
+                        fecha = (snapshot.getValue(Fecha.class));
 
-                        Map<String, Object> actualizacion = new HashMap<>();
-                        actualizacion.put("materia",fechaActual);
-                        actualizacionFecha.setValue(actualizacion);
+                        if (ObtenerTiempo.reiniciarVotaciones(fecha)) {
+                            Calendar c = Calendar.getInstance();
+                            while (c.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY && c.get(Calendar.HOUR) < 7) {
+                                c.add(Calendar.HOUR_OF_DAY,1);
+                            }
+                            String fechaVotacion = dateformat.format(c.getTime());
+
+                            Map<String, Object> actualizacion = new HashMap<>();
+                            actualizacion.put("vence", fechaVotacion);
+                            actualizacionFecha.setValue(actualizacion);
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(MainActivity.this,"Algo salió mal.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
