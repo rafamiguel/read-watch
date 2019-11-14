@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
     DatabaseReference rootReference = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference actualizacionFecha = rootReference.child("actualizacion");
     Fecha fecha;
 
     private String contra="",usuario="",user="";
@@ -115,24 +116,23 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         });
 
 
-        rootReference.child("actualizacion").addValueEventListener(new ValueEventListener() {
+        rootReference.child("actualizacion/materia").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     fecha = (snapshot.getValue(Fecha.class));
 
                     if(ObtenerTiempo.reiniciarVotaciones(fecha)){
+                        Calendar c = Calendar.getInstance();
+                        //while(c.get(Calendar.DAY_OF_WEEK)!=Calendar.MONDAY && c.get(Calendar.HOUR))
+                        c.add(Calendar.WEEK_OF_MONTH, 1);
+                        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
+                        String fechaActual = dateformat.format(c.getTime());
 
+                        Map<String, Object> actualizacion = new HashMap<>();
+                        actualizacion.put("materia",fechaActual);
+                        actualizacionFecha.setValue(actualizacion);
                     }
-
-
-                    Calendar c = Calendar.getInstance();
-                    SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
-                    String fechaActual = dateformat.format(c.getTime());
-
-                    Map<String, Object> actualizacion = new HashMap<>();
-                    actualizacion.put("materia",fechaActual);
-                    rootReference.setValue(actualizacion);
                 }
             }
 
