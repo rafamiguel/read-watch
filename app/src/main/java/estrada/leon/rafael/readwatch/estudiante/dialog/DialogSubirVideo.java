@@ -193,14 +193,14 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
+                progreso.hide();
                 Toast.makeText(contexto, "Vídeo subido con éxito", Toast.LENGTH_LONG).show();
             }
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+            progreso.hide();
             Toast.makeText(contexto, "No se pudo subir el vídeo", Toast.LENGTH_LONG).show();
                 //Toast.makeText(contexto, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
