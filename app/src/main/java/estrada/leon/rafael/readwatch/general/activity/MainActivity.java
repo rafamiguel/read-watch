@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         });
 
 
-        rootReference.child("actualizacion/materia").addValueEventListener(new ValueEventListener() {
+        rootReference.child("actualizacionMateria").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -127,17 +127,17 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
 
                         if (ObtenerTiempo.reiniciarVotaciones(fecha)) {
                             Calendar c = Calendar.getInstance();
-                            while (c.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY && c.get(Calendar.HOUR) < 7) {
+                            while (c.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY || c.get(Calendar.HOUR) < 8) {
                                 c.add(Calendar.HOUR_OF_DAY,1);
                             }
                             String fechaVotacion = dateformat.format(c.getTime());
 
                             Map<String, Object> actualizacion = new HashMap<>();
-                            actualizacion.put("vence", fechaVotacion);
+                            actualizacion.put("fecha", fechaVotacion);
                             actualizacionFecha.setValue(actualizacion);
                         }
                     } catch (Exception e) {
-                        Toast.makeText(MainActivity.this,"Algo salió mal.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,"Algo salió mal\n"+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }

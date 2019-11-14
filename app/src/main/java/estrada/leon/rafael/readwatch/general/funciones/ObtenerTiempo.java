@@ -21,7 +21,6 @@ public class ObtenerTiempo {
         try {
         Calendar cal = Calendar.getInstance();
         cal.setTime(dateformat.parse(fecha.getFecha()));// all done
-        cal.add(Calendar.WEEK_OF_MONTH, 1);
         if (cal.before(c)) {
             return true;
         }
