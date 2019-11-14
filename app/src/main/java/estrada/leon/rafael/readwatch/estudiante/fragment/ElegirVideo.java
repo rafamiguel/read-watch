@@ -272,6 +272,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
                 break;
             case R.id.btnSubirVideo:
                 interfaceFragments.onClickSubirVid();
+
                 break;
         }
     }

@@ -28,7 +28,7 @@
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:backgroundTint="#BBDEFB"
-            android:text="@string/video"
+            android:text="Vídeo"
             android:textAllCaps="false"
             android:textColor="#FFFFFF" />
 

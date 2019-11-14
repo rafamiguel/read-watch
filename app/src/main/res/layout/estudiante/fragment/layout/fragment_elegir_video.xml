@@ -32,7 +32,7 @@
                     android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#2194F3"
-                    android:text="@string/video"
+                    android:text="Vídeo"
                     android:textAllCaps="false"
                     android:textColor="#FFFFFF" />
 
@@ -81,11 +81,11 @@
                     android:id="@+id/btnSubirVideo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0"
                     android:backgroundTint="#D32F2F"
-                    android:text="Subir Video"
+                    android:text="Subir Vídeo"
                     android:textAllCaps="false"
-                    android:textColor="#FFFFFF"
-                    android:layout_weight="0"/>
+                    android:textColor="#FFFFFF" />
 
             </LinearLayout>
 

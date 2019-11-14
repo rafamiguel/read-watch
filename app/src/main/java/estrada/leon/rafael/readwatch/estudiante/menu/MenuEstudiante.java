@@ -189,7 +189,7 @@ public class  MenuEstudiante extends AppCompatActivity
         if (id == R.id.nav_videosArchivos) {
             FragmentManager fragmentManager=getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new ElegirMateria()).addToBackStack(null).commit();
-            titulo.setText("Videos");
+            titulo.setText("Vídeos");
         } else if (id == R.id.nav_temasLibres) {
             FragmentManager fragmentManager=getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.layoutPrincipal,new PreguntasTemaLibre()).addToBackStack(null).commit();

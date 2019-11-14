@@ -35,11 +35,13 @@ import java.util.List;
 import java.util.Locale;
 
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
 public class DialogSubirVideo  extends AppCompatDialogFragment implements
         Response.Listener<JSONObject>, Response.ErrorListener {
     ProgressDialog progreso;
+    private iComunicacionFragments interfaceFragments=null;
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
     EditText txtDescripcion,txtLink;
@@ -371,6 +373,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
                 null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+
                 progreso.hide();
                 Toast.makeText(contexto,"Video insertado con éxito",Toast.LENGTH_SHORT).show();
             }
