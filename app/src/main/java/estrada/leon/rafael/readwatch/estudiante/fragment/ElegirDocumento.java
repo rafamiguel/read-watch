@@ -429,8 +429,11 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
 
                     FileInputStream fileInputStream = null;
                     byte[] bytesArray = null;
-                    bytesArray = new byte[(int) pdf.length()];
-
+                    try {
+                        bytesArray = new byte[(int) pdf.length()];
+                    }catch(Exception e){
+                        Toast.makeText(contexto, "El archivo es demasiado grande.", Toast.LENGTH_SHORT).show();
+                    }
                     //read file into bytes[]
                     try {
                         fileInputStream = new FileInputStream(pdf);
@@ -452,7 +455,8 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
                             recyclerDocumentos.setAdapter(adapter);
                         }
                     } catch (IOException e) {
-                        e.getMessage();
+                        progreso.hide();
+                        Toast.makeText(contexto, "Error al descargar los archivos.", Toast.LENGTH_SHORT).show();
                     }
                 }
 
