@@ -237,7 +237,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(contexto, "No se pudo subir el vídeo", Toast.LENGTH_LONG).show();
+                Toast.makeText(contexto, "No se pudo subir el documento", Toast.LENGTH_LONG).show();
                 //Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -246,6 +246,9 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
 
     private void subirDocFragment(String toString, String toString1, int idSubtema) {
         String url;
+        progreso = new ProgressDialog(contexto);
+        progreso.setMessage("Subiendo...");
+        progreso.show();
 
         Calendar c = Calendar.getInstance();
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -260,14 +263,14 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
             public void onResponse(JSONObject response) {
                 obtenerUltimoVidDoc();
                 progreso.hide();
-                Toast.makeText(contexto, "Vídeo subido con éxito", Toast.LENGTH_LONG).show();
+                Toast.makeText(contexto, "Documento subido con éxito", Toast.LENGTH_LONG).show();
             }
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
-                Toast.makeText(contexto, "No se pudo subir el vídeo", Toast.LENGTH_LONG).show();
+                Toast.makeText(contexto, "No se pudo subir el documento", Toast.LENGTH_LONG).show();
                 //Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
