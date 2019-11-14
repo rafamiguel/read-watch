@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         });
 
 
-        rootReference.child("actualizacionMateria").addValueEventListener(new ValueEventListener() {
+        rootReference.child("actualizacion").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -130,11 +130,14 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
                             while (c.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY || c.get(Calendar.HOUR) < 8) {
                                 c.add(Calendar.HOUR_OF_DAY,1);
                             }
+                            c.set(Calendar.MINUTE,0);
+                            c.set(Calendar.SECOND,0);
                             String fechaVotacion = dateformat.format(c.getTime());
 
                             Map<String, Object> actualizacion = new HashMap<>();
                             actualizacion.put("fecha", fechaVotacion);
                             actualizacionFecha.setValue(actualizacion);
+
                         }
                     } catch (Exception e) {
                         Toast.makeText(MainActivity.this,"Algo salió mal\n"+e.getMessage(), Toast.LENGTH_SHORT).show();
