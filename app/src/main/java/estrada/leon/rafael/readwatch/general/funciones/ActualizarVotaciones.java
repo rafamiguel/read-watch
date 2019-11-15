@@ -219,7 +219,7 @@ public class ActualizarVotaciones {
                     }
                     obtenerSubtema();
                 }else{
-                    insertarMateria();
+                    insertarDatos();
                 }
 
             }
@@ -336,14 +336,22 @@ public class ActualizarVotaciones {
 
     public void limpiar(){
         DatabaseReference update;
-        if(materia.getIdUsuario() == Sesion.getSesion().getId()){
-            notificacion();
+        if (materia != null) {
+            if(materia.getIdUsuario() == Sesion.getSesion().getId()){
+                notificacion();
+            }
         }
-        else if(tema.getIdUsuario() == Sesion.getSesion().getId()){
-            notificacion();
+
+        if(tema!=null){
+            if(tema.getIdUsuario() == Sesion.getSesion().getId()){
+                notificacion();
+            }
         }
-        else if(subtema.getIdUsuario() == Sesion.getSesion().getId()){
-            notificacion();
+
+        if(subtema!=null){
+            if(subtema.getIdUsuario() == Sesion.getSesion().getId()){
+                notificacion();
+            }
         }
         update = rootReference.child("materia");
         update.setValue(null);

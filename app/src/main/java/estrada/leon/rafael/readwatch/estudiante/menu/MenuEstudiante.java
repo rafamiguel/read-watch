@@ -180,13 +180,12 @@ public class  MenuEstudiante extends AppCompatActivity
                             Map<String, Object> actualizacion = new HashMap<>();
                             actualizacion.put("fecha", fechaVotacion);
                             actualizacionFecha.setValue(actualizacion);
-
-                            ActualizarVotaciones actualizarVotaciones = new ActualizarVotaciones(MenuEstudiante.this);
                         }
                     } catch (Exception e) {
                         Toast.makeText(MenuEstudiante.this,"Algo salió mal\n"+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
+                ActualizarVotaciones actualizarVotaciones = new ActualizarVotaciones(MenuEstudiante.this);
             }
 
             @Override
