@@ -67,9 +67,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     ProgressDialog progreso;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
-    DatabaseReference rootReference = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference actualizacionFecha = rootReference.child("actualizacion/materia");
-    Fecha fecha;
+
 
     private String contra="",usuario="",user="";
     @Override
@@ -119,39 +117,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         });
 
 
-        rootReference.child("actualizacion").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    try {
-                        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
-                        fecha = (snapshot.getValue(Fecha.class));
-                        if (ObtenerTiempo.reiniciarVotaciones(fecha)) {
-                            Calendar c = Calendar.getInstance();
-                            while (c.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY || c.get(Calendar.HOUR) < 8) {
-                                c.add(Calendar.HOUR_OF_DAY,1);
-                            }
-                            c.set(Calendar.MINUTE,0);
-                            c.set(Calendar.SECOND,0);
-                            String fechaVotacion = dateformat.format(c.getTime());
 
-                            Map<String, Object> actualizacion = new HashMap<>();
-                            actualizacion.put("fecha", fechaVotacion);
-                            actualizacionFecha.setValue(actualizacion);
-
-                            ActualizarVotaciones actualizarVotaciones = new ActualizarVotaciones(MainActivity.this);
-                        }
-                    } catch (Exception e) {
-                        Toast.makeText(MainActivity.this,"Algo salió mal\n"+e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
     private void cargarWebService() {

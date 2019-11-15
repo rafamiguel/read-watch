@@ -49,6 +49,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
 import org.json.JSONArray;
@@ -59,7 +64,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogElegirSubtema;
@@ -87,6 +95,9 @@ import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.fragment.SeleccionarSemestre;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Reportes;
 import estrada.leon.rafael.readwatch.general.fragments.leerDocumentos;
+import estrada.leon.rafael.readwatch.general.funciones.ActualizarVotaciones;
+import estrada.leon.rafael.readwatch.general.funciones.ObtenerTiempo;
+import estrada.leon.rafael.readwatch.general.pojo.Fecha;
 import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -122,6 +133,12 @@ public class  MenuEstudiante extends AppCompatActivity
     Context contexto;
     Handler handler;
 
+
+    Fecha fecha;
+    DatabaseReference rootReference = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference actualizacionFecha = rootReference.child("actualizacion/materia");
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,10 +160,40 @@ public class  MenuEstudiante extends AppCompatActivity
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         titulo=findViewById(R.id.toolbar_title);
         titulo.setText("Elige una materia");
-        fragment =new ElegirMateria();
-        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
 
+        rootReference.child("actualizacion").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    try {
+                        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
+                        fecha = (snapshot.getValue(Fecha.class));
+                        if (ObtenerTiempo.reiniciarVotaciones(fecha)) {
+                            Calendar c = Calendar.getInstance();
+                            while (c.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY || c.get(Calendar.HOUR) < 8) {
+                                c.add(Calendar.HOUR_OF_DAY,1);
+                            }
+                            c.set(Calendar.MINUTE,0);
+                            c.set(Calendar.SECOND,0);
+                            String fechaVotacion = dateformat.format(c.getTime());
 
+                            Map<String, Object> actualizacion = new HashMap<>();
+                            actualizacion.put("fecha", fechaVotacion);
+                            actualizacionFecha.setValue(actualizacion);
+
+                            ActualizarVotaciones actualizarVotaciones = new ActualizarVotaciones(MenuEstudiante.this);
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(MenuEstudiante.this,"Algo salió mal\n"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -1003,7 +1050,11 @@ public class  MenuEstudiante extends AppCompatActivity
         String currentFileName = path.substring(path.lastIndexOf("/"));
         currentFileName = currentFileName.substring(1);
         String nombreSinEspacios = currentFileName.replace(" ", "");
-
+        nombreSinEspacios = nombreSinEspacios.replace("á","a");
+        nombreSinEspacios = nombreSinEspacios.replace("é","e");
+        nombreSinEspacios = nombreSinEspacios.replace("í","i");
+        nombreSinEspacios = nombreSinEspacios.replace("ó","o");
+        nombreSinEspacios = nombreSinEspacios.replace("ú","u");
         String rutaSinArchivo = path.substring(0, path.lastIndexOf("/"));
 
         File from      = new File(rutaSinArchivo, currentFileName);

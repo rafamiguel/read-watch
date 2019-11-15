@@ -1,8 +1,19 @@
 package estrada.leon.rafael.readwatch.general.funciones;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,10 +32,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirMateria;
+import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Materias;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Subtemas;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Temas;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Votos;
+import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
 public class ActualizarVotaciones {
     private Materias materia;
@@ -44,6 +59,8 @@ public class ActualizarVotaciones {
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
 
+    private final static String CHANNEL_ID = "NOTIFICACION";
+    private final static int NOTIFICACION_ID = 0;
 
     public ActualizarVotaciones(Activity actividad) {
         this.actividad = actividad;
@@ -72,6 +89,9 @@ public class ActualizarVotaciones {
                         if (contadorMateriaActual > contadorMateriaPasada) {
                             materiaMasVotada = materiaActual;
                         }
+                    }
+                    if(materiaMasVotada==null){
+                        materiaMasVotada = materiaActual;
                     }
                     obtenerMateria();
                 }else{
@@ -132,6 +152,9 @@ public class ActualizarVotaciones {
                             temaMasVotado = materiaActual;
                         }
                     }
+                    if(temaMasVotado==null){
+                        temaMasVotado = materiaActual;
+                    }
                     obtenerTema();
                 }else{
                     obtenerSubtemaMasVotado();
@@ -155,9 +178,8 @@ public class ActualizarVotaciones {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     tema = snapshot.getValue(Temas.class);
-                    if(subtemaMasVotado.equals(tema.getNombre())) {
-                        obtenerSubtemaMasVotado();
-                        return;
+                        if(temaMasVotado.equals(tema.getNombre())) {
+                        break;
                     }
                 }
                 obtenerSubtemaMasVotado();
@@ -192,6 +214,9 @@ public class ActualizarVotaciones {
                             subtemaMasVotado = materiaActual;
                         }
                     }
+                    if(subtemaMasVotado==null){
+                        subtemaMasVotado = materiaActual;
+                    }
                     obtenerSubtema();
                 }else{
                     insertarMateria();
@@ -214,16 +239,16 @@ public class ActualizarVotaciones {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     subtema = snapshot.getValue(Subtemas.class);
                     if(subtemaMasVotado.equals(subtema.getNombre())){
-                        insertarMateria();
-                        return;
+                        break;
                     }
                 }
-                insertarMateria();
+                insertarDatos();
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                insertarDatos();
             }
         });
     }
@@ -233,13 +258,15 @@ public class ActualizarVotaciones {
         progreso = new ProgressDialog(actividad);
         progreso.setMessage("Espere un momento por favor...");
         progreso.show();
+        insertarMateria();
     }
 
     public void insertarMateria(){
         if(materiaMasVotada!=null){
-             url = "https://readandwatch.herokuapp.com/php/insertarMateria.php?" +
+             url = "https://readandwatch.herokuapp.com/php/insertarMateriaVotaciones.php?" +
                     "nombre="+materiaMasVotada+
-                    "&rutaImagen= ";
+                    "&rutaImagen= "+
+                    "&idUsuario="+materia.getIdUsuario();
             url=url.replace(" ", "%20");
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
@@ -309,7 +336,15 @@ public class ActualizarVotaciones {
 
     public void limpiar(){
         DatabaseReference update;
-
+        if(materia.getIdUsuario() == Sesion.getSesion().getId()){
+            notificacion();
+        }
+        else if(tema.getIdUsuario() == Sesion.getSesion().getId()){
+            notificacion();
+        }
+        else if(subtema.getIdUsuario() == Sesion.getSesion().getId()){
+            notificacion();
+        }
         update = rootReference.child("materia");
         update.setValue(null);
         update = rootReference.child("tema");
@@ -322,7 +357,36 @@ public class ActualizarVotaciones {
         update.setValue(null);
         update = rootReference.child("votoSubtema");
         update.setValue(null);
+        Fragment fragment =new ElegirMateria();
+        ((MenuEstudiante)actividad).getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
         progreso.hide();
+    }
+
+    public void notificacion(){
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name = "Notificacion";
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID,name,
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = (NotificationManager)actividad.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+
+        Intent intent = new Intent(actividad, MenuEstudiante.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(actividad, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(actividad,CHANNEL_ID);
+        builder.setSmallIcon(R.drawable.logo8);
+        builder.setContentTitle("Notificacion Android");
+        builder.setContentText("Titulo");
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setLights(Color.GREEN,1000,1000);
+        builder.setVibrate(new long[]{1000,1000,1000,1000});
+        builder.setDefaults(Notification.DEFAULT_SOUND);
+        builder.setContentIntent(contentIntent);
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(actividad);
+        notificationManagerCompat.notify(NOTIFICACION_ID,builder.build());
     }
 
 
