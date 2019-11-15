@@ -112,6 +112,7 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
                 obtenerNombreDoc(documento.getPerfil(), documentosViewHolder);
                 //documentosViewHolder.lblPerfil.setText(documento.getPerfil());
                 documentosViewHolder.lblDescripcion.setText(documento.getDescripcion());
+                documentosViewHolder.btnDocumento.setImageBitmap(documento.getImagen());
                 if (idVideoEnComentarioUsuario!=null) {
                     for (int j = 0; j < idVideoEnComentarioUsuario.length; j++) {
                         if (idVideoEnComentarioUsuario[j] == documento.getIdVidDoc()) {

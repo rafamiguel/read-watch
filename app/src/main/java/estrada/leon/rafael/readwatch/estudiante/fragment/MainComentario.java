@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -26,11 +27,20 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.krishna.fileloader.FileLoader;
+import com.krishna.fileloader.listener.FileRequestListener;
+import com.krishna.fileloader.pojo.FileResponse;
+import com.krishna.fileloader.request.FileLoadRequest;
+import com.shockwave.pdfium.PdfDocument;
+import com.shockwave.pdfium.PdfiumCore;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +72,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
     ProgressDialog progreso;
     private int []idComentarioUsuario;
     private int []idVideoEnComentarioUsuario;
+    Documentos documento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,7 +183,6 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                         JSONObject jsonObject=null;
                         Comentarios comentario;
                         Videos video;
-                        Documentos documento;
                         json = response.optJSONArray("comentario");
                         String nombre,comentarioString,descripcion,rutaImagen,ruta, eliminado;
                         int idVidDoc,idUsuario,idComentario;
@@ -206,7 +216,52 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                                             list.add(video);
                                         } else {
                                             documento = new Documentos(Integer.toString(idUsuario), descripcion, rutaImagen, idUsuario, idVidDoc);
-                                            list.add(documento);
+                                            FileLoader.with(contexto).load("https://readandwatch.000webhostapp.com/archivos/"+documento.getIdVidDoc()+".pdf").fromDirectory("PDFFiles", FileLoader.DIR_EXTERNAL_PUBLIC).asFile(new FileRequestListener<File>() {
+                                                @Override
+                                                public void onLoad(FileLoadRequest request, FileResponse<File> response) {
+                                                    File pdf = response.getBody();
+
+                                                    FileInputStream fileInputStream = null;
+                                                    byte[] bytesArray = null;
+                                                    try {
+                                                        bytesArray = new byte[(int) pdf.length()];
+                                                    }catch(Exception e){
+                                                        Toast.makeText(contexto, "El archivo es demasiado grande.", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                    //read file into bytes[]
+                                                    try {
+                                                        fileInputStream = new FileInputStream(pdf);
+                                                        fileInputStream.read(bytesArray);
+                                                        int pageNumber = 0;
+                                                        PdfiumCore pdfiumCore = new PdfiumCore(contexto);
+                                                        PdfDocument pdfDocument = null;
+                                                        pdfDocument = pdfiumCore.newDocument(bytesArray);
+                                                        pdfiumCore.openPage(pdfDocument, pageNumber);
+                                                        //int width = pdfiumCore.getPageWidthPoint(pdfDocument, pageNumber);
+                                                        //int height = pdfiumCore.getPageHeightPoint(pdfDocument, pageNumber);
+                                                        int width = 300;
+                                                        int height = 300;
+                                                        Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                                                        pdfiumCore.renderPageBitmap(pdfDocument, bmp, pageNumber, 0, 0, width, height);
+                                                        pdfiumCore.closeDocument(pdfDocument); // important!
+                                                        documento.setImagen(bmp);
+                                                        list.add(documento);
+                                                        adapterComentario = new AdapterComentario(contexto, list,(MainComentario)contexto,idComentarioUsuario,idVideoEnComentarioUsuario);
+                                                        recycler.setAdapter(adapterComentario);
+                                                        adapterComentario.refresh(list);
+                                                        recycler.invalidate();
+                                                    } catch (IOException e) {
+                                                        progreso.hide();
+                                                        Toast.makeText(contexto, "Error al descargar los archivos.", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onError(FileLoadRequest request, Throwable t) {
+                                                    Toast.makeText(contexto, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+
                                         }
                                     }
                                 }
