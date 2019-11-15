@@ -56,6 +56,7 @@ public class RegistrarEstudiante extends AppCompatActivity implements Response.L
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_estudiante);
+
         lblTitulo = findViewById(R.id.lblTitulo);
         txtNombre = findViewById(R.id.txtNombre);
         txtApellido = findViewById(R.id.txtApellido);
