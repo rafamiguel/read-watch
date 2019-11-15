@@ -15,6 +15,7 @@
         android:fullBackupContent="true"
         android:icon="@drawable/logo8"
         android:label="Read and Watch"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"

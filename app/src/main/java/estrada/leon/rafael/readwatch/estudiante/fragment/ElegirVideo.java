@@ -45,15 +45,14 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         VideosAdapter.OnVideoListener, Response.Listener<JSONObject>, Response.ErrorListener {
     private iComunicacionFragments interfaceFragments;
     ProgressDialog progreso;
-    JsonObjectRequest jsonObjectRequest, jsonObjectRequest2;
+    JsonObjectRequest jsonObjectRequest;
     int idTema;
-    RequestQueue request, request2;
+    RequestQueue request;
     View vista;
     Activity actividad;
     List<Videos> videos;
     VideosAdapter videosAdapter;
     RecyclerView recyclerVideos;
-    SwipeRefreshLayout recargar;
     int []idUsuarioVidDoc;
     int []idUsuarioVidDocFav;
 
@@ -198,7 +197,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);
@@ -225,7 +224,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);
@@ -252,7 +251,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+               //Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);
@@ -309,7 +308,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);

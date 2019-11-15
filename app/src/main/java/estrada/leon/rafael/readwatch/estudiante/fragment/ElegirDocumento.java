@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -48,7 +47,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import estrada.leon.rafael.readwatch.MainFileManager;
 import estrada.leon.rafael.readwatch.estudiante.adapter.DocumentosAdapter;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Documentos;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
@@ -159,7 +157,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(contexto, error.getMessage(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(contexto, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);
@@ -447,8 +445,10 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
                         PdfDocument pdfDocument = null;
                         pdfDocument = pdfiumCore.newDocument(bytesArray);
                         pdfiumCore.openPage(pdfDocument, pageNumber);
-                        int width = pdfiumCore.getPageWidthPoint(pdfDocument, pageNumber);
-                        int height = pdfiumCore.getPageHeightPoint(pdfDocument, pageNumber);
+                        //int width = pdfiumCore.getPageWidthPoint(pdfDocument, pageNumber);
+                        //int height = pdfiumCore.getPageHeightPoint(pdfDocument, pageNumber);
+                        int width = 300;
+                        int height = 300;
                         Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                         pdfiumCore.renderPageBitmap(pdfDocument, bmp, pageNumber, 0, 0, width, height);
                         pdfiumCore.closeDocument(pdfDocument); // important!
