@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,11 +44,13 @@ import estrada.leon.rafael.readwatch.estudiante.pojo.Comentarios;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Documentos;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Reportes;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
+import estrada.leon.rafael.readwatch.general.fragments.leerDocumentos;
 import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
 public class MainComentario extends AppCompatActivity implements  Response.Listener<JSONObject>,
         Response.ErrorListener, AdapterComentario.OnComentariosListener,
-        DialogModificarEliminar.IOpcionesComentario, DialogModificarEliminar.IOpcionesVidDoc {
+        DialogModificarEliminar.IOpcionesComentario, DialogModificarEliminar.IOpcionesVidDoc,
+        leerDocumentos.OnFragmentInteractionListener{
     Button btnComentario;
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
@@ -668,6 +672,16 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
         alertDialog.show();
     }
 
+    @Override
+    public void leerDoc(int idVidDoc) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("idVidDoc",idVidDoc);
+
+        Fragment fragment =new leerDocumentos();
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutComentarios,fragment).addToBackStack(null).commit();
+    }
+
     public void reportarVidDoc(int idUsuario,int idVidDoc, String tipo){//tipo==motivo
         JsonObjectRequest jsonObjectRequest;
         RequestQueue request;
@@ -857,6 +871,11 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
         });
         request.add(jsonObjectRequest);
         progreso.hide();
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }

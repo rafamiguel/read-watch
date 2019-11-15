@@ -397,7 +397,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
 
         request= Volley.newRequestQueue(getContext());
         String url="";
-        progreso = new ProgressDialog(getContext());
+        progreso = new ProgressDialog(contexto);
         progreso.setMessage("Cargando...");
         progreso.show();
         Calendar c = Calendar.getInstance();
@@ -438,8 +438,9 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                progreso.hide();
                 Toast.makeText(contexto, "No se pudo subir el documento", Toast.LENGTH_LONG).show();
+                progreso.dismiss();
+                dialog.dismiss();
             }
         });
         request.add(jsonObjectRequest);

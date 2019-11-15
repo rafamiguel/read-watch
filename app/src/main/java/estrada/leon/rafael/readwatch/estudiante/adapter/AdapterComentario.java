@@ -401,6 +401,9 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
                 case R.id.btnAdvertencia:
                     onComentariosListener.reportarDoc(((Documentos)list.get(getAdapterPosition())).getIdVidDoc());
                     break;
+                case R.id.btnDocumento:
+                    onComentariosListener.leerDoc(((Documentos)list.get(getAdapterPosition())).getIdVidDoc());
+                    break;
                 default:
             }
         }
@@ -413,5 +416,6 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
         void reportarComentario(int position, List<Item> list);
         void reportarVideo(int position, List<Item> list);
         void reportarDoc(int idVidDoc);
+        void leerDoc(int idVidDoc);
     }
 }

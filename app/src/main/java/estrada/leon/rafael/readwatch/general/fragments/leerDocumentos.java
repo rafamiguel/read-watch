@@ -48,8 +48,6 @@ public class leerDocumentos extends Fragment {
 
     PDFView pdfView;
 
-    iComunicacionFragments interfaceFragments;
-
     private OnFragmentInteractionListener mListener;
 
     public leerDocumentos() {
@@ -151,11 +149,6 @@ public class leerDocumentos extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Activity actividad;
-        if (context instanceof Activity) {
-            actividad= (Activity) context;
-            interfaceFragments=(iComunicacionFragments)actividad;
-        }
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         }
@@ -172,7 +165,6 @@ public class leerDocumentos extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
