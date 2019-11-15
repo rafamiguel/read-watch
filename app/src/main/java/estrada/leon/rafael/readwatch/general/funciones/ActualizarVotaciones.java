@@ -338,19 +338,19 @@ public class ActualizarVotaciones {
         DatabaseReference update;
         if (materia != null) {
             if(materia.getIdUsuario() == Sesion.getSesion().getId()){
-                notificacion();
+                notificacion("La materia que propusiste fue añadida a la aplicación.");
             }
         }
 
         if(tema!=null){
             if(tema.getIdUsuario() == Sesion.getSesion().getId()){
-                notificacion();
+                notificacion("El tema que propusiste fue añadido a la aplicación.");
             }
         }
 
         if(subtema!=null){
             if(subtema.getIdUsuario() == Sesion.getSesion().getId()){
-                notificacion();
+                notificacion("El subtema que propusiste fue añadido a la aplicación.");
             }
         }
         update = rootReference.child("materia");
@@ -370,7 +370,7 @@ public class ActualizarVotaciones {
         progreso.hide();
     }
 
-    public void notificacion(){
+    public void notificacion(String cuerpo){
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             CharSequence name = "Notificacion";
@@ -385,8 +385,8 @@ public class ActualizarVotaciones {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(actividad,CHANNEL_ID);
         builder.setSmallIcon(R.drawable.logo8);
-        builder.setContentTitle("Notificacion Android");
-        builder.setContentText("Titulo");
+        builder.setContentTitle("Felicidades");
+        builder.setContentText(cuerpo);
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
         builder.setLights(Color.GREEN,1000,1000);
         builder.setVibrate(new long[]{1000,1000,1000,1000});
