@@ -49,6 +49,7 @@ import estrada.leon.rafael.readwatch.estudiante.interfaces.iSesion;
 import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.activity.RegistrarEstudiante;
+import estrada.leon.rafael.readwatch.general.funciones.ActualizarVotaciones;
 import estrada.leon.rafael.readwatch.general.funciones.ObtenerTiempo;
 import estrada.leon.rafael.readwatch.general.pojo.Admin;
 import estrada.leon.rafael.readwatch.general.pojo.Estudiante;
@@ -125,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
                     try {
                         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
                         fecha = (snapshot.getValue(Fecha.class));
-
                         if (ObtenerTiempo.reiniciarVotaciones(fecha)) {
                             Calendar c = Calendar.getInstance();
                             while (c.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY || c.get(Calendar.HOUR) < 8) {
@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
                             actualizacion.put("fecha", fechaVotacion);
                             actualizacionFecha.setValue(actualizacion);
 
+                            ActualizarVotaciones actualizarVotaciones = new ActualizarVotaciones(MainActivity.this);
                         }
                     } catch (Exception e) {
                         Toast.makeText(MainActivity.this,"Algo salió mal\n"+e.getMessage(), Toast.LENGTH_SHORT).show();
