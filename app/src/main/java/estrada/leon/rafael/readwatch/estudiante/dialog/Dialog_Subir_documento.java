@@ -52,7 +52,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
     EditText txtDescripcion,txtTitulo;
-    TextView lblElegirDocumento;
+    public static TextView lblElegirDocumento;
     Spinner spinner_tema,spinner_materia, spinner_subtema;
     Context contexto;
     Boolean spinner = true;
@@ -433,7 +433,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
             @Override
             public void onResponse(JSONObject response) {
                 obtenerUltimoVidDoc();
-                Toast.makeText(contexto, "Documento subido con éxito, espere un momento...", Toast.LENGTH_LONG).show();
+                Toast.makeText(contexto, "Subiendo documento...", Toast.LENGTH_LONG).show();
             }
         }, new Response.ErrorListener() {
             @Override

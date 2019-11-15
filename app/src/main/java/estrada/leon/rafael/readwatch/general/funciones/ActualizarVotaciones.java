@@ -1,12 +1,14 @@
 package estrada.leon.rafael.readwatch.general.funciones;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -338,19 +340,19 @@ public class ActualizarVotaciones {
         DatabaseReference update;
         if (materia != null) {
             if(materia.getIdUsuario() == Sesion.getSesion().getId()){
-                notificacion("La materia que propusiste fue añadida a la aplicación.");
+                notificacion("La materia que propusiste fue añadida a la app.");
             }
         }
 
         if(tema!=null){
             if(tema.getIdUsuario() == Sesion.getSesion().getId()){
-                notificacion("El tema que propusiste fue añadido a la aplicación.");
+                notificacion("El tema que propusiste fue añadido a la app.");
             }
         }
 
         if(subtema!=null){
             if(subtema.getIdUsuario() == Sesion.getSesion().getId()){
-                notificacion("El subtema que propusiste fue añadido a la aplicación.");
+                notificacion("El subtema que propusiste fue añadido a la app.");
             }
         }
         update = rootReference.child("materia");
@@ -385,7 +387,7 @@ public class ActualizarVotaciones {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(actividad,CHANNEL_ID);
         builder.setSmallIcon(R.drawable.logo8);
-        builder.setContentTitle("Felicidades");
+        builder.setContentTitle("!Felicidades¡");
         builder.setContentText(cuerpo);
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
         builder.setLights(Color.GREEN,1000,1000);
@@ -395,6 +397,21 @@ public class ActualizarVotaciones {
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(actividad);
         notificationManagerCompat.notify(NOTIFICACION_ID,builder.build());
+
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(actividad);
+        builder1.setMessage(cuerpo);
+        builder1.setCancelable(true);
+        builder1.setPositiveButton(
+                "Entendido",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 
 

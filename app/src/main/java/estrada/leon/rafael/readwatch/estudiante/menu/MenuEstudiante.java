@@ -1032,6 +1032,20 @@ public class  MenuEstudiante extends AppCompatActivity
         }
         if (requestCode == 10 && resultCode == RESULT_OK && data != null) {
             this.data = data;
+            File f;
+            String nombre="";
+            String path = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+
+            String currentFileName = path.substring(path.lastIndexOf("/"));
+            currentFileName = currentFileName.substring(1);
+            String nombreSinEspacios = currentFileName.replace(" ", "");
+            nombreSinEspacios = nombreSinEspacios.replace("á","a");
+            nombreSinEspacios = nombreSinEspacios.replace("é","e");
+            nombreSinEspacios = nombreSinEspacios.replace("í","i");
+            nombreSinEspacios = nombreSinEspacios.replace("ó","o");
+            nombreSinEspacios = nombreSinEspacios.replace("ú","u");
+            nombreSinEspacios = nombreSinEspacios.replace("-","");
+            Dialog_Subir_documento.lblElegirDocumento.setText(nombreSinEspacios);
             hilo = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -1054,6 +1068,7 @@ public class  MenuEstudiante extends AppCompatActivity
         nombreSinEspacios = nombreSinEspacios.replace("í","i");
         nombreSinEspacios = nombreSinEspacios.replace("ó","o");
         nombreSinEspacios = nombreSinEspacios.replace("ú","u");
+        nombreSinEspacios = nombreSinEspacios.replace("-","");
         String rutaSinArchivo = path.substring(0, path.lastIndexOf("/"));
 
         File from      = new File(rutaSinArchivo, currentFileName);
