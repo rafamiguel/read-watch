@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         });
 
 
-        rootReference.child("actualizacion").addValueEventListener(new ValueEventListener() {
+        rootReference.child("actualizacion").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {

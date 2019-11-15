@@ -17,6 +17,7 @@ public class Videos implements Item {
         this.idUsuario = idUsuario;
         this.idVidDoc=idVidDoc;
         this.videoUrl=videoUrl;
+        setVideoUrl();
     }
     public String getDescripcion(){
         return this.descripcion;
@@ -58,7 +59,10 @@ public class Videos implements Item {
     }
 
     public String getVideoUrl() {
+        return videoUrl;
+    }
 
+    public void setVideoUrl() {
         for(int a=0; a<videoUrl.length();a++){
             if (String.valueOf(videoUrl.charAt(a)).equals("=")) {
                 videoUrl = videoUrl.substring(a+1);
@@ -66,11 +70,6 @@ public class Videos implements Item {
                 break;
             }
         }
-        return videoUrl;
-    }
-
-    public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
     }
 
     @Override

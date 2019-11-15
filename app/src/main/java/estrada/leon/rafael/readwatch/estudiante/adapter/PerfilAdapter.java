@@ -90,7 +90,7 @@ public class PerfilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 VideosViewHolder videosViewHolder=(VideosViewHolder) viewHolder;
                 videosViewHolder.lblDescripcion.setText(video.getDescripcion());
                 String uri = video.getRutaImagen();
-                int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
+                //int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
                 String url= video.getVideoUrl();
                 videosViewHolder.btnMiniatura.loadData(url, "text/html" , "utf-8" );
                 if(idUsuarioVidDocFav!=null){
@@ -111,7 +111,7 @@ public class PerfilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 VideosViewHolder videosViewHolder=(VideosViewHolder) viewHolder;
                 videosViewHolder.lblDescripcion.setText(video.getDescripcion());
                 String uri = video.getRutaImagen();
-                int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
+                //int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
                 String url= video.getVideoUrl();
                 videosViewHolder.btnMiniatura.loadData(url, "text/html" , "utf-8" );
                 if(idUsuarioVidDocFav!=null){
@@ -125,6 +125,7 @@ public class PerfilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
 
                 }
+                break;
         }
     }
 
@@ -147,16 +148,15 @@ public class PerfilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             idUsuarios = preferences.getInt("idUsuario", 0);
 
             btnMiniatura=itemView.findViewById(R.id.btnMiniatura);
-            btnMiniatura.getSettings().setJavaScriptEnabled(true);
-            btnMiniatura.setWebChromeClient(new WebChromeClient() {
-
-            } );
             btnAdvertencia=itemView.findViewById(R.id.btnAdvertencia);
             btnOpcion= itemView.findViewById(R.id.btnOpcion);
             lblDescripcion=itemView.findViewById(R.id.lblDescripcion);
             btnFavorito=itemView.findViewById(R.id.btnFavorito);
             txtComentario=itemView.findViewById(R.id.txtComentario);
+            btnMiniatura.getSettings().setJavaScriptEnabled(true);
+            btnMiniatura.setWebChromeClient(new WebChromeClient() {
 
+            } );
 
                 if (nuevo == Sesion.getSesion().getId()) {
                     btnAdvertencia.setVisibility(View.GONE);
