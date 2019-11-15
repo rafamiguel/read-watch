@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         logo = findViewById(R.id.logo);
         txtUsuario = findViewById(R.id.txtUsuario);
         txtContra = findViewById(R.id.txtContra);
