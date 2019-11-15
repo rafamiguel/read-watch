@@ -36,14 +36,6 @@ import estrada.leon.rafael.readwatch.administrador.pojo.BuscarUsuarioAd;
 import estrada.leon.rafael.readwatch.R;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link BuscarUsuario.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link BuscarUsuario#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class BuscarUsuario extends Fragment implements BuscarUsuarioAdapter.OnBuscarListener,
         View.OnClickListener, Response.Listener<JSONObject>, Response.ErrorListener{
     RecyclerView recyclerBuscar;
@@ -56,15 +48,12 @@ public class BuscarUsuario extends Fragment implements BuscarUsuarioAdapter.OnBu
     BuscarUsuarioAdapter buscarUsuarioAdapter;
     RequestQueue request;
     String url;
-    RecyclerView recycler;
     DialogEliminarUsuario a;
     String nombre,apellido, rutaFoto;
 
     private iComunicacionFragmentsAdm interfaceFragments;
     View vista;
-    List<BuscarUsuarioAd> list;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -75,18 +64,9 @@ public class BuscarUsuario extends Fragment implements BuscarUsuarioAdapter.OnBu
     private OnFragmentInteractionListener mListener;
 
     public BuscarUsuario() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BuscarUsuario.
-     */
-    // TODO: Rename and change types and number of parameters
     public static BuscarUsuario newInstance(String param1, String param2) {
         BuscarUsuario fragment = new BuscarUsuario();
         Bundle args = new Bundle();

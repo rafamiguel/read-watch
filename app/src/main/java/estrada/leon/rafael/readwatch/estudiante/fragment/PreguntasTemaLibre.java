@@ -65,8 +65,6 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        preguntas=new ArrayList<>();
-
         vista=inflater.inflate(R.layout.fragment_preguntas_tema_libre, container, false);
         fabNuevaPregunta = vista.findViewById(R.id.fabNuevaPregunta2);
         fabNuevaPregunta.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +131,7 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
     }
 
     private void cargarWebService(){
+        preguntas=new ArrayList<>();
         String url;
         progreso = new ProgressDialog(getContext());
         progreso.setMessage("Cargando...");

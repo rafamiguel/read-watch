@@ -60,6 +60,7 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
     }
 
     private void cargarDatosVid() {
+        list = new ArrayList<>();
         SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preferences.getInt("idUsuario", 0);
         String url;

@@ -90,6 +90,7 @@ public class UsuariosInactivos extends Fragment implements UsuarioInactivoAdapte
     }
 
     private void hora() {
+        list=new ArrayList<>();
         final Calendar c = Calendar.getInstance();
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String datetime = dateformat.format(c.getTime());
@@ -106,7 +107,6 @@ public class UsuariosInactivos extends Fragment implements UsuarioInactivoAdapte
                 JSONArray json;
                 JSONObject jsonObject=null;
                 json = response.optJSONArray("usuario");
-                list=new ArrayList<>();
                 for(int i=0;i<json.length();i++) {
                     try {
                         jsonObject = json.getJSONObject(i);

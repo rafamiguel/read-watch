@@ -25,14 +25,7 @@ import org.json.JSONObject;
 
 import estrada.leon.rafael.readwatch.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link RegistrarAdmin.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link RegistrarAdmin#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class RegistrarAdmin extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
     ProgressDialog progreso;
     RequestQueue request;

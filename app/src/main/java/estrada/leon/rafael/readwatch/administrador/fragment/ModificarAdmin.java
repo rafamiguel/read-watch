@@ -30,25 +30,16 @@ import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.administrador.interfaces.iComunicacionFragmentsAdm;
 import estrada.leon.rafael.readwatch.general.pojo.Admin;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ModificarAdmin.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ModificarAdmin#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ModificarAdmin extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private iComunicacionFragmentsAdm comunicacionFragmentsAdm;
     EditText txtNombre, txtApellidos, txtContrasena, txtEscribeCorreo;
-    Button btnBuscar, btnModificar;
+    Button  btnModificar;
     ProgressDialog progreso;
     Activity actividad;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
-    StringRequest stringRequest;
     Admin admin;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";

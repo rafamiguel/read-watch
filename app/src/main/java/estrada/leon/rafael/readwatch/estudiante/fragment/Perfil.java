@@ -110,6 +110,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
         this.idUsuarios = idUsuario;
     }
     void cargarDatos(){
+        list= new ArrayList<>();
         idUsuarios = nuevo;
         String url;
         url = "https://readandwatch.herokuapp.com/php/cargarVidDocPerfil.php?" +

@@ -92,6 +92,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
     }
 
     private void soloUnComentario(final String texto) {
+        list= new ArrayList<>();
         String url;
         url = "https://readandwatch.herokuapp.com/php/soloUnComentario.php?" +
                 "idUsuario="+idUsuario+"&idVidDoc="+idVidDoc;

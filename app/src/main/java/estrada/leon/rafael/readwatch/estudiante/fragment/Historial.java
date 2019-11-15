@@ -205,6 +205,7 @@ public class Historial extends Fragment {
     }
 
     private void buscarHistorial() {
+        list =new ArrayList<>();
         String url;
         int idUsuario = Sesion.getSesion().getId();
         url = "https://readandwatch.herokuapp.com/php/historialContenido.php?" +
