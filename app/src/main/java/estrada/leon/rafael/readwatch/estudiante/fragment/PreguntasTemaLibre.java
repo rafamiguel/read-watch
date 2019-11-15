@@ -27,7 +27,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.estudiante.adapter.TemaLibreAdapter;
@@ -136,7 +138,10 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
         progreso = new ProgressDialog(getContext());
         progreso.setMessage("Cargando...");
         progreso.show();
-        url = "https://readandwatch.herokuapp.com/php/cargarPregunta.php";
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String datetime = dateformat.format(c.getTime());
+        url = "https://readandwatch.herokuapp.com/php/cargarPregunta.php?"+"fechaActual="+datetime;
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request.add(jsonObjectRequest);

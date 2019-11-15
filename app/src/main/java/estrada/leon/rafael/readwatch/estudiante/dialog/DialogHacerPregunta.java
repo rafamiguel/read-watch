@@ -21,6 +21,9 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import estrada.leon.rafael.readwatch.R;
 
 public class DialogHacerPregunta extends AppCompatDialogFragment implements
@@ -64,9 +67,11 @@ public class DialogHacerPregunta extends AppCompatDialogFragment implements
         progreso.show();
         SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preferences.getInt("idUsuario", 0);
-
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String datetime = dateformat.format(c.getTime());
         url = "https://readandwatch.herokuapp.com/php/insertarPregunta.php?" +
-                "idPregunta="+null+"&titulo="+titulo+"&descripcion="+descripcion+"&idUsuario="+idUsuario;
+                "idPregunta="+null+"&titulo="+titulo+"&descripcion="+descripcion+"&idUsuario="+idUsuario+"&fechaSubida="+datetime;
         url=url.replace(" ", "%20");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
                 null, new Response.Listener<JSONObject>(){
