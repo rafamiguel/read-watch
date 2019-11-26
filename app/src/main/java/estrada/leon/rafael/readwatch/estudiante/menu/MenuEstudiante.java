@@ -1163,7 +1163,8 @@ public class  MenuEstudiante extends AppCompatActivity
     @Override
     public void resubirDoc() {
         Dialog_Subir_documento nuevo = new Dialog_Subir_documento();
-        nuevo.setModo(DialogSubirVideo.RESUBIR);
+        nuevo.setModo(Dialog_Subir_documento.RESUBIR);
+        nuevo.setActividad(this);
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
 

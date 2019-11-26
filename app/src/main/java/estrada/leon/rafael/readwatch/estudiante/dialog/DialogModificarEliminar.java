@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ public class DialogModificarEliminar extends AppCompatDialogFragment {
     IOpcionesComentario listenerComentario;
     IOpcionesVidDoc listenerVidDoc;
     int opcion;
+    Context contexto;
 
     public void setOpcion(int opcion){
         this.opcion=opcion;
@@ -30,7 +32,7 @@ public class DialogModificarEliminar extends AppCompatDialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_modificar_eliminar, null);
         builder.setView(view)
@@ -51,11 +53,16 @@ public class DialogModificarEliminar extends AppCompatDialogFragment {
                     int idVidDoc = preferences.getInt("idVidDoc",0);
                     listenerVidDoc.eliminarVidDoc(idVidDoc, 2);
                 }
-                if(opcion==3){
+                if(opcion==3) {
                     SharedPreferences preferences = getContext().getSharedPreferences("comentarioSeleccionado", Context.MODE_PRIVATE);
                     int idComentario = preferences.getInt("idComentario", 0);
                     listenerComentario.eliminarCom(idComentario);
                 }
+                Fragment fragment =new ElegirDocumento();
+                if(contexto instanceof MenuEstudiante) {
+                    ((MenuEstudiante) contexto).getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal, fragment).commit();
+                }
+                dismiss();
             }
         });
         lblModificar.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +77,11 @@ public class DialogModificarEliminar extends AppCompatDialogFragment {
                     int idComentario = preferences.getInt("idComentario", 0);
                     listenerComentario.resubirCom(idComentario);
                 }
+                Fragment fragment =new ElegirDocumento();
+                if(contexto instanceof MenuEstudiante) {
+                    ((MenuEstudiante) contexto).getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal, fragment).commit();
+                }
+                dismiss();
             }
         });
         return builder.create();
@@ -79,6 +91,7 @@ public class DialogModificarEliminar extends AppCompatDialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         Activity actividad;
+        contexto = context;
         super.onAttach(context);
         if (context instanceof MenuEstudiante) {
             actividad= (Activity) context;

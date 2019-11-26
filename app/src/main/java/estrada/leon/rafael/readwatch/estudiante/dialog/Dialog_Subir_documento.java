@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -35,6 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -59,6 +61,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
     public static final int PREGUNTAR=1,RESUBIR=2, MATERIA=3, MENU=4;
     int modo;
     int idVidDocAInsertar=0;
+    SharedPreferences preferences;
 
     MenuEstudiante actividad;
     ProgressDialog dialog = null;
@@ -302,7 +305,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
                                 jsonObject=json.getJSONObject(i);
                                 materias.add(jsonObject.optString("nombre"));
                             }
-                            adapter = new ArrayAdapter<String>(getContext(),
+                            adapter = new ArrayAdapter<String>(contexto,
                                     android.R.layout.simple_spinner_item, materias);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spinner_materia.setAdapter(adapter);
@@ -388,8 +391,8 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
 
 
     public void subirDocWebService(String descripcion,String ruta){
-        SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
-        int idUsuario = preferences.getInt("idUsuario", 0);
+        preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
+        int idUsuario = Sesion.getSesion().getId();
         int idTema, idPregunta,idVidDoc;
 
         preferences = getContext().getSharedPreferences("Tema", Context.MODE_PRIVATE);
@@ -432,7 +435,27 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
                 null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                obtenerUltimoVidDoc();
+                if(modo!=RESUBIR) {
+                    obtenerUltimoVidDoc();
+                }else{
+                    preferences = contexto.getSharedPreferences("VidDocSeleccionado", Context.MODE_PRIVATE);
+                    int idDoc = preferences.getInt("idVidDoc",0);
+                    String uri = Environment.getExternalStorageDirectory() + "/PDFFiles/"+idDoc+".pdf";;
+                    File fdelete = new File(uri);
+                    if (fdelete.exists()) {
+                        if (fdelete.delete()) {
+                            Toast.makeText(contexto,"Archivo viejo eliminado",Toast.LENGTH_SHORT);
+                        } else {
+                            Toast.makeText(contexto,"error",Toast.LENGTH_SHORT);
+                        }
+                    }
+
+                    idVidDocAInsertar = idDoc;
+                    actividad.nombreArchivo = Integer.toString(idVidDocAInsertar);
+                    actividad.hilo.start();
+                    dialog.dismiss();
+                    progreso.hide();
+                }
                 Toast.makeText(contexto, "Subiendo documento...", Toast.LENGTH_LONG).show();
             }
         }, new Response.ErrorListener() {
