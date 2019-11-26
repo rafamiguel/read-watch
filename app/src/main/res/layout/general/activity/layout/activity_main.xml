@@ -28,7 +28,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription"
-        tools:srcCompat="@drawable/logo6" />
+        tools:srcCompat="@drawable/logo3d" />
 
     <EditText
         android:id="@+id/txtUsuario"
