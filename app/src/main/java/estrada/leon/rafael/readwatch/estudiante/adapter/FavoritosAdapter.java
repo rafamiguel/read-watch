@@ -14,6 +14,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.R;
@@ -28,6 +39,9 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int DOCUMENTO=1;
     private final int VIDEO=2;
     int []idUsuarioVidDocFav;
+    JsonObjectRequest jsonObjectRequest;
+    String nombre;
+    RequestQueue request;
 
     public FavoritosAdapter(Context context, List<Item> list,OnFavoritosListener onFavoritosListener,  int []idUsuarioVidDocFav) {
         this.context = context;
@@ -41,6 +55,7 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         RecyclerView.ViewHolder viewHolder;
         View view;
+        request = Volley.newRequestQueue(context);
         switch (viewType){
             case DOCUMENTO:{
                 view=LayoutInflater.from(context).inflate(R.layout.documento_fav,viewGroup,false);
@@ -68,7 +83,8 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             case DOCUMENTO: {
                 Documentos documento = (Documentos) list.get(position);
                 DocumentosViewHolder documentosViewHolder = (DocumentosViewHolder) viewHolder;
-                documentosViewHolder.lblPerfil.setText(documento.getPerfil());
+                obtenerNombre(documento.getPerfil(), documentosViewHolder);
+               // documentosViewHolder.lblPerfil.setText(documento.getPerfil());
                 documentosViewHolder.lblDescripcion.setText(documento.getDescripcion());
                 if(idUsuarioVidDocFav!=null){
                     for (int j = 0; j < idUsuarioVidDocFav.length; j++) {
@@ -86,7 +102,8 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             case VIDEO:{
                 Videos video=(Videos)list.get(position);
                 VideosViewHolder videosViewHolder=(VideosViewHolder) viewHolder;
-                videosViewHolder.lblPerfil.setText(video.getPerfil());
+                //videosViewHolder.lblPerfil.setText(video.getPerfil());
+                obtenerNombreVideo(video.getPerfil(), videosViewHolder);
                 videosViewHolder.lblDescripcion.setText(video.getDescripcion());
                 String uri = video.getRutaImagen();
                 int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
@@ -108,7 +125,8 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             default:
                 Videos video=(Videos)list.get(position);
                 VideosViewHolder videosViewHolder=(VideosViewHolder) viewHolder;
-                videosViewHolder.lblPerfil.setText(video.getPerfil());
+                //videosViewHolder.lblPerfil.setText(video.getPerfil());
+                obtenerNombreVideo(video.getPerfil(), videosViewHolder);
                 videosViewHolder.lblDescripcion.setText(video.getDescripcion());
                 String uri = video.getRutaImagen();
                 int imageResource = context.getResources().getIdentifier(uri,null,context.getPackageName());
@@ -126,6 +144,70 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 }
         }
+    }
+
+    private void obtenerNombreVideo(String perfil, final VideosViewHolder videosViewHolder) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/obtenerNombre.php?" +
+                "idUsuario="+perfil;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                JSONArray json;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+
+                try {
+                    jsonObject = json.getJSONObject(0);
+                    nombre = jsonObject.getString("nombre");
+                    videosViewHolder.lblPerfil.setText(nombre);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+
+    }
+
+    private void obtenerNombre(String idUsuario, final DocumentosViewHolder documentosViewHolder) {
+        String url;
+        url = "https://readandwatch.herokuapp.com/php/obtenerNombre.php?" +
+                "idUsuario="+idUsuario;
+        url=url.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                JSONArray json;
+                JSONObject jsonObject=null;
+                json = response.optJSONArray("usuario");
+
+                try {
+                    jsonObject = json.getJSONObject(0);
+                    nombre = jsonObject.getString("nombre");
+                    documentosViewHolder.lblPerfil.setText(nombre);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        request.add(jsonObjectRequest);
+
     }
 
     @Override
@@ -162,7 +244,7 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 break;
                 case R.id.lblPerfil:
-
+                    onFavoritosListener.perfilClickVid(getAdapterPosition(),list);
                     break;
                 case R.id.btnFavorito:
                     onFavoritosListener.agregarFavoritosVid(getAdapterPosition(), list);
@@ -195,7 +277,7 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                     break;
                 case R.id.lblPerfil:
-
+                    onFavoritosListener.perfilClick(getAdapterPosition(),list);
                     break;
                 case R.id.btnFavorito:
                     onFavoritosListener.agregarFavoritosDoc(getAdapterPosition(), list);
@@ -211,5 +293,9 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void onFavoritoClick(int position, List<Item> lista, Toast toast);
         void agregarFavoritosVid(int position, List<Item> list);
         void agregarFavoritosDoc(int position, List<Item> list);
+
+        void perfilClick(int adapterPosition, List<Item> list);
+
+        void perfilClickVid(int adapterPosition, List<Item> list);
     }
 }

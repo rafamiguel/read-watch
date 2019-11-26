@@ -283,6 +283,16 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
         verificarExistencia(idUsuario, idVidDoc);
     }
 
+    @Override
+    public void perfilClick(int position, List<Item> list) {
+        ((iComunicacionFragments)interfaceFragments).onClickVidPerfil(((Documentos)list.get(position)).getIdUsuario());
+    }
+
+    @Override
+    public void perfilClickVid(int adapterPosition, List<Item> list) {
+        ((iComunicacionFragments)interfaceFragments).onClickVidPerfil(((Videos)list.get(adapterPosition)).getIdUsuario());
+    }
+
     private void verificarExistencia(final int idUsuario, final int idVidDoc) {
         String url;
         url = "https://readandwatch.herokuapp.com/php/existenciaFavorito.php?" +
