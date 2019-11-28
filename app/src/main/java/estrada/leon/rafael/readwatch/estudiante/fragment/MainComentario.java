@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -61,7 +62,6 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
         Response.ErrorListener, AdapterComentario.OnComentariosListener,
         DialogModificarEliminar.IOpcionesComentario, DialogModificarEliminar.IOpcionesVidDoc,
         leerDocumentos.OnFragmentInteractionListener{
-    Button btnComentario;
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
     RecyclerView recycler;
@@ -86,13 +86,17 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
             public void onClick(View v) {
                 if(idVidDoc!=0) {
                     soloUnComentario(txtNuevoComentario.getText().toString());
-                    //insertarComentario(txtNuevoComentario.getText().toString());
                     request = Volley.newRequestQueue(getApplicationContext());
-                    cargarComentariosVidDoc();
                 }else {
                     insertarComentarioPreg(txtNuevoComentario.getText().toString());
                     request = Volley.newRequestQueue(getApplicationContext());
-                    cargarComentariosPreg();
+                }
+                txtNuevoComentario.setText("");
+                txtNuevoComentario.clearFocus();
+                View view = getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
             }
         });
@@ -145,6 +149,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        buscarComentariosUsuario();
                         Toast.makeText(MainComentario.this, "Comentario ingresado correctamente",
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -163,6 +168,8 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                     public void onResponse(JSONObject response) {
                         Toast.makeText(MainComentario.this, "Comentario ingresado correctamente",
                                 Toast.LENGTH_SHORT).show();
+                        buscarComentariosUsuario();
+
                     }
                 }, this);
         request.add(jsonObjectRequest);
@@ -794,8 +801,6 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
     @Override
     public void resubirCom(int idComentario) {
         cargarAlertDialog(idComentario);
-
-
     }
 
     private void cargarAlertDialog(int idComentario) {
@@ -828,6 +833,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                             public void onResponse(JSONObject response) {
                                 progreso.hide();
                                 Toast.makeText(MainComentario.this, "Comentario modificado con éxito", Toast.LENGTH_SHORT).show();
+                                buscarComentariosUsuario();
                             }
                         }, new Response.ErrorListener() {
                             @Override
@@ -869,6 +875,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
             @Override
             public void onResponse(JSONObject response) {
                 Toast.makeText(MainComentario.this, "Comentario eliminado con éxito", Toast.LENGTH_SHORT).show();
+                buscarComentariosUsuario();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -917,6 +924,7 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
                     Toast.makeText(MainComentario.this, "Video eliminado con éxito", Toast.LENGTH_SHORT).show();
                 }
                 else { Toast.makeText(MainComentario.this, "Documento eliminado con éxito", Toast.LENGTH_SHORT).show();}
+                buscarComentariosUsuario();
             }
         }, new Response.ErrorListener() {
             @Override

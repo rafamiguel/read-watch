@@ -3,6 +3,7 @@ package estrada.leon.rafael.readwatch.estudiante.dialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirDocumento;
+import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirVideo;
 import estrada.leon.rafael.readwatch.estudiante.fragment.MainComentario;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
@@ -47,21 +49,30 @@ public class DialogModificarEliminar extends AppCompatDialogFragment {
                     SharedPreferences preferences = getContext().getSharedPreferences("VidDocSeleccionado", Context.MODE_PRIVATE);
                     int idVidDoc = preferences.getInt("idVidDoc",0);
                     listenerVidDoc.eliminarVidDoc(idVidDoc, 1);
+                    Fragment fragment =new ElegirVideo();
+                    if(contexto instanceof MenuEstudiante) {
+                        ((MenuEstudiante) contexto).getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal, fragment).commit();
+                    }
                 }
                 if(opcion==2){
                     SharedPreferences preferences = getContext().getSharedPreferences("VidDocSeleccionado", Context.MODE_PRIVATE);
                     int idVidDoc = preferences.getInt("idVidDoc",0);
                     listenerVidDoc.eliminarVidDoc(idVidDoc, 2);
+                    Fragment fragment =new ElegirDocumento();
+                    if(contexto instanceof MenuEstudiante) {
+                        ((MenuEstudiante) contexto).getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal, fragment).commit();
+                    }
                 }
                 if(opcion==3) {
                     SharedPreferences preferences = getContext().getSharedPreferences("comentarioSeleccionado", Context.MODE_PRIVATE);
                     int idComentario = preferences.getInt("idComentario", 0);
                     listenerComentario.eliminarCom(idComentario);
+//                    if(contexto instanceof MainComentario) {
+//                        Intent entrar = new Intent(contexto, MainComentario.class);
+//                        contexto.startActivity(entrar);
+//                    }
                 }
-                Fragment fragment =new ElegirDocumento();
-                if(contexto instanceof MenuEstudiante) {
-                    ((MenuEstudiante) contexto).getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal, fragment).commit();
-                }
+
                 dismiss();
             }
         });
@@ -70,16 +81,20 @@ public class DialogModificarEliminar extends AppCompatDialogFragment {
             public void onClick(View v) {
                 if(opcion==1) {
                     listenerVidDoc.resubirVideo();
+                    Fragment fragment =new ElegirVideo();
+                    if(contexto instanceof MenuEstudiante) {
+                        ((MenuEstudiante) contexto).getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal, fragment).commit();
+                    }
                 }else if(opcion==2){
                     listenerVidDoc.resubirDoc();
+                    Fragment fragment =new ElegirDocumento();
+                    if(contexto instanceof MenuEstudiante) {
+                        ((MenuEstudiante) contexto).getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal, fragment).commit();
+                    }
                 }else if(opcion==3){
                     SharedPreferences preferences = getContext().getSharedPreferences("comentarioSeleccionado", Context.MODE_PRIVATE);
                     int idComentario = preferences.getInt("idComentario", 0);
                     listenerComentario.resubirCom(idComentario);
-                }
-                Fragment fragment =new ElegirDocumento();
-                if(contexto instanceof MenuEstudiante) {
-                    ((MenuEstudiante) contexto).getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal, fragment).addToBackStack(null).commit();
                 }
                 dismiss();
             }
