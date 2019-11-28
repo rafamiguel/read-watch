@@ -452,7 +452,14 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
                         Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                         pdfiumCore.renderPageBitmap(pdfDocument, bmp, pageNumber, 0, 0, width, height);
                         pdfiumCore.closeDocument(pdfDocument); // important!
-                        documentos.get(contador).setImagen(bmp);
+                        int index = pdf.getName().lastIndexOf('/');
+                        String fileName = pdf.getName().substring(index+1,pdf.getName().length()-4);
+                        for(int j=0;j<documentos.size();j++){
+                            if(Integer.toString(documentos.get(j).getIdVidDoc()).equals(fileName)){
+                                documentos.get(j).setImagen(bmp);
+                                break;
+                            }
+                        }
                         contador++;
                         if(contador==documentos.size()){
                             progreso.hide();

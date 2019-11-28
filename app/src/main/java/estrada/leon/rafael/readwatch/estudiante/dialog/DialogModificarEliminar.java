@@ -79,7 +79,7 @@ public class DialogModificarEliminar extends AppCompatDialogFragment {
                 }
                 Fragment fragment =new ElegirDocumento();
                 if(contexto instanceof MenuEstudiante) {
-                    ((MenuEstudiante) contexto).getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal, fragment).commit();
+                    ((MenuEstudiante) contexto).getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal, fragment).addToBackStack(null).commit();
                 }
                 dismiss();
             }

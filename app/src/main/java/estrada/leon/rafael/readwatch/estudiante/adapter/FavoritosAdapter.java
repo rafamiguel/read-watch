@@ -83,6 +83,7 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             case DOCUMENTO: {
                 Documentos documento = (Documentos) list.get(position);
                 DocumentosViewHolder documentosViewHolder = (DocumentosViewHolder) viewHolder;
+                documentosViewHolder.btnDocumento.setImageBitmap(documento.getImagen());
                 obtenerNombre(documento.getPerfil(), documentosViewHolder);
                // documentosViewHolder.lblPerfil.setText(documento.getPerfil());
                 documentosViewHolder.lblDescripcion.setText(documento.getDescripcion());
@@ -241,7 +242,6 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             switch (v.getId()){
                 case R.id.btnMiniatura:
-
                 break;
                 case R.id.lblPerfil:
                     onFavoritosListener.perfilClickVid(getAdapterPosition(),list);
@@ -274,7 +274,7 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.btnDocumento:
-
+                    onFavoritosListener.leerDocumento(((Documentos)list.get(getAdapterPosition())).getIdVidDoc());
                     break;
                 case R.id.lblPerfil:
                     onFavoritosListener.perfilClick(getAdapterPosition(),list);
@@ -297,5 +297,7 @@ public class FavoritosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void perfilClick(int adapterPosition, List<Item> list);
 
         void perfilClickVid(int adapterPosition, List<Item> list);
+
+        void leerDocumento(int id);
     }
 }

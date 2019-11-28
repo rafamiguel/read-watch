@@ -1105,6 +1105,9 @@ public class  MenuEstudiante extends AppCompatActivity
                     @Override
                     public void run() {
                         Toast.makeText(contexto, "Se subio correctamente el archivo", Toast.LENGTH_SHORT).show();
+                        fragment =new ElegirDocumento();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
+                        titulo.setText("Documentos");
                     }
                 });
             }
