@@ -62,7 +62,7 @@ public class MainVideos extends AppCompatActivity {
 
                             if (String.valueOf(ruta.charAt(a)).equals("=")) {
                                 ruta = ruta.substring(a+1);
-                                youtubeVideos.add(new YouTubeVideos("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + ruta + "\" frameborder=\"0\" allowfullscreen></iframe>"));
+                                youtubeVideos.add(new YouTubeVideos("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + ruta + "\" frameborder=\"0\" allowFullScreen></iframe>"));
                                 break;
                             }
                         }
