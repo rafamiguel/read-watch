@@ -6,6 +6,7 @@ import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
@@ -327,7 +328,7 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public class VideosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView lblDescripcion,lblPerfil;
-        Button btnAdvertencia,btnFavorito,btnOpcion;
+        Button btnAdvertencia,btnFavorito,btnOpcion,btnAuxiliar;
         WebView btnMiniatura;
         EditText txtComentario;
         private VideosViewHolder(@NonNull View itemView) {
@@ -336,6 +337,7 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
             lblPerfil=itemView.findViewById(R.id.lblPerfil);
             btnMiniatura=itemView.findViewById(R.id.btnMiniatura);
             btnMiniatura.getSettings().setJavaScriptEnabled(true);
+
             btnMiniatura.setWebChromeClient(new WebChromeClient() {
 
             } );
@@ -350,7 +352,8 @@ public class AdapterComentario extends RecyclerView.Adapter<RecyclerView.ViewHol
             lblDescripcion.setOnClickListener(this);
             lblPerfil.setOnClickListener(this);
             btnOpcion.setOnClickListener(this);
-            btnMiniatura.setOnClickListener(this);
+            btnAuxiliar= itemView.findViewById(R.id.btnAuxiliar);
+            btnAuxiliar.setVisibility(View.GONE);
         }
 
         @Override
