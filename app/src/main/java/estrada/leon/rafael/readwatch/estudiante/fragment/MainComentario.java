@@ -1,49 +1,69 @@
 package estrada.leon.rafael.readwatch.estudiante.fragment;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.krishna.fileloader.FileLoader;
 import com.krishna.fileloader.listener.FileRequestListener;
 import com.krishna.fileloader.pojo.FileResponse;
 import com.krishna.fileloader.request.FileLoadRequest;
+import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import com.shockwave.pdfium.PdfDocument;
 import com.shockwave.pdfium.PdfiumCore;
+import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.adapter.AdapterComentario;
@@ -51,12 +71,17 @@ import estrada.leon.rafael.readwatch.estudiante.dialog.DialogModificarEliminar;
 import estrada.leon.rafael.readwatch.estudiante.dialog.DialogSubirVideo;
 import estrada.leon.rafael.readwatch.estudiante.dialog.Dialog_Subir_documento;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.Item;
+import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Comentarios;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Documentos;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Reportes;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
 import estrada.leon.rafael.readwatch.general.fragments.leerDocumentos;
 import estrada.leon.rafael.readwatch.general.pojo.Sesion;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 public class MainComentario extends AppCompatActivity implements  Response.Listener<JSONObject>,
         Response.ErrorListener, AdapterComentario.OnComentariosListener,
@@ -73,10 +98,16 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
     private int []idComentarioUsuario;
     private int []idVideoEnComentarioUsuario;
     Documentos documento;
+    public Thread hilo;
+    public String nombreArchivo;
+    public static AppCompatActivity menuEstudiante;
+    Handler handler;
+    Intent data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        handler = new Handler(Looper.getMainLooper());
         setContentView(R.layout.vista_comentarios);
         recycler = findViewById(R.id.recyclerId);
         Button btnOk=findViewById(R.id.btnOk);
@@ -898,7 +929,8 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
     @Override
     public void resubirDoc() {
         Dialog_Subir_documento nuevo = new Dialog_Subir_documento();
-        nuevo.setModo(DialogSubirVideo.RESUBIR);
+        nuevo.setModo(Dialog_Subir_documento.RESUBIR);
+        nuevo.setActividad(this);
         nuevo.show(getSupportFragmentManager(), "ejemplo");
     }
 
@@ -936,6 +968,129 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
         progreso.hide();
 
     }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode==999){
+            if(grantResults.length>0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent.createChooser(intent, "Seleccione la aplicación"),999);
+            }else{
+                Toast.makeText(MainComentario.this, "No tienes permisos", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 10 && resultCode == RESULT_OK && data != null) {
+            this.data = data;
+            File f;
+            String nombre="";
+            String path = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+
+            String currentFileName = path.substring(path.lastIndexOf("/"));
+            currentFileName = currentFileName.substring(1);
+            String nombreSinEspacios = currentFileName.replace(" ", "");
+            nombreSinEspacios = nombreSinEspacios.replace("á","a");
+            nombreSinEspacios = nombreSinEspacios.replace("é","e");
+            nombreSinEspacios = nombreSinEspacios.replace("í","i");
+            nombreSinEspacios = nombreSinEspacios.replace("ó","o");
+            nombreSinEspacios = nombreSinEspacios.replace("ú","u");
+            nombreSinEspacios = nombreSinEspacios.replace("-","");
+            Dialog_Subir_documento.lblElegirDocumento.setText(nombreSinEspacios);
+            hilo = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    subirArchivo();
+                }
+            });
+        }
+    }
+
+    private void subirArchivo(){
+        File f;
+        String nombre="";
+        String path = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+
+        String currentFileName = path.substring(path.lastIndexOf("/"));
+        currentFileName = currentFileName.substring(1);
+        String nombreSinEspacios = currentFileName.replace(" ", "");
+        nombreSinEspacios = nombreSinEspacios.replace("á","a");
+        nombreSinEspacios = nombreSinEspacios.replace("é","e");
+        nombreSinEspacios = nombreSinEspacios.replace("í","i");
+        nombreSinEspacios = nombreSinEspacios.replace("ó","o");
+        nombreSinEspacios = nombreSinEspacios.replace("ú","u");
+        nombreSinEspacios = nombreSinEspacios.replace("-","");
+        String rutaSinArchivo = path.substring(0, path.lastIndexOf("/"));
+
+        File from      = new File(rutaSinArchivo, currentFileName);
+        File to        = new File(rutaSinArchivo, nombreSinEspacios);
+        from.renameTo(to);
+        f= to;
+        if(nombreArchivo!=null) {
+            nombre = nombreArchivo + ".pdf";
+        }
+        String content_type  = getMimeType(f.getPath());
+
+        String file_path = f.getAbsolutePath();
+        OkHttpClient client = new OkHttpClient();
+        RequestBody file_body = RequestBody.create(MediaType.parse(content_type),f);
+
+        RequestBody request_body = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("type",content_type)
+                .addFormDataPart("uploaded_file",file_path.substring(file_path.lastIndexOf("/")+1), file_body)
+                .addFormDataPart("nombre",nombre)
+                .build();
+        okhttp3.Request request = new okhttp3.Request.Builder().url(getString(R.string.ip_server_archivos_php) + "guardarArchivos.php").post(request_body).build();
+        try {
+            okhttp3.Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(contexto, "Error de peticion al servidor.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }else{
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(contexto, "Se subio correctamente el archivo", Toast.LENGTH_SHORT).show();
+                        buscarComentariosUsuario();
+                    }
+                });
+            }
+        } catch (IOException e) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(contexto, "Error de peticion.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }catch (final Exception e){
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(contexto, "Error al subir el archivo\n"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+
+    private String getMimeType(String path) {
+        String extension = MimeTypeMap.getFileExtensionFromUrl(path);
+        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+    }
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {

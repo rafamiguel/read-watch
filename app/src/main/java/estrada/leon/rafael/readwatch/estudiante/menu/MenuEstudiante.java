@@ -117,7 +117,7 @@ public class  MenuEstudiante extends AppCompatActivity
         DialogModificarEliminar.IOpcionesVidDoc, SubtemasPropuestos.OnFragmentInteractionListener,
         leerDocumentos.OnFragmentInteractionListener, DialogElegirTema.OnElegirTema,
         DialogElegirSubtema.OnElegirSubtema{
-    Fragment fragment;
+    public Fragment fragment;
     TextView titulo , title;
     RequestQueue request;
     Button btnEditarFoto;
@@ -310,11 +310,9 @@ public class  MenuEstudiante extends AppCompatActivity
     @Override
     public void seleccionarVideo(int idTema, int idUsuario) {
         fragment =new ElegirVideo();
-        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
         titulo.setText("Videos");
-
         guardarPreferenciasTema(idTema);
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
     }
 
     private void guardarPreferenciasTema(int tema) {
@@ -842,6 +840,7 @@ public class  MenuEstudiante extends AppCompatActivity
 
     @Override
     public void onClickComentario(int idUsuario, int idVidDoc, int idPregunta) {
+        MainComentario.menuEstudiante = this;
         Intent entrar = new Intent(this, MainComentario.class);
         entrar.putExtra("idVidDoc",idVidDoc);
         entrar.putExtra("idUsuario",idUsuario);
@@ -1105,9 +1104,9 @@ public class  MenuEstudiante extends AppCompatActivity
                     @Override
                     public void run() {
                         Toast.makeText(contexto, "Se subio correctamente el archivo", Toast.LENGTH_SHORT).show();
-                        fragment =new ElegirDocumento();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
-                        titulo.setText("Documentos");
+                        if(fragment!=null) {
+                            getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal, fragment).addToBackStack(null).commit();
+                        }
                     }
                 });
             }

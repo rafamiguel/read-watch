@@ -33,6 +33,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.estudiante.adapter.TemaLibreAdapter;
+import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
 import estrada.leon.rafael.readwatch.estudiante.pojo.TemaLibre;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
@@ -51,6 +52,7 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
     RequestQueue request;
     List<TemaLibre> preguntas;
     TemaLibreAdapter temaLibreAdapter;
+    Context contexto;
 
     private OnFragmentInteractionListener mListener;
 
@@ -86,6 +88,7 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        contexto = context;
         if (context instanceof Activity) {
             actividad= (Activity) context;
             interfaceFragments=(iComunicacionFragments)actividad;
@@ -121,6 +124,7 @@ public class PreguntasTemaLibre extends Fragment implements TemaLibreAdapter.OnT
 
     @Override
     public void onClickSubirDoc(int position,  List<TemaLibre> temaLibreList) {
+        ((MenuEstudiante)contexto).fragment = this;
         interfaceFragments.onClickSubirDocPreg(temaLibreList.get(position).getId());
     }
 

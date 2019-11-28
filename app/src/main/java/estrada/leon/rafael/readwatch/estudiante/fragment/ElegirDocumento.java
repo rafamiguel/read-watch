@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.estudiante.adapter.DocumentosAdapter;
+import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Documentos;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
@@ -338,6 +339,7 @@ public class ElegirDocumento extends Fragment implements DocumentosAdapter.OnDoc
                 interfaceFragments.vistaVideosDoc(false,idUsuario);
                 break;
             case R.id.btnSubirDocumento:
+                ((MenuEstudiante)contexto).fragment = this;
                 interfaceFragments.onClickSubirDoc();
                 break;
 

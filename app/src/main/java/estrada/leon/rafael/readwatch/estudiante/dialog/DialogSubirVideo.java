@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,7 +36,9 @@ import java.util.List;
 import java.util.Locale;
 
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.estudiante.fragment.ElegirVideo;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
+import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
 import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
 public class DialogSubirVideo  extends AppCompatDialogFragment implements
@@ -47,6 +50,7 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
     EditText txtDescripcion,txtLink;
     Spinner spinner_tema,spinner_materia, spinner_subtema;
     Context contexto;
+
     public static final int PREGUNTAR=1,RESUBIR=2, MATERIA=3;
     int modo;
     Boolean spinner = true;
@@ -373,9 +377,12 @@ public class DialogSubirVideo  extends AppCompatDialogFragment implements
                 null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
                 progreso.hide();
                 Toast.makeText(contexto,"Video insertado con éxito",Toast.LENGTH_SHORT).show();
+                if(contexto instanceof  MenuEstudiante) {
+                    ((ElegirVideo) ((MenuEstudiante) contexto).fragment).buscarVideosFav();
+                    ((ElegirVideo) ((MenuEstudiante) contexto).fragment).buscarVideos();
+                }
             }
         }, new Response.ErrorListener() {
             @Override

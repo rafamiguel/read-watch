@@ -15,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import estrada.leon.rafael.readwatch.estudiante.adapter.VideosAdapter;
+import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Comentarios;
 import estrada.leon.rafael.readwatch.estudiante.pojo.Videos;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
@@ -73,9 +75,6 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
     public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
         Button btnVideo,btnDocumento,btnSubirVideo;
-        videos=new ArrayList<>();
-
-
         vista=inflater.inflate(R.layout.fragment_elegir_video, container, false);
         recyclerVideos=vista.findViewById(R.id.recyclerVideos);
         btnVideo=vista.findViewById(R.id.btnVideo);
@@ -101,7 +100,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof Activity) {
-            actividad= (Activity) context;
+            actividad =  (MenuEstudiante)context;
             interfaceFragments=(iComunicacionFragments)actividad;
         }
         if (context instanceof OnFragmentInteractionListener) {
@@ -270,13 +269,14 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
                 interfaceFragments.vistaVideosDoc(false,idUsuario);
                 break;
             case R.id.btnSubirVideo:
+                ((MenuEstudiante)actividad).fragment = this;
                 interfaceFragments.onClickSubirVid();
-
                 break;
         }
     }
 
-    private void buscarVideosFav() {
+    public void buscarVideosFav() {
+        videos=new ArrayList<>();
         SharedPreferences preferences = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preferences.getInt("idUsuario", 0);
         String url = "https://readandwatch.herokuapp.com/php/buscarVideoFav.php?" +
@@ -314,7 +314,7 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
         request.add(jsonObjectRequest);
     }
 
-    private void buscarVideos(){
+    public void buscarVideos(){
         SharedPreferences preference = getContext().getSharedPreferences("Datos usuario", Context.MODE_PRIVATE);
         int idUsuario = preference.getInt("idUsuario", 0);
 

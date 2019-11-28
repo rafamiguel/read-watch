@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -44,6 +45,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import estrada.leon.rafael.readwatch.R;
+import estrada.leon.rafael.readwatch.estudiante.fragment.MainComentario;
 import estrada.leon.rafael.readwatch.estudiante.menu.MenuEstudiante;
 import estrada.leon.rafael.readwatch.general.pojo.Sesion;
 
@@ -63,14 +65,14 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
     int idVidDocAInsertar=0;
     SharedPreferences preferences;
 
-    MenuEstudiante actividad;
+    Activity actividad;
     ProgressDialog dialog = null;
 
     public void setModo(int modo){
         this.modo = modo;
     }
 
-    public void setActividad(MenuEstudiante actividad) {
+    public void setActividad(Activity actividad) {
         this.actividad = actividad;
     }
 
@@ -80,6 +82,8 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
         contexto = context;
         if(context instanceof  MenuEstudiante){
             actividad = (MenuEstudiante)context;
+        }else if(context instanceof MainComentario){
+            actividad = (MainComentario)context;
         }
     }
 
@@ -100,7 +104,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
         lblElegirDocumento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new MaterialFilePicker().withActivity(getActivity()).withRequestCode(10).start();
+                new MaterialFilePicker().withActivity(actividad).withRequestCode(10).start();
             }
         });
 
@@ -138,7 +142,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
             }
         });
 
-        request= Volley.newRequestQueue(getContext());
+        request= Volley.newRequestQueue(actividad);
         cargarListaMateriasWebService();
         if(modo==MATERIA) {
             builder.setView(view)
@@ -162,7 +166,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
             lblElegirDocumento.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new MaterialFilePicker().withActivity(getActivity()).withRequestCode(10).start();
+                    new MaterialFilePicker().withActivity(actividad).withRequestCode(10).start();
                 }
             });
         }
@@ -183,6 +187,13 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
 
                         }
                     });
+            lblElegirDocumento = view.findViewById(R.id.lblElegirDocumento);
+            lblElegirDocumento.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new MaterialFilePicker().withActivity(actividad).withRequestCode(10).start();
+                }
+            });
         }else{
             builder.setView(view)
                     .setTitle("Subir Documento")
@@ -208,7 +219,7 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
                     });
         }
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.checkSelfPermission(actividad, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
             }
         }
@@ -451,8 +462,13 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
                     }
 
                     idVidDocAInsertar = idDoc;
-                    actividad.nombreArchivo = Integer.toString(idVidDocAInsertar);
-                    actividad.hilo.start();
+                    if(actividad instanceof MenuEstudiante){
+                        ((MenuEstudiante)actividad).nombreArchivo = Integer.toString(idVidDocAInsertar);
+                        ((MenuEstudiante)actividad).hilo.start();
+                    }else if(actividad instanceof MainComentario){
+                        ((MainComentario)actividad).nombreArchivo = Integer.toString(idVidDocAInsertar);
+                        ((MainComentario)actividad).hilo.start();
+                    }
                     dialog.dismiss();
                     progreso.hide();
                 }
@@ -498,8 +514,13 @@ public class Dialog_Subir_documento extends AppCompatDialogFragment implements
                 e.printStackTrace();
             }
         }
-        actividad.nombreArchivo = Integer.toString(idVidDocAInsertar);
-        actividad.hilo.start();
+        if(actividad instanceof MenuEstudiante) {
+            ((MenuEstudiante) actividad).nombreArchivo = Integer.toString(idVidDocAInsertar);
+            ((MenuEstudiante) actividad).hilo.start();
+        }else if(actividad instanceof MainComentario) {
+            ((MainComentario) actividad).nombreArchivo = Integer.toString(idVidDocAInsertar);
+            ((MainComentario) actividad).hilo.start();
+        }
         dialog.dismiss();
         progreso.hide();
     }

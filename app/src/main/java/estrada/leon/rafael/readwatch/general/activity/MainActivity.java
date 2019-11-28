@@ -92,8 +92,6 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                entrar = new Intent(MainActivity.this, MainVideos.class);
-                startActivity(entrar);
             }
         });
 
