@@ -159,6 +159,16 @@ public class ElegirVideo extends Fragment implements View.OnClickListener,
 
     }
 
+    @Override
+    public void verVideo(String url) {
+
+        Bundle bundle = new Bundle();
+        bundle.putString("url",url);
+
+        Fragment fragment =new vistaVideo();
+        fragment.setArguments(bundle);
+        ((MenuEstudiante)actividad).getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
+    }
 
 
     private void verificarExistencia(final int idUsuario, final int idVidDoc) {

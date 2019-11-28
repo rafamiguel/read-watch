@@ -74,6 +74,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
         </WebView>
+        
+        <Button
+            android:id="@+id/btnAuxiliar"
+            android:layout_width="138dp"
+            android:layout_height="82dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </Button>
 
         <TextView
             android:id="@+id/lblPerfil"

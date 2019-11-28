@@ -90,6 +90,7 @@ import estrada.leon.rafael.readwatch.estudiante.fragment.PreguntasTemaLibre;
 import estrada.leon.rafael.readwatch.estudiante.fragment.SubtemasPropuestos;
 import estrada.leon.rafael.readwatch.estudiante.fragment.TemasPropuestos;
 import estrada.leon.rafael.readwatch.estudiante.fragment.lista_materias;
+import estrada.leon.rafael.readwatch.estudiante.fragment.vistaVideo;
 import estrada.leon.rafael.readwatch.estudiante.interfaces.iComunicacionFragments;
 import estrada.leon.rafael.readwatch.R;
 import estrada.leon.rafael.readwatch.estudiante.fragment.SeleccionarSemestre;
@@ -116,7 +117,7 @@ public class  MenuEstudiante extends AppCompatActivity
         ModificarEstudiante.OnFragmentInteractionListener,
         DialogModificarEliminar.IOpcionesVidDoc, SubtemasPropuestos.OnFragmentInteractionListener,
         leerDocumentos.OnFragmentInteractionListener, DialogElegirTema.OnElegirTema,
-        DialogElegirSubtema.OnElegirSubtema{
+        DialogElegirSubtema.OnElegirSubtema, vistaVideo.OnFragmentInteractionListener{
     public Fragment fragment;
     TextView titulo , title;
     RequestQueue request;
