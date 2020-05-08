@@ -173,6 +173,14 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
 
     private void insertarComentario(String texto){
         String url;
+        texto=texto.replace("%", "%25");
+        texto=texto.replace(" ", "%20");
+        texto=texto.replace("+", "%2B");
+        texto=texto.replace("<", "%3C");
+        texto=texto.replace(">", "%3E");
+        texto=texto.replace("#", "%23");
+        texto=texto.replace("\\", "%5C");
+        texto=texto.replace("&", "%26");
         url = "https://readandwatch.herokuapp.com/php/insertarComentario.php?" +
                 "idUsuario="+idUsuario+"&idVidDoc="+idVidDoc+"&texto="+texto;
         url=url.replace(" ", "%20");
@@ -190,6 +198,14 @@ public class MainComentario extends AppCompatActivity implements  Response.Liste
 
     private void insertarComentarioPreg(String texto){
         String url;
+        texto=texto.replace("%", "%25");
+        texto=texto.replace(" ", "%20");
+        texto=texto.replace("+", "%2B");
+        texto=texto.replace("<", "%3C");
+        texto=texto.replace(">", "%3E");
+        texto=texto.replace("#", "%23");
+        texto=texto.replace("\\", "%5C");
+        texto=texto.replace("&", "%26");
         url = "https://readandwatch.herokuapp.com/php/insertarComentarioPreg.php?" +
                 "idUsuario="+idUsuario+"&idPregunta="+idPregunta+"&texto="+texto;
         url=url.replace(" ", "%20");

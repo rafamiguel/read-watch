@@ -70,6 +70,22 @@ public class DialogHacerPregunta extends AppCompatDialogFragment implements
         Calendar c = Calendar.getInstance();
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String datetime = dateformat.format(c.getTime());
+        titulo=titulo.replace("%", "%25");
+        titulo=titulo.replace(" ", "%20");
+        titulo=titulo.replace("+", "%2B");
+        titulo=titulo.replace("<", "%3C");
+        titulo=titulo.replace(">", "%3E");
+        titulo=titulo.replace("#", "%23");
+        titulo=titulo.replace("\\", "%5C");
+        titulo=titulo.replace("&", "%26");
+        descripcion=descripcion.replace("%", "%25");
+        descripcion=descripcion.replace(" ", "%20");
+        descripcion=descripcion.replace("+", "%2B");
+        descripcion=descripcion.replace("<", "%3C");
+        descripcion=descripcion.replace(">", "%3E");
+        descripcion=descripcion.replace("#", "%23");
+        descripcion=descripcion.replace("\\", "%5C");
+        descripcion=descripcion.replace("&", "%26");
         url = "https://readandwatch.herokuapp.com/php/insertarPregunta.php?" +
                 "idPregunta="+null+"&titulo="+titulo+"&descripcion="+descripcion+"&idUsuario="+idUsuario+"&fechaSubida="+datetime;
         url=url.replace(" ", "%20");
