@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         editor.putString("tipo", tipo);
         editor.putString("estado", estado);
 
-        Toast.makeText(getApplicationContext(), "idUsuario:"+idUsuario+" correo: "+correo+" contra:"+contrasena+" nombre: "+nombre+" tipo: "+tipo, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "idUsuario:"+idUsuario+" correo: "+correo+" contra:"+contrasena+" nombre: "+nombre+" tipo: "+tipo, Toast.LENGTH_SHORT).show();
         editor.commit();
 
         SharedPreferences preference = getSharedPreferences("Dato perfil", Context.MODE_PRIVATE);

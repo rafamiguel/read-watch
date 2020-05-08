@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.kk121:File-Loader:1.2@aar">
     <ANNOTATIONS>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ca6ecfa33c7e20f529a505d665c61a26/File-Loader-1.2/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ead7cad07a69a5491e3658ae5f8e9467/File-Loader-1.2/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ca6ecfa33c7e20f529a505d665c61a26/File-Loader-1.2/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ca6ecfa33c7e20f529a505d665c61a26/File-Loader-1.2/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ead7cad07a69a5491e3658ae5f8e9467/File-Loader-1.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ead7cad07a69a5491e3658ae5f8e9467/File-Loader-1.2/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

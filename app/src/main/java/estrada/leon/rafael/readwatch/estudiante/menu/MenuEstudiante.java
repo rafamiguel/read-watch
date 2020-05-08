@@ -181,12 +181,14 @@ public class  MenuEstudiante extends AppCompatActivity
                             Map<String, Object> actualizacion = new HashMap<>();
                             actualizacion.put("fecha", fechaVotacion);
                             actualizacionFecha.setValue(actualizacion);
+                            ActualizarVotaciones actualizarVotaciones = new ActualizarVotaciones(MenuEstudiante.this);
                         }
                     } catch (Exception e) {
                         Toast.makeText(MenuEstudiante.this,"Algo salió mal\n"+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
-                ActualizarVotaciones actualizarVotaciones = new ActualizarVotaciones(MenuEstudiante.this);
+                Fragment fragment =new ElegirMateria();
+                getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).commit();
             }
 
             @Override
@@ -287,7 +289,7 @@ public class  MenuEstudiante extends AppCompatActivity
         SharedPreferences preferences = getSharedPreferences("Materia", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("materia", materia);
-        Toast.makeText(this, "La materia es : "+materia, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "La materia es : "+materia, Toast.LENGTH_SHORT).show();
         editor.commit();
     }
 
@@ -304,7 +306,7 @@ public class  MenuEstudiante extends AppCompatActivity
         SharedPreferences preferences = getSharedPreferences("Semestre", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("semestre", semestre);
-        Toast.makeText(this, "El semestre es: "+semestre, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "El semestre es: "+semestre, Toast.LENGTH_SHORT).show();
         editor.commit();
     }
 
@@ -320,13 +322,13 @@ public class  MenuEstudiante extends AppCompatActivity
         SharedPreferences preferences = getSharedPreferences("Tema", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("tema", tema);
-          Toast.makeText(this, "El tema elegido es: "+tema, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "El tema elegido es: "+tema, Toast.LENGTH_SHORT).show();
         editor.commit();
     }
 
     @Override
     public void onClickDocumentosHolder(Toast toast) {
-        toast.show();
+        //toast.show();
     }
 
     @Override
@@ -422,7 +424,7 @@ public class  MenuEstudiante extends AppCompatActivity
         preferences = getSharedPreferences("Perfil Estudiante", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("perfilEstudiante", idUsuario);
-        Toast.makeText(this, "El id del perfil es: "+idUsuario, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "El id del perfil es: "+idUsuario, Toast.LENGTH_SHORT).show();
         editor.commit();
 
         SharedPreferences preference = getSharedPreferences("Dato perfil", Context.MODE_PRIVATE);
@@ -446,7 +448,7 @@ public class  MenuEstudiante extends AppCompatActivity
         preferences = getSharedPreferences("Perfil Estudiante", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("perfilEstudiante", idUsuario);
-        Toast.makeText(this, "El id del perfil es: "+idUsuario, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "El id del perfil es: "+idUsuario, Toast.LENGTH_SHORT).show();
         editor.commit();
 
         SharedPreferences preference = getSharedPreferences("Dato perfil", Context.MODE_PRIVATE);
@@ -939,9 +941,9 @@ public class  MenuEstudiante extends AppCompatActivity
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
                         if (volleyError != null && volleyError.getMessage() != null) {
-                            Toast.makeText(getApplicationContext(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "No ha subido una imagen", Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Algo salió mal", Toast.LENGTH_LONG).show();
 
                         }
                     }
@@ -979,7 +981,7 @@ public class  MenuEstudiante extends AppCompatActivity
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MenuEstudiante.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(MenuEstudiante.this, "Algo salió mal.", Toast.LENGTH_LONG).show();
                     }
                 });
                 request.add(jsonObjectRequest);
@@ -1136,7 +1138,7 @@ public class  MenuEstudiante extends AppCompatActivity
 
     @Override
     public void onClickVideosHolder(Toast toast) {
-        toast.show();
+        //toast.show();
     }
 
     @Override
@@ -1226,7 +1228,7 @@ public class  MenuEstudiante extends AppCompatActivity
         fragment =new TemasPropuestos();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
         titulo.setText("Subtemas propuestas");
-        Toast.makeText(this,"Vote por una propuesta",Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,"Vote por una propuesta",Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -1245,6 +1247,6 @@ public class  MenuEstudiante extends AppCompatActivity
         fragment =new SubtemasPropuestos();
         getSupportFragmentManager().beginTransaction().replace(R.id.layoutPrincipal,fragment).addToBackStack(null).commit();
         titulo.setText("Subtemas propuestas");
-        Toast.makeText(this,"Vote por una propuesta",Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,"Vote por una propuesta",Toast.LENGTH_LONG).show();
     }
 }
