@@ -437,7 +437,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);
@@ -844,7 +844,7 @@ public class Perfil extends Fragment implements PerfilAdapter.OnPerfilListener, 
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
                     progreso.hide();
-                    Toast.makeText(getContext(), "Error al cargar las imagenes", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "No se pudieron cargar las imagenes", Toast.LENGTH_SHORT).show();
                 }});
             request.add(imageRequest);
     }

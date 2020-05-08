@@ -201,7 +201,7 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(contexto, error.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(contexto, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);
@@ -297,7 +297,7 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
 
                     @Override
                     public void onError(FileLoadRequest request, Throwable t) {
-                        Toast.makeText(contexto, t.getMessage(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(contexto, t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -431,7 +431,7 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
-                Toast.makeText(contexto, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(contexto, "No se pudo agregar a favoritos.", Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);
@@ -458,7 +458,7 @@ public class Favoritos extends Fragment implements FavoritosAdapter.OnFavoritosL
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
-                Toast.makeText(contexto, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(contexto, "No se pudo eliminar", Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);

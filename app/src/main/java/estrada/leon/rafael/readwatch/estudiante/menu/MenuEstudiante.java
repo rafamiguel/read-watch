@@ -333,7 +333,7 @@ public class  MenuEstudiante extends AppCompatActivity
 
     @Override
     public void onClickTemasLibresHolder(Toast toast) {
-        toast.show();
+        //toast.show();
     }
 
     @Override
